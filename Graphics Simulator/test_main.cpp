@@ -1,13 +1,21 @@
-#include <iostream>
-using namespace std;
+#include <sb7.h>
 
-int main()
+class Graphics_Simulator : public sb7::application
 {
-	cout << "Hello World" << endl;
-	system("pause");
+	void init()
+	{
+		static const char title[] = "OpenGL SuperBible - Simple Clear";
 
-	cout << "A" << endl;
+		sb7::application::init();
 
-	cout << "B" << endl;
-	return 0;
-}
+		memcpy(info.title, title, sizeof(title));
+	}
+
+	virtual void render(double currentTime)
+	{
+		static const GLfloat red[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+		glClearBufferfv(GL_COLOR, 0, red);
+	}
+};
+
+DECLARE_MAIN(Graphics_Simulator)
