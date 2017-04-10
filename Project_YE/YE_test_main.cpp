@@ -23,10 +23,9 @@ protected:
 
 };
 
-
 void simpleclear_app::startup()
 {
-	object.load("../media/objects/sphere.sbm");
+	object.load("../media/objects/torus.sbm");
 
 	//load_shaders();
 }
