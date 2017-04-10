@@ -7,5 +7,7 @@ int main()
 	system("pause");
 
 	cout << "A" << endl;
+
+	cout << "B" << endl;
 	return 0;
 }
