@@ -25,7 +25,7 @@ protected:
 
 void simpleclear_app::startup()
 {
-	object.load("../media/objects/torus.sbm");
+	object.load("../media/objects/torus.sbm"); // sbm
 
 	//load_shaders();
 }
@@ -35,8 +35,7 @@ void simpleclear_app::render(double currentTime)
 	static const GLfloat red[] = { 1.0f, 0.0f, 0.0f, 1.0f };
 	glClearBufferfv(GL_COLOR, 0, red);
 
-	object.render();
+	object.render();	// sbm
 }
-
 
 DECLARE_MAIN(simpleclear_app)
