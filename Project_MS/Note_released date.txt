@@ -40,5 +40,5 @@ Hardware spec
 
 YE : NVIDIA GeForce 940MX
 MS : NVIDIA GeForce GTX 1050 Ti
-HS : (내장그래픽) 
+HS : Intel HD Graphics 5500
 HW : NVIDIA GeForce GTX 1050 Ti

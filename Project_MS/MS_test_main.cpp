@@ -52,10 +52,8 @@ std::string readFromTxt(const char* filename)
 int main(void)
 {
 	Display display(width_window, height_window, "Hello World!");
-
-
+	
 	int width, height;
-	//glfwGetFramebufferSize(window, &width, &height);
 	display.GetFrameBufferSize(&width, &height);
 	glViewport(0, 0, width, height);
 	glOrtho(-2.2, 2.2, -2.2, 2.2, -100.0, 100.0);
