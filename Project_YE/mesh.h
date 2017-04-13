@@ -1,14 +1,14 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include <glm-0.9.8.4/glm/glm.hpp>
+#include <glm-0.9.8.4/glm/glm.hpp>	// Math library
 #include <GLEW-2.0.0_x64/GL/glew.h>
 #include "obj_loader.h"
 
 class Vertex
 {
 public:
-	Vertex(const glm::vec3& pos, const glm::vec2& texCoord, const glm::vec3& normal = glm::vec3(0,0,0))
+	Vertex(const glm::vec3& pos, const glm::vec2& texCoord, const glm::vec3& normal = glm::vec3(0, 0, 0))
 	{
 		this->pos = pos;
 		this->texCoord = texCoord;

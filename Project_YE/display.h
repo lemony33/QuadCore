@@ -1,12 +1,10 @@
 #pragma once
 
-
 //#include <GL/glew.h>
 #include <GLEW-2.0.0_x64/GL/glew.h>
 //#include <GLFW/glfw3.h>
 #include <GLFW-3.2.1_x64/glfw3.h>
 #include <string>
-
 
 class Display
 {
@@ -28,7 +26,6 @@ private:
 	int m_width;
 	int m_height;
 	
-
 protected:
 private:
 	Display(const Display& other) {}

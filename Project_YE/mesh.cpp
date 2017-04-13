@@ -22,7 +22,7 @@ Mesh::Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, un
 	for (unsigned int i = 0; i < numIndices; i++)
 		model.indices.push_back(indices[i]);
 
-	InitMesh(model);	
+	InitMesh(model);
 }
 
 Mesh::~Mesh()
@@ -72,7 +72,7 @@ void Mesh::Draw()
 	glBindVertexArray(m_vertexArrayObject);
 
 	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0); // obj file
-	//glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
+																   //glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
 
 	glBindVertexArray(0);
 }
