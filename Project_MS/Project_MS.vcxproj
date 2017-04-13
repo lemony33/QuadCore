@@ -113,15 +113,30 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Display.cpp" />
+    <ClCompile Include="main_version_1.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp" />
     <ClCompile Include="MS_test_main.cpp" />
+    <ClCompile Include="obj_loader.cpp" />
+    <ClCompile Include="shader.cpp" />
+    <ClCompile Include="stb_image.c" />
+    <ClCompile Include="texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Note_released date.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="camera.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Matrix4.h" />
+    <ClInclude Include="mesh.h" />
     <ClInclude Include="ObjReader.h" />
+    <ClInclude Include="obj_loader.h" />
+    <ClInclude Include="shader.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="texture.h" />
+    <ClInclude Include="transform.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />
   </ItemGroup>

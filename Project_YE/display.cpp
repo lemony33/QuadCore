@@ -41,6 +41,11 @@ Display::Display(int width, int height, const std::string& title)
 	glfwGetFramebufferSize(window, &m_width, &m_height);
 
 	//m_isClosed = false;
+
+	// obj파일 앞,뒤로 모두 채워줌
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 }
 
 Display::~Display()
