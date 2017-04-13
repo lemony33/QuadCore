@@ -1,5 +1,6 @@
 #include "Display.h"
 
+using QuadCore::Display;
 
 
 Display::Display(int width, int height, const std::string& title)
@@ -42,7 +43,7 @@ Display::Display(int width, int height, const std::string& title)
 
 	//m_isClosed = false;
 
-	// 투과해서 보이는 현상 제거 (감소?)
+	// 투과해서 보이는 현상 제거
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
