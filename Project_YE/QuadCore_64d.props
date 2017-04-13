@@ -14,7 +14,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glu32.lib;opengl32.lib;glfw3_d.lib;glfw3.lib;sb7_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3_3.2.1_x64.lib;glew_2.0.0_x64.lib;glu32.lib;opengl32.lib;glfw3_d.lib;glfw3.lib;sb7_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />

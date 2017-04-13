@@ -112,7 +112,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Display.cpp" />
     <ClCompile Include="MS_test_main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Note_released date.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Display.h" />
+    <ClInclude Include="Matrix4.h" />
+    <ClInclude Include="ObjReader.h" />
+    <ClInclude Include="Vector3.h" />
+    <ClInclude Include="Vector4.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fragment_shader_5_3.glsl" />
+    <None Include="fragment_shader_5_4.glsl" />
+    <None Include="vertex_shader_5_3.glsl" />
+    <None Include="vertex_shader_5_4.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

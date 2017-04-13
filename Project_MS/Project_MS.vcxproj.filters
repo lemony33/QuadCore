@@ -18,5 +18,34 @@
     <ClCompile Include="MS_test_main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Display.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Note_released date.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Display.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix4.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjReader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fragment_shader_5_3.glsl" />
+    <None Include="fragment_shader_5_4.glsl" />
+    <None Include="vertex_shader_5_3.glsl" />
+    <None Include="vertex_shader_5_4.glsl" />
   </ItemGroup>
 </Project>
