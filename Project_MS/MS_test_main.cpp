@@ -64,10 +64,10 @@ int main(void)
 	// read 3D model from obj file
 
 	//std::string obj_name = "airboat.obj";
-	//std::string obj_name = "cube.obj";
+	std::string obj_name = "cube.obj";
 	//std::string obj_name = "diamond.obj";
 	//std::string obj_name = "lamp.obj";
-	std::string obj_name = "magnolia.obj";
+	//std::string obj_name = "magnolia.obj";
 	//std::string obj_name = "skyscraper.obj";
 	//std::string obj_name = "test.obj";
 	//std::string obj_name = "IronMan_Full_smooth.obj";
@@ -79,7 +79,7 @@ int main(void)
 	//obj_reader.readObj("test.obj");
 	//obj_reader.dump();
 	obj_reader.scaleToUnitBox();
-
+	
 	const std::vector < Vector3<float> > &vertices = obj_reader.pos_stack_;
 	const std::vector < Vector3<unsigned int> > &indices = obj_reader.ix_stack_;
 

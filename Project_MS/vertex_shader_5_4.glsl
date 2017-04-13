@@ -1,4 +1,4 @@
-#version 330
+#version 430 core
 
 uniform float Scale;
 uniform mat4 gl_ModelViewMatrix;
