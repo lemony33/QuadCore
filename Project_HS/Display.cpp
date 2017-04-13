@@ -1,15 +1,13 @@
 #include "Display.h"
 
-
-
 Display::Display(int width, int height, const std::string& title)
 {
 	/* Initialize the library */
 	if (!glfwInit())
 		return;
-		//return -1;
+	//return -1;
 
-	/* Create a windowed mode window and its OpenGL context */
+/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 
 	if (!window) {
@@ -37,10 +35,15 @@ Display::Display(int width, int height, const std::string& title)
 	}
 
 	printf("%s\n", glGetString(GL_VERSION));
-	
+
 	glfwGetFramebufferSize(window, &m_width, &m_height);
 
 	//m_isClosed = false;
+
+	// 오브젝트 투과해서 보이는 현상 감소(1)
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 }
 
 Display::~Display()
@@ -51,8 +54,7 @@ Display::~Display()
 void Display::Clear(float r, float g, float b, float a)
 {
 	glClearColor(r, g, b, a);
-	//glClear(GL_COLOR_BUFFER_BIT);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// <-depth test
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 bool Display::IsClosed()
