@@ -34,3 +34,11 @@ http://glew.sourceforge.net/
 GLM 0.9.8.4
 Rleased on 22 Jan 2017
 http://glm.g-truc.net/0.9.8/index.html
+
+
+Hardware spec
+
+YE : NVIDIA GeForce 940MX
+MS : NVIDIA GeForce GTX 1050 Ti
+HS : (내장그래픽) 
+HW : NVIDIA GeForce GTX 1050 Ti
