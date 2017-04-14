@@ -6,13 +6,18 @@
 #include "transform.h"
 #include "camera.h"
 
+
+namespace QuadCore
+{
+
+
 class Shader
 {
 public:
 	Shader(const std::string& fileName);
 
 	void Bind();
-	void Update(const Transform& transform, const Camera& camera); // transform, camera
+	void Update(const Transform& transform, const QuadCore::Camera& camera); // transform, camera
 
 	virtual ~Shader();
 
@@ -34,5 +39,9 @@ private:
 	GLuint m_shaders[NUM_SHADERS];
 	GLuint m_uniforms[NUM_UNIFORMS];
 };
+
+
+
+}
 
 #endif

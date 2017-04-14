@@ -1,10 +1,14 @@
 #ifndef CAMERA_H_INCLUDED
 #define CAMERA_H_INCLUDED
 
-//#include <glm/glm.hpp>
-//#include <glm/gtx/transform.hpp>
+
 #include <glm-0.9.8.4/glm/glm.hpp>
 #include <glm-0.9.8.4/glm/gtx/transform.hpp>
+
+
+namespace QuadCore
+{
+
 
 class Camera
 {
@@ -29,5 +33,8 @@ private:
 	glm::vec3 m_forward;
 	glm::vec3 m_up;
 };
+
+
+}
 
 #endif

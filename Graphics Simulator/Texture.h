@@ -4,6 +4,9 @@
 #include <string>
 #include <GLEW-2.0.0_x64/GL/glew.h>
 
+namespace QuadCore
+{
+
 class Texture
 {
 public:
@@ -20,5 +23,8 @@ private:
 
 	GLuint m_texture;
 };
+
+
+}
 
 #endif

@@ -3,6 +3,8 @@
 #include <cassert>
 #include <iostream>
 
+using QuadCore::Texture;
+
 Texture::Texture(const std::string& fileName)
 {
 	int width, height, numComponents;
