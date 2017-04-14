@@ -1,4 +1,5 @@
-#include "Display.h"
+ï»¿#include "Display.h"
+
 
 using QuadCore::Display;
 
@@ -43,9 +44,9 @@ Display::Display(int width, int height, const std::string& title)
 
 	//m_isClosed = false;
 
-	// Åõ°úÇØ¼­ º¸ÀÌ´Â Çö»ó Á¦°Å
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+	// íˆ¬ê³¼í•´ì„œ ë³´ì´ëŠ” í˜„ìƒ ì œê±°
+	glEnable(GL_DEPTH_TEST);	//Â ê°€ë ¤ì§„Â ë©´Â ì œê±°
+	glEnable(GL_CULL_FACE);		//Â í›„ë©´Â ì œê±°
 	glCullFace(GL_BACK);
 }
 

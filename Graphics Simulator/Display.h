@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include <GLEW-2.0.0_x64/GL/glew.h>
 #include <GLFW-3.2.1_x64/glfw3.h>
 #include <string>
@@ -7,6 +8,7 @@
 
 namespace QuadCore
 {
+
 
 class Display
 {

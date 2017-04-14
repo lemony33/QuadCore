@@ -2,13 +2,16 @@
 #include "obj_loader.h"
 #include <vector>
 
+using QuadCore::Mesh;
+
+
 Mesh::Mesh(const std::string& fileName)
 {
 	IndexedModel model = OBJModel(fileName).ToIndexedModel();
 	InitMesh(model);
 }
 
-Mesh::Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices)
+Mesh::Mesh(QuadCore::Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices)
 {
 	IndexedModel model;
 
@@ -30,7 +33,7 @@ Mesh::~Mesh()
 	glDeleteVertexArrays(1, &m_vertexArrayObject);
 }
 
-void Mesh::InitMesh(const IndexedModel& model)
+void Mesh::InitMesh(const QuadCore::IndexedModel& model)
 {
 	m_drawCount = model.indices.size(); // obj file
 

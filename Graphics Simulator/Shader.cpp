@@ -2,6 +2,9 @@
 #include <iostream>
 #include <fstream>
 
+using QuadCore::Shader;
+
+
 static void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);
 static std::string LoadShader(const std::string& fileName);
 static GLuint CreateShader(const std::string& text, GLenum shaderType);
@@ -45,7 +48,7 @@ void Shader::Bind()
 	glUseProgram(m_program);
 }
 
-void Shader::Update(const Transform& transform, const Camera& camera) // transform, camera
+void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera& camera) // transform, camera
 {
 	glm::mat4 model = camera.GetViewProjection() * transform.GetModel();
 

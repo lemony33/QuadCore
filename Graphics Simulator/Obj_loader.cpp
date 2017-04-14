@@ -4,7 +4,11 @@
 #include <algorithm>
 #include <map>
 
-static bool CompareOBJIndexPtr(const OBJIndex* a, const OBJIndex* b);
+using QuadCore::OBJModel;
+using QuadCore::IndexedModel;
+
+
+static bool CompareOBJIndexPtr(const QuadCore::OBJIndex* a, const QuadCore::OBJIndex* b);
 static inline unsigned int FindNextChar(unsigned int start, const char* str, unsigned int length, char token);
 static inline unsigned int ParseOBJIndexValue(const std::string& token, unsigned int start, unsigned int end);
 static inline float ParseOBJFloatValue(const std::string& token, unsigned int start, unsigned int end);
@@ -158,7 +162,7 @@ IndexedModel OBJModel::ToIndexedModel()
     return result;
 };
 
-unsigned int OBJModel::FindLastVertexIndex(const std::vector<OBJIndex*>& indexLookup, const OBJIndex* currentIndex, const IndexedModel& result)
+unsigned int OBJModel::FindLastVertexIndex(const std::vector<QuadCore::OBJIndex*>& indexLookup, const QuadCore::OBJIndex* currentIndex, const IndexedModel& result)
 {
     unsigned int start = 0;
     unsigned int end = indexLookup.size();
@@ -257,7 +261,7 @@ void OBJModel::CreateOBJFace(const std::string& line)
     }
 }
 
-OBJIndex OBJModel::ParseOBJIndex(const std::string& token, bool* hasUVs, bool* hasNormals)
+QuadCore::OBJIndex OBJModel::ParseOBJIndex(const std::string& token, bool* hasUVs, bool* hasNormals)
 {
     unsigned int tokenLength = token.length();
     const char* tokenString = token.c_str();
@@ -350,7 +354,7 @@ glm::vec2 OBJModel::ParseOBJVec2(const std::string& line)
     return glm::vec2(x,y);
 }
 
-static bool CompareOBJIndexPtr(const OBJIndex* a, const OBJIndex* b)
+static bool CompareOBJIndexPtr(const QuadCore::OBJIndex* a, const QuadCore::OBJIndex* b)
 {
     return a->vertexIndex < b->vertexIndex;
 }

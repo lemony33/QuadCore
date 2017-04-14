@@ -5,6 +5,11 @@
 #include <GLEW-2.0.0_x64/GL/glew.h>
 #include "obj_loader.h"
 
+namespace QuadCore
+{
+
+
+
 class Vertex
 {
 public:
@@ -58,5 +63,8 @@ private:
 	GLuint m_vertexArrayBuffers[NUM_BUFFERS];
 	unsigned int m_drawCount;
 };
+
+
+}
 
 #endif

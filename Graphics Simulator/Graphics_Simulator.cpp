@@ -30,8 +30,10 @@ void QuadCore::Graphics_Simulator::Run()
 	unsigned int indices[] = { 0,1,2 };
 
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
-	//Mesh mesh2("./object/magnolia.obj");
-	Mesh mesh2("../media/shape/cube.obj");
+
+		
+	Mesh mesh2("../media/shape/Wedge.obj");
+	Mesh mesh3("../media/shape/Star.obj");
 	//1. shaderµµÇü»ö±ò
 	Shader shader("../media/res/basicShader");
 	//3. Texture
@@ -40,7 +42,7 @@ void QuadCore::Graphics_Simulator::Run()
 	Transform transform;
 	float counter = 0.0f;
 	//5. Camera
-	Camera camera(glm::vec3(0, 0, -20), 70.0f, (float)width_window / (float)height_window, 0.01F, 1000.0f);
+	Camera camera(glm::vec3(0, 0, -5), 70.0f, (float)width_window / (float)height_window, 0.01F, 1000.0f);
 
 	while (!display.IsClosed())
 	{
