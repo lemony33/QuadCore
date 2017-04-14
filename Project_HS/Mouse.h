@@ -4,52 +4,95 @@
 #include <GLFW-3.2.1_x64\glfw3.h>
 #include <iostream>
 #include "Display.h"
+#include "Mouse.h"
 
-class Mouse : public Display
+class Mouse
 {
 public:
-	Mouse() { setMouseEvent(); }
+	Mouse(GLFWwindow* window)
+	{
+		glfwSetMouseButtonCallback(window, glfw_onMouseButton);
+		glfwSetCursorPosCallback(window, glfw_onMouseMove);
+		glfwSetScrollCallback(window, glfw_onMouseWheel);
+		glfwSetKeyCallback(window, glfw_onKey);
+	}
 	virtual ~Mouse() {}
 
-private:
-	static Mouse * m;
-
 public:
-	void setMouseEvent()
+	static void glfw_onKey(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
-		printf("마우스 이벤트 세팅\n");
-		//glfwSetMouseButtonCallback(window, onMouseButton);
-		glfwSetCursorPosCallback(window, glfw_onMouseMove);
-		//glfwSetScrollCallback(window, onMouseWheel);
-		//glfwSetKeyCallback(window, onKey);
-	}
+		if (action == GLFW_PRESS)
+		{
+			switch (key)
+			{
+			case GLFW_KEY_RIGHT:
+				printf("KEY_RIGHT\n");
+				break;
 
+			case GLFW_KEY_LEFT:
+				printf("KEY_LEFT\n");
+				break;
+
+			case GLFW_KEY_UP:
+				printf("KEY_UP\n");
+				break;
+
+			case GLFW_KEY_DOWN:
+				printf("KEY_DOWN\n");
+				break;
+
+			default:
+				printf("KEY_OTHER\n");
+				break;
+			};
+		}
+	}
+	static void glfw_onMouseButton(GLFWwindow* window, int button, int action, int mods)
+	{
+		if (button == GLFW_MOUSE_BUTTON_LEFT)
+		{
+			// Mouse-Down
+			if (action == GLFW_PRESS)
+			{
+				isButtonDown = true;
+				double x, y;
+				glfwGetCursorPos(window, &x, &y);
+				printf("Down : [ %d, %d ]\n", (int)x, (int)y);
+			}
+
+			// Mouse-Up
+			if (action == GLFW_RELEASE)
+			{
+				isButtonDown = false;
+				double x, y;
+				glfwGetCursorPos(window, &x, &y);
+				printf("Up : [ %d, %d ]\n", (int)x, (int)y);
+			}
+		}
+	}
 	static void glfw_onMouseMove(GLFWwindow* window, double x, double y)
 	{
-		m->MouseMove(static_cast<int>(x), static_cast<int>(y));
+		// Mouse-Move
+		if (isButtonDown == true)
+		{
+			printf("Move : [ %d , %d ]\n", (int)x, (int)y);
+		}
 	}
-	virtual void MouseMove(int x, int y)
+	static void glfw_onMouseWheel(GLFWwindow* window, double xoffset, double yoffset)
 	{
-		printf("Mouse Move : [ %d, %d ]", x, y);
+		if ((int)yoffset == 1)
+		{
+			printf("WHEEL_UP\n");
+		}
+		if ((int)yoffset == -1)
+		{
+			printf("WHEEL_DOWN\n");
+		}
 	}
-	//static void onKey(GLFWwindow* window, int key, int scancode, int action, int mods)
-	//{
 
-	//}
-	//static void onMouseButton(GLFWwindow* window, int button, int action, int mods)
-	//{
-
-	//}
-	//static void onMouseWheel(GLFWwindow* window, double xoffset, double yoffset)
-	//{
-
-	//}
-	//void getMousePosition(int& x, int& y)
-	//{
-	//	double dx, dy;
-	//	glfwGetCursorPos(window, &dx, &dy);
-
-	//	x = static_cast<int>(floor(dx));
-	//	y = static_cast<int>(floor(dy));
-	//}
+private:
+	int m_xPos;
+	int m_yPos;
+	static bool isButtonDown;
 };
+bool Mouse::isButtonDown = false;

@@ -1,37 +1,51 @@
-#include "Display.h"
+ï»¿#include "Display.h"
+
+using namespace QuadCore;
 
 Display::Display(int width, int height, const std::string& title)
 {
+	/* Initialize the library */
 	if (!glfwInit())
 		return;
+	//return -1;
 
+	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 
 	if (!window) {
 		glfwTerminate();
 		return;
+		//return -1;
 	}
 
+	// callbacks here
+
+	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
 
+	//// Initialize GLEW
+	//glewExperimental = true;	// N
+
+	// Initialize GLEW
 	glewExperimental = true;	// Needed for core profile
 	if (glewInit() != GLEW_OK) {
 		fprintf(stderr, "Failed to initialize GLEW\n");
 		getchar();
 		glfwTerminate();
 		return;
+		//return -1;
 	}
 
 	printf("%s\n", glGetString(GL_VERSION));
 
 	glfwGetFramebufferSize(window, &m_width, &m_height);
 
-	// ¿ÀºêÁ§Æ® Åõ°úÇØ¼­ º¸ÀÌ´Â Çö»ó °¨¼Ò(1)
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	//m_isClosed = false;
 
-	setMouseEvent();
+	// íˆ¬ê³¼í•´ì„œ ë³´ì´ëŠ” í˜„ìƒ ì œê±°
+	glEnable(GL_DEPTH_TEST);	//Â ê°€ë ¤ì§„Â ë©´Â ì œê±°
+	glEnable(GL_CULL_FACE);		//Â í›„ë©´Â ì œê±°
+	glCullFace(GL_BACK);
 }
 
 Display::~Display()
@@ -55,3 +69,4 @@ void Display::Update()
 	glfwSwapBuffers(window);
 	glfwPollEvents();
 }
+

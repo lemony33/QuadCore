@@ -2,11 +2,13 @@
 
 attribute vec3 position;
 attribute vec2 texCoord;
-varying vec2 texCoords;
+
+varying vec2 texCoord0;
+varying vec3 normal0;
 
 void main()
 {
 	gl_Position = vec4(position, 1.0f);
-	texCoords = texCoord;
+	texCoord0 = texCoord;
 }
 
