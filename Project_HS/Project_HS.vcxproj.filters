@@ -18,7 +18,13 @@
     <ClCompile Include="Main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="obj_loader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="stb_image.cpp">
@@ -30,10 +36,7 @@
     <ClCompile Include="Display.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
+    <ClCompile Include="Mouse.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,7 +44,13 @@
     <ClInclude Include="Camera.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="obj_loader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="stb_image.h">
@@ -56,10 +65,7 @@
     <ClInclude Include="Display.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
+    <ClInclude Include="Mouse.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

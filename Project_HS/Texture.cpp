@@ -41,7 +41,7 @@ Texture::~Texture()
 /*****************************************************************************************************************************/
 void Texture::Bind(unsigned int unit)
 {
-	//assert(unit >= 0 && unit <= 31);
-	//glActiveTexture(GL_TEXTURE + unit);
+	assert(unit >= 0 && unit <= 31);
+	glActiveTexture(GL_TEXTURE + unit);
 	glBindTexture(GL_TEXTURE_2D, m_texture);
 }

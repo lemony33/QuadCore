@@ -1,17 +1,19 @@
 //#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
-#include <iostream>
 #include <GLEW-2.0.0_x64/GL/glew.h>
+#include <GLFW-3.2.1_x64\glfw3.h>
+#include <iostream>
 #include "Display.h"
 #include "Shader.h"
 #include "Mesh.h"
 #include "Texture.h"
 #include "Transform.h"
 #include "Camera.h"
+#include <Windows.h>
 
 #define WIDTH 800
 #define HEIGHT 600
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
 	unsigned int indices[] =
 	{
@@ -32,15 +34,12 @@ int main(int argc, char** argv)
 	};
 
 	Display display(WIDTH, HEIGHT, "Hello World!");
-
-	Mesh mesh_normal(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
-	Shader shader("./res/MakePlaneShader");
-
-	//Mesh mesh_obj("./res/monkey3.obj");
-	//Shader shader("./res/basicShader");
-
-	Camera camera(glm::vec3(0.0f, 0.0f, -10.0f), 70.0f, (float)WIDTH / (float)HEIGHT, 0.01f, 1000.0f);
-	Texture texture("./res/bricks.jpg");
+	//Mesh mesh_normal(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
+	//Shader shader("./res/MakePlaneShader");
+	Mesh mesh_obj(".\\res\\monkey3.obj");
+	Shader shader(".\\res\\basicShader");
+	Texture texture(".\\res\\bricks.jpg");
+	Camera camera(glm::vec3(0.0f, 0.0f, -10.0f), 70.0f, (float)WIDTH / (float)HEIGHT, 0.001f, 1000.0f);
 	Transform transform;
 
 	float counter = 0.0f;
@@ -50,24 +49,23 @@ int main(int argc, char** argv)
 
 		float sinCounter = sinf(counter);
 		float cosCounter = cosf(counter);
-		//float sinCounter = sinf(45.0f);
-		//float cosCounter = cosf(45.0f);
-
 		transform.GetPos().x = sinCounter;
 		transform.GetPos().y = cosCounter;
-		transform.GetRot().x = counter * 1.0f;
-		transform.GetRot().y = counter * 1.0f;
-		transform.GetRot().z = counter * 1.0f;
+		transform.GetRot().x = counter * 2.0f;
+		transform.GetRot().y = counter * 2.0f;
+		transform.GetRot().z = counter * 2.0f;
 		transform.SetScale(glm::vec3(0.8f, 0.8f, 0.8f));
 
 		shader.Bind();
 		texture.Bind(0);
 		shader.Update(transform, camera);
-		mesh_normal.Draw();
+		mesh_obj.Draw();
 
 		display.Update();
 		counter += 0.002f;
 	}
+
+
 
 	return 0;
 }
