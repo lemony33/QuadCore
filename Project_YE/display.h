@@ -1,4 +1,4 @@
-#pragma once
+#pragma once // 중복된 #include는 한번만 실행됨 
 
 //#include <GL/glew.h>
 #include <GLEW-2.0.0_x64/GL/glew.h>
@@ -32,6 +32,7 @@ private:
 	void operator=(const Display& other) {}
 
 	GLFWwindow *window;
+
 	// gl_Context
 	//bool m_isClosed;
 };

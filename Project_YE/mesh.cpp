@@ -2,13 +2,13 @@
 #include "obj_loader.h"
 #include <vector>
 
-Mesh::Mesh(const std::string& fileName)
+Mesh::Mesh(const std::string& fileName)	//obj 파일 불러올때
 {
 	IndexedModel model = OBJModel(fileName).ToIndexedModel();
 	InitMesh(model);
 }
 
-Mesh::Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices)
+Mesh::Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices) // vertex에 점 찍어서 그려줄때
 {
 	IndexedModel model;
 
@@ -32,6 +32,7 @@ Mesh::~Mesh()
 
 void Mesh::InitMesh(const IndexedModel& model)
 {
+	//m_drawCont = numVertices;
 	m_drawCount = model.indices.size(); // obj file
 
 	glGenVertexArrays(1, &m_vertexArrayObject);
@@ -39,7 +40,7 @@ void Mesh::InitMesh(const IndexedModel& model)
 
 	glGenBuffers(NUM_BUFFERS, m_vertexArrayBuffers);
 
-	// position
+	// position // 단 한번만 설정해주면 된다.
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
 	glBufferData(GL_ARRAY_BUFFER, model.positions.size() * sizeof(model.positions[0]), &model.positions[0], GL_STATIC_DRAW);
 
@@ -71,8 +72,8 @@ void Mesh::Draw()
 {
 	glBindVertexArray(m_vertexArrayObject);
 
-	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0); // obj file
-																   //glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
+	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0);
+		//glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
 
 	glBindVertexArray(0);
 }
