@@ -2,7 +2,6 @@
 
 using QuadCore::Display;
 
-
 Display::Display(int width, int height, const std::string& title)
 {
 	/* Initialize the library */

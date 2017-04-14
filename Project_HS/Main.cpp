@@ -8,7 +8,6 @@
 #include "Texture.h"
 #include "Transform.h"
 #include "Camera.h"
-#include <Windows.h>
 
 #define WIDTH 800
 #define HEIGHT 600
@@ -36,7 +35,7 @@ int main(int argc, char* argv[])
 	Display display(WIDTH, HEIGHT, "Hello World!");
 	//Mesh mesh_normal(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
 	//Shader shader("./res/MakePlaneShader");
-	Mesh mesh_obj(".\\res\\monkey3.obj");
+	Mesh mesh_obj("..\\media\\shape\\Cone.obj");
 	Shader shader(".\\res\\basicShader");
 	Texture texture(".\\res\\bricks.jpg");
 	Camera camera(glm::vec3(0.0f, 0.0f, -10.0f), 70.0f, (float)WIDTH / (float)HEIGHT, 0.001f, 1000.0f);
@@ -45,8 +44,6 @@ int main(int argc, char* argv[])
 	float counter = 0.0f;
 	while (!display.IsClosed())
 	{
-		display.Clear(0.0f, 0.15f, 0.3f, 1.0f);
-
 		float sinCounter = sinf(counter);
 		float cosCounter = cosf(counter);
 		transform.GetPos().x = sinCounter;
@@ -64,8 +61,5 @@ int main(int argc, char* argv[])
 		display.Update();
 		counter += 0.002f;
 	}
-
-
-
 	return 0;
 }
