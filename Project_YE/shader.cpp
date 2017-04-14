@@ -42,7 +42,7 @@ Shader::~Shader()
 
 void Shader::Bind()
 {
-	glUseProgram(m_program);
+	glUseProgram(m_program);	// OpenGL에게 쉐이더를 사용하고 싶다고 알려줌. -> 직접적으로 그려주기.
 }
 
 void Shader::Update(const Transform& transform, const Camera& camera) // transform, camera
