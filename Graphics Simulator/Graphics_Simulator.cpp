@@ -4,6 +4,7 @@
 #include "Shader.h"
 #include "Texture.h"
 
+#include "Controls.h"
 
 
 QuadCore::Graphics_Simulator::Graphics_Simulator()
@@ -48,7 +49,14 @@ void QuadCore::Graphics_Simulator::Run()
 	Transform transform;
 	float counter = 0.0f;
 	//5. Camera
+
+	int width = width_window;	//**
+	int height = height_window;	//**
+	display.GetFrameBufferSize(&width, &height);	//**
+	//Camera camera(glm::vec3(0, 0, 5), 70.0f, (float)width / (float)height, 0.01F, 1000.0f);
 	Camera camera(glm::vec3(0, 0, 5), 70.0f, (float)width_window / (float)height_window, 0.01F, 1000.0f);
+
+	Controls controls(display.GetWindow());
 
 	while (!display.IsClosed())
 	{
@@ -68,7 +76,7 @@ void QuadCore::Graphics_Simulator::Run()
 
 		shader.Bind();
 		texture.Bind(0);
-		//transform.GetPos().x -= 1.5;
+		transform.GetPos().x -= 2.5;
 		transform.SetScale(glm::vec3(1, 1, 1));
 		shader.Update(transform, camera);
 		mesh1.Draw();
@@ -76,13 +84,26 @@ void QuadCore::Graphics_Simulator::Run()
 		shader2.Bind();
 		texture2.Bind(0);
 		//transform.GetPos().x += 1.5;
-		transform.GetPos().y += 0.5;
+		transform.GetPos().x -= 1.5;
 		//transform.GetPos().z += 1.5;
-		transform.SetScale(glm::vec3(3,0.5,1));
+		//transform.SetScale(glm::vec3(3,0.5,1));
+		transform.SetScale(glm::vec3(1, 1, 1));
+		shader.Update(transform, camera);		
+		mesh2.Draw();
+
+
+		//shader.Bind();
+		//texture.Bind(0);
+		//transform.SetScale(glm::vec3(1, 1, 1));
+		//transform.GetPos().y -= 10.0;
+
+		shader.Bind();
+		texture.Bind(0);
+		transform.GetPos().x += 2.5;
+		transform.SetScale(glm::vec3(1, 1, 1));
 		shader.Update(transform, camera);
 
-
-		mesh2.Draw();
+		
 
 		display.Update();
 		counter += 0.05f;

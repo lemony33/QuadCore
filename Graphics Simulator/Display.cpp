@@ -12,7 +12,8 @@ Display::Display(int width, int height, const std::string& title)
 
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-
+	
+	
 	if (!window) {
 		glfwTerminate();
 		return;
