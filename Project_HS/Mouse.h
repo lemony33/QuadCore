@@ -18,10 +18,28 @@ public:
 		glfwSetMouseButtonCallback(window, glfw_onMouseButton);
 		glfwSetCursorPosCallback(window, glfw_onMouseMove);
 		glfwSetScrollCallback(window, glfw_onMouseWheel);
+		glfwSetCursorEnterCallback(window, glfw_cursorEnterCallBack);
 	}
 	virtual ~Mouse() {}
 
+private:
+	static bool isEnteredWindow;
+
 public:
+	static void glfw_cursorEnterCallBack(GLFWwindow* window, int entered)
+	{
+		if (entered == GLFW_TRUE)
+		{
+			isEnteredWindow = true;
+			printf("MOUSE ENTER\n");
+		}
+		else if (entered == GLFW_FALSE)
+		{
+			isEnteredWindow = false;
+			printf("MOUSE LEAVE\n");
+		}
+	}
+
 	/* 키보드 이벤트 */
 	static void glfw_onKey(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
@@ -58,33 +76,36 @@ public:
 		double x, y;
 		glfwGetCursorPos(window, &x, &y);
 
-		// Mouse Left-Down
-		if (button == GLFW_MOUSE_BUTTON_LEFT)
+		if (isEnteredWindow == true)
 		{
-			// Mouse-Down
-			if (action == GLFW_PRESS)
+			// Mouse Left-Down
+			if (button == GLFW_MOUSE_BUTTON_LEFT)
 			{
-				printf("Down : [ %d, %d ]\n", (int)x, (int)y);
+				// Mouse-Down
+				if (action == GLFW_PRESS)
+				{
+					printf("Down : [ %d, %d ]\n", (int)x, (int)y);
+				}
+				// Mouse-Up
+				if (action == GLFW_RELEASE)
+				{
+					printf("Up : [ %d, %d ]\n", (int)x, (int)y);
+				}
 			}
-			// Mouse-Up
-			if (action == GLFW_RELEASE)
-			{
-				printf("Up : [ %d, %d ]\n", (int)x, (int)y);
-			}
-		}
 
-		// Mouse Right-Down
-		else if (button == GLFW_MOUSE_BUTTON_RIGHT)
-		{
-			// Mouse-Down
-			if (action == GLFW_PRESS)
+			// Mouse Right-Down
+			else if (button == GLFW_MOUSE_BUTTON_RIGHT)
 			{
+				// Mouse-Down
+				if (action == GLFW_PRESS)
+				{
 
-			}
-			// Mouse-Up
-			if (action == GLFW_RELEASE)
-			{
+				}
+				// Mouse-Up
+				if (action == GLFW_RELEASE)
+				{
 
+				}
 			}
 		}
 	}
@@ -92,39 +113,46 @@ public:
 	// Mouse-Move
 	static void glfw_onMouseMove(GLFWwindow* window, double x, double y)
 	{
-		// only Left-Down & Moving
-		if ((glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
-			&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE))
+		if (isEnteredWindow == true)
 		{
-			printf("Move : [ %d , %d ]\n", (int)x, (int)y);
-		}
-		// only Right-Down & Moving
-		else if ((glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
-			&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE))
-		{
+			// only Left-Down & Moving
+			if ((glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE))
+			{
+				printf("Move : [ %d , %d ]\n", (int)x, (int)y);
+			}
+			// only Right-Down & Moving
+			else if ((glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE))
+			{
 
-		}
-		// No Mouse-Down & Moving
-		else if ((glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
-			&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE))
-		{
+			}
+			// No Mouse-Down & Moving
+			else if ((glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
+				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE))
+			{
 
+			}
 		}
 	}
 
 	// Mouse-Scroll
 	static void glfw_onMouseWheel(GLFWwindow* window, double xoffset, double yoffset)
 	{
-		// Scroll-up
-		if ((int)yoffset == QUADCORE_SCROLL_UP)
+		if (isEnteredWindow == true)
 		{
-			printf("MOUSE SCROLL  UP\n");
-		}
+			// Scroll-up
+			if ((int)yoffset == QUADCORE_SCROLL_UP)
+			{
+				printf("MOUSE SCROLL  UP\n");
+			}
 
-		// Scroll-down
-		if ((int)yoffset == QUADCORE_SCROLL_DOWN)
-		{
-			printf("MOUSE SCROLL DOWN\n");
+			// Scroll-down
+			if ((int)yoffset == QUADCORE_SCROLL_DOWN)
+			{
+				printf("MOUSE SCROLL DOWN\n");
+			}
 		}
 	}
 };
+bool Mouse::isEnteredWindow = false;
