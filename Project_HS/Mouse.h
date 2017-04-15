@@ -16,28 +16,40 @@ public:
 		glfwSetCursorPosCallback(window, glfw_onMouseMove);
 		glfwSetScrollCallback(window, glfw_onMouseWheel);
 		glfwSetCursorEnterCallback(window, glfw_cursorEnterCallBack);
+
+		// Set Mouse-Icon
+		setMouseIcon(window);
 	}
-	virtual ~Mouse() {}
+	virtual ~Mouse() 
+	{
+		glfwDestroyCursor(cursor);
+	}
 
 private:
 	static bool isEnteredWindow;
+	unsigned char pixels[16 * 16 * 4];
+	GLFWcursor *cursor;
 
 public:
-	static void glfw_cursorEnterCallBack(GLFWwindow* window, int entered)
+	// Set Mouse-Icon
+	void setMouseIcon(GLFWwindow* window)
 	{
-		if (entered == GLFW_TRUE)
-		{
-			isEnteredWindow = true;
-			printf("MOUSE ENTER\n");
-		}
-		else if (entered == GLFW_FALSE)
-		{
-			isEnteredWindow = false;
-			printf("MOUSE LEAVE\n");
-		}
+		memset(pixels, 0xff, sizeof(pixels));
+		GLFWimage image;
+		image.width = 16;
+		image.height = 16;
+		image.pixels = pixels;
+		//cursor = glfwCreateCursor(&image, 0, 0);
+		cursor = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
+		//cursor = glfwCreateStandardCursor(GLFW_CROSSHAIR_CURSOR);
+		//cursor = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
+		//cursor = glfwCreateStandardCursor(GLFW_HRESIZE_CURSOR);
+		//cursor = glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
+		//cursor = glfwCreateStandardCursor(GLFW_VRESIZE_CURSOR);
+		glfwSetCursor(window, cursor);
 	}
 
-	/* 키보드 이벤트 */
+	// Key Event
 	static void glfw_onKey(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
 		if (action == GLFW_PRESS)
@@ -58,6 +70,21 @@ public:
 
 			case GLFW_KEY_DOWN:
 				printf("KEYBOARD DOWN\n");
+				break;
+
+			case GLFW_KEY_F1:
+				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+				printf("MOUSE NORMAL MODE\n");
+				break;
+
+			case GLFW_KEY_F2:
+				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+				printf("MOUSE HIDDEN MODE\n");
+				break;
+
+			case GLFW_KEY_F3:
+				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+				printf("MOUSE DISABLED MODE\n");
 				break;
 
 			default:
@@ -149,6 +176,20 @@ public:
 			{
 				printf("MOUSE SCROLL DOWN\n");
 			}
+		}
+	}
+	// Mouse-Hover Processing
+	static void glfw_cursorEnterCallBack(GLFWwindow* window, int entered)
+	{
+		if (entered == GLFW_TRUE)
+		{
+			isEnteredWindow = true;
+			printf("ENTERED WINDOW\n");
+		}
+		else if (entered == GLFW_FALSE)
+		{
+			isEnteredWindow = false;
+			printf("LEFT WINDOW\n");
 		}
 	}
 };
