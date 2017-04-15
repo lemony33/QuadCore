@@ -6,9 +6,6 @@
 #include "Display.h"
 #include "Mouse.h"
 
-#define QUADCORE_SCROLL_UP				1
-#define QUADCORE_SCROLL_DOWN		-1
-
 class Mouse
 {
 public:
@@ -142,13 +139,13 @@ public:
 		if (isEnteredWindow == true)
 		{
 			// Scroll-up
-			if ((int)yoffset == QUADCORE_SCROLL_UP)
+			if ((int)yoffset > 0)
 			{
 				printf("MOUSE SCROLL  UP\n");
 			}
 
 			// Scroll-down
-			if ((int)yoffset == QUADCORE_SCROLL_DOWN)
+			if ((int)yoffset < 0)
 			{
 				printf("MOUSE SCROLL DOWN\n");
 			}
