@@ -6,7 +6,7 @@ uniform sampler2D diffuse;
 out vec4 color;
 
 void main()
-{
+{48l65h
 	color = texture2D(diffuse, texCoord0);
 }
 
