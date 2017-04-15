@@ -1,6 +1,5 @@
 #include "Graphics_Simulator.h"
 
-
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
@@ -20,29 +19,36 @@ QuadCore::Graphics_Simulator::~Graphics_Simulator()
 
 void QuadCore::Graphics_Simulator::Run()
 {
-	//Display display(width_window, height_window, "Graphics Simulator - QuadCore");
-
-	//2. mesh 삼각형 도형그려주기
-	Vertex vertices[] = { Vertex(glm::vec3(-0.5, -0.5, 0), glm::vec2(0.0,0.0)),
-		Vertex(glm::vec3(0, 0.5, 0), glm::vec2(0.5,1.0)),
-		Vertex(glm::vec3(0.5, -0.5, 0), glm::vec2(1.0,0.0)) };
-
-	unsigned int indices[] = { 0,1,2 };
-
+	//// mesh 삼각형 도형그려주기
+	Vertex vertices[] = {
+							Vertex(	glm::vec3(-0.5, -0.5,  0.0),	glm::vec2(0.0,0.0)	),
+							Vertex(	glm::vec3( 0.0,  0.5,  0.0),	glm::vec2(0.0,1.0)	),
+							Vertex(	glm::vec3( 0.5, -0.5,  0.0),	glm::vec2(1.0,1.0)	),
+							Vertex(	glm::vec3( 0.0, -1.5,  0.0),	glm::vec2(0.0,1.0)	),
+						};
+	unsigned int indices[] = {
+								2,1,0,
+								3,2,0,
+							};
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
 
-		
-	Mesh mesh2("../media/shape/Wedge.obj");
-	Mesh mesh3("../media/shape/Star.obj");
-	//1. shader도형색깔
-	Shader shader("../media/res/basicShader");
+	// *.obj 파일로딩
+
+	Mesh mesh1("../media/shape/Wedge.obj");
+	Mesh mesh2("../media/shape/CubeHollow.obj");
+	//1. shader도형색깔	
+	//Shader shader("../media/MakePlaneShader");
+	//Shader shader("../media/res/basicShader");
+	Shader shader("../media/basicShader_light");
+	Shader shader2("../media/basicShader_tex");
 	//3. Texture
 	Texture texture("../media/res/bricks.jpg");
+	Texture texture2("../media/skyblue.jpg");
 	//4. Transform
 	Transform transform;
 	float counter = 0.0f;
 	//5. Camera
-	Camera camera(glm::vec3(0, 0, -5), 70.0f, (float)width_window / (float)height_window, 0.01F, 1000.0f);
+	Camera camera(glm::vec3(0, 0, 5), 70.0f, (float)width_window / (float)height_window, 0.01F, 1000.0f);
 
 	while (!display.IsClosed())
 	{
@@ -53,6 +59,7 @@ void QuadCore::Graphics_Simulator::Run()
 		float cosCounter = cosf(counter);
 
 		transform.GetPos().x = sinf(counter);
+		transform.GetPos().y = sinf(counter);	//
 		transform.GetPos().z = cosf(counter);
 		transform.GetRot().x = counter * 0.5;
 		transform.GetRot().y = counter * 0.5;
@@ -61,10 +68,23 @@ void QuadCore::Graphics_Simulator::Run()
 
 		shader.Bind();
 		texture.Bind(0);
+		//transform.GetPos().x -= 1.5;
+		transform.SetScale(glm::vec3(1, 1, 1));
 		shader.Update(transform, camera);
+		mesh1.Draw();
+
+		shader2.Bind();
+		texture2.Bind(0);
+		//transform.GetPos().x += 1.5;
+		transform.GetPos().y += 0.5;
+		//transform.GetPos().z += 1.5;
+		transform.SetScale(glm::vec3(3,0.5,1));
+		shader.Update(transform, camera);
+
+
 		mesh2.Draw();
 
 		display.Update();
-		counter += 0.1f;
+		counter += 0.05f;
 	}
 }
