@@ -37,6 +37,12 @@ private:
 	void operator=(const Display& other) {}
 
 	GLFWwindow *window;
+
+public:
+	GLFWwindow* GetWindow()
+	{
+		return window;
+	}
 };
 
 }

@@ -27,6 +27,8 @@ Shader::Shader(const std::string& fileName)
 
 	// TRANSFORM
 	m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
+	m_uniforms[POSITION_U] = glGetUniformLocation(m_program, "m_position");				//====sb7 
+	m_uniforms[PERSPECTIVE_U] = glGetUniformLocation(m_program, "m_perspective");		//====sb7 
 }
 
 Shader::~Shader()
@@ -50,6 +52,8 @@ void Shader::Update(const Transform& transform, const Camera& camera) // transfo
 	glm::mat4 model = camera.GetViewProjection() * transform.GetModel();
 
 	glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &model[0][0]);
+	glUniformMatrix4fv(m_uniforms[POSITION_U], 1, GL_FALSE, 0);					//====sb7 
+	glUniformMatrix4fv(m_uniforms[PERSPECTIVE_U], 1, GL_FALSE, 0);				//====sb7 
 }
 
 

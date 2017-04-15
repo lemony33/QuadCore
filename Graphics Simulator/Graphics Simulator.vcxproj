@@ -26,10 +26,14 @@
     <ClCompile Include="Obj_loader.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="stb_image.c" />
+    <ClCompile Include="test.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Controls.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Graphics_Simulator.h" />
     <ClInclude Include="Mesh.h" />
