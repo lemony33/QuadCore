@@ -26,6 +26,8 @@ private:
 	enum
 	{
 		TRANSFORM_U,
+		POSITION_U,		//====sb7 
+		PERSPECTIVE_U,	//====sb7 
 
 		NUM_UNIFORMS
 	};
