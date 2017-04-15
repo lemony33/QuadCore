@@ -25,11 +25,11 @@ private:
 	//transform
 	enum
 	{
-		TRANSFORM_U,
-		POSITION_U,		//====sb7 
-		PERSPECTIVE_U,	//====sb7 
+		TRANSFORM_U,	// benny  GetModel()
+		//POSITION_U,		//====sb7 mv_matrix			== GetModel()
+		PERSPECTIVE_U,	//====sb7 proj_matrix		== m_perspective	GetViewProjection()
 
-		NUM_UNIFORMS
+		NUM_UNIFORMS	// 
 	};
 
 	GLuint m_program;

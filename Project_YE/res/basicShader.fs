@@ -3,6 +3,7 @@
 in VS_OUT
 {
     vec3 normal;
+    vec3 view;
 } fs_in;
 
 out vec4 color;
