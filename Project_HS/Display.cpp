@@ -1,4 +1,6 @@
-#include "Display.h"
+ï»¿#include "Display.h"
+
+using namespace QuadCore;
 
 Display::Display(int width, int height, const std::string& title)
 {
@@ -7,7 +9,7 @@ Display::Display(int width, int height, const std::string& title)
 		return;
 	//return -1;
 
-/* Create a windowed mode window and its OpenGL context */
+	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 
 	if (!window) {
@@ -40,9 +42,9 @@ Display::Display(int width, int height, const std::string& title)
 
 	//m_isClosed = false;
 
-	// ¿ÀºêÁ§Æ® Åõ°úÇØ¼­ º¸ÀÌ´Â Çö»ó °¨¼Ò(1)
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+	// íˆ¬ê³¼í•´ì„œ ë³´ì´ëŠ” í˜„ìƒ ì œê±°
+	glEnable(GL_DEPTH_TEST);	//Â ê°€ë ¤ì§„Â ë©´Â ì œê±°
+	glEnable(GL_CULL_FACE);		//Â í›„ë©´Â ì œê±°
 	glCullFace(GL_BACK);
 }
 
@@ -59,15 +61,12 @@ void Display::Clear(float r, float g, float b, float a)
 
 bool Display::IsClosed()
 {
-	//return m_isClosed;
 	return glfwWindowShouldClose(window);
 }
 
 void Display::Update()
 {
-	/* Swap front and back buffers */
 	glfwSwapBuffers(window);
-
-	/* Poll for and process events */
 	glfwPollEvents();
 }
+

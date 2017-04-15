@@ -36,7 +36,7 @@
     <ClCompile Include="display.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="main_REAL.cpp">
+    <ClCompile Include="main_Lighting.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
