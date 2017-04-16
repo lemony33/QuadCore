@@ -1,15 +1,13 @@
 #version 430 core
 
-in VS_OUT
+in vec2 texCoord0;  // texture
+in vec3 normal0;    // lighting
+
+uniform sampler2D diffuse;	// texture / uniform access by CPU wt and GPU r
+
+void main()
 {
-    vec3 normal;
-} fs_in;
+	gl_FragColor = texture2D(diffuse, texCoord0)
+		* clamp(dot(-vec3(0,0,1), normal0), 0.0, 1.0);	//lighting
 
-out vec4 color;
-
-void main(void)
-{
-	 //vec3 r = reflect(fs_in.view, normalize(fs_in.normal));
-
-	color = vec4(0.95, 0.80, 0.45, 1.0);
 }
