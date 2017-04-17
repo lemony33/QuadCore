@@ -8,28 +8,17 @@
 #include "transform.h"
 #include "camera.h"
 
-//#include "sb7.h"
-//#include "../include/shader.h"
-//#include "object.h"
-//#include "sb7ktx.h"
-
-
-#define WIDTH 800
-#define HEIGHT 600
-
-
 #include <glm-0.9.8.4/glm/glm.hpp>
 #include <glm-0.9.8.4/glm/gtc/matrix_transform.hpp>
 #include <glm-0.9.8.4/glm/gtc/type_ptr.hpp>
 
-
+#define WIDTH 800
+#define HEIGHT 600
 
 int main(int argc, char** argv)
 {
 	Display display(WIDTH, HEIGHT, "Hello QuadCore"); // 1. display
-	
-	//envmaps[0] = sb7::ktx::file::load("../media/textures/envmaps/mountaincube.ktx");
-	//tex_envmap = envmaps[envmap_index];
+
 
 	Vertex vertices[] = { Vertex(glm::vec3(-0.25f, -0.25f, -0.25f), glm::vec2(0.0,0.0)), //3.  vec3: »ï°¢Çü µµÇü±×·ÁÁÖ±â => vec2: texture
 							Vertex(glm::vec3(-0.25f,  0.25f, -0.25f), glm::vec2(0.0,1.0)),
@@ -58,9 +47,9 @@ int main(int argc, char** argv)
 	
 	//Shader shader("./res/basicShader");  //2. vs, fs shader : µµÇü»ö±ò
 	//Shader shader("./res/basicShader_gold");  //2. vs, fs shader : µµÇü»ö±ò
-	Shader shader("./res/basicShader_phong");  //2. vs, fs shader : µµÇü»ö±ò
+	//Shader shader("./res/basicShader_phong");  //2. vs, fs shader : µµÇü»ö±ò
 	
-	Texture texture("./res/bricks.jpg"); //4. Texture
+	//Texture texture("./res/bricks.jpg"); //4. Texture
 	
 	Transform transform;				 //5. Transform
 	float counter = 0.0f;
@@ -107,25 +96,24 @@ int main(int argc, char** argv)
 
 	while (!display.IsClosed())
 	{
-		display.Clear(0.0f, 0.15f, 0.3f, 1.0f); //display ¹ÙÅÁÈ­¸é
+		display.Clear(0.0f, 0.15f, 0.3f, 1.0f); 
 
 		float sinCounter = sinf(counter);
 		float cosCounter = cosf(counter);
 
-		//transform.GetPos().x = sinf(counter);      
-		//transform.GetPos().y = sinf(counter);
-		//transform.GetPos().z = cosf(counter);
-		//transform.GetRot().x = counter * 0.5;
+		transform.GetPos().x = sinf(counter);      
+		transform.GetPos().y = sinf(counter);
+		transform.GetPos().z = cosf(counter);
+		transform.GetRot().x = counter * 0.5;
 		transform.GetRot().y = counter * 0.5;
-		//transform.GetRot().z = counter * 0.5;
-		//transform.SetScale(glm::vec3(cosCounter, cosCounter, cosCounter));
+		transform.GetRot().z = counter * 0.5;
+		transform.SetScale(glm::vec3(cosCounter, cosCounter, cosCounter));
 
 		//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 		//glEnable(GL_TEXTURE_CUBE_MAP);
 
-		//glBindTexture(GL_TEXTURE_CUBE_MAP, tex_envmap);
 
 		//*******************************************************************************************
 
@@ -163,7 +151,8 @@ int main(int argc, char** argv)
 		glBindVertexArray(containerVAO);
 		glm::mat4 model;
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		mesh2.Draw();
+		//(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(0);
 
 		// Also draw the lamp object, again binding the appropriate shader
@@ -180,23 +169,22 @@ int main(int argc, char** argv)
 		model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		// Draw the light object (using light's vertex attributes)
-		glBindVertexArray(lightVAO);
+		/*	glBindVertexArray(lightVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(0);
-
+		*/
 
 		//*******************************************************************************************
 		
 		//shader.Bind();
 		//texture.Bind(0);
-		//lightingShader.Update(transform, camera);
-		mesh2.Draw();
+		lightingShader.Update(transform, camera);
+		mesh.Draw();
 		//mesh2.Draw();
 		//mesh3.Draw();
 
 		display.Update();
-		//counter += 0.001f;
-		counter += 5.0f;
+		counter += 0.001f;
 	}
 
 	return 0;

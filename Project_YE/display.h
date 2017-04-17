@@ -32,8 +32,5 @@ private:
 	void operator=(const Display& other) {}
 
 	GLFWwindow *window;
-
-	// gl_Context
-	//bool m_isClosed;
 };
 
