@@ -27,6 +27,11 @@ public:
 		return m_position;
 	}
 
+	glm::mat4 GetViewMatrix()
+	{
+		return glm::lookAt(m_position, m_position + m_forward, m_up);
+	}
+
 protected:
 private:
 	glm::mat4 m_perspective;
