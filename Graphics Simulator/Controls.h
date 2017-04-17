@@ -18,8 +18,9 @@ namespace QuadCore
 class Controls
 {
 public:
-	Controls(GLFWwindow* window)
+	Controls(GLFWwindow* the_window)
 	{
+		window = the_window;
 		glfwSetKeyCallback(window, glfw_onKey);
 		glfwSetMouseButtonCallback(window, glfw_onMouseButton);
 		glfwSetCursorPosCallback(window, glfw_onMouseMove);
@@ -149,6 +150,21 @@ public:
 
 				}
 			}
+
+			// Wheel Button
+			else if (button == GLFW_MOUSE_BUTTON_MIDDLE)
+			{
+				// Down
+				if (action == GLFW_PRESS)
+				{
+					glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+				}
+				// Up
+				if (action == GLFW_RELEASE)
+				{
+					glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+				}
+			}
 		}
 	}
 	virtual void onMouseMove(int x, int y)
@@ -157,14 +173,25 @@ public:
 		{
 			// Left Button Down & Move
 			if ((glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
-				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE))
+				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
+				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE))
 			{
 				printf("Move : [ %d , %d ]\n", (int)x, (int)y);
 			}
 			// Right Button Down & Move
-			else if ((glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
-				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE))
+			else if ((glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
+				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE))
 			{
+
+			}
+
+			// Wheel Button Down & Move
+			else if ((glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
+				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
+				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS))
+			{
+				printf("Wheel button down&move\n");
 				if (x > tr_x)
 				{
 					tr_x = x;
@@ -186,9 +213,11 @@ public:
 					camera->SetViewProjection(glm::vec3(0.0f, -CAMERA_MOVE_UNIT, 0.0f));
 				}
 			}
+
 			// No Button Down & Move
 			else if ((glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
-				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE))
+				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
+				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE))
 			{
 
 			}

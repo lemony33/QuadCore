@@ -20,21 +20,6 @@ QuadCore::Graphics_Simulator::~Graphics_Simulator()
 
 void QuadCore::Graphics_Simulator::Run()
 {
-	//// mesh 삼각형 도형그려주기
-	Vertex vertices[] = {
-							Vertex(	glm::vec3(-0.5, -0.5,  0.0),	glm::vec2(0.0,0.0)	),
-							Vertex(	glm::vec3( 0.0,  0.5,  0.0),	glm::vec2(0.0,1.0)	),
-							Vertex(	glm::vec3( 0.5, -0.5,  0.0),	glm::vec2(1.0,1.0)	),
-							Vertex(	glm::vec3( 0.0, -1.5,  0.0),	glm::vec2(0.0,1.0)	),
-						};
-	unsigned int indices[] = {
-								2,1,0,
-								3,2,0,
-							};
-	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
-
-	// *.obj 파일로딩
-
 	Mesh mesh1("../media/shape/Wedge.obj");
 	Mesh mesh2("../media/shape/CubeHollow.obj");
 	//1. shader도형색깔	
@@ -50,13 +35,13 @@ void QuadCore::Graphics_Simulator::Run()
 	Transform transform2;
 	float counter = 0.0f;
 	//5. Camera
-
 	int width = width_window;	//**
 	int height = height_window;	//**
 	display.GetFrameBufferSize(&width, &height);	//**
 	//Camera camera(glm::vec3(0, 0, 5), 70.0f, (float)width / (float)height, 0.01F, 1000.0f);
 	Camera camera(glm::vec3(0, 0, 5), 70.0f, (float)width_window / (float)height_window, 0.01F, 1000.0f);
 
+	// Controls (Mouse / Keyboard)
 	Controls controls(display.GetWindow());
 	Controls controller(controls, camera, transform);
 
