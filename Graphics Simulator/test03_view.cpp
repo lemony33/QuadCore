@@ -27,7 +27,7 @@ void QuadCore::Graphics_Simulator::Run()
 	// 2. Shader
 	Shader shader1("../media/basicShader_light");
 	Shader shader2("../media/basicShader_tex");
-	
+
 	//3. Texture
 	Texture texture1("../media/res/bricks.jpg");
 	Texture texture2("../media/skyblue.jpg");
@@ -37,7 +37,7 @@ void QuadCore::Graphics_Simulator::Run()
 	Transform transform1;
 	Transform transform2;
 	float counter = 0.0f;
-	
+
 	//5. Camera
 	int width = width_window;	//**
 	int height = height_window;	//**
@@ -52,16 +52,16 @@ void QuadCore::Graphics_Simulator::Run()
 	Controls controller(controls, camera, transform1);
 
 	//glViewport(0, 0, 300, 300);
-	
+
 
 	while (!display.IsClosed())
-	{	
+	{
 		display.UpdateWindowSize();
 		display.GetWindowSize(&width, &height);
 		aspec = (float)width / (float)height;
 		camera.Update(glm::vec3(0, 0, 5), 70.0f, aspec, 0.01F, 1000.0f);
 
-		
+
 		//display πŸ≈¡»≠∏È
 		display.Clear(0.0f, 0.15f, 0.3f, 1.0f);
 
@@ -78,7 +78,7 @@ void QuadCore::Graphics_Simulator::Run()
 
 		//transform2.GetPos().x = sinf(counter);
 		transform2.GetPos().y = sinf(counter);	//
-		//transform2.GetPos().z = cosf(counter);
+												//transform2.GetPos().z = cosf(counter);
 
 		shader1.Bind();
 		texture1.Bind(0);
@@ -100,7 +100,7 @@ void QuadCore::Graphics_Simulator::Run()
 		transform1.GetPos().x += 2.5;
 		transform1.SetScale(glm::vec3(1, 1, 1));
 		shader1.Update(transform1, camera);
-				
+
 
 		display.Update();
 		counter += 0.05f;

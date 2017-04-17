@@ -112,8 +112,64 @@ public:
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 			printf("MOUSE DISABLED MODE\n");
 			break;
+			
+		case GLFW_KEY_0:
+			break;
+		case GLFW_KEY_1:
+			break;
+		case GLFW_KEY_2:
+			break;
+		case GLFW_KEY_3:
+			break;
+		case GLFW_KEY_4:
+			break;
+		case GLFW_KEY_5:
+			break;
+		case GLFW_KEY_6:
+			break;
+		case GLFW_KEY_7:
+			break;
+		case GLFW_KEY_8:
+			break;
+		case GLFW_KEY_9:
+			break;
+
+		case GLFW_KEY_ESCAPE:
+			glfwDestroyWindow(window);
+			glfwTerminate();
+			exit(EXIT_SUCCESS);
+			break;
+		case GLFW_KEY_SPACE:
+			break;
+		case GLFW_KEY_ENTER:			
+			if (!glfwGetWindowAttrib(window, GLFW_MAXIMIZED))
+			{
+				glfwMaximizeWindow(window);
+			}
+			else
+			{
+				// 스레드 문제 (키 여러번 눌림)
+				//glfwSetWindowSize(window, 800, 800);
+			}
+			
+			break;
+		case GLFW_KEY_LEFT_SHIFT:
+			glfwSetWindowSize(window, 800, 800);
+			break;
+		case GLFW_KEY_LEFT_CONTROL:
+			break;
+		case GLFW_KEY_LEFT_ALT:
+			break;
+
+		case GLFW_KEY_RIGHT_SHIFT:
+			break;
+		case GLFW_KEY_RIGHT_CONTROL:
+			break;
+		case GLFW_KEY_RIGHT_ALT:
+			break;
 		};
 	}
+
 	virtual void onMouseButton(int button, int action)
 	{
 		if (isEnteredWindow == true)
