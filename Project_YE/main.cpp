@@ -53,7 +53,7 @@ int main(int argc, char** argv)
 								7, 3, 1 };
 
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0])); // vertex이용해서 삼각형 그려줄때
-	Mesh mesh2("../media/shape/CubeHollow.obj");	
+	Mesh mesh2("../media/shape/Cube.obj");	
 	Mesh mesh3("../media/shape/CubeHollow.obj");
 	//Mesh mesh3("./res/numbers.obj");
 	
@@ -140,6 +140,8 @@ int main(int argc, char** argv)
 		glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 		transform.GetPos().x = sinf(counter) * 3;
 		transform.GetPos().y = cosf(counter) * 3;
+		transform.GetRot().y = sinf(counter) * 3;
+		transform.GetRot().x = cosf(counter) * 3;
 		transform2.GetPos().x = sinf(counter)*5;
 		///
 
