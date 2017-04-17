@@ -111,6 +111,11 @@ int main(int argc, char** argv)
 	{
 		display.Clear(0.0f, 0.15f, 0.3f, 1.0f); //display πŸ≈¡»≠∏È
 
+		int width, height;
+		glfwGetFramebufferSize(display.GetWindow(), &width, &height);
+		camera.Update(glm::vec3(0.7, 0.3, 5.0), 70.0f, (float)width / (float)height, 0.01F, 1000.0f); //6. Camera
+		glViewport(0, 0,width, height);
+
 		float sinCounter = sinf(counter);
 		float cosCounter = cosf(counter);
 
@@ -133,8 +138,9 @@ int main(int argc, char** argv)
 
 		// Light attributes
 		glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-		transform.GetPos().x = sinf(counter);
-		transform2.GetPos().y = sinf(counter);
+		transform.GetPos().x = sinf(counter) * 3;
+		transform.GetPos().y = cosf(counter) * 3;
+		transform2.GetPos().x = sinf(counter)*5;
 		///
 
 		lightingShader.Bind();
@@ -149,9 +155,8 @@ int main(int argc, char** argv)
 		glUniform3f(viewPosLoc, camera.GetPosition().x, camera.GetPosition().y*30, camera.GetPosition().z);
 
 		// Create camera transformations
-		//glm::mat4 view;				
-		//view = camera.GetViewMatrix();		
-		glm::mat4 view = transform.GetModel();
+		glm::mat4 view;				
+		view = camera.GetViewMatrix();		
 
 		// Get the uniform locations
 		GLint modelLoc = glGetUniformLocation(lightingShader.GetProgram(), "model");
@@ -167,6 +172,7 @@ int main(int argc, char** argv)
 		// Draw the container (using container's vertex attributes)
 		glBindVertexArray(containerVAO);
 		glm::mat4 model;
+		model = transform.GetModel();
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		/*glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(0);*/
@@ -174,12 +180,11 @@ int main(int argc, char** argv)
 		mesh2.Draw();
 
 
-		view = transform2.GetModel();
 
 
 		// Also draw the lamp object, again binding the appropriate shader
 		lampShader.Bind();
-		lampShader.Update(transform2, camera);
+		//lampShader.Update(transform2, camera);
 		// Get location objects for the matrices on the lamp shader (these could be different on a different shader)
 		modelLoc = glGetUniformLocation(lampShader.GetProgram(), "model");
 		viewLoc = glGetUniformLocation(lampShader.GetProgram(), "view");
@@ -189,6 +194,7 @@ int main(int argc, char** argv)
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(camera.GetViewProjection()));
 		model = glm::mat4();
 		model = glm::translate(model, lightPos);
+		//model = transform2.GetModel();
 		model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		//// Draw the light object (using light's vertex attributes)

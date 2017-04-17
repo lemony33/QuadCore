@@ -22,6 +22,7 @@ public:
 		*width = m_width;
 		*height = m_height;
 	}
+	GLFWwindow* GetWindow() { return window; };
 private:
 	int m_width;
 	int m_height;
