@@ -83,9 +83,12 @@ void Mesh::Draw(int mode)
 	//glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
 	
 	glDrawElements(mode, m_drawCount, GL_UNSIGNED_INT, 0);
+	glEnable(GL_LINE_STIPPLE);
+	glLineStipple(4, 0xAAAA);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glBindVertexArray(0);
 }
 
 // 참고 사이트
 // GL_LINES 와 GL_LINES_STRIP 차이점 외 ... http://geofhagopian.net/sablog/Sabblog-7-5-05.htm
+// glEnable(GL_LINE_STIPPLE) , glLineStipple(4, pattern) ... 선 그리기 사이트 https://skyfe79.gitbooks.io/opengl-tutorial/content/chapter4.html
