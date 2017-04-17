@@ -43,11 +43,15 @@ private:
 	GLuint m_uniforms[NUM_UNIFORMS];
 
 public:
-	GLuint Program;
+	//GLuint Program;
+	GLuint GetProgram()
+	{
+		return m_program;
+	}
+
 	// Constructor generates the shader on the fly
 	Shader(const GLchar *vertexPath, const GLchar *fragmentPath);
-	// Uses the current shader
-	void Use();
+
 };
 
 #endif
