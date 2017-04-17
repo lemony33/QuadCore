@@ -43,6 +43,10 @@ public:
 		*width = m_width;
 		*height = m_height;
 	}
+	float GetWindowAspec()
+	{
+		return ((float)m_width / (float)m_height);
+	}
 	void UpdateWindowSize()
 	{
 		glfwGetFramebufferSize(window, &m_width, &m_height);	// 현재크기 얻어오기

@@ -39,27 +39,19 @@ void QuadCore::Graphics_Simulator::Run()
 	float counter = 0.0f;
 	
 	//5. Camera
-	int width = width_window;	//**
-	int height = height_window;	//**
 	float aspec = (float)width_window / (float)height_window;
-
-	//display.GetFrameBufferSize(&width, &height);	//**
-	//Camera camera(glm::vec3(0, 0, 5), 70.0f, (float)width / (float)height, 0.01F, 1000.0f);
 	Camera camera(glm::vec3(0, 0, 10), 70.0f, aspec, 0.01F, 1000.0f);
 
 	// Controls (Mouse / Keyboard)
 	Controls controls(display.GetWindow());
 	Controls controller(controls, camera, transform1);
 
-	//glViewport(0, 0, 300, 300);
 	
 
 	while (!display.IsClosed())
 	{	
 		display.UpdateWindowSize();
-		display.GetWindowSize(&width, &height);
-		aspec = (float)width / (float)height;
-		camera.Update(glm::vec3(0, 0, 5), 70.0f, aspec, 0.01F, 1000.0f);
+		camera.Update(glm::vec3(0, 0, 5), 70.0f, display.GetWindowAspec(), 0.01F, 1000.0f);
 
 		
 		//display πŸ≈¡»≠∏È
@@ -93,14 +85,6 @@ void QuadCore::Graphics_Simulator::Run()
 		transform2.GetPos().y += 2.5;
 		shader1.Update(transform2, camera);
 		mesh2.Draw();
-
-
-		shader1.Bind();
-		texture1.Bind(0);
-		transform1.GetPos().x += 2.5;
-		transform1.SetScale(glm::vec3(1, 1, 1));
-		shader1.Update(transform1, camera);
-				
 
 		display.Update();
 		counter += 0.05f;
