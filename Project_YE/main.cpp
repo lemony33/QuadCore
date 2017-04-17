@@ -8,28 +8,16 @@
 #include "transform.h"
 #include "camera.h"
 
-//#include "sb7.h"
-//#include "../include/shader.h"
-//#include "object.h"
-//#include "sb7ktx.h"
-
-
-#define WIDTH 800
-#define HEIGHT 600
-
-
 #include <glm-0.9.8.4/glm/glm.hpp>
 #include <glm-0.9.8.4/glm/gtc/matrix_transform.hpp>
 #include <glm-0.9.8.4/glm/gtc/type_ptr.hpp>
 
-
+#define WIDTH 800
+#define HEIGHT 600
 
 int main(int argc, char** argv)
 {
-	Display display(WIDTH, HEIGHT, "Hello QuadCore"); // 1. display
-	
-	//envmaps[0] = sb7::ktx::file::load("../media/textures/envmaps/mountaincube.ktx");
-	//tex_envmap = envmaps[envmap_index];
+	Display display(WIDTH, HEIGHT, "Hello QuadCore");
 
 	Vertex vertices[] = { Vertex(glm::vec3(-0.25f, -0.25f, -0.25f), glm::vec2(0.0,0.0)), //3.  vec3: 삼각형 도형그려주기 => vec2: texture
 							Vertex(glm::vec3(-0.25f,  0.25f, -0.25f), glm::vec2(0.0,1.0)),
@@ -55,18 +43,16 @@ int main(int argc, char** argv)
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0])); // vertex이용해서 삼각형 그려줄때
 	Mesh mesh2("../media/shape/CubeHollow.obj");	
 	Mesh mesh3("../media/shape/CubeHollow.obj");
-	//Mesh mesh3("./res/numbers.obj");
 	
 	//Shader shader("./res/basicShader");  //2. vs, fs shader : 도형색깔
 	//Shader shader("./res/basicShader_gold");  //2. vs, fs shader : 도형색깔
-	Shader shader("./res/basicShader_phong");  //2. vs, fs shader : 도형색깔
+	//Shader shader("./res/basicShader_phong");  //2. vs, fs shader : 도형색깔
 	
 	Texture texture("./res/bricks.jpg"); //4. Texture
 	
 	Transform transform;				 //5. Transform
 	float counter = 0.0f;
 	
-	//Camera camera(glm::vec3(0.7, 0.8, 4.0), 70.0f, (float)WIDTH / (float)HEIGHT, 0.01F, 1000.0f); //6. Camera
 	Camera camera(glm::vec3(0.7, 0.3, 5.0), 70.0f, (float)WIDTH / (float)HEIGHT, 0.01F, 1000.0f); //6. Camera
 
 
@@ -133,8 +119,8 @@ int main(int argc, char** argv)
 
 		// Light attributes
 		glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-		transform.GetPos().x = sinf(counter);
-		transform2.GetPos().y = sinf(counter);
+		//transform.GetPos().x = sinf(counter);
+		//transform2.GetPos().y = sinf(counter);
 		///
 
 		lightingShader.Bind();
@@ -208,7 +194,7 @@ int main(int argc, char** argv)
 
 		display.Update();
 		//counter += 0.001f;
-		counter += 0.05f;
+		counter += 0.0005f;
 	}
 
 	return 0;
