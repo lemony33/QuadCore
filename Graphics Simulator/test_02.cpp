@@ -22,15 +22,15 @@ void QuadCore::Graphics_Simulator::Run()
 {
 	//// mesh 삼각형 도형그려주기
 	Vertex vertices[] = {
-							Vertex(	glm::vec3(-0.5, -0.5,  0.0),	glm::vec2(0.0,0.0)	),
-							Vertex(	glm::vec3( 0.0,  0.5,  0.0),	glm::vec2(0.0,1.0)	),
-							Vertex(	glm::vec3( 0.5, -0.5,  0.0),	glm::vec2(1.0,1.0)	),
-							Vertex(	glm::vec3( 0.0, -1.5,  0.0),	glm::vec2(0.0,1.0)	),
-						};
+		Vertex(glm::vec3(-0.5, -0.5,  0.0),	glm::vec2(0.0,0.0)),
+		Vertex(glm::vec3(0.0,  0.5,  0.0),	glm::vec2(0.0,1.0)),
+		Vertex(glm::vec3(0.5, -0.5,  0.0),	glm::vec2(1.0,1.0)),
+		Vertex(glm::vec3(0.0, -1.5,  0.0),	glm::vec2(0.0,1.0)),
+	};
 	unsigned int indices[] = {
-								2,1,0,
-								3,2,0,
-							};
+		2,1,0,
+		3,2,0,
+	};
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
 
 	// *.obj 파일로딩
@@ -47,18 +47,16 @@ void QuadCore::Graphics_Simulator::Run()
 	Texture texture2("../media/skyblue.jpg");
 	//4. Transform
 	Transform transform;
-	Transform transform2;
 	float counter = 0.0f;
 	//5. Camera
 
 	int width = width_window;	//**
 	int height = height_window;	//**
 	display.GetFrameBufferSize(&width, &height);	//**
-	//Camera camera(glm::vec3(0, 0, 5), 70.0f, (float)width / (float)height, 0.01F, 1000.0f);
+													//Camera camera(glm::vec3(0, 0, 5), 70.0f, (float)width / (float)height, 0.01F, 1000.0f);
 	Camera camera(glm::vec3(0, 0, 5), 70.0f, (float)width_window / (float)height_window, 0.01F, 1000.0f);
 
 	Controls controls(display.GetWindow());
-	Controls controller(controls, camera, transform);
 
 	while (!display.IsClosed())
 	{
@@ -86,11 +84,11 @@ void QuadCore::Graphics_Simulator::Run()
 		shader2.Bind();
 		texture2.Bind(0);
 		//transform.GetPos().x += 1.5;
-		//transform2.GetPos().x += 0.5;
+		transform.GetPos().x -= 1.5;
 		//transform.GetPos().z += 1.5;
 		//transform.SetScale(glm::vec3(3,0.5,1));
 		transform.SetScale(glm::vec3(1, 1, 1));
-		shader.Update(transform2, camera);
+		shader.Update(transform, camera);
 		mesh2.Draw();
 
 
@@ -105,7 +103,7 @@ void QuadCore::Graphics_Simulator::Run()
 		transform.SetScale(glm::vec3(1, 1, 1));
 		shader.Update(transform, camera);
 
-		
+
 
 		display.Update();
 		counter += 0.05f;
