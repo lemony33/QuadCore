@@ -4,22 +4,22 @@
 #include <GLFW-3.2.1_x64\glfw3.h>
 #include <iostream>
 #include "Display.h"
-#include "Mouse.h"
+#include "Controls.h"
 
 #define QUADCORE_SCROLL_UP				1
 #define QUADCORE_SCROLL_DOWN		-1
 
-class Mouse
+class Controls
 {
 public:
-	Mouse(GLFWwindow* window)
+	Controls(GLFWwindow* window)
 	{
 		glfwSetKeyCallback(window, glfw_onKey);
 		glfwSetMouseButtonCallback(window, glfw_onMouseButton);
 		glfwSetCursorPosCallback(window, glfw_onMouseMove);
 		glfwSetScrollCallback(window, glfw_onMouseWheel);
 	}
-	virtual ~Mouse() {}
+	virtual ~Controls() {}
 
 public:
 	/* 키보드 이벤트 */
@@ -43,6 +43,10 @@ public:
 
 			case GLFW_KEY_DOWN:
 				printf("KEYBOARD DOWN\n");
+				break;
+
+			case GLFW_KEY_SPACE:
+				printf("KEYBOARD SPACE\n");
 				break;
 
 			default:

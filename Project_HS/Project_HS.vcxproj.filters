@@ -62,8 +62,22 @@
     <ClInclude Include="Display.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Mouse.h">
+    <ClInclude Include="Controls.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\MapShader.fs">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="res\MapShader.vs">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="res\objectShader.fs">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="res\objectShader.vs">
+      <Filter>리소스 파일</Filter>
+    </None>
   </ItemGroup>
 </Project>

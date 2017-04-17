@@ -39,7 +39,13 @@
     <ClCompile Include="Obj_loader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="test.cpp">
+    <ClCompile Include="test_01.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="test_02.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="test03_view.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

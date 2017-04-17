@@ -8,13 +8,26 @@
 #include "transform.h"
 #include "camera.h"
 
+//#include "sb7.h"
+//#include "../include/shader.h"
+//#include "object.h"
+//#include "sb7ktx.h"
+
+
 #define WIDTH 800
 #define HEIGHT 600
+
+GLuint	envmaps[3];
+GLuint	tex_envmap;
+int		envmap_index;
 
 int main(int argc, char** argv)
 {
 	Display display(WIDTH, HEIGHT, "Hello QuadCore"); // 1. display
 	
+	//envmaps[0] = sb7::ktx::file::load("../media/textures/envmaps/mountaincube.ktx");
+	//tex_envmap = envmaps[envmap_index];
+
 	Vertex vertices[] = { Vertex(glm::vec3(-0.25f, -0.25f, -0.25f), glm::vec2(0.0,0.0)), //3.  vec3: »ï°¢Çü µµÇü±×·ÁÁÖ±â => vec2: texture
 							Vertex(glm::vec3(-0.25f,  0.25f, -0.25f), glm::vec2(0.0,1.0)),
 							Vertex(glm::vec3(0.25f, -0.25f, -0.25f), glm::vec2(1.0,1.0)),
@@ -40,7 +53,9 @@ int main(int argc, char** argv)
 	Mesh mesh2("../media/shape/CubeHollow.obj");	
 	//Mesh mesh3("./res/numbers.obj");
 	
-	Shader shader("./res/basicShader");  //2. vs, fs shader : µµÇü»ö±ò
+	//Shader shader("./res/basicShader");  //2. vs, fs shader : µµÇü»ö±ò
+	//Shader shader("./res/basicShader_gold");  //2. vs, fs shader : µµÇü»ö±ò
+	Shader shader("./res/basicShader_phong");  //2. vs, fs shader : µµÇü»ö±ò
 	
 	Texture texture("./res/bricks.jpg"); //4. Texture
 	
@@ -64,6 +79,13 @@ int main(int argc, char** argv)
 		transform.GetRot().z = counter * 0.5;*/
 		//transform.SetScale(glm::vec3(cosCounter, cosCounter, cosCounter));
 
+		//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+		//glEnable(GL_TEXTURE_CUBE_MAP);
+
+		//glBindTexture(GL_TEXTURE_CUBE_MAP, tex_envmap);
+		
 		shader.Bind();
 		texture.Bind(0);
 		shader.Update(transform, camera);
