@@ -8,17 +8,28 @@
 #include "transform.h"
 #include "camera.h"
 
-#include <glm-0.9.8.4/glm/glm.hpp>
-#include <glm-0.9.8.4/glm/gtc/matrix_transform.hpp>
-#include <glm-0.9.8.4/glm/gtc/type_ptr.hpp>
+//#include "sb7.h"
+//#include "../include/shader.h"
+//#include "object.h"
+//#include "sb7ktx.h"
+
 
 #define WIDTH 800
 #define HEIGHT 600
 
+
+#include <glm-0.9.8.4/glm/glm.hpp>
+#include <glm-0.9.8.4/glm/gtc/matrix_transform.hpp>
+#include <glm-0.9.8.4/glm/gtc/type_ptr.hpp>
+
+
+
 int main(int argc, char** argv)
 {
 	Display display(WIDTH, HEIGHT, "Hello QuadCore"); // 1. display
-
+	
+	//envmaps[0] = sb7::ktx::file::load("../media/textures/envmaps/mountaincube.ktx");
+	//tex_envmap = envmaps[envmap_index];
 
 	Vertex vertices[] = { Vertex(glm::vec3(-0.25f, -0.25f, -0.25f), glm::vec2(0.0,0.0)), //3.  vec3: 삼각형 도형그려주기 => vec2: texture
 							Vertex(glm::vec3(-0.25f,  0.25f, -0.25f), glm::vec2(0.0,1.0)),
@@ -43,19 +54,20 @@ int main(int argc, char** argv)
 
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0])); // vertex이용해서 삼각형 그려줄때
 	Mesh mesh2("../media/shape/CubeHollow.obj");	
+	Mesh mesh3("../media/shape/CubeHollow.obj");
 	//Mesh mesh3("./res/numbers.obj");
 	
 	//Shader shader("./res/basicShader");  //2. vs, fs shader : 도형색깔
 	//Shader shader("./res/basicShader_gold");  //2. vs, fs shader : 도형색깔
-	//Shader shader("./res/basicShader_phong");  //2. vs, fs shader : 도형색깔
+	Shader shader("./res/basicShader_phong");  //2. vs, fs shader : 도형색깔
 	
-	//Texture texture("./res/bricks.jpg"); //4. Texture
+	Texture texture("./res/bricks.jpg"); //4. Texture
 	
 	Transform transform;				 //5. Transform
 	float counter = 0.0f;
 	
 	//Camera camera(glm::vec3(0.7, 0.8, 4.0), 70.0f, (float)WIDTH / (float)HEIGHT, 0.01F, 1000.0f); //6. Camera
-	Camera camera(glm::vec3(0.7, 0.3, 2.0), 70.0f, (float)WIDTH / (float)HEIGHT, 0.01F, 1000.0f); //6. Camera
+	Camera camera(glm::vec3(0.7, 0.3, 5.0), 70.0f, (float)WIDTH / (float)HEIGHT, 0.01F, 1000.0f); //6. Camera
 
 
 
@@ -93,53 +105,58 @@ int main(int argc, char** argv)
 	glBindVertexArray(0);
 
 
+	Transform transform2;
 
 	while (!display.IsClosed())
 	{
-		display.Clear(0.0f, 0.15f, 0.3f, 1.0f); 
+		display.Clear(0.0f, 0.15f, 0.3f, 1.0f); //display 바탕화면
 
 		float sinCounter = sinf(counter);
 		float cosCounter = cosf(counter);
 
-		transform.GetPos().x = sinf(counter);      
-		transform.GetPos().y = sinf(counter);
-		transform.GetPos().z = cosf(counter);
-		transform.GetRot().x = counter * 0.5;
-		transform.GetRot().y = counter * 0.5;
-		transform.GetRot().z = counter * 0.5;
-		transform.SetScale(glm::vec3(cosCounter, cosCounter, cosCounter));
+		//transform.GetPos().x = sinf(counter);      
+		//transform.GetPos().y = sinf(counter);
+		//transform.GetPos().z = cosf(counter);
+		//transform.GetRot().x = counter * 0.5;
+		//transform.GetRot().y = counter * 0.5;
+		//transform.GetRot().z = counter * 0.5;
+		//transform.SetScale(glm::vec3(cosCounter, cosCounter, cosCounter));
 
 		//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 		//glEnable(GL_TEXTURE_CUBE_MAP);
 
+		//glBindTexture(GL_TEXTURE_CUBE_MAP, tex_envmap);
 
 		//*******************************************************************************************
 
 		// Light attributes
 		glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-
+		transform.GetPos().x = sinf(counter);
+		transform2.GetPos().y = sinf(counter);
 		///
 
-		lightingShader.Use();
-		GLint objectColorLoc = glGetUniformLocation(lightingShader.Program, "objectColor");
-		GLint lightColorLoc = glGetUniformLocation(lightingShader.Program, "lightColor");
-		GLint lightPosLoc = glGetUniformLocation(lightingShader.Program, "lightPos");
-		GLint viewPosLoc = glGetUniformLocation(lightingShader.Program, "viewPos");
+		lightingShader.Bind();
+		lightingShader.Update(transform, camera);
+		GLint objectColorLoc = glGetUniformLocation(lightingShader.GetProgram(), "objectColor");
+		GLint lightColorLoc = glGetUniformLocation(lightingShader.GetProgram(), "lightColor");
+		GLint lightPosLoc = glGetUniformLocation(lightingShader.GetProgram(), "lightPos");
+		GLint viewPosLoc = glGetUniformLocation(lightingShader.GetProgram(), "viewPos");
 		glUniform3f(objectColorLoc, 1.0f, 0.5f, 0.31f);
 		glUniform3f(lightColorLoc, 1.0f, 1.0f, 1.0f);
 		glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);
-		glUniform3f(viewPosLoc, camera.GetPosition().x, camera.GetPosition().y*counter*30, camera.GetPosition().z);
+		glUniform3f(viewPosLoc, camera.GetPosition().x, camera.GetPosition().y*30, camera.GetPosition().z);
 
 		// Create camera transformations
-		glm::mat4 view;
-		view = camera.GetViewMatrix();
+		//glm::mat4 view;				
+		//view = camera.GetViewMatrix();		
+		glm::mat4 view = transform.GetModel();
 
 		// Get the uniform locations
-		GLint modelLoc = glGetUniformLocation(lightingShader.Program, "model");
-		GLint viewLoc = glGetUniformLocation(lightingShader.Program, "view");
-		GLint projLoc = glGetUniformLocation(lightingShader.Program, "projection");
+		GLint modelLoc = glGetUniformLocation(lightingShader.GetProgram(), "model");
+		GLint viewLoc = glGetUniformLocation(lightingShader.GetProgram(), "view");
+		GLint projLoc = glGetUniformLocation(lightingShader.GetProgram(), "projection");
 
 
 		// Pass the matrices to the shader
@@ -151,16 +168,22 @@ int main(int argc, char** argv)
 		glBindVertexArray(containerVAO);
 		glm::mat4 model;
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		/*glDrawArrays(GL_TRIANGLES, 0, 36);
+		glBindVertexArray(0);*/
+
 		mesh2.Draw();
-		//(GL_TRIANGLES, 0, 36);
-		glBindVertexArray(0);
+
+
+		view = transform2.GetModel();
+
 
 		// Also draw the lamp object, again binding the appropriate shader
-		lampShader.Use();
+		lampShader.Bind();
+		lampShader.Update(transform2, camera);
 		// Get location objects for the matrices on the lamp shader (these could be different on a different shader)
-		modelLoc = glGetUniformLocation(lampShader.Program, "model");
-		viewLoc = glGetUniformLocation(lampShader.Program, "view");
-		projLoc = glGetUniformLocation(lampShader.Program, "projection");
+		modelLoc = glGetUniformLocation(lampShader.GetProgram(), "model");
+		viewLoc = glGetUniformLocation(lampShader.GetProgram(), "view");
+		projLoc = glGetUniformLocation(lampShader.GetProgram(), "projection");
 		// Set matrices
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(camera.GetViewProjection()));
@@ -168,23 +191,24 @@ int main(int argc, char** argv)
 		model = glm::translate(model, lightPos);
 		model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		// Draw the light object (using light's vertex attributes)
-		/*	glBindVertexArray(lightVAO);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		glBindVertexArray(0);
-		*/
+		//// Draw the light object (using light's vertex attributes)
+		//glBindVertexArray(lightVAO);
+		//glDrawArrays(GL_TRIANGLES, 0, 36);
+		//glBindVertexArray(0);
+
 
 		//*******************************************************************************************
 		
 		//shader.Bind();
 		//texture.Bind(0);
-		lightingShader.Update(transform, camera);
-		mesh.Draw();
+		//lightingShader.Update(transform, camera);
+		mesh3.Draw();
 		//mesh2.Draw();
 		//mesh3.Draw();
 
 		display.Update();
-		counter += 0.001f;
+		//counter += 0.001f;
+		counter += 0.05f;
 	}
 
 	return 0;
