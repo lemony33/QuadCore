@@ -183,18 +183,22 @@ public:
 				if (x > tr_x)
 				{
 					tr_x = x;
+					// Turn Left
 				}
 				else if (x < tr_x)
 				{
 					tr_x = x;
+					// Turn Right
 				}
 				if (y > tr_y)
 				{
 					tr_y = y;
+					// Turn Up
 				}
 				else if (y < tr_y)
 				{
 					tr_y = y;
+					// Turn Down
 				}
 			}
 

@@ -8,7 +8,8 @@
 class Vertex
 {
 public:
-	Vertex(const glm::vec3& pos, const glm::vec2& texCoord, const glm::vec3& normal = glm::vec3(0.0f, 0.0f, 0.0f))
+	Vertex() {}
+	Vertex(const glm::vec3& pos, const glm::vec2& texCoord = glm::vec2(0.0f, 0.0f), const glm::vec3& normal = glm::vec3(0.0f, 0.0f, 0.0f))
 	{
 		this->pos = pos;
 		this->texCoord = texCoord;
@@ -29,7 +30,7 @@ class Mesh
 public:
 	Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
 	Mesh(const std::string& fileName);
-	void Draw(int mode = GL_TRIANGLES);
+	void Draw(int mode = GL_TRIANGLES, float thickness = 1);
 	virtual ~Mesh();
 
 private:
