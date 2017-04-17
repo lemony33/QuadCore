@@ -31,7 +31,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Mouse.h">
+    <ClInclude Include="Controls.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="obj_loader.h" />
@@ -39,6 +39,12 @@
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Transform.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\MapShader.fs" />
+    <None Include="res\MapShader.vs" />
+    <None Include="res\objectShader.fs" />
+    <None Include="res\objectShader.vs" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5E966C59-0A9C-443C-A892-2D2F4CFD0B0D}</ProjectGuid>

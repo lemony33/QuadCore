@@ -73,12 +73,19 @@ void Mesh::InitMesh(const IndexedModel& model)
 /*****************************************************************************************************************************/
 // DRAW
 /*****************************************************************************************************************************/
-void Mesh::Draw()
+void Mesh::Draw(int mode)
 {
 	glBindVertexArray(m_vertexArrayObject);
 
+	//glDrawArrays(GL_QUADS, 0, m_drawCount);
+	//glDrawArrays(GL_QUAD_STRIP, 0, m_drawCount);
+	//glDrawArrays(GL_LINES, 0, m_drawCount);
 	//glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
-	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0);
-
+	
+	glDrawElements(mode, m_drawCount, GL_UNSIGNED_INT, 0);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glBindVertexArray(0);
 }
+
+// 참고 사이트
+// GL_LINES 와 GL_LINES_STRIP 차이점 외 ... http://geofhagopian.net/sablog/Sabblog-7-5-05.htm

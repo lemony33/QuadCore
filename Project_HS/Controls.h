@@ -5,17 +5,17 @@
 #include <iostream>
 #include <string>
 #include "Display.h"
-#include "Mouse.h"
+#include "Controls.h"
 #include "Camera.h"
 #include "Transform.h"
 
-#define GLFW_ENTERED					GLFW_TRUE
-#define GLFW_LEFT							GLFW_FALSE
+#define GLFW_ENTERED	GLFW_TRUE
+#define GLFW_LEFT			GLFW_FALSE
 
-class Mouse
+class Controls
 {
 public:
-	Mouse(GLFWwindow* the_window)
+	Controls(GLFWwindow* the_window)
 	{
 		window = the_window;
 		glfwSetKeyCallback(window, glfw_onKey);
@@ -27,24 +27,24 @@ public:
 		//image = imageLoader("Mouse_Icon.png");
 		SetMouseCursor(window, image);
 	}
-	Mouse(Mouse& the_mouse, Camera& the_camera, Transform& the_transform)
+	Controls(Controls& the_controls, Camera& the_camera, Transform& the_transform)
 	{
-		mouse = &the_mouse;
+		controls = &the_controls;
 		camera = &the_camera;
 		transform = &the_transform;
 	}
-	virtual ~Mouse() { glfwDestroyCursor(cursor); }
+	virtual ~Controls() { glfwDestroyCursor(cursor); }
 
 private:
 	GLFWwindow* window;
 	GLFWcursor* cursor;
 	GLFWimage image;
 	static Camera* camera;
-	static Mouse* mouse;
+	static Controls* controls;
 	static Transform* transform;
 	bool isEnteredWindow;
 	int tr_x, tr_y;
-	float CAMERA_MOVE_UNIT = 0.05f;
+	const float CAMERA_MOVE_UNIT = 0.05f;
 
 public:
 	virtual void onKey(int key, int action)
@@ -139,12 +139,12 @@ public:
 				// Down
 				if (action == GLFW_PRESS)
 				{
-					
+					glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 				}
 				// Up
 				if (action == GLFW_RELEASE)
 				{
-					
+					glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 				}
 			}
 
@@ -180,7 +180,22 @@ public:
 				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE))
 			{
-				
+				if (x > tr_x)
+				{
+					tr_x = x;
+				}
+				else if (x < tr_x)
+				{
+					tr_x = x;
+				}
+				if (y > tr_y)
+				{
+					tr_y = y;
+				}
+				else if (y < tr_y)
+				{
+					tr_y = y;
+				}
 			}
 
 			// Wheel Button Down & Move
@@ -191,22 +206,22 @@ public:
 				if (x > tr_x)
 				{
 					tr_x = x;
-					camera->SetViewProjection(glm::vec3(-CAMERA_MOVE_UNIT, 0.0f, 0.0f));
+					camera->SetViewMove(glm::vec3(-CAMERA_MOVE_UNIT, 0.0f, 0.0f));
 				}
 				else if (x < tr_x)
 				{
 					tr_x = x;
-					camera->SetViewProjection(glm::vec3(CAMERA_MOVE_UNIT, 0.0f, 0.0f));
+					camera->SetViewMove(glm::vec3(CAMERA_MOVE_UNIT, 0.0f, 0.0f));
 				}
 				if (y > tr_y)
 				{
 					tr_y = y;
-					camera->SetViewProjection(glm::vec3(0.0f, CAMERA_MOVE_UNIT, 0.0f));
+					camera->SetViewMove(glm::vec3(0.0f, CAMERA_MOVE_UNIT, 0.0f));
 				}
 				else if (y < tr_y)
 				{
 					tr_y = y;
-					camera->SetViewProjection(glm::vec3(0.0f, -CAMERA_MOVE_UNIT, 0.0f));
+					camera->SetViewMove(glm::vec3(0.0f, -CAMERA_MOVE_UNIT, 0.0f));
 				}
 			}
 
@@ -227,12 +242,14 @@ public:
 			if (wheelValue > 0)
 			{
 				printf("MOUSE SCROLL  UP\n");
+				camera->SetViewMove(glm::vec3(0.0f, 0.0f, -CAMERA_MOVE_UNIT * 2));
 			}
 
 			// Wheel Down
 			else if (wheelValue < 0)
 			{
 				printf("MOUSE SCROLL DOWN\n");
+				camera->SetViewMove(glm::vec3(0.0f, 0.0f, CAMERA_MOVE_UNIT * 2));
 			}
 		}
 	}
@@ -279,25 +296,25 @@ public:
 public:
 	static void glfw_onKey(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
-		mouse->onKey(key, action);
+		controls->onKey(key, action);
 	}
 	static void glfw_onMouseButton(GLFWwindow* window, int button, int action, int mods)
 	{
-		mouse->onMouseButton(button, action);
+		controls->onMouseButton(button, action);
 	}
 	static void glfw_onMouseMove(GLFWwindow* window, double x, double y)
 	{
-		mouse->onMouseMove(static_cast<int>(x), static_cast<int>(y));
+		controls->onMouseMove(static_cast<int>(x), static_cast<int>(y));
 	}
 	static void glfw_onMouseWheel(GLFWwindow* window, double xoffset, double yoffset)
 	{
-		mouse->onMouseWheel(static_cast<int>(yoffset));
+		controls->onMouseWheel(static_cast<int>(yoffset));
 	}
 	static void glfw_cursorEnterCallBack(GLFWwindow* window, int state)
 	{
-		mouse->onMouseHover(state);
+		controls->onMouseHover(state);
 	}
 };
-Mouse* Mouse::mouse = NULL;
-Camera* Mouse::camera = NULL;
-Transform* Mouse::transform = NULL;
+Controls* Controls::controls = NULL;
+Camera* Controls::camera = NULL;
+Transform* Controls::transform = NULL;
