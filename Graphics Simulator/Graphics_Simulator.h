@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Display.h"
+#include "ShapeManager.h"
 
 
 
@@ -22,6 +23,8 @@ private:
 	const int height_window = 640;	// 윈도우 창 (세로)
 
 	Display display;
+
+	ShapeManager m_shape_manager;
 };
 
 

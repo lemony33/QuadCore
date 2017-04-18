@@ -7,6 +7,7 @@
 #include "Controls.h"
 
 
+
 QuadCore::Graphics_Simulator::Graphics_Simulator()
 	: display(width_window, height_window, "Graphics Simulator - QuadCore")
 {
@@ -31,12 +32,15 @@ void QuadCore::Graphics_Simulator::Run()
 	//3. Texture
 	Texture texture1("../media/res/bricks.jpg");
 	Texture texture2("../media/skyblue.jpg");
+	//texture2.Reset();
+	
 
 	//4. Transform
 	Transform worldCoordinate;
 	Transform transform1;
 	Transform transform2;
-	float counter = 0.0f;
+	Transform transform3;
+	
 	
 	//5. Camera
 	float aspec = (float)width_window / (float)height_window;
@@ -44,49 +48,90 @@ void QuadCore::Graphics_Simulator::Run()
 
 	// Controls (Mouse / Keyboard)
 	Controls controls(display.GetWindow());
-	Controls controller(controls, camera, transform1);
+	Controls controller(controls, camera, worldCoordinate);
 
 	
 
+	float counter = 0.0f;
+
 	while (!display.IsClosed())
 	{	
-		display.UpdateWindowSize();
+		float sinCounter = sinf(counter);	// sin counter
+		float cosCounter = cosf(counter);	// cos counter
+
+		display.UpdateWindowSize();	// 화면 갱신
 		camera.Update(glm::vec3(0, 0, 5), 70.0f, display.GetWindowAspec(), 0.01F, 1000.0f);
+				
+		display.Clear(0.1f, 0.1f, 0.1f, 1.0f);	// 배경 초기화
+		//display.Clear(1.0f, 1.0f, 1.0f, 1.0f);	// 배경 초기화
 
-		
-		//display 바탕화면
-		display.Clear(0.0f, 0.15f, 0.3f, 1.0f);
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+		// Draw here
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-		float sinCounter = sinf(counter);
-		float cosCounter = cosf(counter);
+		m_shape_manager;
 
-		transform1.GetPos().x = sinf(counter);
-		transform1.GetPos().y = sinf(counter);	//
-		transform1.GetPos().z = cosf(counter);
-		transform1.GetRot().x = counter * 0.5;
-		transform1.GetRot().y = counter * 0.5;
-		transform1.GetRot().z = counter * 0.5;
-		//transform.SetScale(glm::vec3(cosCounter, cosCounter, cosCounter));
 
-		//transform2.GetPos().x = sinf(counter);
-		transform2.GetPos().y = sinf(counter);	//
-		//transform2.GetPos().z = cosf(counter);
 
-		shader1.Bind();
-		texture1.Bind(0);
-		transform1.GetPos().x -= 2.5;
-		transform1.SetScale(glm::vec3(1, 1, 1));
+		//shader1.Bind();		
+		//texture1.Bind(1);
+		////Texture::Reset();
+
+		//transform1.SetPos(glm::vec3(0, 0, 0));
+		//transform1.SetPos(glm::vec3(1.1, 1.1, 0));
+		//transform1.GetRot().y = counter * 0.5f;
+		//transform1.GetRot().x = counter * 0.3f;
+		//shader1.Update(transform1, camera);		
+		//mesh1.Draw();
+
+
+		//transform2.SetPos(glm::vec3(-1.1, 0, 0));
+
+		//transform2.GetRot().y = counter * 0.5f;
+		//transform2.GetRot().x = counter * 0.3f;
+		//shader1.Update(transform2, camera);
+		//mesh1.Draw();
+
+		/*
+		transform2.SetPos(glm::vec3(-1.1, 0, 0));
+		shader1.Update(transform2, camera);
+		mesh1.Draw();
+
+		transform3.SetPos(glm::vec3(1.1, 0, 0));
+		shader1.Update(transform3, camera);
+		mesh1.Draw();
+
+
+
+		transform1.SetPos(glm::vec3(0, 1.1, 0));
 		shader1.Update(transform1, camera);
 		mesh1.Draw();
 
-		shader2.Bind();
-		texture2.Bind(0);
-		//transform.GetPos().x += 1.5;
-		transform2.GetPos().y += 2.5;
+		transform2.SetPos(glm::vec3(-1.1, 1.1, 0));
 		shader1.Update(transform2, camera);
-		mesh2.Draw();
+		mesh1.Draw();
 
-		display.Update();
-		counter += 0.05f;
+		transform3.SetPos(glm::vec3(1.1, 1.1, 0));
+		shader1.Update(transform3, camera);
+		mesh1.Draw();
+
+
+		transform1.SetPos(glm::vec3(0, -1.1, 0));
+		shader1.Update(transform1, camera);
+		mesh1.Draw();
+
+		transform2.SetPos(glm::vec3(-1.1, -1.1, 0));
+		shader1.Update(transform2, camera);
+		mesh1.Draw();
+
+		transform3.SetPos(glm::vec3(1.1, -1.1, 0));
+		shader1.Update(transform3, camera);
+		mesh1.Draw();
+		*/
+
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+		
+		display.Update();	// 화면갱신
+		counter += 0.05f;	// 카운터 증가
 	}
 }
