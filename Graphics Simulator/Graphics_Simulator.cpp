@@ -26,8 +26,8 @@ void QuadCore::Graphics_Simulator::Run()
 	Mesh mesh2("../media/shape/CubeHollow.obj");
 
 	// 2. Shader
-	Shader shader1("../media/basicShader_light");
-	Shader shader2("../media/basicShader_tex");
+	Shader shader1("../media/new_shader/basicShader_light");
+	Shader shader2("../media/new_shader/basicShader_tex");
 	
 	//3. Texture
 	Texture texture1("../media/res/bricks.jpg");
@@ -60,7 +60,7 @@ void QuadCore::Graphics_Simulator::Run()
 		float cosCounter = cosf(counter);	// cos counter
 
 		display.UpdateWindowSize();	// 화면 갱신
-		camera.Update(glm::vec3(0, 0, 5), 70.0f, display.GetWindowAspec(), 0.01F, 1000.0f);
+		camera.Update(camera.GetPos(), 70.0f, display.GetWindowAspec(), 0.01F, 1000.0f);
 				
 		display.Clear(0.1f, 0.1f, 0.1f, 1.0f);	// 배경 초기화
 		//display.Clear(1.0f, 1.0f, 1.0f, 1.0f);	// 배경 초기화
@@ -73,24 +73,24 @@ void QuadCore::Graphics_Simulator::Run()
 
 
 
-		//shader1.Bind();		
-		//texture1.Bind(1);
-		////Texture::Reset();
+		shader1.Bind();		
+		texture1.Bind(1);
+		//Texture::Reset();
 
-		//transform1.SetPos(glm::vec3(0, 0, 0));
-		//transform1.SetPos(glm::vec3(1.1, 1.1, 0));
-		//transform1.GetRot().y = counter * 0.5f;
-		//transform1.GetRot().x = counter * 0.3f;
-		//shader1.Update(transform1, camera);		
-		//mesh1.Draw();
+		transform1.SetPos(glm::vec3(0, 0, 0));
+		transform1.SetPos(glm::vec3(1.1, 1.1, 0));
+		transform1.GetRot().y = counter * 0.5f;
+		transform1.GetRot().x = counter * 0.3f;
+		shader1.Update(transform1, camera);		
+		mesh1.Draw();
 
 
-		//transform2.SetPos(glm::vec3(-1.1, 0, 0));
+		transform2.SetPos(glm::vec3(-1.1, 0, 0));
 
-		//transform2.GetRot().y = counter * 0.5f;
-		//transform2.GetRot().x = counter * 0.3f;
-		//shader1.Update(transform2, camera);
-		//mesh1.Draw();
+		transform2.GetRot().y = counter * 0.5f;
+		transform2.GetRot().x = counter * 0.3f;
+		shader1.Update(transform2, camera);
+		mesh1.Draw();
 
 		/*
 		transform2.SetPos(glm::vec3(-1.1, 0, 0));

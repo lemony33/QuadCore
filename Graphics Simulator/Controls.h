@@ -47,7 +47,7 @@ private:
 	static QuadCore::Transform* transform;
 	bool isEnteredWindow;
 	int tr_x, tr_y;
-	float CAMERA_MOVE_UNIT = 0.035f;
+	float CAMERA_MOVE_UNIT = 0.5f;
 
 public:
 	virtual void onKey(int key, int action)
@@ -132,6 +132,24 @@ public:
 		case GLFW_KEY_8:
 			break;
 		case GLFW_KEY_9:
+			break;
+
+			// z - rotate
+		case GLFW_KEY_Q:
+			break;
+		case GLFW_KEY_E:
+			break;
+
+			// x - rotate
+		case GLFW_KEY_W:
+			break;
+		case GLFW_KEY_S:
+			break;
+
+			// y - rotate
+		case GLFW_KEY_A:
+			break;
+		case GLFW_KEY_D:
 			break;
 
 		case GLFW_KEY_ESCAPE:
@@ -233,6 +251,27 @@ public:
 				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE))
 			{
 				printf("Move : [ %d , %d ]\n", (int)x, (int)y);
+
+				if (x > tr_x)
+				{
+					tr_x = x;
+					camera->SetViewProjection(glm::vec3(-CAMERA_MOVE_UNIT, 0.0f, 0.0f));
+				}
+				else if (x < tr_x)
+				{
+					tr_x = x;
+					camera->SetViewProjection(glm::vec3(CAMERA_MOVE_UNIT, 0.0f, 0.0f));
+				}
+				if (y > tr_y)
+				{
+					tr_y = y;
+					camera->SetViewProjection(glm::vec3(0.0f, CAMERA_MOVE_UNIT, 0.0f));
+				}
+				else if (y < tr_y)
+				{
+					tr_y = y;
+					camera->SetViewProjection(glm::vec3(0.0f, -CAMERA_MOVE_UNIT, 0.0f));
+				}
 			}
 			// Right Button Down & Move
 			else if ((glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
@@ -287,12 +326,14 @@ public:
 			if (wheelValue > 0)
 			{
 				printf("MOUSE SCROLL  UP\n");
+				camera->MovePosition(-3.0f);
 			}
 
 			// Wheel Down
 			if (wheelValue < 0)
 			{
 				printf("MOUSE SCROLL DOWN\n");
+				camera->MovePosition(+3.0f);
 			}
 		}
 	}

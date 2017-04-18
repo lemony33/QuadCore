@@ -33,6 +33,23 @@ public:
 	{
 		return m_perspective * glm::lookAt(m_position, m_position + m_forward, m_up);
 	}
+	
+	inline glm::mat4 GetViewMatrix() const
+	{
+		//glm::translate(x, y, z);
+		return glm::translate(m_position);
+	}
+
+	inline glm::mat4 GetProjectionMatrix() const
+	{
+		//glm::perspective(fov,paspect, zNear, zFar)
+		return m_perspective;
+	}
+
+	inline glm::vec3 GetPos()
+	{
+		return m_position;
+	}
 
 protected:
 private:
@@ -52,6 +69,11 @@ public:
 		m_position += position;
 		//m_forward = forward;
 		//m_up = up;
+	}
+
+	void MovePosition(float depth)
+	{		
+		m_position.z += depth;
 	}
 };
 

@@ -31,6 +31,9 @@ private:
 	enum
 	{
 		TRANSFORM_U,
+		MODEL_U,
+		VIEW_U,
+		PROJECTION_U,
 
 		NUM_UNIFORMS
 	};
