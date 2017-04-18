@@ -3,7 +3,6 @@
 in vec3 position;
 in vec2 texCoord;
 in vec3 normal;
-
 out vec2 texCoord0;
 out vec3 normal0;
 

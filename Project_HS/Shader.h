@@ -14,7 +14,7 @@ public:
 	virtual ~Shader();
 
 	// Map Line Color
-	const void SetLineColor(glm::vec4 color);
+	const void SetLineColor(float r = 0.0f, float g = 0.0f, float b = 0.0f, float a = 1.0f);
 
 private:
 	static const unsigned int NUM_SHADERS = 2;

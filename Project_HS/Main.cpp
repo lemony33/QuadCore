@@ -10,59 +10,42 @@
 #include "Camera.h"
 #include "Controls.h"
 
-#define LINE_NUM 100
+#define LINE_VERTICAL 500
+#define LINE_HORIZONTAL 500
 
 int main(int argc, char* argv[])
 {
 	QuadCore::Display display(WIDTH, HEIGHT, "Hello World!");
 
-	//unsigned int indices[] =
-	//{
-	//	5, 7, 6, 4
-	//};
-
-	//Vertex vertices[] =
-	//{
-	//	Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f,0.0f)),	// Vertices[0]
-	//	Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0f,0.0f)),		// Vertices[1]
-	//	Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0f,0.0f)),		// Vertices[2]
-	//	Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(0.0f,0.0f)),		// Vertices[3]
-	//	Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(0.0f,0.0f)),		// Vertices[4]
-	//	Vertex(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(0.0f,1.0f)),		// Vertices[5]
-	//	Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.5f,1.0f)),		// Vertices[6]
-	//	Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0f,1.0f)),		// Vertices[7]
-
-	//	Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0f,1.0f)),		// Vertices[8]
-	//};
-
-	//
 	// Map Line
-	const float width = 100.0f;
-	int index = 0;
-	unsigned int indices[LINE_NUM];
-	Vertex vertices[100];
-	for (index = 0; index < LINE_NUM; index++)
+	unsigned int indices[LINE_VERTICAL + LINE_HORIZONTAL];
+	Vertex vertices[LINE_VERTICAL + LINE_HORIZONTAL];
+	for (int index = 0; index < LINE_VERTICAL; index++)
 	{
-		vertices[index] = { Vertex(glm::vec3((-LINE_NUM + (index*1.0f)), 0.0f, glm::pow(-1, index) * (LINE_NUM / 2.0f))) };
+		// Vertical
+		vertices[index] =
+		{ Vertex(glm::vec3((-(LINE_VERTICAL / 2) + (index*1.0f)), 0.0f, (glm::pow(-1, index) * (LINE_VERTICAL / 2.0f)))) };
 		indices[index] = index;
-	}
-		
-	// Map Line
-	//
 
-#define MAP
-#ifdef MAP 
-	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
-	Shader shader(".\\res\\MapShader");
-#endif 
-#ifndef MAP
-	Mesh mesh("..\\media\\shape\\CubeHollow.obj");
-	Shader shader(".\\res\\objectShader");
-#endif
+		// Horizontal
+		vertices[index + LINE_HORIZONTAL] =
+		{ Vertex(glm::vec3((glm::pow(-1, index) * (LINE_HORIZONTAL / 2.0f)), 0.0f, (-(LINE_HORIZONTAL / 2) + (index*1.0f)))) };
+		indices[index + LINE_HORIZONTAL] = index + LINE_HORIZONTAL;
+	}
+
+	// Map
+	Mesh mesh_map(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
+	Shader shader_map(".\\res\\MapShader");
+
+	// Object
+	Mesh mesh_object("..\\media\\shape\\CubeHollow.obj");
+	Shader shader_object(".\\res\\objectShader");
 
 	Texture texture(".\\res\\bricks.jpg");
 	Camera camera(glm::vec3(0.0f, 0.0f, 5.0f), 70.0f, (float)WIDTH / (float)HEIGHT, 0.001f, 1000.0f);
 	Transform transform;
+
+	// Controller
 	Controls controls(display.GetWindow());
 	Controls controller(controls, camera, transform);
 
@@ -70,21 +53,19 @@ int main(int argc, char* argv[])
 	{
 		display.Clear(1.0f, 1.0f, 1.0f, 1.0f);
 
-		// #1_1 Vertex Shader
-		// #1_2 Fragment Shader 
-		shader.Bind();
+		// Map
+		shader_map.Bind();
+		//texture.Bind(0);
+		shader_map.SetLineColor(0.7f, 0.7f, 0.7f, 0.7f);
+		shader_map.Update(transform, camera);
+		mesh_map.Draw(GL_LINES, 2.0f, true);
 
-		// # 2 Texture
+		// Object
+		shader_object.Bind();
 		texture.Bind(0);
-
-		// # 3 Map Line Color
-		shader.SetLineColor(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
-
-		// # 4 Transform
-		shader.Update(transform, camera);
-
-		// # 5 Draw
-		mesh.Draw(GL_LINES, 0.5f);
+		//shader_object.SetLineColor(0.0f, 0.5f, 0.0f, 1.0f);
+		shader_object.Update(transform, camera);
+		mesh_object.Draw();
 
 		display.Update();
 	}

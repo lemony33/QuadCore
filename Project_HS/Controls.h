@@ -44,7 +44,7 @@ private:
 	static Transform* transform;
 	bool isEnteredWindow;
 	int tr_x, tr_y;
-	const float CAMERA_MOVE_UNIT = 0.05f;
+	const float CAMERA_MOVE_UNIT = 0.2f;
 
 public:
 	virtual void onKey(int key, int action)

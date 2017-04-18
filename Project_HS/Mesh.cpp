@@ -73,31 +73,31 @@ void Mesh::InitMesh(const IndexedModel& model)
 /*****************************************************************************************************************************/
 // DRAW
 /*****************************************************************************************************************************/
-void Mesh::Draw(int mode, float thickness)
+void Mesh::Draw(int mode, float thickness, bool polygon)
 {
 	glBindVertexArray(m_vertexArrayObject);
 
 	glLineWidth(thickness);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if (polygon)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	// # 라인 부드럽게
+	// # 1_라인 부드럽게
 	//glEnable(GL_LINE_SMOOTH);
 	//glEnable(GL_POLYGON_SMOOTH);
 	//glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	//glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
 
+	// # 2_라인 부드럽게
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glEnable(GL_LINE_SMOOTH);
-	glEnable(GL_POLYGON_SMOOTH);
+	glEnable(GL_LINE_SMOOTH);
+	//glEnable(GL_POLYGON_SMOOTH);
 
 	// # 점선
 	//glEnable(GL_LINE_STIPPLE);
 	//glLineStipple(4, 0xAAAA);
 
-	// # 드로우
 	glDrawElements(mode, m_drawCount, GL_UNSIGNED_INT, 0);
-	
 	glBindVertexArray(0);
 }
 

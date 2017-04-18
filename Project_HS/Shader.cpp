@@ -56,14 +56,14 @@ void Shader::Update(const Transform& transform, const Camera& camera)
 	glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &model[0][0]);
 	
 	// Map Line Color
-	GLfloat sender[4];
-	memcpy(&sender, &m_lineColor, sizeof(sender));
+	GLfloat sender[4] = { 0 };
+	memcpy(&sender, &m_lineColor, sizeof(m_lineColor));
 	glUniform4fv(100, 1, sender);
 }
 
-const void Shader::SetLineColor(glm::vec4 color)
+const void Shader::SetLineColor(float r, float g, float b, float a)
 {
-	m_lineColor = color;
+	m_lineColor = glm::vec4(r, g, b, a);
 }
 
 /*****************************************************************************************************************************/
@@ -88,7 +88,7 @@ static GLuint CreateShader(const std::string& text, GLenum shaderType)
 	GLint shaderSourceStringLengths[1];
 
 	shaderSourceStrings[0] = text.c_str();
-	shaderSourceStringLengths[0] = text.length();
+	shaderSourceStringLengths[0] = (GLint)text.length();
 
 	glShaderSource(shader, 1, shaderSourceStrings, shaderSourceStringLengths);
 	glCompileShader(shader);

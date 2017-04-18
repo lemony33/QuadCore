@@ -30,7 +30,7 @@ class Mesh
 public:
 	Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
 	Mesh(const std::string& fileName);
-	void Draw(int mode = GL_TRIANGLES, float thickness = 1);
+	void Draw(int mode = GL_TRIANGLES, float thickness = 1.0f, bool polygon = false);
 	virtual ~Mesh();
 
 private:
