@@ -73,19 +73,31 @@ void Mesh::InitMesh(const IndexedModel& model)
 /*****************************************************************************************************************************/
 // DRAW
 /*****************************************************************************************************************************/
-void Mesh::Draw(int mode)
+void Mesh::Draw(int mode, float thickness)
 {
 	glBindVertexArray(m_vertexArrayObject);
 
-	//glDrawArrays(GL_QUADS, 0, m_drawCount);
-	//glDrawArrays(GL_QUAD_STRIP, 0, m_drawCount);
-	//glDrawArrays(GL_LINES, 0, m_drawCount);
-	//glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
-	
-	glDrawElements(mode, m_drawCount, GL_UNSIGNED_INT, 0);
-	glEnable(GL_LINE_STIPPLE);
-	glLineStipple(4, 0xAAAA);
+	glLineWidth(thickness);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	// # 라인 부드럽게
+	//glEnable(GL_LINE_SMOOTH);
+	//glEnable(GL_POLYGON_SMOOTH);
+	//glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+	//glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_LINE_SMOOTH);
+	glEnable(GL_POLYGON_SMOOTH);
+
+	// # 점선
+	//glEnable(GL_LINE_STIPPLE);
+	//glLineStipple(4, 0xAAAA);
+
+	// # 드로우
+	glDrawElements(mode, m_drawCount, GL_UNSIGNED_INT, 0);
+	
 	glBindVertexArray(0);
 }
 

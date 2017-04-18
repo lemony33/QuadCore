@@ -54,6 +54,16 @@ void Shader::Update(const Transform& transform, const Camera& camera)
 {
 	glm::mat4 model = camera.GetViewProjection() * transform.GetMode();
 	glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &model[0][0]);
+	
+	// Map Line Color
+	GLfloat sender[4];
+	memcpy(&sender, &m_lineColor, sizeof(sender));
+	glUniform4fv(100, 1, sender);
+}
+
+const void Shader::SetLineColor(glm::vec4 color)
+{
+	m_lineColor = color;
 }
 
 /*****************************************************************************************************************************/

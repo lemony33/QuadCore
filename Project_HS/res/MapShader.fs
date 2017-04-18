@@ -1,13 +1,11 @@
 #version 430 core
 
-in vec2 texCoord0;
-
 out vec4 color;
-
 uniform sampler2D diffuse;
+layout (location = 100) uniform vec4 lineColor;
 
 void main()
 {
-	//color = texture2D(diffuse, texCoord0);
-	color = color;
+	//color = color;
+	color = lineColor;
 }

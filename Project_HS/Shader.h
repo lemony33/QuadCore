@@ -13,10 +13,16 @@ public:
 	void Update(const Transform& transform, const Camera& camera);
 	virtual ~Shader();
 
+	// Map Line Color
+	const void SetLineColor(glm::vec4 color);
+
 private:
 	static const unsigned int NUM_SHADERS = 2;
 	Shader(const Shader& other) {}
 	void operator=(const Shader& other) {}
+
+	// Map Line Color
+	glm::vec4 m_lineColor;
 
 	enum
 	{
