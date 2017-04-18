@@ -22,7 +22,8 @@ QuadCore::Graphics_Simulator::~Graphics_Simulator()
 void QuadCore::Graphics_Simulator::Run()
 {
 	// 1. Object
-	Mesh mesh1("../media/shape/Wedge.obj");
+	Mesh mesh1("../media/shape/Cube.obj");
+	//Mesh mesh1("../media/shape/Wedge.obj");
 	//Mesh mesh1("../media/shape/CubeHollow.obj");
 	Mesh mesh2("../media/shape/CubeHollow.obj");
 
@@ -77,7 +78,7 @@ void QuadCore::Graphics_Simulator::Run()
 
 
 		shader1.Bind();		
-		texture1.Bind(1);
+		texture1.Bind(0);
 		//Texture::Reset();
 
 		transform1.SetPos(glm::vec3(0, 0, 0));

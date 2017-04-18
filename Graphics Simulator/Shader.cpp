@@ -40,7 +40,13 @@ Shader::Shader(const std::string& fileName)
 
 	m_uniforms[LIGHT_POS_U]		= glGetUniformLocation(m_program, "lightPos");		//
 	m_uniforms[VIEW_POS_U]		= glGetUniformLocation(m_program, "viewPos");		// 
-	m_uniforms[LIGHT_COLOR_U]	= glGetUniformLocation(m_program, "lightColor");	// 
+	
+	//m_uniforms[LIGHT_COLOR_U]	= glGetUniformLocation(m_program, "lightColor");	// 
+	m_uniforms[LIGHT_AMBIENT_U] = glGetUniformLocation(m_program, "light_ambient");	// 
+	m_uniforms[LIGHT_DIFFUSE_U] = glGetUniformLocation(m_program, "light_diffuse");	// 
+	m_uniforms[LIGHT_SPECULAR_U] = glGetUniformLocation(m_program, "light_specular");	// 
+
+
 	m_uniforms[OBJECT_COLOR_U]	= glGetUniformLocation(m_program, "objectColor");	// 
 
 }
@@ -79,10 +85,17 @@ void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera
 	//glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 	glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 
-	glUniform3f(m_uniforms[LIGHT_POS_U], lightPos.x, lightPos.y, lightPos.z); 
+	glUniform3f(m_uniforms[LIGHT_POS_U], lightPos.x, lightPos.y, lightPos.z+3.0f);
+	//glUniform3f(m_uniforms[LIGHT_POS_U], lightPos.x, lightPos.y, lightPos.z); 
 	glUniform3f(m_uniforms[VIEW_POS_U],		1.0f, 1.0f, 1.0f);
-	glUniform3f(m_uniforms[LIGHT_COLOR_U], 1.0f, 0.5f, 0.31f);
+	
+	//glUniform3f(m_uniforms[LIGHT_COLOR_U], 1.0f, 0.5f, 0.31f);
+	glUniform3f(m_uniforms[LIGHT_AMBIENT_U], 1.0f, 0.0f, 0.0f);
+	glUniform3f(m_uniforms[LIGHT_DIFFUSE_U], 0.3f, 0.3f, 0.8f);
+	glUniform3f(m_uniforms[LIGHT_SPECULAR_U], 1.0f, 1.0f, 1.0f);
+
 	glUniform3f(m_uniforms[OBJECT_COLOR_U],	camera.GetPos().x, camera.GetPos().y, camera.GetPos().z);
+	//glUniform3f(m_uniforms[OBJECT_COLOR_U], 1.0f, 0.0f, 0.0f);
 }
 
 
