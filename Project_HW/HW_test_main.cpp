@@ -27,12 +27,9 @@
 #include <object.h>
 #include <sb7ktx.h>
 #include <shader.h>
-#include "shadowmappingHead.h"
 
 class ray_and_shadow : public sb7::application
 {
-public:
-	shadowmapping_app sm;
 public:
 	ray_and_shadow()
 		: prepare_program(0),
@@ -164,6 +161,38 @@ protected:
 	void                recurse(int depth);
 	void render_scene(double currentTime, bool from_light);
 };
+void ray_and_shadow::load_shaders()
+{
+	GLuint      shaders[2];
+
+	shaders[0] = sb7::shader::load("../media/shaders/raytracer/trace-prepare.vs.glsl", GL_VERTEX_SHADER);
+	shaders[1] = sb7::shader::load("../media/shaders/raytracer/trace-prepare.fs.glsl", GL_FRAGMENT_SHADER);
+
+	if (prepare_program != 0)
+		glDeleteProgram(prepare_program);
+
+	prepare_program = sb7::program::link_from_shaders(shaders, 2, true);
+
+	uniforms.ray_origin = glGetUniformLocation(prepare_program, "ray_origin");
+	uniforms.ray_lookat = glGetUniformLocation(prepare_program, "ray_lookat");
+	uniforms.aspect = glGetUniformLocation(prepare_program, "aspect");
+
+	shaders[0] = sb7::shader::load("../media/shaders/raytracer/raytracer.vs.glsl", GL_VERTEX_SHADER);
+	shaders[1] = sb7::shader::load("../media/shaders/raytracer/raytracer.fs.glsl", GL_FRAGMENT_SHADER);
+
+	if (trace_program)
+		glDeleteProgram(trace_program);
+
+	trace_program = sb7::program::link_from_shaders(shaders, 2, true);
+
+	shaders[0] = sb7::shader::load("../media/shaders/raytracer/blit.vs.glsl", GL_VERTEX_SHADER);
+	shaders[1] = sb7::shader::load("../media/shaders/raytracer/blit.fs.glsl", GL_FRAGMENT_SHADER);
+
+	if (blit_program)
+		glDeleteProgram(blit_program);
+
+	blit_program = sb7::program::link_from_shaders(shaders, 2, true);
+}
 
 void ray_and_shadow::startup()
 {
@@ -238,13 +267,10 @@ void ray_and_shadow::startup()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
-
-	sm.startup();
 }
 
 void ray_and_shadow::render(double currentTime)
 {
-	sm.render(currentTime);
 	static const GLfloat zeros[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 	static const GLfloat gray[] = { 0.1f, 0.1f, 0.1f, 0.0f };
 	static const GLfloat ones[] = { 1.0f };
@@ -623,38 +649,7 @@ void ray_and_shadow::onMouseMove(int x, int y)
 	}
 }
 
-void ray_and_shadow::load_shaders()
-{
-	GLuint      shaders[2];
 
-	shaders[0] = sb7::shader::load("../media/shaders/raytracer/trace-prepare.vs.glsl", GL_VERTEX_SHADER);
-	shaders[1] = sb7::shader::load("../media/shaders/raytracer/trace-prepare.fs.glsl", GL_FRAGMENT_SHADER);
-
-	if (prepare_program != 0)
-		glDeleteProgram(prepare_program);
-
-	prepare_program = sb7::program::link_from_shaders(shaders, 2, true);
-
-	uniforms.ray_origin = glGetUniformLocation(prepare_program, "ray_origin");
-	uniforms.ray_lookat = glGetUniformLocation(prepare_program, "ray_lookat");
-	uniforms.aspect = glGetUniformLocation(prepare_program, "aspect");
-
-	shaders[0] = sb7::shader::load("../media/shaders/raytracer/raytracer.vs.glsl", GL_VERTEX_SHADER);
-	shaders[1] = sb7::shader::load("../media/shaders/raytracer/raytracer.fs.glsl", GL_FRAGMENT_SHADER);
-
-	if (trace_program)
-		glDeleteProgram(trace_program);
-
-	trace_program = sb7::program::link_from_shaders(shaders, 2, true);
-
-	shaders[0] = sb7::shader::load("../media/shaders/raytracer/blit.vs.glsl", GL_VERTEX_SHADER);
-	shaders[1] = sb7::shader::load("../media/shaders/raytracer/blit.fs.glsl", GL_FRAGMENT_SHADER);
-
-	if (blit_program)
-		glDeleteProgram(blit_program);
-
-	blit_program = sb7::program::link_from_shaders(shaders, 2, true);
-}
 
 DECLARE_MAIN(ray_and_shadow)
 

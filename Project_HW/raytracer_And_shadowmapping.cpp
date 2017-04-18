@@ -20,7 +20,6 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 * DEALINGS IN THE SOFTWARE.
 */
-
 #include <sb7.h>
 #include <vmath.h>
 
@@ -565,7 +564,7 @@ void ray_and_shadow::render_scene(double currentTime, bool from_light)
 		glViewport(0, 0, DEPTH_TEXTURE_SIZE, DEPTH_TEXTURE_SIZE);
 		glEnable(GL_POLYGON_OFFSET_FILL);
 		glPolygonOffset(4.0f, 4.0f);
-		glUseProgram(light_program);
+		glUseProgram(prepare_program);
 		static const GLenum buffs[] = { GL_COLOR_ATTACHMENT0 };
 		glDrawBuffers(1, buffs);
 		glClearBufferfv(GL_COLOR, 0, zero);
