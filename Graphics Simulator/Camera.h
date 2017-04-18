@@ -37,7 +37,8 @@ public:
 	inline glm::mat4 GetViewMatrix() const
 	{
 		//glm::translate(x, y, z);
-		return glm::translate(m_position);
+		//printf("%f,%f,%f\n", m_position.x, m_position.y, m_position.z);
+		return glm::lookAt(m_position, m_position + m_forward, m_up);//glm::translate(m_position);
 	}
 
 	inline glm::mat4 GetProjectionMatrix() const
@@ -46,7 +47,7 @@ public:
 		return m_perspective;
 	}
 
-	inline glm::vec3 GetPos()
+	inline glm::vec3 GetPos() const
 	{
 		return m_position;
 	}

@@ -34,9 +34,15 @@ Shader::Shader(const std::string& fileName)
 	m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
 
 	//***
-	m_uniforms[MODEL_U]			= glGetUniformLocation(m_program, "model");
-	m_uniforms[VIEW_U]			= glGetUniformLocation(m_program, "view");
-	m_uniforms[PROJECTION_U]	= glGetUniformLocation(m_program, "projection");
+	m_uniforms[MODEL_U]			= glGetUniformLocation(m_program, "model");			// Model Matrix
+	m_uniforms[VIEW_U]			= glGetUniformLocation(m_program, "view");			// View Matrix
+	m_uniforms[PROJECTION_U]	= glGetUniformLocation(m_program, "projection");	// Projection Matrix
+
+	m_uniforms[LIGHT_POS_U]		= glGetUniformLocation(m_program, "lightPos");		//
+	m_uniforms[VIEW_POS_U]		= glGetUniformLocation(m_program, "viewPos");		// 
+	m_uniforms[LIGHT_COLOR_U]	= glGetUniformLocation(m_program, "lightColor");	// 
+	m_uniforms[OBJECT_COLOR_U]	= glGetUniformLocation(m_program, "objectColor");	// 
+
 }
 
 Shader::~Shader()
@@ -61,9 +67,22 @@ void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera
 
 	glUniformMatrix4fv(m_uniforms[TRANSFORM_U],		1, GL_FALSE, &model[0][0]);
 
-	glUniformMatrix4fv(m_uniforms[MODEL_U],			1, GL_FALSE, &model[0][0] );
-	glUniformMatrix4fv(m_uniforms[VIEW_U],			1, GL_FALSE, &camera.GetViewMatrix()[0][0]);
-	glUniformMatrix4fv(m_uniforms[PROJECTION_U],	1, GL_FALSE, &camera.GetProjectionMatrix()[0][0] );
+	glUniformMatrix4fv(m_uniforms[MODEL_U],			1, GL_FALSE, &transform.GetModel()[0][0] );			// Model
+	glUniformMatrix4fv(m_uniforms[VIEW_U],			1, GL_FALSE, &camera.GetViewMatrix()[0][0]);		// View
+	glUniformMatrix4fv(m_uniforms[PROJECTION_U],	1, GL_FALSE, &camera.GetProjectionMatrix()[0][0] );	// Projection
+
+	//glUniformMatrix4fv(m_uniforms[LIGHT_POS_U],		1, GL_FALSE, &transform.GetModel()[0][0]);			// 
+	//glUniformMatrix4fv(m_uniforms[VIEW_POS_U],		1, GL_FALSE, &camera.GetViewMatrix()[0][0]);		// 
+	//glUniformMatrix4fv(m_uniforms[LIGHT_COLOR_U],	1, GL_FALSE, &camera.GetProjectionMatrix()[0][0]);	// 
+	//glUniformMatrix4fv(m_uniforms[OBJECT_COLOR_U],	1, GL_FALSE, &camera.GetProjectionMatrix()[0][0]);	// 
+
+	//glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+	glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+
+	glUniform3f(m_uniforms[LIGHT_POS_U], lightPos.x, lightPos.y, lightPos.z); 
+	glUniform3f(m_uniforms[VIEW_POS_U],		1.0f, 1.0f, 1.0f);
+	glUniform3f(m_uniforms[LIGHT_COLOR_U], 1.0f, 0.5f, 0.31f);
+	glUniform3f(m_uniforms[OBJECT_COLOR_U],	camera.GetPos().x, camera.GetPos().y, camera.GetPos().z);
 }
 
 

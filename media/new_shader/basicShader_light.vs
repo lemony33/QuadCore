@@ -24,6 +24,10 @@ void main()
 
 	// OUT TO FRAGMENT SHADER
 	texCoord0 = texCoord;
-	normal0 = (transform * vec4(normal, 0.0)).xyz;	//lighting
+//	normal0 = (transform * vec4(normal, 0.0)).xyz;	//lighting
+
+	FragPos = vec3(model * vec4(position, 1.0f));
+	normal0 = mat3(transpose(inverse(model))) * normal;
+
 }
 

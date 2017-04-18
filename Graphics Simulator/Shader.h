@@ -35,6 +35,11 @@ private:
 		VIEW_U,
 		PROJECTION_U,
 
+		LIGHT_POS_U,
+		VIEW_POS_U,
+		LIGHT_COLOR_U,
+		OBJECT_COLOR_U,
+
 		NUM_UNIFORMS
 	};
 

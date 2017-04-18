@@ -23,6 +23,7 @@ void QuadCore::Graphics_Simulator::Run()
 {
 	// 1. Object
 	Mesh mesh1("../media/shape/Wedge.obj");
+	//Mesh mesh1("../media/shape/CubeHollow.obj");
 	Mesh mesh2("../media/shape/CubeHollow.obj");
 
 	// 2. Shader
@@ -63,7 +64,9 @@ void QuadCore::Graphics_Simulator::Run()
 		camera.Update(camera.GetPos(), 70.0f, display.GetWindowAspec(), 0.01F, 1000.0f);
 				
 		display.Clear(0.1f, 0.1f, 0.1f, 1.0f);	// 배경 초기화
-		//display.Clear(1.0f, 1.0f, 1.0f, 1.0f);	// 배경 초기화
+		display.Clear(1.0f, 1.0f, 1.0f, 1.0f);	// 배경 초기화
+
+		display.Clear(0.3f, 0.3f, 0.3f, 1.0f);	// 배경 초기화
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		// Draw here
