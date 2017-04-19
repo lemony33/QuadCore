@@ -31,20 +31,20 @@ void QuadCore::Graphics_Simulator::Run()
 	// 2. Shader
 	Shader shader1("../media/new_shader/basicShader_light");
 	Shader shader2("../media/new_shader/basicShader_tex");
-
+	
 	//3. Texture
 	Texture texture1("../media/res/bricks.jpg");
 	Texture texture2("../media/skyblue.jpg");
 	//texture2.Reset();
-
+	
 
 	//4. Transform
 	Transform worldCoordinate;
 	Transform transform1;
 	Transform transform2;
 	Transform transform3;
-
-
+	
+	
 	//5. Camera
 	float aspec = (float)width_window / (float)height_window;
 	Camera camera(glm::vec3(0, 0, 10), 70.0f, aspec, 0.01F, 1000.0f);
@@ -57,55 +57,77 @@ void QuadCore::Graphics_Simulator::Run()
 	DrawMap dMap(camera);
 	dMap.SetProperty(100, 1.0f, glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
 
+
+
+	m_coordinates.Init(&worldCoordinate, &camera);
+
+	Coordinates coor_model_1;
+	Coordinates coor_model_2;
+	Coordinates coor_model_3;
+	coor_model_1.Init(&transform1, &camera);
+	coor_model_2.Init(&transform2, &camera);
+	coor_model_3.Init(&transform3, &camera);
+
+
+
 	float counter = 0.0f;
 
 	while (!display.IsClosed())
-	{
+	{	
 		float sinCounter = sinf(counter);	// sin counter
 		float cosCounter = cosf(counter);	// cos counter
 
 		display.UpdateWindowSize();	// 화면 갱신
 		camera.Update(camera.GetPos(), 70.0f, display.GetWindowAspec(), 0.01F, 1000.0f);
-
+				
 		display.Clear(0.1f, 0.1f, 0.1f, 1.0f);	// 배경 초기화
 		display.Clear(1.0f, 1.0f, 1.0f, 1.0f);	// 배경 초기화
 
-												//display.Clear(0.3f, 0.3f, 0.3f, 1.0f);	// 배경 초기화
+		//display.Clear(0.3f, 0.3f, 0.3f, 1.0f);	// 배경 초기화
 
-												//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-												// Draw here
-												//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-		Vertex vertices[] = {
-			Vertex(glm::vec3(-0.5, -0.5,  0.0),	glm::vec2(0.0,0.0) , glm::vec3(0,0,1)),
-			Vertex(glm::vec3(0.0,  0.5,  0.0),	glm::vec2(0.0,1.0) , glm::vec3(0,0,1)),
-			Vertex(glm::vec3(0.5, -0.5,  0.0),	glm::vec2(1.0,1.0) , glm::vec3(0,0,1)),
-			Vertex(glm::vec3(0.0, -1.5,  0.0),	glm::vec2(0.0,1.0) , glm::vec3(0,0,1)),
-		};
-		unsigned int indices[] = {
-			2,1,0,
-			3,2,0,
-			0,1,2,
-		};
-		Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+		// Draw here
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-		//Shader s("../media/MapShader");
-		//s.SetLineColor(glm::vec4(1.0, 0, 0, 1));
-		//glLineWidth(3);
+	/*	float coordinate_length = 3.0f;
 
-		//s.Bind();
-		//s.Update(worldCoordinate, camera);
-		mesh.DrawLines();
+		Vertex vertex_0 = Vertex(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(), glm::vec3());
+		Vertex vertex_x = Vertex(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(), glm::vec3());
+		Vertex vertex_y = Vertex(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(), glm::vec3());
+		Vertex vertex_z = Vertex(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(), glm::vec3());
+
+		vertex_x.GetPos()->x *= coordinate_length;
+		vertex_y.GetPos()->y *= coordinate_length;
+		vertex_z.GetPos()->z *= coordinate_length;
+
+		unsigned int indices[] = { 0, 1, };
+		Vertex vertices_x[] = { vertex_0, vertex_x };
+		Vertex vertices_y[] = { vertex_0, vertex_y };
+		Vertex vertices_z[] = { vertex_0, vertex_z };
+
+		Mesh coordinate_x(vertices_x, sizeof(vertices_x) / sizeof(vertices_x[0]), indices, sizeof(indices) / sizeof(indices[0]));
+		Mesh coordinate_y(vertices_y, sizeof(vertices_y) / sizeof(vertices_x[0]), indices, sizeof(indices) / sizeof(indices[0]));
+		Mesh coordinate_z(vertices_z, sizeof(vertices_z) / sizeof(vertices_x[0]), indices, sizeof(indices) / sizeof(indices[0]));
+
+		Shader s("../media/MapShader");		
+		s.Bind();
+		s.Update(worldCoordinate, camera);
+
+		glLineWidth(3);
+		s.SetLineColor(glm::vec4(1.0, 0.0, 0.0, 1.0));	coordinate_x.DrawLines();
+		s.SetLineColor(glm::vec4(0.0, 1.0, 0.0, 1.0));	coordinate_y.DrawLines();
+		s.SetLineColor(glm::vec4(0.0, 0.0, 1.0, 1.0));	coordinate_z.DrawLines();*/
+
+		m_coordinates.Draw();
+		
+
+		//worldCoordinate.GetPos().z = -2;
+		//worldCoordinate.GetRot().x += 0.01;
+		//shader1.Update(worldCoordinate, camera);
+		//mesh.Draw();
 
 
-
-
-		worldCoordinate.GetPos().z = -2;
-		worldCoordinate.GetRot().x += 0.01;
-		shader1.Update(worldCoordinate, camera);
-		mesh.Draw();
-
-
-
+		
 
 
 
@@ -118,7 +140,7 @@ void QuadCore::Graphics_Simulator::Run()
 
 
 
-		shader1.Bind();
+		shader1.Bind();		
 		texture1.Bind(0);
 		//Texture::Reset();
 
@@ -128,13 +150,17 @@ void QuadCore::Graphics_Simulator::Run()
 		transform1.SetPos(glm::vec3(1.1, 1.1, 0));
 		transform1.GetRot().y = counter * 0.5f;
 		transform1.GetRot().x = counter * 0.3f;
-
+		
 		transform1.GetPos().y += delim * sinf(counter);
 		transform1.GetPos().x += delim * cosf(counter);
 
-		shader1.Update(transform1, camera);
+		shader1.Update(transform1, camera);		
 		mesh1.Draw();
+		coor_model_1.Draw();
 
+		///
+		shader1.Bind();
+		texture1.Bind(0);
 
 		transform2.SetPos(glm::vec3(-1.1, 0, 0));
 
@@ -146,12 +172,16 @@ void QuadCore::Graphics_Simulator::Run()
 
 		shader1.Update(transform2, camera);
 		mesh1.Draw();
+		coor_model_2.Draw();
 
+		///
+		shader1.Bind();
+		texture1.Bind(0);
 
 		float r = 3.0f;
-		transform3.SetPos(glm::vec3(-r / 2.0f, 0, 0));
+		transform3.SetPos(glm::vec3(-r/2.0f, 0, 0));
 		transform3.GetPos().x += sinf(counter) * r;
-		transform3.GetPos().y += cosf(counter) * r;
+		transform3.GetPos().y += cosf(counter) * r;	
 
 		transform3.GetRot().y = counter * 0.9f;
 		transform3.GetRot().x = counter * 0.7f;
@@ -159,6 +189,7 @@ void QuadCore::Graphics_Simulator::Run()
 		//transform3.GetPos().z += tanf(counter) * r;
 		shader1.Update(transform3, camera);
 		mesh3.Draw();
+		coor_model_3.Draw();
 
 		/*
 		transform2.SetPos(glm::vec3(-1.1, 0, 0));
@@ -198,8 +229,8 @@ void QuadCore::Graphics_Simulator::Run()
 		*/
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
+		
 		display.Update();	// 화면갱신
-		counter += 0.005f;	// 카운터 증가
+		counter += 0.05f;	// 카운터 증가
 	}
 }
