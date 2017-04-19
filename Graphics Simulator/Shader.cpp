@@ -96,8 +96,18 @@ void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera
 
 	glUniform3f(m_uniforms[OBJECT_COLOR_U],	camera.GetPos().x, camera.GetPos().y, camera.GetPos().z);
 	//glUniform3f(m_uniforms[OBJECT_COLOR_U], 1.0f, 0.0f, 0.0f);
+
+	// Draw Map 새로 추가된 부분
+	GLfloat sender[4] = { 0 };
+	memcpy(&sender, &m_lineColor, sizeof(m_lineColor));
+	glUniform4fv(100, 1, sender);
 }
 
+// Draw Map 새로 추가된 부분
+const void Shader::SetLineColor(glm::vec4 color)
+{
+	m_lineColor = color;
+}
 
 static GLuint CreateShader(const std::string& text, GLenum shaderType)
 {

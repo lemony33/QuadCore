@@ -18,7 +18,7 @@ public:
 
 	void Bind();
 	void Update(const Transform& transform, const QuadCore::Camera& camera); // transform, camera
-
+	const void SetLineColor(glm::vec4 color);
 	virtual ~Shader();
 
 protected:
@@ -26,6 +26,7 @@ private:
 	static const unsigned int NUM_SHADERS = 2;
 	Shader(const Shader& other) {}
 	void operator=(const Shader& other) {}
+	glm::vec4 m_lineColor;
 
 	//transform
 	enum
