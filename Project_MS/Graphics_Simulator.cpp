@@ -57,6 +57,19 @@ void QuadCore::Graphics_Simulator::Run()
 	DrawMap dMap(camera);
 	dMap.SetProperty(100, 1.0f, glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
 
+
+
+	m_coordinates.Init(&worldCoordinate, &camera);
+
+	Coordinates coor_model_1;
+	Coordinates coor_model_2;
+	Coordinates coor_model_3;
+	coor_model_1.Init(&transform1, &camera);
+	coor_model_2.Init(&transform2, &camera);
+	coor_model_3.Init(&transform3, &camera);
+
+
+
 	float counter = 0.0f;
 
 	while (!display.IsClosed())
@@ -75,34 +88,43 @@ void QuadCore::Graphics_Simulator::Run()
 		//�ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ�
 		// Draw here
 		//�ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ�
-		Vertex vertices[] = {
-			Vertex(glm::vec3(-0.5, -0.5,  0.0),	glm::vec2(0.0,0.0) , glm::vec3(0,0,1)),
-			Vertex(glm::vec3(0.0,  0.5,  0.0),	glm::vec2(0.0,1.0) , glm::vec3(0,0,1)),
-			Vertex(glm::vec3(0.5, -0.5,  0.0),	glm::vec2(1.0,1.0) , glm::vec3(0,0,1)),
-			Vertex(glm::vec3(0.0, -1.5,  0.0),	glm::vec2(0.0,1.0) , glm::vec3(0,0,1)),
-		};
-		unsigned int indices[] = {
-			2,1,0,
-			3,2,0,
-			0,1,2,
-		};
-		Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
 
-		//Shader s("../media/MapShader");
-		//s.SetLineColor(glm::vec4(1.0, 0, 0, 1));
-		//glLineWidth(3);
+	/*	float coordinate_length = 3.0f;
 
-		//s.Bind();
-		//s.Update(worldCoordinate, camera);
-		mesh.DrawLines();
+		Vertex vertex_0 = Vertex(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(), glm::vec3());
+		Vertex vertex_x = Vertex(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(), glm::vec3());
+		Vertex vertex_y = Vertex(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(), glm::vec3());
+		Vertex vertex_z = Vertex(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(), glm::vec3());
 
+		vertex_x.GetPos()->x *= coordinate_length;
+		vertex_y.GetPos()->y *= coordinate_length;
+		vertex_z.GetPos()->z *= coordinate_length;
 
+		unsigned int indices[] = { 0, 1, };
+		Vertex vertices_x[] = { vertex_0, vertex_x };
+		Vertex vertices_y[] = { vertex_0, vertex_y };
+		Vertex vertices_z[] = { vertex_0, vertex_z };
 
+		Mesh coordinate_x(vertices_x, sizeof(vertices_x) / sizeof(vertices_x[0]), indices, sizeof(indices) / sizeof(indices[0]));
+		Mesh coordinate_y(vertices_y, sizeof(vertices_y) / sizeof(vertices_x[0]), indices, sizeof(indices) / sizeof(indices[0]));
+		Mesh coordinate_z(vertices_z, sizeof(vertices_z) / sizeof(vertices_x[0]), indices, sizeof(indices) / sizeof(indices[0]));
 
-		worldCoordinate.GetPos().z = -2;
-		worldCoordinate.GetRot().x += 0.01;
-		shader1.Update(worldCoordinate, camera);
-		mesh.Draw();
+		Shader s("../media/MapShader");		
+		s.Bind();
+		s.Update(worldCoordinate, camera);
+
+		glLineWidth(3);
+		s.SetLineColor(glm::vec4(1.0, 0.0, 0.0, 1.0));	coordinate_x.DrawLines();
+		s.SetLineColor(glm::vec4(0.0, 1.0, 0.0, 1.0));	coordinate_y.DrawLines();
+		s.SetLineColor(glm::vec4(0.0, 0.0, 1.0, 1.0));	coordinate_z.DrawLines();*/
+
+		m_coordinates.Draw();
+		
+
+		//worldCoordinate.GetPos().z = -2;
+		//worldCoordinate.GetRot().x += 0.01;
+		//shader1.Update(worldCoordinate, camera);
+		//mesh.Draw();
 
 
 		
@@ -134,7 +156,11 @@ void QuadCore::Graphics_Simulator::Run()
 
 		shader1.Update(transform1, camera);		
 		mesh1.Draw();
+		coor_model_1.Draw();
 
+		///
+		shader1.Bind();
+		texture1.Bind(0);
 
 		transform2.SetPos(glm::vec3(-1.1, 0, 0));
 
@@ -146,7 +172,11 @@ void QuadCore::Graphics_Simulator::Run()
 
 		shader1.Update(transform2, camera);
 		mesh1.Draw();
+		coor_model_2.Draw();
 
+		///
+		shader1.Bind();
+		texture1.Bind(0);
 
 		float r = 3.0f;
 		transform3.SetPos(glm::vec3(-r/2.0f, 0, 0));
@@ -159,6 +189,7 @@ void QuadCore::Graphics_Simulator::Run()
 		//transform3.GetPos().z += tanf(counter) * r;
 		shader1.Update(transform3, camera);
 		mesh3.Draw();
+		coor_model_3.Draw();
 
 		/*
 		transform2.SetPos(glm::vec3(-1.1, 0, 0));

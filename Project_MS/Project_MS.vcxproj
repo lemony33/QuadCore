@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Controls.h" />
+    <ClInclude Include="Coordinates.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="DrawMap.h" />
     <ClInclude Include="Graphics_Simulator.h" />

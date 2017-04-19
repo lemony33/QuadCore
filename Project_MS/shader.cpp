@@ -106,6 +106,9 @@ void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera
 // Draw Map 새로 추가된 부분
 const void Shader::SetLineColor(glm::vec4 color)
 {
+	GLfloat sender[4] = { 0 };
+	memcpy(&sender, &color, sizeof(color));
+	glUniform4fv(100, 1, sender);
 	m_lineColor = color;
 }
 
