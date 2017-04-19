@@ -7,11 +7,14 @@ using QuadCore::Texture;
 
 Texture::Texture(const std::string& fileName)
 {
+
+
 	int width, height, numComponents;
 	unsigned char* imageData = stbi_load((fileName).c_str(), &width, &height, &numComponents, 4);
 
 	if (imageData == NULL)
 		std::cerr << "Texture loading failed for texture: " << fileName << std::endl;
+
 
 	glGenTextures(1, &m_texture);
 	glBindTexture(GL_TEXTURE_2D, m_texture);
@@ -24,6 +27,7 @@ Texture::Texture(const std::string& fileName)
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 	//glTexImage2D();
+
 
 	stbi_image_free(imageData);
 }
