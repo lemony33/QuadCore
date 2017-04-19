@@ -278,7 +278,9 @@ public:
 				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE))
 			{
-
+				camera->SetAngle(tr_x - x, -(tr_y - y));
+				tr_x = x;
+				tr_y = y;
 			}
 
 			// Wheel Button Down & Move
@@ -314,7 +316,8 @@ public:
 				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
 				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE))
 			{
-
+				tr_x = x;
+				tr_y = y;
 			}
 		}
 	}

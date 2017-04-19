@@ -25,7 +25,7 @@ public:
 	{
 		m_perspective = glm::perspective(fov, aspect, zNear, zFar);
 		m_position = pos;
-		m_forward = glm::vec3(0, 0, -1);
+		//m_forward = glm::vec3(0, 0, -1);
 		m_up = glm::vec3(0, 1, 0);
 	}
 
@@ -59,6 +59,9 @@ private:
 	glm::vec3 m_forward;
 	glm::vec3 m_up;
 
+	float ForwardAngle = 0;
+	float UpAngle = 0;
+	float sensitivity = 0.005;
 
 	// Controls.h 에서 사용
 public:
@@ -74,7 +77,21 @@ public:
 
 	void MovePosition(float depth)
 	{		
-		m_position.z += depth;
+		//m_position.z += depth;
+		if (depth > 0)
+			m_position -= m_forward;
+		else if (depth < 0)
+			m_position += m_forward;
+	}
+
+	void SetAngle(float fangle, float uangle)
+	{
+		ForwardAngle += fangle * sensitivity;
+		UpAngle += uangle * sensitivity;
+		m_forward = glm::vec3(-1.0f * sinf(ForwardAngle) * cosf(UpAngle),
+							-1.0f * sinf(UpAngle),
+							-1.0f * cosf(ForwardAngle) * cosf(UpAngle));
+		printf("Forward ( %.2f, %.2f, %.2f)\n", m_forward.x, m_forward.y, m_forward.z);
 	}
 };
 

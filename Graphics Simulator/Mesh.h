@@ -13,6 +13,7 @@ namespace QuadCore
 class Vertex
 {
 public:
+	Vertex() {} // Draw Map 새로 추가된 부분
 	Vertex(const glm::vec3& pos, const glm::vec2& texCoord, const glm::vec3& normal = glm::vec3(0,0,0))
 	{
 		this->pos = pos;
@@ -38,6 +39,7 @@ public:
 	Mesh(const std::string& fileName);
 
 	void Draw();
+	void DrawLines();
 
 	virtual ~Mesh();
 

@@ -3,9 +3,8 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
-
 #include "Controls.h"
-
+#include "DrawMap.h"
 
 
 QuadCore::Graphics_Simulator::Graphics_Simulator()
@@ -52,7 +51,9 @@ void QuadCore::Graphics_Simulator::Run()
 	Controls controls(display.GetWindow());
 	Controls controller(controls, camera, worldCoordinate);
 
-	
+	// Draw Map 새로 추가된 부분
+	DrawMap dMap(camera);
+	dMap.SetProperty(100, 1.0f, glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
 
 	float counter = 0.0f;
 
@@ -67,11 +68,15 @@ void QuadCore::Graphics_Simulator::Run()
 		display.Clear(0.1f, 0.1f, 0.1f, 1.0f);	// 배경 초기화
 		display.Clear(1.0f, 1.0f, 1.0f, 1.0f);	// 배경 초기화
 
-		display.Clear(0.3f, 0.3f, 0.3f, 1.0f);	// 배경 초기화
+		//display.Clear(0.3f, 0.3f, 0.3f, 1.0f);	// 배경 초기화
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		// Draw here
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+		// Draw Map 새로 추가된 부분
+		dMap.DrawPlane();
+
 
 		m_shape_manager;
 
@@ -95,7 +100,7 @@ void QuadCore::Graphics_Simulator::Run()
 		transform2.GetRot().x = counter * 0.3f;
 		shader1.Update(transform2, camera);
 		mesh1.Draw();
-
+		
 		/*
 		transform2.SetPos(glm::vec3(-1.1, 0, 0));
 		shader1.Update(transform2, camera);
