@@ -37,8 +37,6 @@ public:
 	inline void SetRot(const glm::vec3& rot) { m_rot = rot; }
 	inline void SetScale(const glm::vec3& scale) { m_scale = scale; }
 
-	inline glm::vec3 GetPositon() const { return m_pos; }
-
 protected:
 private:
 	glm::vec3 m_pos;

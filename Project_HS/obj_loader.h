@@ -1,9 +1,12 @@
 #ifndef OBJ_LOADER_H_INCLUDED
 #define OBJ_LOADER_H_INCLUDED
 
-#include <glm-0.9.8.4\glm\glm.hpp>
+#include <glm-0.9.8.4/glm/glm.hpp>
 #include <vector>
 #include <string>
+
+namespace QuadCore
+{
 
 struct OBJIndex
 {
@@ -46,5 +49,8 @@ private:
     glm::vec3 ParseOBJVec3(const std::string& line);
     OBJIndex ParseOBJIndex(const std::string& token, bool* hasUVs, bool* hasNormals);
 };
+
+
+}
 
 #endif // OBJ_LOADER_H_INCLUDED

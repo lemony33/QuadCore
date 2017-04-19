@@ -28,28 +28,6 @@ Texture::Texture(const std::string& fileName)
 	stbi_image_free(imageData);
 }
 
-QuadCore::Texture::Texture(const unsigned int size)
-{
-	glGenTextures(1, &m_texture); // benny 순서 : 1
-	glBindTexture(GL_TEXTURE_2D, m_texture); // benny 순서 : 2
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // benny 순서 : 3
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); // benny 순서 : 4
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); // benny 순서 : 5
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);  // benny 순서 : 6
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16,
-		size, size, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0); // benny 순서 : 7	
-
-	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, m_texture, 0);
-
-	//glDrawBuffer(GL_NONE);
-}
-
 Texture::~Texture()
 {
 	glDeleteTextures(1, &m_texture);
@@ -57,7 +35,7 @@ Texture::~Texture()
 
 void Texture::Bind(unsigned int unit)
 {
-	assert(unit >= 0 && unit <= 31);
+	assert(unit >= 0 && unit <= 31);	// geo texture 0~31
 
 	glActiveTexture(GL_TEXTURE0 + unit);
 	glBindTexture(GL_TEXTURE_2D, m_texture);

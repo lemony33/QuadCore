@@ -1,14 +1,20 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include <glm-0.9.8.4/glm/glm.hpp>	// Math library
+#include <glm-0.9.8.4/glm/glm.hpp>
 #include <GLEW-2.0.0_x64/GL/glew.h>
 #include "obj_loader.h"
+
+namespace QuadCore
+{
+
+
 
 class Vertex
 {
 public:
-	Vertex(const glm::vec3& pos, const glm::vec2& texCoord, const glm::vec3& normal = glm::vec3(0, 0, 0))
+	Vertex() {} // Draw Map 새로 추가된 부분
+	Vertex(const glm::vec3& pos, const glm::vec2& texCoord, const glm::vec3& normal = glm::vec3(0,0,0))
 	{
 		this->pos = pos;
 		this->texCoord = texCoord;
@@ -33,6 +39,7 @@ public:
 	Mesh(const std::string& fileName);
 
 	void Draw();
+	void DrawLines();
 
 	virtual ~Mesh();
 
@@ -58,5 +65,8 @@ private:
 	GLuint m_vertexArrayBuffers[NUM_BUFFERS];
 	unsigned int m_drawCount;
 };
+
+
+}
 
 #endif

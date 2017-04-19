@@ -1,6 +1,7 @@
-#include "Display.h"
+ï»¿#include "Display.h"
 
 
+using QuadCore::Display;
 
 Display::Display(int width, int height, const std::string& title)
 {
@@ -11,7 +12,9 @@ Display::Display(int width, int height, const std::string& title)
 
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-
+	
+	//glfwSetWindowIcon (window, count, image);
+	
 	if (!window) {
 		glfwTerminate();
 		return;
@@ -38,13 +41,13 @@ Display::Display(int width, int height, const std::string& title)
 
 	printf("%s\n", glGetString(GL_VERSION));
 	
-	glfwGetFramebufferSize(window, &m_width, &m_height);
+	//glfwGetFramebufferSize(window, &m_width, &m_height);	//
 
 	//m_isClosed = false;
 
-	// objÆÄÀÏ ¾Õ,µÚ·Î ¸ğµÎ Ã¤¿öÁÜ
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+	// íˆ¬ê³¼í•´ì„œ ë³´ì´ëŠ” í˜„ìƒ ì œê±°
+	glEnable(GL_DEPTH_TEST);	//Â ê°€ë ¤ì§„Â ë©´Â ì œê±°
+	glEnable(GL_CULL_FACE);		//Â í›„ë©´Â ì œê±°
 	glCullFace(GL_BACK);
 }
 
@@ -55,14 +58,14 @@ Display::~Display()
 
 void Display::Clear(float r, float g, float b, float a)
 {
-	glClearColor(r, g, b, a);
-	//glClear(GL_COLOR_BUFFER_BIT);
+	glClearColor(r, g, b, a);	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// <-depth test
 }
 
 bool Display::IsClosed()
 {
-	//return m_isClosed;
+	//bool isClosed = false;
+	//return isClosed;
 	return glfwWindowShouldClose(window);
 }
 

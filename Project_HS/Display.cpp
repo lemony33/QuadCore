@@ -1,17 +1,20 @@
 ﻿#include "Display.h"
 
-using namespace QuadCore;
+
+using QuadCore::Display;
 
 Display::Display(int width, int height, const std::string& title)
 {
 	/* Initialize the library */
 	if (!glfwInit())
 		return;
-	//return -1;
+		//return -1;
 
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-
+	
+	//glfwSetWindowIcon (window, count, image);
+	
 	if (!window) {
 		glfwTerminate();
 		return;
@@ -37,8 +40,8 @@ Display::Display(int width, int height, const std::string& title)
 	}
 
 	printf("%s\n", glGetString(GL_VERSION));
-
-	glfwGetFramebufferSize(window, &m_width, &m_height);
+	
+	//glfwGetFramebufferSize(window, &m_width, &m_height);	//
 
 	//m_isClosed = false;
 
@@ -55,18 +58,22 @@ Display::~Display()
 
 void Display::Clear(float r, float g, float b, float a)
 {
-	glClearColor(r, g, b, a);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(r, g, b, a);	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// <-depth test
 }
 
 bool Display::IsClosed()
 {
+	//bool isClosed = false;
+	//return isClosed;
 	return glfwWindowShouldClose(window);
 }
 
 void Display::Update()
 {
+	/* Swap front and back buffers */
 	glfwSwapBuffers(window);
+
+	/* Poll for and process events */
 	glfwPollEvents();
 }
-

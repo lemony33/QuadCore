@@ -1,6 +1,9 @@
 #include "shader.h"
 #include <iostream>
-#include <fstream>	// file stream
+#include <fstream>
+
+using QuadCore::Shader;
+
 
 static void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);
 static std::string LoadShader(const std::string& fileName);
@@ -15,9 +18,11 @@ Shader::Shader(const std::string& fileName)
 	for (unsigned int i = 0; i < NUM_SHADERS; i++)
 		glAttachShader(m_program, m_shaders[i]);
 
-	glBindAttribLocation(m_program, 0, "position");
-	//glBindAttribLocation(m_program, 1, "texCoord"); // texture
-	glBindAttribLocation(m_program, 1, "normal"); // lighting
+
+	// Vertex Shader - IN
+	glBindAttribLocation(m_program, 0, "position");	// position
+	glBindAttribLocation(m_program, 1, "texCoord");	// texture
+	glBindAttribLocation(m_program, 2, "normal");	// lighting
 
 	glLinkProgram(m_program);
 	CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Shader Program linking failed: ");
@@ -25,87 +30,24 @@ Shader::Shader(const std::string& fileName)
 	glValidateProgram(m_program);
 	CheckShaderError(m_program, GL_VALIDATE_STATUS, true, "Error: Shader Program is invalid: ");
 
-	// TRANSFORM
-	//m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
-	m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "m_position");
-	//m_uniforms[POSITION_U] = glGetUniformLocation(m_program, "m_position");				//====sb7 
-	m_uniforms[PERSPECTIVE_U] = glGetUniformLocation(m_program, "m_perspective");		//====sb7 
-}
+	// Vertex Shader - OUT
+	m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
+
+	//***
+	m_uniforms[MODEL_U]			= glGetUniformLocation(m_program, "model");			// Model Matrix
+	m_uniforms[VIEW_U]			= glGetUniformLocation(m_program, "view");			// View Matrix
+	m_uniforms[PROJECTION_U]	= glGetUniformLocation(m_program, "projection");	// Projection Matrix
+
+	m_uniforms[LIGHT_POS_U]		= glGetUniformLocation(m_program, "lightPos");		//
+	m_uniforms[VIEW_POS_U]		= glGetUniformLocation(m_program, "viewPos");		// 
+	
+	//m_uniforms[LIGHT_COLOR_U]	= glGetUniformLocation(m_program, "lightColor");	// 
+	m_uniforms[LIGHT_AMBIENT_U] = glGetUniformLocation(m_program, "light_ambient");	// 
+	m_uniforms[LIGHT_DIFFUSE_U] = glGetUniformLocation(m_program, "light_diffuse");	// 
+	m_uniforms[LIGHT_SPECULAR_U] = glGetUniformLocation(m_program, "light_specular");	// 
 
 
-Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
-{
-	// 1. Retrieve the vertex/fragment source code from filePath
-	std::string vertexCode;
-	std::string fragmentCode;
-	std::ifstream vShaderFile;
-	std::ifstream fShaderFile;
-	// ensures ifstream objects can throw exceptions:
-	vShaderFile.exceptions(std::ifstream::badbit);
-	fShaderFile.exceptions(std::ifstream::badbit);
-	try
-	{
-		// Open files
-		vShaderFile.open(vertexPath);
-		fShaderFile.open(fragmentPath);
-		std::stringstream vShaderStream, fShaderStream;
-		// Read file's buffer contents into streams
-		vShaderStream << vShaderFile.rdbuf();
-		fShaderStream << fShaderFile.rdbuf();
-		// close file handlers
-		vShaderFile.close();
-		fShaderFile.close();
-		// Convert stream into string
-		vertexCode = vShaderStream.str();
-		fragmentCode = fShaderStream.str();
-	}
-	catch (std::ifstream::failure e)
-	{
-		std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-	}
-	const GLchar *vShaderCode = vertexCode.c_str();
-	const GLchar *fShaderCode = fragmentCode.c_str();
-	// 2. Compile shaders
-	GLuint vertex, fragment;
-	GLint success;
-	GLchar infoLog[512];
-	// Vertex Shader
-	vertex = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertex, 1, &vShaderCode, NULL);
-	glCompileShader(vertex);
-	// Print compile errors if any
-	glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(vertex, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-	// Fragment Shader
-	fragment = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragment, 1, &fShaderCode, NULL);
-	glCompileShader(fragment);
-	// Print compile errors if any
-	glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(fragment, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-	// Shader Program
-	m_program = glCreateProgram();
-	glAttachShader(m_program, vertex);
-	glAttachShader(m_program, fragment);
-	glLinkProgram(m_program);
-	// Print linking errors if any
-	glGetProgramiv(m_program, GL_LINK_STATUS, &success);
-	if (!success)
-	{
-		glGetProgramInfoLog(m_program, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-	}
-	// Delete the shaders as they're linked into our program now and no longer necessery
-	glDeleteShader(vertex);
-	glDeleteShader(fragment);
+	m_uniforms[OBJECT_COLOR_U]	= glGetUniformLocation(m_program, "objectColor");	// 
 
 }
 
@@ -122,18 +64,50 @@ Shader::~Shader()
 
 void Shader::Bind()
 {
-	glUseProgram(m_program);	// OpenGL에게 쉐이더를 사용하고 싶다고 알려줌. -> 직접적으로 그려주기.
+	glUseProgram(m_program);
 }
 
-void Shader::Update(const Transform& transform, const Camera& camera) // transform, camera
+void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera& camera) // transform, camera
 {
 	glm::mat4 model = camera.GetViewProjection() * transform.GetModel();
 
-	glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &model[0][0]);
-	//glUniformMatrix4fv(m_uniforms[POSITION_U], 1, GL_FALSE, 0);					//====sb7 
-	glUniformMatrix4fv(m_uniforms[PERSPECTIVE_U], 1, GL_FALSE, &camera.GetViewProjection()[0][0]);				//====sb7 
+	glUniformMatrix4fv(m_uniforms[TRANSFORM_U],		1, GL_FALSE, &model[0][0]);
+
+	glUniformMatrix4fv(m_uniforms[MODEL_U],			1, GL_FALSE, &transform.GetModel()[0][0] );			// Model
+	glUniformMatrix4fv(m_uniforms[VIEW_U],			1, GL_FALSE, &camera.GetViewMatrix()[0][0]);		// View
+	glUniformMatrix4fv(m_uniforms[PROJECTION_U],	1, GL_FALSE, &camera.GetProjectionMatrix()[0][0] );	// Projection
+
+	//glUniformMatrix4fv(m_uniforms[LIGHT_POS_U],		1, GL_FALSE, &transform.GetModel()[0][0]);			// 
+	//glUniformMatrix4fv(m_uniforms[VIEW_POS_U],		1, GL_FALSE, &camera.GetViewMatrix()[0][0]);		// 
+	//glUniformMatrix4fv(m_uniforms[LIGHT_COLOR_U],	1, GL_FALSE, &camera.GetProjectionMatrix()[0][0]);	// 
+	//glUniformMatrix4fv(m_uniforms[OBJECT_COLOR_U],	1, GL_FALSE, &camera.GetProjectionMatrix()[0][0]);	// 
+
+	//glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+	glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+
+	glUniform3f(m_uniforms[LIGHT_POS_U], lightPos.x, lightPos.y, lightPos.z+3.0f);
+	//glUniform3f(m_uniforms[LIGHT_POS_U], lightPos.x, lightPos.y, lightPos.z); 
+	glUniform3f(m_uniforms[VIEW_POS_U],		1.0f, 1.0f, 1.0f);
+	
+	//glUniform3f(m_uniforms[LIGHT_COLOR_U], 1.0f, 0.5f, 0.31f);
+	glUniform3f(m_uniforms[LIGHT_AMBIENT_U], 1.0f, 0.0f, 0.0f);
+	glUniform3f(m_uniforms[LIGHT_DIFFUSE_U], 0.3f, 0.3f, 0.8f);
+	glUniform3f(m_uniforms[LIGHT_SPECULAR_U], 1.0f, 1.0f, 1.0f);
+
+	glUniform3f(m_uniforms[OBJECT_COLOR_U],	camera.GetPos().x, camera.GetPos().y, camera.GetPos().z);
+	//glUniform3f(m_uniforms[OBJECT_COLOR_U], 1.0f, 0.0f, 0.0f);
+
+	// Draw Map 새로 추가된 부분
+	GLfloat sender[4] = { 0 };
+	memcpy(&sender, &m_lineColor, sizeof(m_lineColor));
+	glUniform4fv(100, 1, sender);
 }
 
+// Draw Map 새로 추가된 부분
+const void Shader::SetLineColor(glm::vec4 color)
+{
+	m_lineColor = color;
+}
 
 static GLuint CreateShader(const std::string& text, GLenum shaderType)
 {
