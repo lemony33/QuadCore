@@ -251,27 +251,6 @@ public:
 				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE))
 			{
 				printf("Move : [ %d , %d ]\n", (int)x, (int)y);
-
-				if (x > tr_x)
-				{
-					tr_x = x;
-					camera->SetViewProjection(glm::vec3(-CAMERA_MOVE_UNIT, 0.0f, 0.0f));
-				}
-				else if (x < tr_x)
-				{
-					tr_x = x;
-					camera->SetViewProjection(glm::vec3(CAMERA_MOVE_UNIT, 0.0f, 0.0f));
-				}
-				if (y > tr_y)
-				{
-					tr_y = y;
-					camera->SetViewProjection(glm::vec3(0.0f, CAMERA_MOVE_UNIT, 0.0f));
-				}
-				else if (y < tr_y)
-				{
-					tr_y = y;
-					camera->SetViewProjection(glm::vec3(0.0f, -CAMERA_MOVE_UNIT, 0.0f));
-				}
 			}
 			// Right Button Down & Move
 			else if ((glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
@@ -289,26 +268,9 @@ public:
 				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS))
 			{
 				printf("Wheel button down&move\n");
-				if (x > tr_x)
-				{
-					tr_x = x;
-					camera->SetViewProjection(glm::vec3(-CAMERA_MOVE_UNIT, 0.0f, 0.0f));
-				}
-				else if (x < tr_x)
-				{
-					tr_x = x;
-					camera->SetViewProjection(glm::vec3(CAMERA_MOVE_UNIT, 0.0f, 0.0f));
-				}
-				if (y > tr_y)
-				{
-					tr_y = y;
-					camera->SetViewProjection(glm::vec3(0.0f, CAMERA_MOVE_UNIT, 0.0f));
-				}
-				else if (y < tr_y)
-				{
-					tr_y = y;
-					camera->SetViewProjection(glm::vec3(0.0f, -CAMERA_MOVE_UNIT, 0.0f));
-				}
+				camera->SetViewProjection(glm::vec3(tr_x - x, tr_y - y, 0.0f));
+				tr_x = x;
+				tr_y = y;
 			}
 
 			// No Button Down & Move

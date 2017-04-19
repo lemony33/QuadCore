@@ -19,6 +19,8 @@ public:
 		m_position = pos;
 		m_forward = glm::vec3(0, 0, -1);
 		m_up = glm::vec3(0, 1, 0);
+		m_right = glm::vec3(-1, 0, 0);
+		m_upward = glm::vec3(0, 1, 0);
 	}
 
 	void Update(const glm::vec3& pos, float fov, float aspect, float zNear, float zFar)
@@ -26,7 +28,7 @@ public:
 		m_perspective = glm::perspective(fov, aspect, zNear, zFar);
 		m_position = pos;
 		//m_forward = glm::vec3(0, 0, -1);
-		m_up = glm::vec3(0, 1, 0);
+		//m_up = glm::vec3(0, 1, 0);
 	}
 
 	inline glm::mat4 GetViewProjection() const
@@ -59,20 +61,27 @@ private:
 	glm::vec3 m_forward;
 	glm::vec3 m_up;
 
+	glm::vec3 m_right;
+	glm::vec3 m_upward;
 	float ForwardAngle = 0;
 	float UpAngle = 0;
-	float sensitivity = 0.005;
+	float sensitivity = 0.001;
 
 	// Controls.h 에서 사용
 public:
 
 	//(glm::vec3(0.0f, 0.0f, -5.0f), 70.0f, (float)WIDTH / (float)HEIGHT, 0.001f, 1000.0f);
-	void SetViewProjection(glm::vec3 position/*, glm::mat4 perspective, glm::vec3 forward, glm::vec3 up*/)
+	void SetViewProjection(glm::vec3 position)
 	{
-		//m_perspective = perspective;
-		m_position += position;
-		//m_forward = forward;
-		//m_up = up;
+		if (position.x > 0.0f)
+			m_position -= m_right * sensitivity * 500.0f;
+		else if(position.x < 0)
+			m_position += m_right * sensitivity * 500.0f;
+		
+		if (position.y > 0.0f)
+			m_position += m_upward * sensitivity * 500.0f;
+		else if (position.y < 0)
+			m_position -= m_upward * sensitivity * 500.0f;
 	}
 
 	void MovePosition(float depth)
@@ -92,6 +101,8 @@ public:
 							-1.0f * sinf(UpAngle),
 							-1.0f * cosf(ForwardAngle) * cosf(UpAngle));
 		printf("Forward ( %.2f, %.2f, %.2f)\n", m_forward.x, m_forward.y, m_forward.z);
+		m_right = glm::vec3(m_forward.z, 0, -m_forward.x);
+		m_upward = glm::vec3(0, m_forward.z, -m_forward.y);
 	}
 };
 
