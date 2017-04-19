@@ -1,5 +1,5 @@
 #include "Graphics_Simulator.h"
-
+#include <algorithm>
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
@@ -20,19 +20,94 @@ QuadCore::Graphics_Simulator::~Graphics_Simulator()
 
 void QuadCore::Graphics_Simulator::Run()
 {
+	Vertex CubeVerties[] =
+	{
+		Vertex(glm::vec3(- 500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(500.0f,  500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(500.0f,  500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(-500.0f,  500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(-500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+
+		Vertex(glm::vec3(-500.0f, -500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(500.0f, -500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(-500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(-500.0f, -500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+
+		Vertex(glm::vec3(-500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-500.0f,  500.0f, -500.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-500.0f, -500.0f,  500.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+
+		Vertex(glm::vec3(500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(500.0f,  500.0f, -500.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(500.0f, -500.0f,  500.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+
+		Vertex(glm::vec3(-500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(500.0f, -500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(500.0f, -500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(-500.0f, -500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(-500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+
+		Vertex(glm::vec3(-500.0f,  500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  1.0f,  0.0f)),
+		Vertex(glm::vec3(500.0f,  500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  1.0f,  0.0f)),
+		Vertex(glm::vec3(500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  1.0f,  0.0f)),
+		Vertex(glm::vec3(500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  1.0f,  0.0f)),
+		Vertex(glm::vec3(-500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  1.0f,  0.0f)),
+		Vertex(glm::vec3(-500.0f,  500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  1.0f,  0.0f))
+	};
+	unsigned int indices[] = { 0, 1, 2,
+		0, 2, 3,
+
+		6, 5, 4,
+		7, 6, 4,
+
+		10, 9, 8,
+		11, 10, 8,
+
+		12, 13, 14,
+		12, 14, 15,
+
+		16, 17, 18,
+		16, 18, 19,
+
+		22, 21, 20,
+		23, 22, 20
+	};
 	// 1. Object
-	Mesh mesh1("../media/shape/Cube.obj");
-	//Mesh mesh1("../media/shape/Wedge.obj");
-	//Mesh mesh1("../media/shape/CubeHollow.obj");
-	Mesh mesh2("../media/shape/CubeHollow.obj");
+	//Mesh mesh1("../media/shape/Cube.obj");
+	Mesh mesh1(CubeVerties, sizeof(CubeVerties)/sizeof(CubeVerties[0]),indices, sizeof(indices) / sizeof(indices[0]));
+	Mesh mesh2("../media/shape/Cube.obj");
 
 	// 2. Shader
-	Shader shader1("../media/new_shader/basicShader_light");
-	Shader shader2("../media/new_shader/basicShader_tex");
+	//Shader shader1("../media/new_shader/basicShader_light");
+	//Shader shader2("../media/new_shader/basicShader_tex");
+	Shader shader1("../media/shaders/cubemaps/cubemaps");
+	Shader shader2("../media/shaders/cubemaps/skybox");
 	
 	//3. Texture
 	Texture texture1("../media/res/bricks.jpg");
 	Texture texture2("../media/skyblue.jpg");
+
+	//--- 스카이박스들어간다
+	std::vector<std::string> faces;
+	faces.push_back("../media/textures/skybox/right.jpg");
+	faces.push_back("../media/textures/skybox/left.jpg");
+	faces.push_back("../media/textures/skybox/top.jpg");
+	faces.push_back("../media/textures/skybox/bottom.jpg");
+	faces.push_back("../media/textures/skybox/back.jpg");
+	faces.push_back("../media/textures/skybox/front.jpg");
+
+	Texture skyboxTexture(faces);
+	
 	//texture2.Reset();
 	
 
@@ -83,61 +158,21 @@ void QuadCore::Graphics_Simulator::Run()
 
 
 		shader1.Bind();		
-		texture1.Bind(0);
+		skyboxTexture.Bind(0);
 		//Texture::Reset();
 
-		transform1.SetPos(glm::vec3(0, 0, 0));
+		/*transform1.SetPos(glm::vec3(0, 0, 0));
 		transform1.SetPos(glm::vec3(1.1, 1.1, 0));
 		transform1.GetRot().y = counter * 0.5f;
-		transform1.GetRot().x = counter * 0.3f;
+		transform1.GetRot().x = counter * 0.3f;*/
 		shader1.Update(transform1, camera);		
 		mesh1.Draw();
 
-
-		transform2.SetPos(glm::vec3(-1.1, 0, 0));
-
-		transform2.GetRot().y = counter * 0.5f;
-		transform2.GetRot().x = counter * 0.3f;
-		shader1.Update(transform2, camera);
-		mesh1.Draw();
-		
-		/*
-		transform2.SetPos(glm::vec3(-1.1, 0, 0));
-		shader1.Update(transform2, camera);
-		mesh1.Draw();
-
-		transform3.SetPos(glm::vec3(1.1, 0, 0));
-		shader1.Update(transform3, camera);
-		mesh1.Draw();
-
-
-
-		transform1.SetPos(glm::vec3(0, 1.1, 0));
-		shader1.Update(transform1, camera);
-		mesh1.Draw();
-
-		transform2.SetPos(glm::vec3(-1.1, 1.1, 0));
-		shader1.Update(transform2, camera);
-		mesh1.Draw();
-
-		transform3.SetPos(glm::vec3(1.1, 1.1, 0));
-		shader1.Update(transform3, camera);
-		mesh1.Draw();
-
-
-		transform1.SetPos(glm::vec3(0, -1.1, 0));
-		shader1.Update(transform1, camera);
-		mesh1.Draw();
-
-		transform2.SetPos(glm::vec3(-1.1, -1.1, 0));
-		shader1.Update(transform2, camera);
-		mesh1.Draw();
-
-		transform3.SetPos(glm::vec3(1.1, -1.1, 0));
-		shader1.Update(transform3, camera);
-		mesh1.Draw();
-		*/
-
+		glDepthFunc(GL_LEQUAL);
+		shader2.Bind();
+		skyboxTexture.Bind(0);
+		mesh2.Draw();
+		glDepthFunc(GL_LESS);
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		
 		display.Update();	// 화면갱신
