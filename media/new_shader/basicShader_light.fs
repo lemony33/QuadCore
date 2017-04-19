@@ -43,7 +43,8 @@ void main()
 	vec3 result = (ambient + diffuse + specular);
 	//color = vec4(result, 1.0f);
 
-	gl_FragColor = texture2D(texture_diffuse, texCoord0)
-		* clamp(dot(-vec3(0,1,0), normal0), 0.0, 1.0) * vec4(result, 1.0f);	//lighting
+	gl_FragColor = texture2D(texture_diffuse, texCoord0) * vec4(result, 1.0f);
+	//gl_FragColor = texture2D(texture_diffuse, texCoord0)
+	//	* clamp(dot(-vec3(0,1,0), normal0), 0.0, 1.0) * vec4(result, 1.0f);	//lighting
 }
 
