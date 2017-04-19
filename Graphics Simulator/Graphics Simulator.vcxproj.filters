@@ -39,18 +39,6 @@
     <ClCompile Include="Obj_loader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="test_01.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="test_02.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="test_04.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="test_03_view.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="ShapeManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>

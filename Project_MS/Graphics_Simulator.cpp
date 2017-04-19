@@ -26,6 +26,8 @@ void QuadCore::Graphics_Simulator::Run()
 	//Mesh mesh1("../media/shape/CubeHollow.obj");
 	Mesh mesh2("../media/shape/CubeHollow.obj");
 
+	Mesh mesh3("../media/shape/Icosphere.obj");
+
 	// 2. Shader
 	Shader shader1("../media/new_shader/basicShader_light");
 	Shader shader2("../media/new_shader/basicShader_tex");
@@ -73,6 +75,40 @@ void QuadCore::Graphics_Simulator::Run()
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		// Draw here
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+		Vertex vertices[] = {
+			Vertex(glm::vec3(-0.5, -0.5,  0.0),	glm::vec2(0.0,0.0) , glm::vec3(0,0,1)),
+			Vertex(glm::vec3(0.0,  0.5,  0.0),	glm::vec2(0.0,1.0) , glm::vec3(0,0,1)),
+			Vertex(glm::vec3(0.5, -0.5,  0.0),	glm::vec2(1.0,1.0) , glm::vec3(0,0,1)),
+			Vertex(glm::vec3(0.0, -1.5,  0.0),	glm::vec2(0.0,1.0) , glm::vec3(0,0,1)),
+		};
+		unsigned int indices[] = {
+			2,1,0,
+			3,2,0,
+			0,1,2,
+		};
+		Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
+
+		//Shader s("../media/MapShader");
+		//s.SetLineColor(glm::vec4(1.0, 0, 0, 1));
+		//glLineWidth(3);
+
+		//s.Bind();
+		//s.Update(worldCoordinate, camera);
+		mesh.DrawLines();
+
+
+
+
+		worldCoordinate.GetPos().z = -2;
+		worldCoordinate.GetRot().x += 0.01;
+		shader1.Update(worldCoordinate, camera);
+		mesh.Draw();
+
+
+		
+
+
+
 
 		// Draw Map 새로 추가된 부분
 		dMap.DrawPlane();
@@ -86,10 +122,16 @@ void QuadCore::Graphics_Simulator::Run()
 		texture1.Bind(0);
 		//Texture::Reset();
 
+		float delim = 0.7;
+
 		transform1.SetPos(glm::vec3(0, 0, 0));
 		transform1.SetPos(glm::vec3(1.1, 1.1, 0));
 		transform1.GetRot().y = counter * 0.5f;
 		transform1.GetRot().x = counter * 0.3f;
+		
+		transform1.GetPos().y += delim * sinf(counter);
+		transform1.GetPos().x += delim * cosf(counter);
+
 		shader1.Update(transform1, camera);		
 		mesh1.Draw();
 
@@ -98,9 +140,26 @@ void QuadCore::Graphics_Simulator::Run()
 
 		transform2.GetRot().y = counter * 0.5f;
 		transform2.GetRot().x = counter * 0.3f;
+
+		transform2.GetPos().y += delim * cosf(counter);
+		transform2.GetPos().x += delim * sinf(counter);
+
 		shader1.Update(transform2, camera);
 		mesh1.Draw();
-		
+
+
+		float r = 3.0f;
+		transform3.SetPos(glm::vec3(-r/2.0f, 0, 0));
+		transform3.GetPos().x += sinf(counter) * r;
+		transform3.GetPos().y += cosf(counter) * r;	
+
+		transform3.GetRot().y = counter * 0.9f;
+		transform3.GetRot().x = counter * 0.7f;
+
+		//transform3.GetPos().z += tanf(counter) * r;
+		shader1.Update(transform3, camera);
+		mesh3.Draw();
+
 		/*
 		transform2.SetPos(glm::vec3(-1.1, 0, 0));
 		shader1.Update(transform2, camera);
