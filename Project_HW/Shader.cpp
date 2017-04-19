@@ -9,7 +9,7 @@ static void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 static std::string LoadShader(const std::string& fileName);
 static GLuint CreateShader(const std::string& text, GLenum shaderType);
 
-Shader::Shader(const std::string& fileName, int MOD)
+Shader::Shader(const std::string& fileName)
 {
 	m_program = glCreateProgram();
 	m_shaders[0] = CreateShader(LoadShader(fileName + ".vs"), GL_VERTEX_SHADER);
@@ -18,9 +18,11 @@ Shader::Shader(const std::string& fileName, int MOD)
 	for (unsigned int i = 0; i < NUM_SHADERS; i++)
 		glAttachShader(m_program, m_shaders[i]);
 
-	glBindAttribLocation(m_program, 0, "position");
-	glBindAttribLocation(m_program, 1, "texCoord"); // texture
-	glBindAttribLocation(m_program, 2, "normal"); // lighting
+
+	// Vertex Shader - IN
+	glBindAttribLocation(m_program, 0, "position");	// position
+	glBindAttribLocation(m_program, 1, "texCoord");	// texture
+	glBindAttribLocation(m_program, 2, "normal");	// lighting
 
 	glLinkProgram(m_program);
 	CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Shader Program linking failed: ");
@@ -28,31 +30,25 @@ Shader::Shader(const std::string& fileName, int MOD)
 	glValidateProgram(m_program);
 	CheckShaderError(m_program, GL_VALIDATE_STATUS, true, "Error: Shader Program is invalid: ");
 
-	// TRANSFORM
-	if (MOD == OBJECTSHADER)
-	{
-		m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
+	// Vertex Shader - OUT
+	m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
 
-		ShaderMod = OBJECTSHADER;
-	}
+	//***
+	m_uniforms[MODEL_U]			= glGetUniformLocation(m_program, "model");			// Model Matrix
+	m_uniforms[VIEW_U]			= glGetUniformLocation(m_program, "view");			// View Matrix
+	m_uniforms[PROJECTION_U]	= glGetUniformLocation(m_program, "projection");	// Projection Matrix
 
-	else if (MOD == LIGHTSHADER)
-	{
-		objectColorLoc = glGetUniformLocation(m_program, "objectColor");
-		lightColorLoc = glGetUniformLocation(m_program, "lightColor");
-		lightPosLoc = glGetUniformLocation(m_program, "lightPos");
-		viewPosLoc = glGetUniformLocation(m_program, "viewPos");
-		modelLoc = glGetUniformLocation(m_program, "model");
-		m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
-		ShaderMod = LIGHTSHADER;
-	}
+	m_uniforms[LIGHT_POS_U]		= glGetUniformLocation(m_program, "lightPos");		//
+	m_uniforms[VIEW_POS_U]		= glGetUniformLocation(m_program, "viewPos");		// 
+	
+	//m_uniforms[LIGHT_COLOR_U]	= glGetUniformLocation(m_program, "lightColor");	// 
+	m_uniforms[LIGHT_AMBIENT_U] = glGetUniformLocation(m_program, "light_ambient");	// 
+	m_uniforms[LIGHT_DIFFUSE_U] = glGetUniformLocation(m_program, "light_diffuse");	// 
+	m_uniforms[LIGHT_SPECULAR_U] = glGetUniformLocation(m_program, "light_specular");	// 
 
-	else if (MOD == LAMPSHADER)
-	{
-		modelLoc = glGetUniformLocation(m_program, "model");
-		m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
-		ShaderMod = LAMPSHADER;
-	}
+
+	m_uniforms[OBJECT_COLOR_U]	= glGetUniformLocation(m_program, "objectColor");	// 
+
 }
 
 Shader::~Shader()
@@ -71,42 +67,47 @@ void Shader::Bind()
 	glUseProgram(m_program);
 }
 
-void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera& camera, const QuadCore::Transform& lightObjectTranform) // transform, camera
+void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera& camera) // transform, camera
 {
-	if (ShaderMod == OBJECTSHADER)
-	{
-		glm::mat4 model = camera.GetViewProjection() * transform.GetModel();
+	glm::mat4 model = camera.GetViewProjection() * transform.GetModel();
 
-		glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &model[0][0]);
-	}
+	glUniformMatrix4fv(m_uniforms[TRANSFORM_U],		1, GL_FALSE, &model[0][0]);
 
-	else if (ShaderMod == LIGHTSHADER)
-	{
-		glUniform3f(objectColorLoc, 0.5f, 0.5f, 0.31f);
-		glUniform3f(lightColorLoc, 1.0f, 1.0f, 1.0f);
-		glUniform3f(lightPosLoc, transform.GetPositon().x, transform.GetPositon().y, transform.GetPositon().z);
-		glUniform3f(viewPosLoc, camera.GetPos().x, camera.GetPos().y, camera.GetPos().z);
+	glUniformMatrix4fv(m_uniforms[MODEL_U],			1, GL_FALSE, &transform.GetModel()[0][0] );			// Model
+	glUniformMatrix4fv(m_uniforms[VIEW_U],			1, GL_FALSE, &camera.GetViewMatrix()[0][0]);		// View
+	glUniformMatrix4fv(m_uniforms[PROJECTION_U],	1, GL_FALSE, &camera.GetProjectionMatrix()[0][0] );	// Projection
 
-		glm::mat4 model = camera.GetViewProjection() * lightObjectTranform.GetModel();// *glm::mat4();// *transform.GetModel();
+	//glUniformMatrix4fv(m_uniforms[LIGHT_POS_U],		1, GL_FALSE, &transform.GetModel()[0][0]);			// 
+	//glUniformMatrix4fv(m_uniforms[VIEW_POS_U],		1, GL_FALSE, &camera.GetViewMatrix()[0][0]);		// 
+	//glUniformMatrix4fv(m_uniforms[LIGHT_COLOR_U],	1, GL_FALSE, &camera.GetProjectionMatrix()[0][0]);	// 
+	//glUniformMatrix4fv(m_uniforms[OBJECT_COLOR_U],	1, GL_FALSE, &camera.GetProjectionMatrix()[0][0]);	// 
 
-		glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &model[0][0]);
-		glm::mat4 FragPosModel = glm::mat4();//transform.GetModel();
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &FragPosModel[0][0]);
-	}
+	//glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+	glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 
-	else if (ShaderMod == LAMPSHADER)
-	{
-		glm::mat4 model = glm::mat4();
-				//model = glm::translate(model, transform.GetPositon());
-				
-				model *= camera.GetViewProjection() *transform.GetModel();;
-				model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
+	glUniform3f(m_uniforms[LIGHT_POS_U], lightPos.x, lightPos.y, lightPos.z+3.0f);
+	//glUniform3f(m_uniforms[LIGHT_POS_U], lightPos.x, lightPos.y, lightPos.z); 
+	glUniform3f(m_uniforms[VIEW_POS_U],		1.0f, 1.0f, 1.0f);
+	
+	//glUniform3f(m_uniforms[LIGHT_COLOR_U], 1.0f, 0.5f, 0.31f);
+	glUniform3f(m_uniforms[LIGHT_AMBIENT_U], 1.0f, 0.0f, 0.0f);
+	glUniform3f(m_uniforms[LIGHT_DIFFUSE_U], 0.3f, 0.3f, 0.8f);
+	glUniform3f(m_uniforms[LIGHT_SPECULAR_U], 1.0f, 1.0f, 1.0f);
 
-		glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &model[0][0]);
-	}
+	glUniform3f(m_uniforms[OBJECT_COLOR_U],	camera.GetPos().x, camera.GetPos().y, camera.GetPos().z);
+	//glUniform3f(m_uniforms[OBJECT_COLOR_U], 1.0f, 0.0f, 0.0f);
 
+	// Draw Map 새로 추가된 부분
+	GLfloat sender[4] = { 0 };
+	memcpy(&sender, &m_lineColor, sizeof(m_lineColor));
+	glUniform4fv(100, 1, sender);
 }
 
+// Draw Map 새로 추가된 부분
+const void Shader::SetLineColor(glm::vec4 color)
+{
+	m_lineColor = color;
+}
 
 static GLuint CreateShader(const std::string& text, GLenum shaderType)
 {

@@ -3,6 +3,8 @@
 #include <cassert>
 #include <iostream>
 
+using QuadCore::Texture;
+
 Texture::Texture(const std::string& fileName)
 {
 	int width, height, numComponents;
@@ -33,7 +35,7 @@ Texture::~Texture()
 
 void Texture::Bind(unsigned int unit)
 {
-	assert(unit >= 0 && unit <= 31);
+	assert(unit >= 0 && unit <= 31);	// geo texture 0~31
 
 	glActiveTexture(GL_TEXTURE0 + unit);
 	glBindTexture(GL_TEXTURE_2D, m_texture);

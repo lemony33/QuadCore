@@ -102,4 +102,6 @@ void Mesh::DrawLines()
 
 	glDrawElements(GL_LINES, m_drawCount, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+
+	glDisable(GL_POLYGON_SMOOTH);
 }

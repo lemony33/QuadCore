@@ -11,10 +11,12 @@ class Texture
 {
 public:
 	Texture(const std::string& fileName);
-	Texture(const unsigned int size);
+
 	void Bind(unsigned int unit);
 
 	virtual ~Texture();
+
+	static void Reset() { glBindTexture(GL_TEXTURE_2D, 0); }	// 외부에서 텍스쳐 로딩 초기화
 
 protected:
 private:
