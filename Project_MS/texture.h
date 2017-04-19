@@ -4,6 +4,9 @@
 #include <string>
 #include <GLEW-2.0.0_x64/GL/glew.h>
 
+namespace QuadCore
+{
+
 class Texture
 {
 public:
@@ -13,6 +16,8 @@ public:
 
 	virtual ~Texture();
 
+	static void Reset() { glBindTexture(GL_TEXTURE_2D, 0); }	// 외부에서 텍스쳐 로딩 초기화
+
 protected:
 private:
 	Texture(const Texture& other) {}
@@ -20,5 +25,8 @@ private:
 
 	GLuint m_texture;
 };
+
+
+}
 
 #endif

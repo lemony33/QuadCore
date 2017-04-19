@@ -45,7 +45,19 @@
     <ClCompile Include="test_02.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="test03_view.cpp">
+    <ClCompile Include="test_04.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="test_03_view.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Shape.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawMap.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -78,6 +90,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Controls.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawMap.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -20,13 +20,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Display.cpp" />
+    <ClCompile Include="DrawMap.cpp" />
     <ClCompile Include="Graphics_Simulator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Obj_loader.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="ShapeManager.cpp" />
     <ClCompile Include="stb_image.c" />
-    <ClCompile Include="test03_view.cpp">
+    <ClCompile Include="test_03_view.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="test_01.cpp">
@@ -35,16 +38,22 @@
     <ClCompile Include="test_02.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="test_04.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="Display.h" />
+    <ClInclude Include="DrawMap.h" />
     <ClInclude Include="Graphics_Simulator.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Obj_loader.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Shape.h" />
+    <ClInclude Include="ShapeManager.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Transform.h" />

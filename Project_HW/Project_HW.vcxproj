@@ -18,6 +18,34 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Controls.h" />
+    <ClInclude Include="Display.h" />
+    <ClInclude Include="DrawMap.h" />
+    <ClInclude Include="Graphics_Simulator.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Obj_loader.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="Shape.h" />
+    <ClInclude Include="ShapeManager.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="Transform.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Display.cpp" />
+    <ClCompile Include="DrawMap.cpp" />
+    <ClCompile Include="Graphics_Simulator.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Obj_loader.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="ShapeManager.cpp" />
+    <ClCompile Include="stb_image.c" />
+    <ClCompile Include="Texture.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B7C89D95-6E06-4AA3-B304-D1B0DC24010B}</ProjectGuid>
     <RootNamespace>Project_HW</RootNamespace>
@@ -111,18 +139,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="HW_test_main.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="raytracer_And_shadowmapping.cpp" />
-    <ClCompile Include="shadowmapping.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="shadowmappingHead.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

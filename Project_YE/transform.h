@@ -4,6 +4,9 @@
 #include <glm-0.9.8.4/glm/glm.hpp>
 #include <glm-0.9.8.4/glm/gtx/transform.hpp>
 
+namespace QuadCore
+{
+
 class Transform
 {
 public:
@@ -40,5 +43,8 @@ private:
 	glm::vec3 m_rot;
 	glm::vec3 m_scale;
 };
+
+
+}
 
 #endif
