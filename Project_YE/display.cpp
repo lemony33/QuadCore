@@ -8,6 +8,7 @@ Display::Display(int width, int height, const std::string& title)
 		return;
 
 	window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+	window2 = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 
 	if (!window) {
 		glfwTerminate();
@@ -49,6 +50,11 @@ bool Display::IsClosed()
 
 void Display::Update()
 {
+	std::string text;
+	text = "This is a simple text";
+	glColor3f(0, 1, 0);
+	drawText(text.data(), text.size(), 50, 200);
+
 	glfwSwapBuffers(window);
 	glfwPollEvents();
 }
