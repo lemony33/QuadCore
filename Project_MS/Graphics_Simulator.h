@@ -4,6 +4,10 @@
 #include "ShapeManager.h"
 
 
+#include "Coordinates.h"
+
+
+
 
 namespace QuadCore
 {
@@ -25,6 +29,8 @@ private:
 	Display display;
 
 	ShapeManager m_shape_manager;
+
+	Coordinates m_coordinates;
 };
 
 

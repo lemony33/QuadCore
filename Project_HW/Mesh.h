@@ -64,6 +64,12 @@ private:
 	GLuint m_vertexArrayObject;
 	GLuint m_vertexArrayBuffers[NUM_BUFFERS];
 	unsigned int m_drawCount;
+
+	int MOD;
+	enum {
+		OBJFILE,
+		VERTICES
+	};
 };
 
 

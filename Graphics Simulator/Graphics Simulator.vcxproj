@@ -29,25 +29,15 @@
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="ShapeManager.cpp" />
     <ClCompile Include="stb_image.c" />
-    <ClCompile Include="test_03_view.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="test_01.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="test_02.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="test_04.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Controls.h" />
+    <ClInclude Include="Coordinates.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="DrawMap.h" />
+    <ClInclude Include="enum_type.h" />
     <ClInclude Include="Graphics_Simulator.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Obj_loader.h" />

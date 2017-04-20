@@ -8,23 +8,25 @@ using QuadCore::Mesh;
 Mesh::Mesh(const std::string& fileName)
 {
 	IndexedModel model = OBJModel(fileName).ToIndexedModel();
+	MOD = OBJFILE;
 	InitMesh(model);
 }
 
 Mesh::Mesh(QuadCore::Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices)
 {
 	IndexedModel model;
-
 	for (unsigned int i = 0; i < numVertices; i++)
 	{
 		model.positions.push_back(*vertices[i].GetPos());
 		model.texCoords.push_back(*vertices[i].GetTexCoord());
 		model.normals.push_back(*vertices[i].GetNormal());
 	}
-
-	for (unsigned int i = 0; i < numIndices; i++)
-		model.indices.push_back(indices[i]);
-
+	if (numIndices != 0)
+	{
+		for (unsigned int i = 0; i < numIndices; i++)
+			model.indices.push_back(indices[i]);
+	}
+	MOD = VERTICES;
 	InitMesh(model);	
 }
 
@@ -36,7 +38,6 @@ Mesh::~Mesh()
 void Mesh::InitMesh(const QuadCore::IndexedModel& model)
 {
 	m_drawCount = model.indices.size(); // obj file
-
 	glGenVertexArrays(1, &m_vertexArrayObject);
 	glBindVertexArray(m_vertexArrayObject);
 
@@ -75,9 +76,11 @@ void Mesh::Draw()
 	glBindVertexArray(m_vertexArrayObject);
 
 
-
-	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0); // obj file
-	//glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
+	if (MOD == OBJFILE)
+		glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0); // obj file
+	else if (MOD == VERTICES)
+		//glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0); // obj file
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 	glBindVertexArray(0);
 }
