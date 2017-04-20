@@ -25,6 +25,7 @@ void QuadCore::Graphics_Simulator::Run()
 	//Mesh mesh1("../media/shape/Wedge.obj");
 	//Mesh mesh1("../media/shape/CubeHollow.obj");
 	Mesh mesh2("../media/shape/CubeHollow.obj");
+	Mesh mesh3("../media/shape/Icosphere.obj");
 
 	// 2. Shader
 	Shader shader1("../media/new_shader/basicShader_light");
@@ -56,7 +57,7 @@ void QuadCore::Graphics_Simulator::Run()
 	dMap.SetProperty(100, 1.0f, glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
 
 	// MS - 0420 - 좌표계 그리기
-	m_coordinates.Init(&worldCoordinate, &camera);
+	m_coordinates.Init(&worldCoordinate, &camera, 5.0f);
 
 	Coordinates coor_model_1;
 	Coordinates coor_model_2;
@@ -96,14 +97,20 @@ void QuadCore::Graphics_Simulator::Run()
 
 		m_shape_manager;
 
+		///
+		float delim = 0.7;
 
 
+		///
 		shader1.Bind();		
 		texture1.Bind(0);
-		//Texture::Reset();
+		//Texture::Reset();		// 텍스쳐 제거하는 방법
 
 		transform1.SetPos(glm::vec3(0, 0, 0));
 		transform1.SetPos(glm::vec3(1.1, 1.1, 0));
+
+		transform1.GetPos().y += delim * sinf(counter);
+		transform1.GetPos().x += delim * cosf(counter);
 		transform1.GetRot().y = counter * 0.5f;
 		transform1.GetRot().x = counter * 0.3f;
 		shader1.Update(transform1, camera);		
@@ -119,46 +126,33 @@ void QuadCore::Graphics_Simulator::Run()
 
 		transform2.GetRot().y = counter * 0.5f;
 		transform2.GetRot().x = counter * 0.3f;
+		transform2.GetPos().y += delim * cosf(counter);
+		transform2.GetPos().x += delim * sinf(counter);
+
 		shader1.Update(transform2, camera);
 		mesh1.Draw();
 		coor_model_2.Draw();
+
+
+
+		///
+		shader1.Bind();
+		texture1.Bind(0);
+
+		float r = 3.0f;
+		transform3.SetPos(glm::vec3(-r / 2.0f, 0, 0));
+		transform3.GetPos().x += sinf(counter) * r;
+		transform3.GetPos().y += cosf(counter) * r;
+
+		transform3.GetRot().y = counter * 0.9f;
+		transform3.GetRot().x = counter * 0.7f;
+
+		//transform3.GetPos().z += tanf(counter) * r;
+		shader1.Update(transform3, camera);
+		mesh3.Draw();
+		coor_model_3.Draw();
 		
-		/*
-		transform2.SetPos(glm::vec3(-1.1, 0, 0));
-		shader1.Update(transform2, camera);
-		mesh1.Draw();
 
-		transform3.SetPos(glm::vec3(1.1, 0, 0));
-		shader1.Update(transform3, camera);
-		mesh1.Draw();
-
-
-
-		transform1.SetPos(glm::vec3(0, 1.1, 0));
-		shader1.Update(transform1, camera);
-		mesh1.Draw();
-
-		transform2.SetPos(glm::vec3(-1.1, 1.1, 0));
-		shader1.Update(transform2, camera);
-		mesh1.Draw();
-
-		transform3.SetPos(glm::vec3(1.1, 1.1, 0));
-		shader1.Update(transform3, camera);
-		mesh1.Draw();
-
-
-		transform1.SetPos(glm::vec3(0, -1.1, 0));
-		shader1.Update(transform1, camera);
-		mesh1.Draw();
-
-		transform2.SetPos(glm::vec3(-1.1, -1.1, 0));
-		shader1.Update(transform2, camera);
-		mesh1.Draw();
-
-		transform3.SetPos(glm::vec3(1.1, -1.1, 0));
-		shader1.Update(transform3, camera);
-		mesh1.Draw();
-		*/
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		

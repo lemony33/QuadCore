@@ -92,8 +92,8 @@ void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera
 // Draw Map 새로 추가된 부분
 const void Shader::SetLineColor(glm::vec4 color)
 {
-	SetUniform__Fragment_gridmap();
 	m_lineColor = color;
+	SetUniform__Fragment_gridmap();
 }
 
 static GLuint CreateShader(const std::string& text, GLenum shaderType)

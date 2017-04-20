@@ -87,6 +87,8 @@ void Mesh::DrawLines(GLfloat width)
 {
 	glBindVertexArray(m_vertexArrayObject);
 
+	glLineWidth(width);
+
 	// Draw Map
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
