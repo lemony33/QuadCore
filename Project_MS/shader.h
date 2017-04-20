@@ -7,6 +7,9 @@
 #include "camera.h"
 
 
+#include "enum_type.h"
+
+
 namespace QuadCore
 {
 
@@ -17,7 +20,7 @@ public:
 	Shader(const std::string& fileName);
 
 	void Bind();
-	void Update(const Transform& transform, const QuadCore::Camera& camera); // transform, camera
+	void Update(const Transform& transform, const QuadCore::Camera& camera, SHADER_NAME mode = SHADER_NAME::Phong_Shading); // transform, camera
 	const void SetLineColor(glm::vec4 color);
 	virtual ~Shader();
 
@@ -28,6 +31,34 @@ private:
 	void operator=(const Shader& other) {}
 	glm::vec4 m_lineColor;
 
+
+	// 내부적으로만 호출되는 쉐이더 전용 함수들
+	// 함수명 규칙: inline void SetUniform_쉐이더종류_이름()
+private:
+	inline void SetUniform_Fragment_phong()
+	{
+		//glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+		glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+
+		glUniform3f(m_uniforms[LIGHT_POS_U], lightPos.x, lightPos.y, lightPos.z + 3.0f);
+		//glUniform3f(m_uniforms[LIGHT_POS_U], lightPos.x, lightPos.y, lightPos.z); 
+		glUniform3f(m_uniforms[VIEW_POS_U], 1.0f, 1.0f, 1.0f);
+
+		//glUniform3f(m_uniforms[LIGHT_COLOR_U], 1.0f, 0.5f, 0.31f);
+		glUniform3f(m_uniforms[LIGHT_AMBIENT_U], 1.0f, 0.0f, 0.0f);
+		glUniform3f(m_uniforms[LIGHT_DIFFUSE_U], 0.3f, 0.3f, 0.8f);
+		glUniform3f(m_uniforms[LIGHT_SPECULAR_U], 1.0f, 1.0f, 1.0f);
+
+		//glUniform3f(m_uniforms[OBJECT_COLOR_U], camera.GetPos().x, camera.GetPos().y, camera.GetPos().z);
+		glUniform3f(m_uniforms[OBJECT_COLOR_U], 1.0f, 0.0f, 0.0f);
+	}
+	inline void SetUniform__Fragment_gridmap()
+	{
+		glUniform4fv(100, 1, &m_lineColor[0]);
+	}
+
+	// Shader Layout #
+private:
 	//transform
 	enum
 	{
