@@ -7,6 +7,8 @@
 #include "Coordinates.h"
 
 
+
+
 namespace QuadCore
 {
 	
