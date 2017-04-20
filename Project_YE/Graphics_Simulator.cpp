@@ -36,16 +36,16 @@ void QuadCore::Graphics_Simulator::Run()
 	//3. Texture	// 도형배경
 	Texture texture1("../media/res/bricks.jpg");
 	Texture texture2("../media/skyblue.jpg");
-	Texture texture3("../media/image2.png");
+	Texture texture3("../media/curser.png");
 
 	//texture2.Reset();
 
 
 	Vertex vertices[] = {
-		Vertex(glm::vec3(0.5, 0.5,  0.0),	glm::vec2(1.0,1.0) , glm::vec3(0,0,1)),	// 모양 점위치 / 모양 배경위치(TopRight, BottomRight, BottomLeft(원점), TopLeft) / 색깔
-		Vertex(glm::vec3(0.5,  -0.5,  0.0),	glm::vec2(1.0,0.0) , glm::vec3(0,0,1)),
-		Vertex(glm::vec3(-0.5, -0.5,  0.0),	glm::vec2(0.0,0.0) , glm::vec3(0,0,1)),
-		Vertex(glm::vec3(-0.5, 0.5,  0.0),	glm::vec2(0.0,1.0) , glm::vec3(0,0,1)),
+		Vertex(glm::vec3(0.5, 0.5,  0.0),	glm::vec2(1.0,1.0) , glm::vec3(0,0,0)),	// 모양 점위치 / 모양 배경위치(TopRight, BottomRight, BottomLeft(원점), TopLeft) / 색깔
+		Vertex(glm::vec3(0.5,  -0.5,  0.0),	glm::vec2(1.0,0.0) , glm::vec3(0,0,0)),
+		Vertex(glm::vec3(-0.5, -0.5,  0.0),	glm::vec2(0.0,0.0) , glm::vec3(0,0,0)),
+		Vertex(glm::vec3(-0.5, 0.5,  0.0),	glm::vec2(0.0,1.0) , glm::vec3(0,0,0)),
 	};
 	unsigned int indices[] = {
 		2,1,0,
@@ -87,26 +87,39 @@ void QuadCore::Graphics_Simulator::Run()
 		display.Clear(0.1f, 0.1f, 0.1f, 1.0f);	// 배경 초기화
 		display.Clear(1.0f, 1.0f, 1.0f, 1.0f);	// 배경 초기화
 
-												//display.Clear(0.3f, 0.3f, 0.3f, 1.0f);	// 배경 초기화
+		//display.Clear(0.3f, 0.3f, 0.3f, 1.0f);	// 배경 초기화
 
-												//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-												// Draw here
-												//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
-
-												//Shader s("../media/MapShader");
-												//s.SetLineColor(glm::vec4(1.0, 0, 0, 1));
-												//glLineWidth(3);
-
-												//s.Bind();
-												//s.Update(worldCoordinate, camera);
-												//mesh.DrawLines();
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+		// Draw here
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 
+		//Shader s("../media/MapShader");
+		//s.SetLineColor(glm::vec4(1.0, 0, 0, 1));
+		//glLineWidth(3);
+
+		//s.Bind();
+		//s.Update(worldCoordinate, camera);
+		//mesh.DrawLines();
+
+		// 마리오1
+		transform_vertice.GetPos().x = 3;
+		transform_vertice.GetPos().y = 3;
+		transform_vertice.GetPos().z = 0;
+		transform_vertice.GetRot().z = 180.0f;
+
+		shader1.Update(worldCoordinate, camera);
+		shader1.Update(transform_vertice, camera);
+		texture3.Bind(0);
+		mesh_vertices.Draw();
 
 
-												//worldCoordinate.GetPos().z = -2;
-												//worldCoordinate.GetRot().x += 0.01;
+
+		// 마리오2
+		worldCoordinate.GetPos().x = 4;
+		worldCoordinate.GetPos().y = 3;
+		worldCoordinate.GetPos().z = 0;
+
 		shader1.Update(worldCoordinate, camera);
 		texture3.Bind(0);
 		mesh_vertices.Draw();
@@ -114,16 +127,10 @@ void QuadCore::Graphics_Simulator::Run()
 
 
 
-
-
-
 		// Draw Map 새로 추가된 부분
 		dMap.DrawPlane();
 
-
 		m_shape_manager;
-
-
 
 		shader1.Bind();
 		texture1.Bind(0);
@@ -145,7 +152,7 @@ void QuadCore::Graphics_Simulator::Run()
 
 
 
-		transform2.SetPos(glm::vec3(-1.1, 0, 0));
+		/*transform2.SetPos(glm::vec3(-1.1, 0, 0));
 
 		transform2.GetRot().y = counter * 0.5f;
 		transform2.GetRot().x = counter * 0.3f;
@@ -154,7 +161,7 @@ void QuadCore::Graphics_Simulator::Run()
 		transform2.GetPos().x += delim * sinf(counter);
 
 		shader1.Update(transform2, camera);
-		mesh1.Draw();
+		mesh1.Draw();*/
 
 
 		//float r = 3.0f;
