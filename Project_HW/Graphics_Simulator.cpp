@@ -20,72 +20,143 @@ QuadCore::Graphics_Simulator::~Graphics_Simulator()
 
 void QuadCore::Graphics_Simulator::Run()
 {
+	Vertex SkyBoxVerties[] =
+	{
+		Vertex(glm::vec3(- 100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+
+		/*Vertex(glm::vec3(-100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),*/
+		Vertex(glm::vec3(-100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+
+		/*Vertex(glm::vec3(-100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),*/
+		Vertex(glm::vec3(-100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+
+		Vertex(glm::vec3(100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+
+		/*Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),*/
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+
+		Vertex(glm::vec3(-100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f))
+	};
 	Vertex CubeVerties[] =
 	{
-		Vertex(glm::vec3(- 500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
-		Vertex(glm::vec3(500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
-		Vertex(glm::vec3(500.0f,  500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
-		Vertex(glm::vec3(500.0f,  500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
-		Vertex(glm::vec3(-500.0f,  500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
-		Vertex(glm::vec3(-500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		/*Vertex(glm::vec3(-5.0f, -5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(5.0f, -5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(5.0f,  5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(5.0f,  5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(-5.0f,  5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(-5.0f, -5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),*/
+		Vertex(glm::vec3(-5.0f, -5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(-5.0f,  5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(5.0f,  5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(5.0f,  5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(5.0f, -5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(-5.0f, -5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
 
-		Vertex(glm::vec3(-500.0f, -500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
-		Vertex(glm::vec3(500.0f, -500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
-		Vertex(glm::vec3(500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
-		Vertex(glm::vec3(500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
-		Vertex(glm::vec3(-500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
-		Vertex(glm::vec3(-500.0f, -500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(-5.0f, -5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(5.0f, -5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(-5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(-5.0f, -5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
 
-		Vertex(glm::vec3(-500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
-		Vertex(glm::vec3(-500.0f,  500.0f, -500.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
-		Vertex(glm::vec3(-500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
-		Vertex(glm::vec3(-500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
-		Vertex(glm::vec3(-500.0f, -500.0f,  500.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
-		Vertex(glm::vec3(-500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-5.0f,  5.0f, -5.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-5.0f, -5.0f, -5.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-5.0f, -5.0f, -5.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-5.0f, -5.0f,  5.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
 
-		Vertex(glm::vec3(500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
-		Vertex(glm::vec3(500.0f,  500.0f, -500.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
-		Vertex(glm::vec3(500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
-		Vertex(glm::vec3(500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
-		Vertex(glm::vec3(500.0f, -500.0f,  500.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
-		Vertex(glm::vec3(500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		/*Vertex(glm::vec3(5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f,  5.0f, -5.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f, -5.0f, -5.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f, -5.0f, -5.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f, -5.0f,  5.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),*/
+		Vertex(glm::vec3(5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f, -5.0f,  5.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f, -5.0f, -5.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f, -5.0f, -5.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f,  5.0f, -5.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
 
-		Vertex(glm::vec3(-500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
-		Vertex(glm::vec3(500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
-		Vertex(glm::vec3(500.0f, -500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
-		Vertex(glm::vec3(500.0f, -500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
-		Vertex(glm::vec3(-500.0f, -500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
-		Vertex(glm::vec3(-500.0f, -500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(-5.0f, -5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f, -5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f, -5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f, -5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(-5.0f, -5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(-5.0f, -5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
 
-		Vertex(glm::vec3(-500.0f,  500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  1.0f,  0.0f)),
-		Vertex(glm::vec3(500.0f,  500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  1.0f,  0.0f)),
-		Vertex(glm::vec3(500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  1.0f,  0.0f)),
-		Vertex(glm::vec3(500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  1.0f,  0.0f)),
-		Vertex(glm::vec3(-500.0f,  500.0f,  500.0f),glm::vec2(0,0),glm::vec3(0.0f,  1.0f,  0.0f)),
-		Vertex(glm::vec3(-500.0f,  500.0f, -500.0f),glm::vec2(0,0),glm::vec3(0.0f,  1.0f,  0.0f))
+		/*Vertex(glm::vec3(-5.0f,  5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f,  5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(-5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(-5.0f,  5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f))*/
+		Vertex(glm::vec3(-5.0f,  5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(-5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(5.0f,  5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(-5.0f,  5.0f, -5.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f))
 	};
-	unsigned int indices[] = { 0, 1, 2,
-		0, 2, 3,
-
-		6, 5, 4,
-		7, 6, 4,
-
-		10, 9, 8,
-		11, 10, 8,
-
-		12, 13, 14,
-		12, 14, 15,
-
-		16, 17, 18,
-		16, 18, 19,
-
-		22, 21, 20,
-		23, 22, 20
+	unsigned int indices[] = { 
+		0,1,2, 2,3,0,   // 36 of indices
+		0,3,4, 4,5,0,
+		0,5,6, 6,1,0,
+		1,6,7, 7,2,1,
+		7,4,3, 3,2,7,
+		4,7,6, 6,5,4
 	};
 	// 1. Object
 	//Mesh mesh1("../media/shape/Cube.obj");
-	Mesh mesh1(CubeVerties, sizeof(CubeVerties)/sizeof(CubeVerties[0]),indices, sizeof(indices) / sizeof(indices[0]));
-	Mesh mesh2("../media/shape/Cube.obj");
+	Mesh mesh1(SkyBoxVerties, sizeof(SkyBoxVerties)/sizeof(SkyBoxVerties[0]),indices, sizeof(indices) / sizeof(indices[0]));
+	//Mesh mesh2("../media/shape/Cube.obj");
+	Mesh mesh2(CubeVerties, sizeof(SkyBoxVerties) / sizeof(SkyBoxVerties[0]), indices, sizeof(indices) / sizeof(indices[0]));
 
 	// 2. Shader
 	//Shader shader1("../media/new_shader/basicShader_light");
@@ -139,7 +210,7 @@ void QuadCore::Graphics_Simulator::Run()
 
 		display.UpdateWindowSize();	// 화면 갱신
 		camera.Update(camera.GetPos(), 70.0f, display.GetWindowAspec(), 0.01F, 1000.0f);
-				
+		
 		display.Clear(0.1f, 0.1f, 0.1f, 1.0f);	// 배경 초기화
 		display.Clear(1.0f, 1.0f, 1.0f, 1.0f);	// 배경 초기화
 
@@ -165,13 +236,14 @@ void QuadCore::Graphics_Simulator::Run()
 		transform1.SetPos(glm::vec3(1.1, 1.1, 0));
 		transform1.GetRot().y = counter * 0.5f;
 		transform1.GetRot().x = counter * 0.3f;*/
-		shader1.Update(transform1, camera);		
-		mesh1.Draw();
+		shader1.Update(transform1, camera);
+		mesh2.Draw();
 
 		glDepthFunc(GL_LEQUAL);
 		shader2.Bind();
 		skyboxTexture.Bind(0);
-		mesh2.Draw();
+		mesh1.Draw();
+		shader2.Update(transform1, camera);
 		glDepthFunc(GL_LESS);
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		

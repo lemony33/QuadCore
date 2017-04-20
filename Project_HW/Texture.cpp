@@ -34,7 +34,7 @@ Texture::Texture(std::vector<std::string> faces)
 {
 	glGenTextures(1, &SkyBoxTexture);
 
-	glActiveTexture(GL_TEXTURE0);
+	
 	
 	int width, height;
 
@@ -75,5 +75,8 @@ void Texture::Bind(unsigned int unit)
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 	}
 	else if (TextureMod == SKYBOX_TEXTURE)
+	{
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, SkyBoxTexture);
+	}
 }
