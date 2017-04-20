@@ -39,7 +39,7 @@ void QuadCore::Graphics_Simulator::Run()
 
 	//4. Transform
 	Transform world_transform;
-	Transform mini_transform;
+	Transform UI_transform;
 	Transform transform1;
 	Transform transform2;
 	Transform transform3;
@@ -61,11 +61,11 @@ void QuadCore::Graphics_Simulator::Run()
 	
 	//glm::mat4 view_matrix = camera.GetViewMatrix();	// 카메라 시점
 	//camera.GetPos();
-	mini_transform.Init(camera.GetPos(), camera.GetForawrd());
+	UI_transform.Init(camera.GetPos(), camera.GetForawrd());
 	//glm::mat4 view_matrix = camera.GetViewMatrix();
 
 	m_world_coordinates.Init(&world_transform, &camera, 5.0f);
-	m_mini_coordinates.Init(&mini_transform, &camera, .1f);
+	m_UI_coordinates.Init(&UI_transform, &camera, .1f);
 
 	Coordinates coor_model_1;
 	Coordinates coor_model_2;
@@ -100,11 +100,11 @@ void QuadCore::Graphics_Simulator::Run()
 		m_world_coordinates.Draw();
 
 
-		mini_transform.Init(camera.GetPos());		
-		mini_transform.GetPos().x += camera.GetForawrd().x;
-		mini_transform.GetPos().y += camera.GetForawrd().y;
-		mini_transform.GetPos().z += camera.GetForawrd().z;
-		m_mini_coordinates.Draw();
+		UI_transform.Init(camera.GetPos());		
+		UI_transform.GetPos().x += camera.GetForawrd().x;
+		UI_transform.GetPos().y += camera.GetForawrd().y;
+		UI_transform.GetPos().z += camera.GetForawrd().z;
+		m_UI_coordinates.Draw();
 
 
 		// Draw Map 새로 추가된 부분

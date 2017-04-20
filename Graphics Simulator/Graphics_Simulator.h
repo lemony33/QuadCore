@@ -28,7 +28,7 @@ private:
 	ShapeManager m_shape_manager;
 
 	Coordinates m_world_coordinates;
-	Coordinates m_mini_coordinates;
+	Coordinates m_UI_coordinates;
 };
 
 
