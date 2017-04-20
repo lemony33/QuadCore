@@ -83,13 +83,12 @@ void Mesh::Draw()
 }
 
 // DrawMap 새로 추가된 부분
-void Mesh::DrawLines()
+void Mesh::DrawLines(GLfloat width)
 {
 	glBindVertexArray(m_vertexArrayObject);
 
 	// Draw Map
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glLineWidth(1.0f);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

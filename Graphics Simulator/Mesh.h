@@ -39,7 +39,7 @@ public:
 	Mesh(const std::string& fileName);
 
 	void Draw();
-	void DrawLines();
+	void DrawLines(GLfloat width = 1.0f);
 
 	virtual ~Mesh();
 

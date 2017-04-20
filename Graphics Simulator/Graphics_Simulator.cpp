@@ -55,6 +55,18 @@ void QuadCore::Graphics_Simulator::Run()
 	DrawMap dMap(camera);
 	dMap.SetProperty(100, 1.0f, glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
 
+	// MS - 0420 - 좌표계 그리기
+	m_coordinates.Init(&worldCoordinate, &camera);
+
+	Coordinates coor_model_1;
+	Coordinates coor_model_2;
+	Coordinates coor_model_3;
+	coor_model_1.Init(&transform1, &camera);
+	coor_model_2.Init(&transform2, &camera);
+	coor_model_3.Init(&transform3, &camera);
+
+
+
 	float counter = 0.0f;
 
 	while (!display.IsClosed())
@@ -74,6 +86,10 @@ void QuadCore::Graphics_Simulator::Run()
 		// Draw here
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
+		// MS - 0420 - 좌표계 그리기
+		m_coordinates.Draw();
+
+
 		// Draw Map 새로 추가된 부분
 		dMap.DrawPlane();
 
@@ -92,7 +108,12 @@ void QuadCore::Graphics_Simulator::Run()
 		transform1.GetRot().x = counter * 0.3f;
 		shader1.Update(transform1, camera);		
 		mesh1.Draw();
+		coor_model_1.Draw();
 
+
+		///
+		shader1.Bind();
+		texture1.Bind(0);
 
 		transform2.SetPos(glm::vec3(-1.1, 0, 0));
 
@@ -100,6 +121,7 @@ void QuadCore::Graphics_Simulator::Run()
 		transform2.GetRot().x = counter * 0.3f;
 		shader1.Update(transform2, camera);
 		mesh1.Draw();
+		coor_model_2.Draw();
 		
 		/*
 		transform2.SetPos(glm::vec3(-1.1, 0, 0));
