@@ -103,7 +103,7 @@ void QuadCore::Graphics_Simulator::Run()
 		Vertex(glm::vec3(5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
 		Vertex(glm::vec3(-5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
 		Vertex(glm::vec3(-5.0f, -5.0f,  5.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
-
+		
 		Vertex(glm::vec3(-5.0f,  5.0f,  5.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
 		Vertex(glm::vec3(-5.0f,  5.0f, -5.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
 		Vertex(glm::vec3(-5.0f, -5.0f, -5.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
@@ -157,6 +157,8 @@ void QuadCore::Graphics_Simulator::Run()
 	Mesh mesh1(SkyBoxVerties, sizeof(SkyBoxVerties)/sizeof(SkyBoxVerties[0]),indices, sizeof(indices) / sizeof(indices[0]));
 	//Mesh mesh2("../media/shape/Cube.obj");
 	Mesh mesh2(CubeVerties, sizeof(SkyBoxVerties) / sizeof(SkyBoxVerties[0]), indices, sizeof(indices) / sizeof(indices[0]));
+	Mesh mesh3("../media/objects/nanosuit_reflection/nanosuit.obj"); 
+	//Mesh mesh3("../media/shape/Wedge.obj");
 
 	// 2. Shader
 	//Shader shader1("../media/new_shader/basicShader_light");
@@ -178,7 +180,16 @@ void QuadCore::Graphics_Simulator::Run()
 	faces.push_back("../media/textures/skybox/front.jpg");
 
 	Texture skyboxTexture(faces);
-	
+	//---반대로 가 봅시다
+	std::vector<std::string> faces2;
+	faces2.push_back("../media/textures/skybox/left.jpg");
+	faces2.push_back("../media/textures/skybox/right.jpg");
+	faces2.push_back("../media/textures/skybox/bottom.jpg");
+	faces2.push_back("../media/textures/skybox/top.jpg");
+	faces2.push_back("../media/textures/skybox/front.jpg");
+	faces2.push_back("../media/textures/skybox/back.jpg");
+
+	Texture reflectTexture(faces2);
 	//texture2.Reset();
 	
 
@@ -229,6 +240,7 @@ void QuadCore::Graphics_Simulator::Run()
 
 
 		shader1.Bind();		
+		//reflectTexture.Bind(0);
 		skyboxTexture.Bind(0);
 		//Texture::Reset();
 
@@ -237,7 +249,7 @@ void QuadCore::Graphics_Simulator::Run()
 		transform1.GetRot().y = counter * 0.5f;
 		transform1.GetRot().x = counter * 0.3f;*/
 		shader1.Update(transform1, camera);
-		mesh2.Draw();
+		mesh3.Draw();
 
 		glDepthFunc(GL_LEQUAL);
 		shader2.Bind();

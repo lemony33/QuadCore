@@ -34,3 +34,15 @@ void main()
     Position = vec3(model * vec4(position, 1.0f));
 
 }  
+
+/*
+{
+
+    gl_Position = projection * view * model * vec4(position, 1.0f);
+
+    normal0 = mat3(transpose(inverse(model))) * normal;
+	texCoord0 = texCoord;
+    Position = vec3(model * vec4(position, 1.0f));
+
+}  
+*/
