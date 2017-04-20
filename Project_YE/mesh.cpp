@@ -74,10 +74,10 @@ void Mesh::Draw()
 {
 	glBindVertexArray(m_vertexArrayObject);
 
-
-
 	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0); // obj file
 	//glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
+	//glDisable(GL_BLEND);
+	//glDepthMask(GL_TRUE);
 
 	glBindVertexArray(0);
 }

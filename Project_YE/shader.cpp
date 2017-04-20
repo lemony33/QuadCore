@@ -64,10 +64,6 @@ Shader::~Shader()
 
 void Shader::Bind()
 {
-	// enable alpha support
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	glUseProgram(m_program);
 }
 
