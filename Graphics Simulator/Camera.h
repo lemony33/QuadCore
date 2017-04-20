@@ -51,7 +51,13 @@ namespace QuadCore
 
 		inline glm::vec3 GetPos() const
 		{
+			printf(" ( %f,%f , %f ) \n", m_position.x, m_position.y, m_position.z);
 			return m_position;
+		}
+
+		inline glm::vec3 GetForawrd() const
+		{
+			return m_forward;
 		}
 
 	protected:

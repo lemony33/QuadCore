@@ -38,7 +38,8 @@ void QuadCore::Graphics_Simulator::Run()
 	
 
 	//4. Transform
-	Transform worldCoordinate;
+	Transform world_transform;
+	Transform UI_transform;
 	Transform transform1;
 	Transform transform2;
 	Transform transform3;
@@ -50,14 +51,21 @@ void QuadCore::Graphics_Simulator::Run()
 
 	// Controls (Mouse / Keyboard)
 	Controls controls(display.GetWindow());
-	Controls controller(controls, camera, worldCoordinate);
+	Controls controller(controls, camera, world_transform);
 
 	// Draw Map 새로 추가된 부분
 	DrawMap dMap(camera);
 	dMap.SetProperty(100, 1.0f, glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
 
 	// MS - 0420 - 좌표계 그리기
-	m_coordinates.Init(&worldCoordinate, &camera, 5.0f);
+	
+	//glm::mat4 view_matrix = camera.GetViewMatrix();	// 카메라 시점
+	//camera.GetPos();
+	UI_transform.Init(camera.GetPos(), camera.GetForawrd());
+	//glm::mat4 view_matrix = camera.GetViewMatrix();
+
+	m_world_coordinates.Init(&world_transform, &camera, 5.0f);
+	m_UI_coordinates.Init(&UI_transform, &camera, .1f);
 
 	Coordinates coor_model_1;
 	Coordinates coor_model_2;
@@ -88,7 +96,15 @@ void QuadCore::Graphics_Simulator::Run()
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 		// MS - 0420 - 좌표계 그리기
-		m_coordinates.Draw();
+		
+		m_world_coordinates.Draw();
+
+
+		UI_transform.Init(camera.GetPos());		
+		UI_transform.GetPos().x += camera.GetForawrd().x;
+		UI_transform.GetPos().y += camera.GetForawrd().y;
+		UI_transform.GetPos().z += camera.GetForawrd().z;
+		m_UI_coordinates.Draw();
 
 
 		// Draw Map 새로 추가된 부분
