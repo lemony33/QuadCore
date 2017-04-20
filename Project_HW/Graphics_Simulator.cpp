@@ -157,8 +157,8 @@ void QuadCore::Graphics_Simulator::Run()
 	Mesh mesh1(SkyBoxVerties, sizeof(SkyBoxVerties)/sizeof(SkyBoxVerties[0]),indices, sizeof(indices) / sizeof(indices[0]));
 	//Mesh mesh2("../media/shape/Cube.obj");
 	Mesh mesh2(CubeVerties, sizeof(SkyBoxVerties) / sizeof(SkyBoxVerties[0]), indices, sizeof(indices) / sizeof(indices[0]));
-	Mesh mesh3("../media/objects/nanosuit_reflection/nanosuit.obj"); 
-	//Mesh mesh3("../media/shape/Wedge.obj");
+	//Mesh mesh3("../media/objects/nanosuit_reflection/nanosuit.obj"); 
+	Mesh mesh4("../media/shape/Sphere.obj");
 
 	// 2. Shader
 	//Shader shader1("../media/new_shader/basicShader_light");
@@ -249,8 +249,9 @@ void QuadCore::Graphics_Simulator::Run()
 		transform1.GetRot().y = counter * 0.5f;
 		transform1.GetRot().x = counter * 0.3f;*/
 		shader1.Update(transform1, camera);
-		mesh3.Draw();
-
+		mesh4.Draw();
+		
+		
 		glDepthFunc(GL_LEQUAL);
 		shader2.Bind();
 		skyboxTexture.Bind(0);
@@ -261,5 +262,6 @@ void QuadCore::Graphics_Simulator::Run()
 		
 		display.Update();	// 화면갱신
 		counter += 0.05f;	// 카운터 증가
+		
 	}
 }
