@@ -24,7 +24,7 @@ void QuadCore::Graphics_Simulator::Run()
 	Mesh mesh1("../media/shape/Cube.obj");
 	//Mesh mesh1("../media/shape/Wedge.obj");
 	//Mesh mesh1("../media/shape/CubeHollow.obj");
-	Mesh mesh2("../media/shape/CubeHollow.obj");
+	Mesh mesh2("../media/shape/Cube.obj");
 
 	// 2. Shader
 	Shader shader1("../media/new_shader/basicShader_light");
@@ -88,16 +88,16 @@ void QuadCore::Graphics_Simulator::Run()
 
 		transform1.SetPos(glm::vec3(0, 0, 0));
 		transform1.SetPos(glm::vec3(1.1, 1.1, 0));
-		transform1.GetRot().y = counter * 0.5f;
-		transform1.GetRot().x = counter * 0.3f;
+		//transform1.GetRot().y = counter * 0.5f;
+		//transform1.GetRot().x = counter * 0.3f;
 		shader1.Update(transform1, camera);		
 		mesh1.Draw();
 
 
 		transform2.SetPos(glm::vec3(-1.1, 0, 0));
 
-		transform2.GetRot().y = counter * 0.5f;
-		transform2.GetRot().x = counter * 0.3f;
+		//transform2.GetRot().y = counter * 0.5f;
+		//transform2.GetRot().x = counter * 0.3f;
 		shader1.Update(transform2, camera);
 		mesh1.Draw();
 		
