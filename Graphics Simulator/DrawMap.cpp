@@ -51,6 +51,6 @@ void QuadCore::DrawMap::SetProperty(int matrixSize, float thickness, glm::vec4 c
 void QuadCore::DrawMap::DrawPlane()
 {
 	m_Shader->Bind();
-	m_Shader->Update(m_Transform, *m_Camera);
+	m_Shader->Update(m_Transform, *m_Camera, Line_Shading);
 	m_Mesh->DrawLines();
 }

@@ -62,20 +62,25 @@ private:
 	//transform
 	enum
 	{
-		TRANSFORM_U,
+		// VS - Phone, Line
+		TRANSFORM_U,		// 사용안함
 		MODEL_U,
 		VIEW_U,
 		PROJECTION_U,
-
+		
+		// FS - lamp
 		LIGHT_POS_U,
 		VIEW_POS_U,
-		//LIGHT_COLOR_U,
+		
+		// FS - Phone Shading
 		LIGHT_AMBIENT_U,
 		LIGHT_DIFFUSE_U,
 		LIGHT_SPECULAR_U,
+		OBJECT_COLOR_U,		//  사용안함
 
+		// FS - Line Shading
+		LINE_COLOR_U,
 
-		OBJECT_COLOR_U,
 
 		NUM_UNIFORMS
 	};
