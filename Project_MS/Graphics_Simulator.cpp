@@ -1,10 +1,15 @@
 #include "Graphics_Simulator.h"
 
+#include "enum_type.h"
+
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
 #include "Controls.h"
 #include "DrawMap.h"
+
+
+
 
 
 QuadCore::Graphics_Simulator::Graphics_Simulator()
@@ -134,8 +139,6 @@ void QuadCore::Graphics_Simulator::Run()
 
 		// Draw Map 새로 추가된 부분
 		dMap.DrawPlane();
-
-
 		m_shape_manager;
 
 
@@ -154,7 +157,7 @@ void QuadCore::Graphics_Simulator::Run()
 		transform1.GetPos().y += delim * sinf(counter);
 		transform1.GetPos().x += delim * cosf(counter);
 
-		shader1.Update(transform1, camera);		
+		shader1.Update(transform1, camera);
 		mesh1.Draw();
 		coor_model_1.Draw();
 

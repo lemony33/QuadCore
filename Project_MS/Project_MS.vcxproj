@@ -24,6 +24,7 @@
     <ClInclude Include="Coordinates.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="DrawMap.h" />
+    <ClInclude Include="enum_type.h" />
     <ClInclude Include="Graphics_Simulator.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Obj_loader.h" />
