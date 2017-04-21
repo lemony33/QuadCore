@@ -8,6 +8,7 @@ using QuadCore::Mesh;
 Mesh::Mesh(const std::string& fileName)
 {
 	IndexedModel model = OBJModel(fileName).ToIndexedModel();
+	MOD = OBJFILE;
 	InitMesh(model);
 }
 
@@ -24,7 +25,7 @@ Mesh::Mesh(QuadCore::Vertex* vertices, unsigned int numVertices, unsigned int* i
 
 	for (unsigned int i = 0; i < numIndices; i++)
 		model.indices.push_back(indices[i]);
-
+	MOD = VERTICES;
 	InitMesh(model);	
 }
 
@@ -73,11 +74,11 @@ void Mesh::InitMesh(const QuadCore::IndexedModel& model)
 void Mesh::Draw()
 {
 	glBindVertexArray(m_vertexArrayObject);
-
-
-
-	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0); // obj file
-	//glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
+	
+	if (MOD == OBJFILE)
+		glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0); // obj file
+	else if (MOD == VERTICES)
+		glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
 
 	glBindVertexArray(0);
 }

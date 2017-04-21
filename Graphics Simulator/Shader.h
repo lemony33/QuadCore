@@ -35,14 +35,15 @@ private:
 	// 내부적으로만 호출되는 쉐이더 전용 함수들
 	// 함수명 규칙: inline void SetUniform_쉐이더종류_이름()
 private:
-	inline void SetUniform_Fragment_phong()
+	inline void SetUniform_Fragment_phong(glm::vec3 cameraposition)
 	{
 		//glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 		glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 
 		glUniform3f(m_uniforms[LIGHT_POS_U], lightPos.x, lightPos.y, lightPos.z + 3.0f);
 		//glUniform3f(m_uniforms[LIGHT_	POS_U], lightPos.x, lightPos.y, lightPos.z); 
-		glUniform3f(m_uniforms[VIEW_POS_U], 1.0f, 1.0f, 1.0f);
+		//glUniform3f(m_uniforms[VIEW_POS_U], 1.0f, 1.0f, 1.0f);
+		glUniform3f(m_uniforms[VIEW_POS_U], cameraposition.x, cameraposition.y, cameraposition.z);
 
 		//glUniform3f(m_uniforms[LIGHT_COLOR_U], 1.0f, 0.5f, 0.31f);
 		glUniform3f(m_uniforms[LIGHT_AMBIENT_U], 1.0f, 0.0f, 0.0f);

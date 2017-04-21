@@ -1,5 +1,5 @@
 #include "Graphics_Simulator.h"
-
+#include <algorithm>
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
@@ -20,21 +20,107 @@ QuadCore::Graphics_Simulator::~Graphics_Simulator()
 
 void QuadCore::Graphics_Simulator::Run()
 {
+	Vertex SkyBoxVerties[] = // 스카이박스 vertices
+	{
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, -1.0f)),
+
+		/*Vertex(glm::vec3(-100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),*/
+		Vertex(glm::vec3(-100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  0.0f, 1.0f)),
+
+		/*Vertex(glm::vec3(-100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),*/
+		Vertex(glm::vec3(-100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(-1.0f,  0.0f,  0.0f)),
+
+		Vertex(glm::vec3(100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(1.0f,  0.0f,  0.0f)),
+
+		/*Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),*/
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f, -100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f, -1.0f,  0.0f)),
+
+		Vertex(glm::vec3(-100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f,  100.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f)),
+		Vertex(glm::vec3(-100.0f,  100.0f, -100.0f),glm::vec2(0,0),glm::vec3(0.0f,  -1.0f,  0.0f))
+	};
+	unsigned int indices[] = {
+		0,1,2, 2,3,0,   // 36 of indices
+		0,3,4, 4,5,0,
+		0,5,6, 6,1,0,
+		1,6,7, 7,2,1,
+		7,4,3, 3,2,7,
+		4,7,6, 6,5,4
+	}; // 스카이박스 indices
 	// 1. Object
 	Mesh mesh1("../media/shape/Cube.obj");
 	//Mesh mesh1("../media/shape/Wedge.obj");
 	//Mesh mesh1("../media/shape/CubeHollow.obj");
 	Mesh mesh2("../media/shape/CubeHollow.obj");
 	Mesh mesh3("../media/shape/Icosphere.obj");
+	Mesh skyboxMesh(SkyBoxVerties, sizeof(SkyBoxVerties) / sizeof(SkyBoxVerties[0]), indices, sizeof(indices) / sizeof(indices[0]));
+	Mesh nanosuitMesh("../media/objects/nanosuit_reflection/nanosuit.obj");
 
 	// 2. Shader
 	Shader shader1("../media/new_shader/basicShader_light");
 	Shader shader2("../media/new_shader/basicShader_tex");
-	
+	//Shader shader1("../media/shaders/cubemaps/cubemaps");
+	Shader skyboxShader("../media/shaders/cubemaps/skybox");
+	Shader glassShader("../media/shaders/cubemaps/glass");
+	Shader mirrorShader("../media/shaders/cubemaps/mirror");
+
 	//3. Texture
 	Texture texture1("../media/res/bricks.jpg");
 	Texture texture2("../media/skyblue.jpg");
 	//texture2.Reset();
+	//스카이박스 텍스쳐 들어가는 부분
+	std::vector<std::string> faces;
+	faces.push_back("../media/textures/skybox/right.jpg");
+	faces.push_back("../media/textures/skybox/left.jpg");
+	faces.push_back("../media/textures/skybox/top.jpg");
+	faces.push_back("../media/textures/skybox/bottom.jpg");
+	faces.push_back("../media/textures/skybox/back.jpg");
+	faces.push_back("../media/textures/skybox/front.jpg");
+
+	Texture skyboxTexture(faces);
 	
 
 	//4. Transform
@@ -43,6 +129,10 @@ void QuadCore::Graphics_Simulator::Run()
 	Transform transform1;
 	Transform transform2;
 	Transform transform3;
+
+	Transform Bullet;
+	Transform glassTrans(glm::vec3(10.0, 0, 0));
+	Transform mirrorTrans(glm::vec3(-10.0, 0, 0));
 	
 	
 	//5. Camera
@@ -90,7 +180,7 @@ void QuadCore::Graphics_Simulator::Run()
 		display.Clear(1.0f, 1.0f, 1.0f, 1.0f);	// 배경 초기화
 
 		//display.Clear(0.3f, 0.3f, 0.3f, 1.0f);	// 배경 초기화
-
+		
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		// Draw here
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -99,6 +189,15 @@ void QuadCore::Graphics_Simulator::Run()
 		
 		m_world_coordinates.Draw();
 
+		glassShader.Bind();
+		skyboxTexture.Bind(0);
+		glassShader.Update(glassTrans, camera);
+		nanosuitMesh.Draw();
+
+		mirrorShader.Bind();
+		skyboxTexture.Bind(0);
+		mirrorShader.Update(mirrorTrans, camera);
+		nanosuitMesh.Draw();
 
 		/*UI_transform.Init(camera.GetPos());
 		UI_transform.GetPos().x += camera.GetForawrd().x;
@@ -211,7 +310,12 @@ void QuadCore::Graphics_Simulator::Run()
 		m_UI_coordinates.Draw(3.0f);
 
 		//*************
-
+		glDepthFunc(GL_LEQUAL);
+		skyboxShader.Bind();
+		skyboxTexture.Bind(0);
+		skyboxMesh.Draw();
+		skyboxShader.Update(world_transform, camera);
+		glDepthFunc(GL_LESS);
 
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ

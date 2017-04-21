@@ -255,19 +255,16 @@ void QuadCore::Graphics_Simulator::Run()
 		}
 
 		glassshader.Bind();		
-		//reflectTexture.Bind(0);
 		skyboxTexture.Bind(0);
 		glassshader.Update(glassTrans, camera);
 		mesh3.Draw();
 
 		mirrorshader.Bind();
-		//reflectTexture.Bind(0);
 		skyboxTexture.Bind(0);
 		mirrorshader.Update(mirrorTrans, camera);
 		mesh3.Draw();
 
 		shader1.Bind();
-		//reflectTexture.Bind(0);
 		skyboxTexture.Bind(0);
 		shader1.Update(Bullet, camera);
 		mesh4.Draw();

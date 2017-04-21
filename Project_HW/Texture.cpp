@@ -33,9 +33,7 @@ Texture::Texture(const std::string& fileName)
 Texture::Texture(std::vector<std::string> faces)
 {
 	glGenTextures(1, &SkyBoxTexture);
-
-	
-	
+		
 	int width, height;
 
 	glBindTexture(GL_TEXTURE_CUBE_MAP, SkyBoxTexture);

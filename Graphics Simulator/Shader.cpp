@@ -81,7 +81,7 @@ void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera
 	switch (fs_mode)
 	{
 	case SHADER_NAME::Phong_Shading:
-		SetUniform_Fragment_phong();
+		SetUniform_Fragment_phong(camera.GetPos());
 		break;
 	case SHADER_NAME::Line_Shading:
 		SetUniform__Fragment_gridmap();
