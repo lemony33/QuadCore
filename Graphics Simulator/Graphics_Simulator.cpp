@@ -148,6 +148,7 @@ void QuadCore::Graphics_Simulator::Run()
 	DrawMap dMap(camera);
 	dMap.SetProperty(100, 1.0f, glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
 
+
 	// MS - 0420 - 좌표계 그리기
 	
 	////glm::mat4 view_matrix = camera.GetViewMatrix();	// 카메라 시점
@@ -155,7 +156,7 @@ void QuadCore::Graphics_Simulator::Run()
 	//UI_transform.Init(camera.GetPos(), camera.GetForward());
 	////glm::mat4 view_matrix = camera.GetViewMatrix();
 
-	m_world_coordinates.Init(&world_transform, &camera, 5.0f);
+	m_world_coordinates.Init(&world_transform, &camera, 50.0f);
 	m_UI_coordinates.Init(&UI_transform, &camera, 0.05f);
 
 	Coordinates coor_model_1;
@@ -171,24 +172,25 @@ void QuadCore::Graphics_Simulator::Run()
 
 	while (!display.IsClosed())
 	{	
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
 		float sinCounter = sinf(counter);	// sin counter
 		float cosCounter = cosf(counter);	// cos counter
+		m_shape_manager.SetCounter(sinCounter, cosCounter);
+
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 		display.UpdateWindowSize();	// 화면 갱신
 		camera.Update(camera.GetPos(), 70.0f, display.GetWindowAspec(), 0.01F, 1000.0f);
 				
 		display.Clear(0.1f, 0.1f, 0.1f, 1.0f);	// 배경 초기화
 		display.Clear(1.0f, 1.0f, 1.0f, 1.0f);	// 배경 초기화
-
 		//display.Clear(0.3f, 0.3f, 0.3f, 1.0f);	// 배경 초기화
 		
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		// Draw here
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-		// MS - 0420 - 좌표계 그리기
-		
-		m_world_coordinates.Draw();
 
 		/*glassShader.Bind();
 		skyboxTexture.Bind(0);
@@ -206,34 +208,34 @@ void QuadCore::Graphics_Simulator::Run()
 		UI_transform.GetPos().z += camera.GetForawrd().z;
 		m_UI_coordinates.Draw();*/
 
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
 		
+		dMap.DrawPlane();				// Draw Map
+				
+		m_shape_manager.Run(&camera);	// 도형 그리기
 
-
-		// Draw Map 새로 추가된 부분
-		dMap.DrawPlane();
-
-		m_shape_manager;
-		m_shape_manager.Run(&camera);
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 		///
 		float delim = 0.7;
 
 
-		///
-		shader1.Bind();		
-		texture1.Bind(0);
-		//Texture::Reset();		// 텍스쳐 제거하는 방법
+		/////
+		//shader1.Bind();		
+		//texture1.Bind(0);
+		////Texture::Reset();		// 텍스쳐 제거하는 방법
 
-		transform1.SetPos(glm::vec3(0, 0, 0));
-		transform1.SetPos(glm::vec3(1.1, 1.1, 0));
+		//transform1.SetPos(glm::vec3(0, 0, 0));
+		//transform1.SetPos(glm::vec3(1.1, 1.1, 0));
 
-		transform1.GetPos().y += delim * sinf(counter);
-		transform1.GetPos().x += delim * cosf(counter);
-		transform1.GetRot().y = counter * 0.5f;
-		transform1.GetRot().x = counter * 0.3f;
-		shader1.Update(transform1, camera);		
-		mesh1.Draw();
-		coor_model_1.Draw();
+		//transform1.GetPos().y += delim * sinf(counter);
+		//transform1.GetPos().x += delim * cosf(counter);
+		//transform1.GetRot().y = counter * 0.5f;
+		//transform1.GetRot().x = counter * 0.3f;
+		//shader1.Update(transform1, camera);		
+		//mesh1.Draw();
+		//coor_model_1.Draw();
 
 
 		///
@@ -274,7 +276,9 @@ void QuadCore::Graphics_Simulator::Run()
 		
 
 
-		//**************
+		//********************
+		// UI 좌표계 그리기
+		//********************
 
 		shader1.Bind();
 		texture1.Bind(0);
@@ -310,6 +314,8 @@ void QuadCore::Graphics_Simulator::Run()
 		//mesh3.Draw();
 		m_UI_coordinates.Draw(3.0f);
 
+
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		//*************
 		/*glDepthFunc(GL_LEQUAL);
 		skyboxShader.Bind();
@@ -318,6 +324,11 @@ void QuadCore::Graphics_Simulator::Run()
 		skyboxShader.Update(world_transform, camera);
 		glDepthFunc(GL_LESS);*/
 
+
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+		// 월드 좌표계 그리기
+		m_world_coordinates.Draw();
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		

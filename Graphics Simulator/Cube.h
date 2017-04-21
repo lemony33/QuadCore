@@ -12,55 +12,47 @@ public:
 
 	Cube()
 	{
-		Init();
-	}
-
-	virtual ~Cube()
-	{
-	}
-
-	void Init()
-	{
 		m_transform = new Transform;
-		std::string filename = shape_path + "Cube.obj";
+		std::string filename = shape_path + "Cube" + ".obj";
 		m_mesh = new Mesh(filename);
 
 		//Shader shader1("../media/new_shader/basicShader_light");
 		m_shader = new Shader("../media/new_shader/basicShader_light");
 		m_texture = new Texture("../media/res/bricks.jpg");
 
-		//QuadCore::Transform*	m_transform;
-		//QuadCore::Mesh*			m_mesh;
+		m_coordinate = new Coordinates();
+		m_coordinate->Init(1.0f);
 	}
 
-	virtual void Draw(const QuadCore::Camera* camera, glm::vec3 pos = glm::vec3())
+	virtual ~Cube()
+	{
+		delete(m_transform);
+		delete(m_mesh);
+		delete(m_shader);
+		delete(m_texture);
+		delete(m_coordinate);
+	}
+
+	virtual void transform(glm::vec3 position, glm::vec3 rotation = glm::vec3(), glm::vec3 scale = glm::vec3(1,1,1))
+	{
+		m_transform->SetPos(position);
+		m_transform->SetRot(rotation);
+		m_transform->SetScale(scale);
+	}
+
+	
+
+	virtual void Draw(QuadCore::Camera* camera)
 	{
 		m_shader->Bind();
 		m_texture->Bind(0);
 
-		m_transform->SetPos(pos);
-
 		m_shader->Update(*m_transform, *camera);
 		m_mesh->Draw();
+
+		m_coordinate->Init_Link(m_transform, camera);
+		m_coordinate->Draw(10.0f);
 	}
-
-	/*
-	shader1.Bind();
-		texture1.Bind(0);
-
-		float r = 3.0f;
-		transform3.SetPos(glm::vec3(-r / 2.0f, 0, 0));
-		transform3.GetPos().x += sinf(counter) * r;
-		transform3.GetPos().y += cosf(counter) * r;
-
-		transform3.GetRot().y = counter * 0.9f;
-		transform3.GetRot().x = counter * 0.7f;
-
-		//transform3.GetPos().z += tanf(counter) * r;
-		shader1.Update(transform3, camera);
-		mesh3.Draw();
-		coor_model_3.Draw();
-	*/
 
 };
 

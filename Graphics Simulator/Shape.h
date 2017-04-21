@@ -8,6 +8,7 @@
 #include "Texture.h"
 #include "Mesh.h"
 #include "Transform.h"
+#include "Coordinates.h"
 
 #include <string>
 
@@ -22,7 +23,14 @@ public:
 	{}
 	virtual ~Shape() {}
 	
-	virtual void Draw(const QuadCore::Camera* camera, glm::vec3 pos = glm::vec3()) = 0;
+public:
+	virtual void transform(glm::vec3 position, glm::vec3 rotation = glm::vec3(), glm::vec3 scale = glm::vec3(1,1,1)) = 0;
+	virtual void Draw(QuadCore::Camera* camera) = 0;
+
+	virtual QuadCore::Transform* GetTransform()
+	{
+		return m_transform;
+	}
 
 protected:
 
@@ -31,6 +39,8 @@ protected:
 
 	QuadCore::Shader*		m_shader;
 	QuadCore::Texture*		m_texture;
+
+	Coordinates* m_coordinate;
 
 	//int m_shader;
 	//int m_texture;
