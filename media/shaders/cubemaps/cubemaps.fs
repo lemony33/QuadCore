@@ -16,7 +16,7 @@ uniform vec3 light_diffuse;
 uniform vec3 light_specular;
 uniform vec3 objectColor;
 
-uniform samplerCube texture_diffuse;
+uniform sampler2D texture_diffuse;
 uniform samplerCube skybox;
 
 
@@ -56,7 +56,7 @@ void main()
 }
 */
 {             
-	float ratio = 1.00 / 1.52;
+	float ratio = 3.00 / 4.00; //1.00 / 1.52;
     vec3 I = normalize(FragPos - viewPos);
 
     //vec3 R = reflect(I, normalize(normal0));

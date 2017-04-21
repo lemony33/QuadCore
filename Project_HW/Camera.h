@@ -54,6 +54,11 @@ namespace QuadCore
 			return m_position;
 		}
 
+		inline glm::vec3 GetForward() const
+		{
+			return m_forward;
+		}
+		bool fire = false;
 	protected:
 	private:
 		glm::mat4 m_perspective;
@@ -74,14 +79,14 @@ namespace QuadCore
 		void SetViewProjection(glm::vec3 position)
 		{
 			if (position.x > 0.0f)
-				m_position -= m_right * sensitivity * 500.0f;
-			else if (position.x < 0)
-				m_position += m_right * sensitivity * 500.0f;
+				m_position -= m_right * sensitivity * 100.0f;
+			else if (position.x < 0.0f)
+				m_position += m_right * sensitivity * 100.0f;
 
 			if (position.y > 0.0f)
-				m_position += m_upward * sensitivity * 500.0f;
-			else if (position.y < 0)
-				m_position -= m_upward * sensitivity * 500.0f;
+				m_position += m_upward * sensitivity * 100.0f;
+			else if (position.y < 0.0f)
+				m_position -= m_upward * sensitivity * 100.0f;
 		}
 
 		void MovePosition(float depth)
@@ -102,7 +107,9 @@ namespace QuadCore
 				-1.0f * cosf(ForwardAngle) * cosf(UpAngle));
 			printf("Forward ( %.2f, %.2f, %.2f)\n", m_forward.x, m_forward.y, m_forward.z);
 			m_right = glm::vec3(m_forward.z, 0, -m_forward.x);
-			m_upward = glm::vec3(0, m_forward.z, -m_forward.y);
+			m_upward = glm::vec3(0
+				, -(1.0f * m_forward.y > 0)? (1.0f * m_forward.y):1.0f
+				, 0);
 		}
 	};
 

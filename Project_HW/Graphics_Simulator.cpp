@@ -157,7 +157,7 @@ void QuadCore::Graphics_Simulator::Run()
 	Mesh mesh1(SkyBoxVerties, sizeof(SkyBoxVerties)/sizeof(SkyBoxVerties[0]),indices, sizeof(indices) / sizeof(indices[0]));
 	//Mesh mesh2("../media/shape/Cube.obj");
 	Mesh mesh2(CubeVerties, sizeof(SkyBoxVerties) / sizeof(SkyBoxVerties[0]), indices, sizeof(indices) / sizeof(indices[0]));
-	//Mesh mesh3("../media/objects/nanosuit_reflection/nanosuit.obj"); 
+	Mesh mesh3("../media/objects/nanosuit_reflection/nanosuit.obj"); 
 	Mesh mesh4("../media/shape/Sphere.obj");
 
 	// 2. Shader
@@ -165,6 +165,8 @@ void QuadCore::Graphics_Simulator::Run()
 	//Shader shader2("../media/new_shader/basicShader_tex");
 	Shader shader1("../media/shaders/cubemaps/cubemaps");
 	Shader shader2("../media/shaders/cubemaps/skybox");
+	Shader glassshader("../media/shaders/cubemaps/glass");
+	Shader mirrorshader("../media/shaders/cubemaps/mirror");
 	
 	//3. Texture
 	Texture texture1("../media/res/bricks.jpg");
@@ -197,7 +199,9 @@ void QuadCore::Graphics_Simulator::Run()
 	Transform worldCoordinate;
 	Transform transform1;
 	Transform transform2;
-	Transform transform3;
+	Transform Bullet;
+	Transform glassTrans(glm::vec3(10.0, 0, 0));
+	Transform mirrorTrans(glm::vec3(-10.0, 0, 0));
 	
 	
 	//5. Camera
@@ -206,7 +210,7 @@ void QuadCore::Graphics_Simulator::Run()
 
 	// Controls (Mouse / Keyboard)
 	Controls controls(display.GetWindow());
-	Controls controller(controls, camera, worldCoordinate);
+	Controls controller(controls, camera, Bullet);
 
 	// Draw Map 새로 추가된 부분
 	DrawMap dMap(camera);
@@ -214,6 +218,8 @@ void QuadCore::Graphics_Simulator::Run()
 
 	float counter = 0.0f;
 
+	
+	
 	while (!display.IsClosed())
 	{	
 		float sinCounter = sinf(counter);	// sin counter
@@ -236,19 +242,34 @@ void QuadCore::Graphics_Simulator::Run()
 
 
 		m_shape_manager;
+		if (camera.fire == false)Bullet = camera.GetPos();
+		else
+		{
+			Bullet.GetPos() += camera.GetForward();
+		}
+		if (Bullet.GetPos().x >= 100.0 || Bullet.GetPos().y >= 100.0 || Bullet.GetPos().z >= 100.0
+			|| Bullet.GetPos().x <= -100.0 || Bullet.GetPos().y <= -100.0 || Bullet.GetPos().z <= -100.0)
+		{
+			Bullet = camera.GetPos();
+			camera.fire = false;
+		}
 
-
-
-		shader1.Bind();		
+		glassshader.Bind();		
 		//reflectTexture.Bind(0);
 		skyboxTexture.Bind(0);
-		//Texture::Reset();
+		glassshader.Update(glassTrans, camera);
+		mesh3.Draw();
 
-		/*transform1.SetPos(glm::vec3(0, 0, 0));
-		transform1.SetPos(glm::vec3(1.1, 1.1, 0));
-		transform1.GetRot().y = counter * 0.5f;
-		transform1.GetRot().x = counter * 0.3f;*/
-		shader1.Update(transform1, camera);
+		mirrorshader.Bind();
+		//reflectTexture.Bind(0);
+		skyboxTexture.Bind(0);
+		mirrorshader.Update(mirrorTrans, camera);
+		mesh3.Draw();
+
+		shader1.Bind();
+		//reflectTexture.Bind(0);
+		skyboxTexture.Bind(0);
+		shader1.Update(Bullet, camera);
 		mesh4.Draw();
 		
 		
@@ -256,7 +277,7 @@ void QuadCore::Graphics_Simulator::Run()
 		shader2.Bind();
 		skyboxTexture.Bind(0);
 		mesh1.Draw();
-		shader2.Update(transform1, camera);
+		shader2.Update(Transform(camera.GetPos()), camera);
 		glDepthFunc(GL_LESS);
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		
