@@ -1,9 +1,11 @@
 #pragma once
 
 #include <GLEW-2.0.0_x64/GL/glew.h>
-#include <GLFW-3.2.1_x64/glfw3.h>
+#include <GLFW-3.2.1_x64\glfw3.h>
 #include <glm-0.9.8.4/glm/glm.hpp>
 #include <glm-0.9.8.4/glm/gtx/transform.hpp>
+#include <glm-0.9.8.4\glm\gtc\quaternion.hpp>
+#include <glm-0.9.8.4\glm\gtc\type_ptr.hpp>
 #include <iostream>
 
 #include "Controls.h"
@@ -17,11 +19,11 @@ namespace QuadCore
 	{
 	public:
 		RayCast() {}
-		//RayCast(Controls& the_controls);
+		RayCast(Controls& the_controls);
 		virtual ~RayCast();
 
 	private:
-		//Controls* QuadCore::RayCast::m_Controls;
+		static Controls* QuadCore::RayCast::m_Controls;
 		//Transform* QuadCore::RayCast::m_Transform;
 		//Shader* QuadCore::RayCast::m_Shader;
 		//Vertex* QuadCore::RayCast::m_Vertex;

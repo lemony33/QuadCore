@@ -5,10 +5,10 @@
 #include <glm-0.9.8.4/glm/gtx/transform.hpp>
 #include <iostream>
 
-//QuadCore::RayCast::RayCast(Controls& the_controls)
-//{
-//	m_Controls = &the_controls;
-//}
+QuadCore::RayCast::RayCast(Controls& the_controls)
+{
+	m_Controls = &the_controls;
+}
 
 QuadCore::RayCast::~RayCast()
 {
@@ -17,9 +17,9 @@ QuadCore::RayCast::~RayCast()
 
 void QuadCore::RayCast::GetRayValue()
 {
-	//m_RayX = m_Controls->GetXpos();
-	//m_RayY = m_Controls->GetYpos();
-	//printf(" RayCast Point : [ %d , %d ]\n", m_RayX, m_RayY);
+	m_RayX = m_Controls->GetXpos();
+	m_RayY = m_Controls->GetYpos();
+	printf(" RayCast Point : [ %d , %d ]\n", m_RayX, m_RayY);
 }
 
 void QuadCore::RayCast::IsCollidedWithObject()
