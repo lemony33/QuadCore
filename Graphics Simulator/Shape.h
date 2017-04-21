@@ -9,6 +9,8 @@
 #include "Mesh.h"
 #include "Transform.h"
 
+#include <string>
+
 
 namespace QuadCore
 {
@@ -16,24 +18,30 @@ namespace QuadCore
 class Shape
 {
 public:
-	Shape();
-	virtual ~Shape();
+	Shape() : shape_path("../media/shape/")
+	{}
+	virtual ~Shape() {}
+	
+	virtual void Draw(const QuadCore::Camera* camera, glm::vec3 pos = glm::vec3()) = 0;
 
 protected:
 
-	virtual void Draw() = 0;
-
-	QuadCore::Transform*	transform;
+	QuadCore::Transform*	m_transform;
 	QuadCore::Mesh*			m_mesh;
 
-	int m_shader;
-	int m_texture;
+	QuadCore::Shader*		m_shader;
+	QuadCore::Texture*		m_texture;
+
+	//int m_shader;
+	//int m_texture;
 
 	//Collider collider;
 	//Physics* physics;
 
 	//QuadCore::Shader*		m_shader;
 	//QuadCore::Texture*		m_texture;	
+
+	std::string shape_path;
 };
 
 }

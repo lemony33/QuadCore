@@ -4,9 +4,9 @@
 using QuadCore::ShapeManager;
 
 
-ShapeManager::ShapeManager()
-{
-}
+//ShapeManager::ShapeManager()
+//{
+//}
 
 
 ShapeManager::~ShapeManager()

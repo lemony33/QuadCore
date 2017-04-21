@@ -7,6 +7,7 @@
 #include "DrawMap.h"
 
 
+
 QuadCore::Graphics_Simulator::Graphics_Simulator()
 	: display(width_window, height_window, "Graphics Simulator - QuadCore")
 {
@@ -97,7 +98,7 @@ void QuadCore::Graphics_Simulator::Run()
 	Mesh mesh2("../media/shape/CubeHollow.obj");
 	Mesh mesh3("../media/shape/Icosphere.obj");
 	Mesh skyboxMesh(SkyBoxVerties, sizeof(SkyBoxVerties) / sizeof(SkyBoxVerties[0]), indices, sizeof(indices) / sizeof(indices[0]));
-	Mesh nanosuitMesh("../media/objects/nanosuit_reflection/nanosuit.obj");
+	//Mesh nanosuitMesh("../media/objects/nanosuit_reflection/nanosuit.obj");
 
 	// 2. Shader
 	Shader shader1("../media/new_shader/basicShader_light");
@@ -120,7 +121,7 @@ void QuadCore::Graphics_Simulator::Run()
 	faces.push_back("../media/textures/skybox/back.jpg");
 	faces.push_back("../media/textures/skybox/front.jpg");
 
-	Texture skyboxTexture(faces);
+	//Texture skyboxTexture(faces);
 	
 
 	//4. Transform
@@ -189,7 +190,7 @@ void QuadCore::Graphics_Simulator::Run()
 		
 		m_world_coordinates.Draw();
 
-		glassShader.Bind();
+		/*glassShader.Bind();
 		skyboxTexture.Bind(0);
 		glassShader.Update(glassTrans, camera);
 		nanosuitMesh.Draw();
@@ -197,7 +198,7 @@ void QuadCore::Graphics_Simulator::Run()
 		mirrorShader.Bind();
 		skyboxTexture.Bind(0);
 		mirrorShader.Update(mirrorTrans, camera);
-		nanosuitMesh.Draw();
+		nanosuitMesh.Draw();*/
 
 		/*UI_transform.Init(camera.GetPos());
 		UI_transform.GetPos().x += camera.GetForawrd().x;
@@ -211,8 +212,8 @@ void QuadCore::Graphics_Simulator::Run()
 		// Draw Map 새로 추가된 부분
 		dMap.DrawPlane();
 
-
 		m_shape_manager;
+		m_shape_manager.Run(&camera);
 
 		///
 		float delim = 0.7;
@@ -310,12 +311,12 @@ void QuadCore::Graphics_Simulator::Run()
 		m_UI_coordinates.Draw(3.0f);
 
 		//*************
-		glDepthFunc(GL_LEQUAL);
+		/*glDepthFunc(GL_LEQUAL);
 		skyboxShader.Bind();
 		skyboxTexture.Bind(0);
 		skyboxMesh.Draw();
 		skyboxShader.Update(world_transform, camera);
-		glDepthFunc(GL_LESS);
+		glDepthFunc(GL_LESS);*/
 
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ

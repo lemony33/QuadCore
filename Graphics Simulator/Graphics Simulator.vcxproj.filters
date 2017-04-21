@@ -42,9 +42,6 @@
     <ClCompile Include="ShapeManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Shape.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="DrawMap.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -93,6 +90,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Coordinates.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
