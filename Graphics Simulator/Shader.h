@@ -20,6 +20,7 @@ public:
 
 	void Bind();
 	void Update(const Transform& transform, const QuadCore::Camera& camera, SHADER_NAME fs_mode = SHADER_NAME::Phong_Shading); // transform, camera
+	void Update_UI(const Transform& transform, const QuadCore::Camera& camera, SHADER_NAME fs_mode = SHADER_NAME::Phong_Shading); // transform, camera
 	const void SetLineColor(glm::vec4 color);
 	virtual ~Shader();
 

@@ -59,13 +59,13 @@ void QuadCore::Graphics_Simulator::Run()
 
 	// MS - 0420 - 좌표계 그리기
 	
-	//glm::mat4 view_matrix = camera.GetViewMatrix();	// 카메라 시점
-	//camera.GetPos();
-	UI_transform.Init(camera.GetPos(), camera.GetForawrd());
-	//glm::mat4 view_matrix = camera.GetViewMatrix();
+	////glm::mat4 view_matrix = camera.GetViewMatrix();	// 카메라 시점
+	////camera.GetPos();
+	//UI_transform.Init(camera.GetPos(), camera.GetForward());
+	////glm::mat4 view_matrix = camera.GetViewMatrix();
 
 	m_world_coordinates.Init(&world_transform, &camera, 5.0f);
-	m_UI_coordinates.Init(&UI_transform, &camera, .1f);
+	m_UI_coordinates.Init(&UI_transform, &camera, 0.05f);
 
 	Coordinates coor_model_1;
 	Coordinates coor_model_2;
@@ -100,11 +100,13 @@ void QuadCore::Graphics_Simulator::Run()
 		m_world_coordinates.Draw();
 
 
-		UI_transform.Init(camera.GetPos());		
+		/*UI_transform.Init(camera.GetPos());
 		UI_transform.GetPos().x += camera.GetForawrd().x;
 		UI_transform.GetPos().y += camera.GetForawrd().y;
 		UI_transform.GetPos().z += camera.GetForawrd().z;
-		m_UI_coordinates.Draw();
+		m_UI_coordinates.Draw();*/
+
+		
 
 
 		// Draw Map 새로 추가된 부분
@@ -150,6 +152,8 @@ void QuadCore::Graphics_Simulator::Run()
 		coor_model_2.Draw();
 
 
+		
+
 
 		///
 		shader1.Bind();
@@ -168,6 +172,46 @@ void QuadCore::Graphics_Simulator::Run()
 		mesh3.Draw();
 		coor_model_3.Draw();
 		
+
+
+		//**************
+
+		shader1.Bind();
+		texture1.Bind(0);
+
+		//world_transform.GetPos();
+		
+
+		//UI_transform.SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
+		glm::vec3 cur_pos = { camera.GetPos().x, camera.GetPos().y, camera.GetPos().z };
+		//glm::vec3 cur_pos = { camera.GetPos().x, camera.GetPos().y, camera.GetPos().z};
+		UI_transform.Init(cur_pos);
+		//UI_transform.Init(cur_pos, glm::vec3(camera.GetForward().x, camera.GetForward().y, camera.GetForward().z));
+		//UI_transform.GetRot().x += camera.GetForward().x;
+		//UI_transform.GetRot().y += camera.GetForward().y;
+		//UI_transform.GetRot().z += camera.GetForward().z;
+
+		UI_transform.GetPos().x += camera.GetForward().x * .3+.1;
+		UI_transform.GetPos().y += camera.GetForward().y * .3+.1;
+		UI_transform.GetPos().z += camera.GetForward().z * .3;
+
+		//UI_transform.GetPos().x += .0;
+		//UI_transform.GetPos().y += .0;
+		//UI_transform.GetPos().z += camera.GetForward().z * .3;
+		////UI_transform.SetRot(camera.GetRot());
+
+		printf("UI_POS( %.2f, %.2f, %.2f ), ", UI_transform.GetPos().x, UI_transform.GetPos().y, UI_transform.GetPos().z);
+		printf("FORWARD( %.2f, %.2f, %.2f ) \n", camera.GetForward().x, camera.GetForward().y, camera.GetForward().z);
+		//shader1.Update(UI_transform, camera);
+
+
+		
+		//mesh3.Draw();
+		m_UI_coordinates.Draw(3.0f);
+
+		//*************
+
 
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ

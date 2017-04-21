@@ -136,20 +136,26 @@ namespace QuadCore
 
 				// z - rotate
 			case GLFW_KEY_Q:
+				camera->Rotate_Axis_Z(glm::vec3(-.1, 0, 0));
 				break;
 			case GLFW_KEY_E:
+				camera->Rotate_Axis_Z(glm::vec3(+.1, 0, 0));
 				break;
 
 				// x - rotate
 			case GLFW_KEY_W:
+				camera->Rotate_Axis_X(glm::vec3(0, +.1, 0));
 				break;
 			case GLFW_KEY_S:
+				camera->Rotate_Axis_X(glm::vec3(0, -.1, 0));
 				break;
 
 				// y - rotate
 			case GLFW_KEY_A:
+				camera->Rotate_Axis_Y(glm::vec3(-.1, 0, 0));
 				break;
 			case GLFW_KEY_D:
+				camera->Rotate_Axis_Y(glm::vec3(+.1, 0, 0));
 				break;
 
 			case GLFW_KEY_ESCAPE:
@@ -257,6 +263,7 @@ namespace QuadCore
 					&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 					&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE))
 				{
+					//camera->SetAngle(tr_x - x, -(tr_y - y));
 					camera->SetAngle(tr_x - x, -(tr_y - y));
 					tr_x = x;
 					tr_y = y;
