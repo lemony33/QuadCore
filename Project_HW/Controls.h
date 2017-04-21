@@ -202,6 +202,8 @@ namespace QuadCore
 					if (action == GLFW_PRESS)
 					{
 						printf("Down : [ %d, %d ]\n", (int)x, (int)y);
+
+						camera->fire = true;
 					}
 					// Up
 					if (action == GLFW_RELEASE)
