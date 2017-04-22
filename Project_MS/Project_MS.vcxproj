@@ -38,7 +38,9 @@
   <ItemGroup>
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="DrawMap.cpp" />
-    <ClCompile Include="Graphics_Simulator.cpp" />
+    <ClCompile Include="Graphics_Simulator.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Obj_loader.cpp" />
@@ -46,6 +48,7 @@
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="ShapeManager.cpp" />
     <ClCompile Include="stb_image.c" />
+    <ClCompile Include="test_05.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

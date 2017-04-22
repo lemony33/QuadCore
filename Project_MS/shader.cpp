@@ -77,6 +77,10 @@ void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera
 	glUniformMatrix4fv(m_uniforms[VIEW_U],			1, GL_FALSE, &camera.GetViewMatrix()[0][0]);		// View
 	glUniformMatrix4fv(m_uniforms[PROJECTION_U],	1, GL_FALSE, &camera.GetProjectionMatrix()[0][0] );	// Projection
 	
+	// for 2D UI Shader
+	glm::mat4 guiMVP = glm::mat4(1.0f) * transform.GetModel();
+	glUniformMatrix4fv(100, 1, GL_FALSE, &guiMVP[0][0]);
+
 	switch (mode)
 	{
 	case SHADER_NAME::Phong_Shading:

@@ -32,6 +32,13 @@ namespace QuadCore
 			//m_up = glm::vec3(0, 1, 0);
 		}
 
+		void Update_UI(const glm::vec3& pos, float width, float height)
+		{
+			m_perspective = glm::ortho<float>(0, width, height, 0);
+			//m_ortho = glm::ortho<float>(0, width, height, 0);
+			m_position = pos;
+		}
+
 		inline glm::mat4 GetViewProjection() const
 		{
 			return m_perspective * glm::lookAt(m_position, m_position + m_forward, m_up);
@@ -104,6 +111,8 @@ namespace QuadCore
 		float ForwardAngle = 0;
 		float UpAngle = 0;
 		float sensitivity = 0.001;
+
+		glm::mat4 m_ortho;
 
 		// Controls.h 에서 사용
 	public:
