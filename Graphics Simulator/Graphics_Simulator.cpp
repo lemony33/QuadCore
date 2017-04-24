@@ -172,6 +172,7 @@ void QuadCore::Graphics_Simulator::Run()
 	//Mesh mesh1("../media/shape/CubeHollow.obj");
 	Mesh mesh2("../media/shape/CubeHollow.obj");
 	Mesh mesh3("../media/shape/Icosphere.obj");
+	Mesh SphereMesh("../media/shape/Sphere.obj");
 	Mesh skyboxMesh(SkyBoxVerties, sizeof(SkyBoxVerties) / sizeof(SkyBoxVerties[0]), indices, sizeof(indices) / sizeof(indices[0]));
 	//Mesh nanosuitMesh("../media/objects/nanosuit_reflection/nanosuit.obj");
 
@@ -190,6 +191,10 @@ void QuadCore::Graphics_Simulator::Run()
 	//3. Texture
 	Texture texture1("../media/res/bricks.jpg");
 	Texture texture2("../media/skyblue.jpg");
+	Texture SlimeTexture("../media/res/slime.jpg");
+	Texture JupiterTexture("../media/res/Jupiter.jpg");
+	Texture EarthTexture("../media/res/earth.jpg");
+	Texture MoonTexture("../media/res/moon.jpg");
 	//texture2.Reset();
 	//스카이박스 텍스쳐 들어가는 부분
 	std::vector<std::string> faces;
@@ -458,6 +463,83 @@ void QuadCore::Graphics_Simulator::Run()
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		//*************
+		Transform mainSphere(glm::vec3(5 * sinf(counter/10), 0, 5 * cosf(counter / 10)),
+			glm::vec3(counter / 5, counter/5, 1.0f),
+			glm::vec3(5.0f, 5.0f, 5.0f)
+			);
+		
+		for (int i = 0; i < 28; i++)
+		{
+			/*Transform subSphere(glm::vec3(mainSphere.GetPos().x + 5 * sinf((counter + i * 0.1f) / 5) * cosf(-(counter + i * 0.1f) / 5),
+										mainSphere.GetPos().y + 5 * sinf(-(counter + i * 0.1f) / 5),
+										mainSphere.GetPos().z + 5 * cosf((counter + i * 0.1f) / 5) * cosf(-(counter + i * 0.1f) / 5)),
+				glm::vec3(),
+				glm::vec3(0.5f, 0.5f, 0.5f)
+			);*/
+			/*Transform subSphere(glm::vec3(mainSphere.GetPos().x + 5 * sinf(counter + i * 1.2f/5) * sinf((counter + i * 3.1f)/5),
+				mainSphere.GetPos().y + 5 * cosf((counter + i * 3.1f)/5),
+				mainSphere.GetPos().z + 5 * cosf(counter + i * 1.2f /5) * sinf((counter + i * 3.1f)/5)),
+				glm::vec3(),
+				glm::vec3(0.5f, 0.5f, 0.5f)
+			);*/
+			Transform subSphere(glm::vec3(mainSphere.GetPos().x + 5 * sinf(counter/5 + i * 1.2f / 5) * cosf(sinf(counter / (i + 1) + i * 3.1f) / 10.0f),
+				mainSphere.GetPos().y + 5 * sinf(sinf(counter / (i + 1) + i * 3.1f)/10.0f),
+				mainSphere.GetPos().z + 5 * cosf(counter/5 + i * 1.2f / 5) * cosf(sinf(counter / (i + 1) + i * 3.1f) / 10.0f)
+				),
+				glm::vec3(),
+				glm::vec3(0.5f, 0.5f, 0.5f)
+			);
+			shader1.Bind();
+			MoonTexture.Bind(0);
+			shader1.Update(subSphere, camera);
+			SphereMesh.Draw();
+		}
+
+		shader1.Bind();
+		EarthTexture.Bind(0);
+		shader1.Update(mainSphere, camera);
+		SphereMesh.Draw();
+		
+		Transform slimeTransform(glm::vec3(0,0,-2),
+			glm::vec3(),
+			glm::vec3(1.0f + 0.2f * sinf(counter * 2), 1.0f + 0.2f * cosf(counter * 2), 1.0f + 0.2f * sinf(counter * 2)));
+		shader1.Bind();
+		SlimeTexture.Bind(0);
+		shader1.Update(slimeTransform, camera);
+		SphereMesh.Draw();
+
+		for (int i = 0; i < 128; i++)
+		{
+			Transform subSphere(glm::vec3(5 * sinf((counter + i * 0.2f) / 5) * cosf(-(counter + i * 0.2f) / 5),
+			5 * sinf(-(counter + i * 0.2f) / 5),
+			5 * cosf((counter + i * 0.2f) / 5) * cosf(-(counter + i * 0.2f) / 5)),
+			glm::vec3(),
+			glm::vec3(0.5f, 0.5f, 0.5f)
+			);
+			glassShader.Bind();
+			skyboxTexture.Bind(0);
+			glassShader.Update(subSphere, camera);
+			SphereMesh.Draw();
+
+			if (i == 0)
+			{
+				Transform BarTransform((subSphere.GetPos() + glm::vec3(0, 0, 0)) / 2.0f,
+					glm::vec3(-subSphere.GetPos().y / sqrtf(subSphere.GetPos().y * subSphere.GetPos().y + subSphere.GetPos().z * subSphere.GetPos().z),
+						-subSphere.GetPos().z / sqrtf(subSphere.GetPos().x * subSphere.GetPos().x + subSphere.GetPos().z * subSphere.GetPos().z),
+						-subSphere.GetPos().y / sqrtf(subSphere.GetPos().y * subSphere.GetPos().y + subSphere.GetPos().x * subSphere.GetPos().x)
+					),
+					glm::vec3(0.1f, 0.1f, 1.0f * glm::distance(subSphere.GetPos(), glm::vec3(0, 0, 0)))
+				);
+				shader1.Bind();
+				texture1.Bind(0);
+				shader1.Update(BarTransform, camera);
+				mesh1.Draw();
+
+			}
+		}
+
+
+
 		glDepthFunc(GL_LEQUAL);
 		skyboxShader.Bind();
 		skyboxTexture.Bind(0);
