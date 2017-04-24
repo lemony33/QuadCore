@@ -169,18 +169,15 @@ void QuadCore::Graphics_Simulator::Run()
 	coor_model_2.Init(&transform2, &camera);
 	coor_model_3.Init(&transform3, &camera);
 
-	m_shape_manager.Init(&camera);
+	scene.Init(&camera);
 
 	float counter = 0.0f;
 
+	
+	
+
 	while (!display.IsClosed())
 	{	
-		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
-		float sinCounter = sinf(counter);	// sin counter
-		float cosCounter = cosf(counter);	// cos counter
-		m_shape_manager.SetCounter(sinCounter, cosCounter);
-
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 		display.UpdateWindowSize();	// 화면 갱신
@@ -194,6 +191,7 @@ void QuadCore::Graphics_Simulator::Run()
 		// Draw here
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
+		//### 유리, 금속
 		/*
 		glassShader.Bind();
 		skyboxTexture.Bind(0);
@@ -205,18 +203,13 @@ void QuadCore::Graphics_Simulator::Run()
 		mirrorShader.Update(mirrorTrans, camera);
 		nanosuitMesh.Draw();*/
 
-		/*UI_transform.Init(camera.GetPos());
-		UI_transform.GetPos().x += camera.GetForawrd().x;
-		UI_transform.GetPos().y += camera.GetForawrd().y;
-		UI_transform.GetPos().z += camera.GetForawrd().z;
-		m_UI_coordinates.Draw();*/
-
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
 		
+		//### 맵 그리기
 		dMap.DrawPlane();					// Draw Map
-				
-		m_shape_manager.DrawAll();	// 도형 그리기
+
+		//### 시나리오별 장면 재생
+		scene.Play();
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
@@ -224,21 +217,21 @@ void QuadCore::Graphics_Simulator::Run()
 		float delim = 0.7;
 
 
-		/////
-		//shader1.Bind();		
-		//texture1.Bind(0);
-		////Texture::Reset();		// 텍스쳐 제거하는 방법
+		///
+		shader1.Bind();		
+		texture1.Bind(0);
+		//Texture::Reset();		// 텍스쳐 제거하는 방법
 
-		//transform1.SetPos(glm::vec3(0, 0, 0));
-		//transform1.SetPos(glm::vec3(1.1, 1.1, 0));
+		transform1.SetPos(glm::vec3(0, 0, 0));
+		transform1.SetPos(glm::vec3(1.1, 1.1, 0));
 
-		//transform1.GetPos().y += delim * sinf(counter);
-		//transform1.GetPos().x += delim * cosf(counter);
-		//transform1.GetRot().y = counter * 0.5f;
-		//transform1.GetRot().x = counter * 0.3f;
-		//shader1.Update(transform1, camera);		
-		//mesh1.Draw();
-		//coor_model_1.Draw();
+		transform1.GetPos().y += delim * sinf(counter);
+		transform1.GetPos().x += delim * cosf(counter);
+		transform1.GetRot().y = counter * 0.5f;
+		transform1.GetRot().x = counter * 0.3f;
+		shader1.Update(transform1, camera);		
+		mesh1.Draw();
+		coor_model_1.Draw();
 
 
 		///
@@ -285,23 +278,6 @@ void QuadCore::Graphics_Simulator::Run()
 		// UI 좌표계 그리기
 		//********************
 
-
-		/*
-			통합할 내용
-			- 메뉴선택, 레이캐스트
-			- 라이브러리 메뉴창, 연결할 속성값 체크
-			- 2D HUD UI 메뉴시스템
-
-			추가작업 필요한 부분
-
-			- 미니좌표계가 실제 카메라 각도와 일치하도록 설정
-			- 키보드로 만들어놓은 카메라 각도 계산법을 마우스에도 적용하기
-			- 화면UI 좌표계 그리는 방식 정리해서 분리하기
-
-			확인이 필요한부분
-			- 스카이박스 벡터 방향
-
-		*/
 
 		////////////////////////////////////////////////////////////////////
 
@@ -387,7 +363,7 @@ void QuadCore::Graphics_Simulator::Run()
 		skyboxMesh.Draw();
 		skyboxShader.Update(world_transform, camera);
 		glDepthFunc(GL_LESS);
-
+		
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 

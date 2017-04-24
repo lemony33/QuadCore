@@ -39,8 +39,7 @@ public:
 		m_transform->SetRot(rotation);
 		m_transform->SetScale(scale);
 	}
-
-
+		
 	virtual void Draw(QuadCore::Camera* camera)
 	{
 		m_shader->Bind();
@@ -52,7 +51,7 @@ public:
 		m_coordinate->Init_Link(m_transform, camera);
 		m_coordinate->Draw(10.0f);
 	}
-
+	
 };
 
 }
