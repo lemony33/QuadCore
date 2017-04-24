@@ -148,10 +148,10 @@ void QuadCore::Graphics_Simulator::Run()
 		//Vertex(glm::vec3(+1.0, +1.0, 0.0),	glm::vec2(1.0, 1.0), glm::vec3(0, 0, 1)),
 		//Vertex(glm::vec3(-1.0, +1.0, 0.0),	glm::vec2(0.0, 1.0), glm::vec3(0, 0, 1)),
 
-		Vertex(glm::vec3(-0.5, -0.5, 0.0),	glm::vec2(0.0, 0.0), glm::vec3(0, 0, 1)),
-		Vertex(glm::vec3(+0.5, -0.5, 0.0),	glm::vec2(1.0, 0.0), glm::vec3(0, 0, 1)),
-		Vertex(glm::vec3(+0.5, +0.5, 0.0),	glm::vec2(1.0, 1.0), glm::vec3(0, 0, 1)),
-		Vertex(glm::vec3(-0.5, +0.5, 0.0),	glm::vec2(0.0, 1.0), glm::vec3(0, 0, 1)),
+		Vertex(glm::vec3(-0.5, -0.5, 0.0),	glm::vec2(0.0, 0.0)),
+		Vertex(glm::vec3(+0.5, -0.5, 0.0),	glm::vec2(1.0, 0.0)),
+		Vertex(glm::vec3(+0.5, +0.5, 0.0),	glm::vec2(1.0, 1.0)),
+		Vertex(glm::vec3(-0.5, +0.5, 0.0),	glm::vec2(0.0, 1.0)),
 
 		//Vertex(glm::vec3(-1.0, -1.0, 0.0),	glm::vec2(0.0, 0.0)),
 		//Vertex(glm::vec3(+1.0, -1.0, 0.0),	glm::vec2(0.0, 1.0)),
@@ -173,7 +173,7 @@ void QuadCore::Graphics_Simulator::Run()
 	Mesh mesh2("../media/shape/CubeHollow.obj");
 	Mesh mesh3("../media/shape/Icosphere.obj");
 	Mesh skyboxMesh(SkyBoxVerties, sizeof(SkyBoxVerties) / sizeof(SkyBoxVerties[0]), indices, sizeof(indices) / sizeof(indices[0]));
-	Mesh nanosuitMesh("../media/objects/nanosuit_reflection/nanosuit.obj");
+	//Mesh nanosuitMesh("../media/objects/nanosuit_reflection/nanosuit.obj");
 
 	
 
@@ -225,7 +225,7 @@ void QuadCore::Graphics_Simulator::Run()
 
 	// Draw Map 새로 추가된 부분
 	DrawMap dMap(camera);
-	dMap.SetProperty(100, 1.0f, glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
+	dMap.SetProperty(100, 1.0f, glm::vec4(0.7f, 0.7f, 0.7f, 3.0f));
 
 
 	// MS - 0420 - 좌표계 그리기
@@ -236,7 +236,8 @@ void QuadCore::Graphics_Simulator::Run()
 	////glm::mat4 view_matrix = camera.GetViewMatrix();
 
 	m_world_coordinates.Init(&world_transform, &camera, 50.0f);
-	m_UI_coordinates.Init(&UI_transform, &camera, 0.05f);
+	m_UI_coordinates.Init_UI(&UI_transform, &camera, 0.1f);
+	//m_UI_coordinates.Init(&UI_transform, &camera, 10.0f);
 
 	Coordinates coor_model_1;
 	Coordinates coor_model_2;
@@ -270,7 +271,7 @@ void QuadCore::Graphics_Simulator::Run()
 		// Draw here
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-
+		/*
 		glassShader.Bind();
 		skyboxTexture.Bind(0);
 		glassShader.Update(glassTrans, camera);
@@ -279,7 +280,7 @@ void QuadCore::Graphics_Simulator::Run()
 		mirrorShader.Bind();
 		skyboxTexture.Bind(0);
 		mirrorShader.Update(mirrorTrans, camera);
-		nanosuitMesh.Draw();
+		nanosuitMesh.Draw();*/
 
 		/*UI_transform.Init(camera.GetPos());
 		UI_transform.GetPos().x += camera.GetForawrd().x;
@@ -356,9 +357,28 @@ void QuadCore::Graphics_Simulator::Run()
 
 		// 월드 좌표계 그리기
 		m_world_coordinates.Draw();
+
 		//********************
 		// UI 좌표계 그리기
 		//********************
+
+
+		/*
+			통합할 내용
+			- 메뉴선택, 레이캐스트
+			- 라이브러리 메뉴창, 연결할 속성값 체크
+			- 2D HUD UI 메뉴시스템
+
+			추가작업 필요한 부분
+
+			- 미니좌표계가 실제 카메라 각도와 일치하도록 설정
+			- 키보드로 만들어놓은 카메라 각도 계산법을 마우스에도 적용하기
+			- 화면UI 좌표계 그리는 방식 정리해서 분리하기
+
+			확인이 필요한부분
+			- 스카이박스 벡터 방향
+
+		*/
 
 		////////////////////////////////////////////////////////////////////
 
@@ -368,15 +388,69 @@ void QuadCore::Graphics_Simulator::Run()
 		//glm::vec3 cur_pos = { 0.1,0.1,-1 };
 		//UI_transform.Init(cur_pos);
 		//UI_transform.Init(glm::vec3(0, 0, -3));
-		shader_UI.Update(UI_transform, camera);
-		mesh.Draw();		
 
-		printf("UI_POS( %.2f, %.2f, %.2f ), ", UI_transform.GetPos().x, UI_transform.GetPos().y, UI_transform.GetPos().z);
-		printf("FORWARD( %.2f, %.2f, %.2f ) \n", camera.GetForward().x, camera.GetForward().y, camera.GetForward().z);
-		//shader1.Update(UI_transform, camera);
+		UI_transform.GetPos().x = +0.7f;
+		UI_transform.GetPos().y = -0.7f;
+
+
+		//UI_transform.GetRot().y = camera.GetForward().x;
+
+		///UI_transform.GetRot().x = camera.GetForward().x + camera.GetUpward();
+		///UI_transform.SetRot();
+		//UI_transform.GetRot().x = camera.GetForward().y;
+		//UI_transform.GetRot().y = -camera.GetForward().x;
+		//UI_transform.GetRot().z = camera.GetUpward().x;
+		///UI_transform.GetRot().z = camera.GetForward().z;
+		///UI_transform.SetRot(camera.GetUpward());
+		
+		//UI_transform.SetRot(glm::vec3(0, 0, camera.GetSide().y));
+		//UI_transform.SetRot(glm::vec3(0, camera.GetForward().x, 0));
+
+		/* 단순계산중 (회전축이 겹치면 오류발생)
+		Rot_X_axis : +y축과 up 벡터의 사잇각
+		Rot_Y_axis : -z축과 forward 벡터의 사잇각
+		Rot_Z_axis : +x축과 side 벡터의 사잇각
+		*/
+		/*glm::vec3 cam_rot = {
+			glm::acos(glm::dot(glm::vec3(0,+1,0), camera.GetUpward())),
+			glm::acos(glm::dot(glm::vec3(0,0,-1), camera.GetForward())),	
+			glm::acos(glm::dot(glm::vec3(+1,0,0), camera.GetSide())),
+		};*/
+		//// up-z : 음수일떄 정상동작, 양수일때 반대로 움직임
+		//if (camera.GetUpward().z > 0)
+		//	cam_rot.x = -cam_rot.x;
+
+		//// forward-x : 음수일때 정상동장, 양수일때 반대로 움직임
+		//if (camera.GetForward().x > 0)
+		//	cam_rot.y = -cam_rot.y;
+
+		//// side-y : 음수일때 정상동장, 양수일때 반대로 움직임
+		//if (camera.GetSide().y > 0)
+		//	cam_rot.z = -cam_rot.z;		
+
+		//UI_transform.SetRot(cam_rot);
+		UI_transform.SetRot(camera.GetRot());
+
+		//printf(" cam_rot (%f,%f,%f),   ", cam_rot.x, cam_rot.y, cam_rot.z);
+		//printf(" up (%f,%f,%f)\n", camera.GetUpward().x, camera.GetUpward().y, camera.GetUpward().z);
+		//printf(" forward (%f,%f,%f)\n", camera.GetForward().x, camera.GetForward().y, camera.GetForward().z);
+		//printf(" side (%f,%f,%f)\n", camera.GetSide().x, camera.GetSide().y, camera.GetSide().z);
+
+		/*float speed = 0.1f;
+		UI_transform.GetRot().x += sinCounter * speed;
+		UI_transform.GetRot().y += cosCounter * speed;
+		UI_transform.GetRot().z += sinCounter * speed;*/
+
+		shader_UI.Update(UI_transform, camera);
+		//mesh3.Draw();
+		m_UI_coordinates.Draw(5.0f);
+
+		//printf("UI_POS( %.2f, %.2f, %.2f ), ", UI_transform.GetPos().x, UI_transform.GetPos().y, UI_transform.GetPos().z);
+		//printf("FORWARD( %.2f, %.2f, %.2f ), ", camera.GetForward().x, camera.GetForward().y, camera.GetForward().z);
+		//printf("UP( %.2f, %.2f, %.2f ) \n", camera.GetUpward().x, camera.GetUpward().y, camera.GetUpward().z);
+		///shader1.Update(UI_transform, camera);
 
 	
-		//m_UI_coordinates.Draw(3.0f);
 
 		//mesh3.Draw();
 

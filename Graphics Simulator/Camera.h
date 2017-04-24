@@ -19,25 +19,19 @@ namespace QuadCore
 			m_position = pos;
 			m_forward = glm::vec3(0, 0, -1);
 			m_up = glm::vec3(0, 1, 0);
-
-			m_right = glm::vec3(-1, 0, 0);
-			m_upward = glm::vec3(0, 1, 0);
 		}
 
 		void Update(const glm::vec3& pos, float fov, float aspect, float zNear, float zFar)
 		{
 			m_perspective = glm::perspective(fov, aspect, zNear, zFar);
 			m_position = pos;
-			//m_forward = glm::vec3(0, 0, -1);
-			//m_up = glm::vec3(0, 1, 0);
 		}
 
-		void Update_UI(const glm::vec3& pos, float width, float height)
-		{
-			m_perspective = glm::ortho<float>(0, width, height, 0);
-			//m_ortho = glm::ortho<float>(0, width, height, 0);
-			m_position = pos;
-		}
+		//void Update_UI(const glm::vec3& pos, float width, float height)
+		//{
+		//	m_perspective = glm::ortho<float>(0, width, height, 0);
+		//	m_position = pos;
+		//}
 
 		inline glm::mat4 GetViewProjection() const
 		{
@@ -91,12 +85,12 @@ namespace QuadCore
 
 		inline glm::vec3 GetUpward() const
 		{
-			return m_upward;
+			return m_up;
 		}
 
-		inline glm::vec3 GetRight() const
+		inline glm::vec3 GetSide() const
 		{
-			return m_right;
+			return glm::cross(m_forward, m_up);
 		}
 
 	protected:
@@ -106,81 +100,253 @@ namespace QuadCore
 		glm::vec3 m_forward;
 		glm::vec3 m_up;
 
-		glm::vec3 m_right;
-		glm::vec3 m_upward;
-		float ForwardAngle = 0;
-		float UpAngle = 0;
-		float sensitivity = 0.001;
+		//float ForwardAngle = 0;
+		//float UpAngle = 0;
+		float sensitivity = 0.1;
 
 		glm::mat4 m_ortho;
 
 		// Controls.h 에서 사용
 	public:
 
-		//(glm::vec3(0.0f, 0.0f, -5.0f), 70.0f, (float)WIDTH / (float)HEIGHT, 0.001f, 1000.0f);
 		void SetViewProjection(glm::vec3 position)
 		{
 			if (position.x > 0.0f)
-				m_position -= m_right * sensitivity * 100.0f;
+				m_position -= glm::cross(m_forward, m_up) * sensitivity;	// m_position -= m_right * sensitivity * 100.0f;
 			else if (position.x < 0.0f)
-				m_position += m_right * sensitivity * 100.0f;
+				m_position += glm::cross(m_forward, m_up) * sensitivity;	//m_position += m_right * sensitivity * 100.0f;
 
 			if (position.y > 0.0f)
-				m_position += m_upward * sensitivity * 100.0f;
+				m_position += m_up * sensitivity;							//m_position += m_upward * sensitivity * 100.0f;
 			else if (position.y < 0.0f)
-				m_position -= m_upward * sensitivity * 100.0f;
+				m_position -= m_up * sensitivity;							//m_position -= m_upward * sensitivity * 100.0f;
 		}
 
+		/*
+			[ 마우스 휠로 줌 인&아웃 ]
+			＠변화요소 : 현재위치(m_position)
+			※주의할점 : 앞벡터(m_foward) 방향으로 이동
+		*/
 		void MovePosition(float depth)
 		{
-			//m_position.z += depth;
 			if (depth > 0)
 				m_position -= m_forward;
 			else if (depth < 0)
 				m_position += m_forward;
 		}
 
+		//void SetAngle(float fangle, float uangle)
+		//{
+		//	ForwardAngle += fangle * sensitivity;
+		//	UpAngle += uangle * sensitivity;
+		//	m_forward = glm::vec3(-1.0f * sinf(ForwardAngle) * cosf(UpAngle),
+		//		-1.0f * sinf(UpAngle),
+		//		-1.0f * cosf(ForwardAngle) * cosf(UpAngle));
+		//	///printf("Forward ( %.2f, %.2f, %.2f)\n", m_forward.x, m_forward.y, m_forward.z);
+		//	//m_right = glm::vec3(m_forward.z, 0, -m_forward.x);
+		//	//m_upward = glm::vec3(0, m_forward.z, -m_forward.y);
+		//}
+
+		/*
+			[ 마우스로 회전 - XY축 기준 ]
+			＠변화요소 : 앞벡터(m_foward), 위벡터(m_up)
+			※주의할점 : z축 회전이 일어나지 않도록 보정해줄것
+		*/
 		void SetAngle(float fangle, float uangle)
 		{
-			ForwardAngle += fangle * sensitivity;
-			UpAngle += uangle * sensitivity;
-			m_forward = glm::vec3(-1.0f * sinf(ForwardAngle) * cosf(UpAngle),
-				-1.0f * sinf(UpAngle),
-				-1.0f * cosf(ForwardAngle) * cosf(UpAngle));
-			printf("Forward ( %.2f, %.2f, %.2f)\n", m_forward.x, m_forward.y, m_forward.z);
-			m_right = glm::vec3(m_forward.z, 0, -m_forward.x);
-			//m_upward = glm::vec3(0, m_forward.z, -m_forward.y);
+			fangle *= sensitivity * 5;
+			uangle *= sensitivity * 5;
+
+			// x축 기준 회전
+			glm::vec3 side = glm::cross(m_forward, m_up);
+			glm::vec3 x_forward = Rotate_Axis_normal(side, -uangle, m_forward);
+			glm::vec3 x_up = Rotate_Axis_normal(side, -uangle, m_up);
+
+			
+			// y축 기준 회전
+			glm::vec3 y_forward = Rotate_Axis_normal(x_up, fangle, x_forward);
+
+			m_forward = x_forward;
+			m_up = x_up;
+			
+			m_forward = y_forward;
+			//m_up = glm::vec3(0,1,0);	// 조작 편의성을 위해 카메라 방향을 위로 맞춰준다.
+
+			// 각도 보정을 위한 정보 입력
+			degree_Axis_Y += fangle;
+			if (degree_Axis_Y >= 360.0f)
+				degree_Axis_Y -= 360.0f;
+
+			degree_Axis_X += -uangle;
+			if (degree_Axis_X >= 360.0f)
+				degree_Axis_X -= 360.0f;
+
+			////// 축이 누적될때 오류발생
+			//float mid  = glm::dot(glm::vec3(0,m_up.y, m_up.z), glm::vec3(0, 1, 0))/2;
+			//if (uangle > 0)
+			//	degree_Axis_X += -mid;
+			//else
+			//	degree_Axis_X += +mid;
+			////degree_Axis_X += -uangle/2;
+			//if (degree_Axis_X >= 360.0f)
+			//	degree_Axis_X -= 360.0f;
+
+			////// 축이 누적될때 오류발생
+			////degree_Axis_X += -uangle;
+			////if (degree_Axis_X >= 360.0f)
+			////	degree_Axis_X -= 360.0f;
+
+			////// Z축도 보정 필요
+			//////degree_Axis_Z += degree_s2s;
+			////degree_Axis_Z += degree_Axis_Z;
+			////if (degree_Axis_Z >= 360.0f)
+			////	degree_Axis_Z -= 360.0f;
 		}
 
-		void SetAngle_new(float fangle, float uangle)
+		/**********************************************************************************
+
+			[ Quaternion Rotate : 사원수의 회전 ]
+			  - normal vector(a,b,c)를 축으로 점 p(x,y,z)를 θ˚만큼 회전한다.
+			
+			q = { sin(θ/2)n, cos(θ/2) }
+
+			R_q(p) = qpq'¹
+			       = cosθP + (1-cosθ)(N·P)N + sinθ(N×P)
+
+			· => inner product or dot product
+			× => outer product or cross product
+
+		**********************************************************************************/
+		inline glm::vec3 Rotate_Axis_normal(glm::vec3 normal, float degree, glm::vec3 point)
 		{
-			ForwardAngle += fangle * sensitivity;
-			UpAngle += uangle * sensitivity;
+			float radians = degree * glm::pi<float>() / 180.0f;
 
-			//m_forward = glm::vec3(m_forward.x, m_forward.y + UpAngle, m_forward.z);
-			m_forward = glm::vec3(-1.0f * sinf(ForwardAngle) * cosf(UpAngle),
-				-1.0f * sinf(UpAngle),
-				-1.0f * cosf(ForwardAngle) * cosf(UpAngle));
+			float q = cosf(radians) + sinf(radians);
+
+			glm::vec3 mov_pos = (cosf(radians) * point)
+								+ ((1-cosf(radians)) * glm::dot(normal, point) * normal)
+								+ (sinf(radians) * glm::cross(normal, point));
+			return mov_pos;
 		}
 
 
-		void Rotate_Axis_Z(glm::vec3 up)
+		/*
+			[ Z축 기준 회전 ]
+			＠변화요소 : 위벡터(m_up)
+			※주의할점 : 카메라가 z축의 역방향으로 향하기 때문에 각도를 반대로 계산해야한다.
+		*/
+		void Rotate_Axis_Z(float angle)
 		{
-			//m_up = glm::vec3(m_up.x+up.x, m_up.y+up.y, m_up.z+up.z);
-			//m_up = glm::vec3(m_up.x + up.x, m_up.y, m_up.z);
-			m_upward = glm::vec3(m_upward.x + up.x, m_upward.y, m_upward.z);
+			degree_Axis_Z += angle;
+
+			if (degree_Axis_Z >= 360.0f)
+				degree_Axis_Z -= 360.0f;
+
+			m_up = Rotate_Axis_normal(m_forward, -angle, m_up);
+
+			/*	error
+				축을 기준으로하는 단순회전, 다른 축의 움직임 적용불가
+			***********************************************************/
+			//degree_Axis_Z += angle;
+
+			//if (degree_Axis_Z >= 360.0f)
+			//	degree_Axis_Z -= 360.0f;
+
+			//float radians = degree_Axis_Z * glm::pi<float>() / 180.0f;
+
+			//m_up.x = -sinf(radians);
+			//m_up.y = +cosf(radians);
+			//**********************************************************
+
+			//printf("[Axis_Z] - degree: %.2f, radians: %.2f ),\t", degree_Axis_Z, radians);
+			printf("FORWARD( %.2f, %.2f, %.2f ),\t", m_forward.x, m_forward.y, m_forward.z);
+			printf("UP( %.2f, %.2f, %.2f ),\t", m_up.x, m_up.y, m_up.z);
+			printf("\n");
 		}
 
-		void Rotate_Axis_Y(glm::vec3 forward)
+		float degree_Axis_X = 0.0f;
+		float degree_Axis_Y = 0.0f;
+		float degree_Axis_Z = 0.0f;
+
+		glm::vec3 GetRot()
 		{
-			//m_forward = glm::vec3(m_forward.x + forward.x, m_forward.y + forward.y, m_forward.z + forward.z);
-			m_forward = glm::vec3(m_forward.x + forward.x, m_forward.y, m_forward.z);
+			float rad = glm::pi<float>() / 180.0f;
+			return glm::vec3(degree_Axis_X*rad, degree_Axis_Y*rad, degree_Axis_Z*rad);
 		}
 
-		void Rotate_Axis_X(glm::vec3 forward)
-		{			
-			//m_forward = glm::vec3(m_forward.x + forward.x, m_forward.y + forward.y, m_forward.z + forward.z);
-			m_forward = glm::vec3(m_forward.x, m_forward.y + forward.y, m_forward.z);
+		/*
+			[ Y축 기준 회전 ]
+			＠변화요소 : 앞벡터(m_foward)
+			※주의할점 : X
+		*/
+		void Rotate_Axis_Y(float angle)
+		{
+			degree_Axis_Y += angle;
+
+			if (degree_Axis_Y >= 360.0f)
+				degree_Axis_Y -= 360.0f;
+
+			m_forward = Rotate_Axis_normal(m_up, angle, m_forward);
+
+			/*	error
+				축을 기준으로하는 단순회전, 다른 축의 움직임 적용불가
+			***********************************************************/
+			//degree_Axis_Y += angle;
+
+			//if (degree_Axis_Y >= 360.0f)
+			//	degree_Axis_Y -= 360.0f;
+
+			//float radians = degree_Axis_Y * glm::pi<float>() / 180.0f;
+
+			//m_forward.x = -sinf(radians);
+			//m_forward.z = -cosf(radians);
+			//**********************************************************
+			
+
+			//printf("[Axis_Y] - degree: %.2f, radians: %.2f ),\t", degree_Axis_Y, radians);
+			printf("FORWARD( %.2f, %.2f, %.2f ),\t", m_forward.x, m_forward.y, m_forward.z);
+			printf("UP( %.2f, %.2f, %.2f ),\t", m_up.x, m_up.y, m_up.z);
+			printf("\n");
+		}
+
+		/*
+			[ X축 기준 회전 ]
+			＠변화요소 : 앞벡터(m_foward), 위벡터(m_up)
+			※주의할점 : 90도 각도를 유지할 수 있도록 동시에 변화시켜야 한다.
+		*/
+		void Rotate_Axis_X(float angle)
+		{	
+			degree_Axis_X += angle;
+
+			if (degree_Axis_X >= 360.0f)
+				degree_Axis_X -= 360.0f;
+	
+			glm::vec3 side = glm::cross(m_forward, m_up);
+			m_forward = Rotate_Axis_normal(side, angle, m_forward);
+			m_up = Rotate_Axis_normal(side, angle, m_up);
+
+
+			/*	error
+				축을 기준으로하는 단순회전, 다른 축의 움직임 적용불가
+			***********************************************************/
+			//degree_Axis_X += angle;
+
+			//if (degree_Axis_X >= 360.0f)
+			//	degree_Axis_X -= 360.0f;
+
+			//float radians = degree_Axis_X * glm::pi<float>() / 180.0f;
+
+			//m_forward.y = +sinf(radians);
+			//m_forward.z = -cosf(radians);
+
+			//m_up.y = +cosf(radians);
+			//m_up.z = +sinf(radians);
+			//**********************************************************
+
+			//printf("[Axis_X] - degree: %.2f, radians: %.2f ),\t", degree_Axis_X, radians);
+			printf("FORWARD( %.2f, %.2f, %.2f ),\t", m_forward.x, m_forward.y, m_forward.z);
+			printf("UP( %.2f, %.2f, %.2f ),\t", m_up.x, m_up.y, m_up.z);
+			printf("\n");
 		}
 	};
 

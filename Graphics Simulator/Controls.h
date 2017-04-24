@@ -134,26 +134,26 @@ namespace QuadCore
 
 				// z - rotate
 			case GLFW_KEY_Q:
-				camera->Rotate_Axis_Z(glm::vec3(-.1, 0, 0));
+				camera->Rotate_Axis_Z(+1.0f);
 				break;
 			case GLFW_KEY_E:
-				camera->Rotate_Axis_Z(glm::vec3(+.1, 0, 0));
+				camera->Rotate_Axis_Z(-1.0f);
 				break;
 
 				// x - rotate
 			case GLFW_KEY_W:
-				camera->Rotate_Axis_X(glm::vec3(0, +.1, 0));
+				camera->Rotate_Axis_X(+1.0f);
 				break;
 			case GLFW_KEY_S:
-				camera->Rotate_Axis_X(glm::vec3(0, -.1, 0));
+				camera->Rotate_Axis_X(-1.0f);
 				break;
 
 				// y - rotate
 			case GLFW_KEY_A:
-				camera->Rotate_Axis_Y(glm::vec3(-.1, 0, 0));
+				camera->Rotate_Axis_Y(+1.0f);
 				break;
 			case GLFW_KEY_D:
-				camera->Rotate_Axis_Y(glm::vec3(+.1, 0, 0));
+				camera->Rotate_Axis_Y(-1.0f);
 				break;
 
 			case GLFW_KEY_ESCAPE:
@@ -255,13 +255,15 @@ namespace QuadCore
 					&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE))
 				{
 					printf("Move : [ %d , %d ]\n", (int)x, (int)y);
+					camera->SetViewProjection(glm::vec3(tr_x - x, tr_y - y, 0.0f));
+					tr_x = x;
+					tr_y = y;
 				}
 				// Right Button Down & Move
 				else if ((glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
 					&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 					&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE))
 				{
-					//camera->SetAngle(tr_x - x, -(tr_y - y));
 					camera->SetAngle(tr_x - x, -(tr_y - y));
 					tr_x = x;
 					tr_y = y;
