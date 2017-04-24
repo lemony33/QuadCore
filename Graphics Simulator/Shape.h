@@ -32,6 +32,21 @@ public:
 		return m_transform;
 	}
 
+	virtual void position(glm::vec3 position)
+	{
+		m_transform->SetPos(position);
+	}
+
+	virtual void rotate(glm::vec3 rotation)
+	{
+		m_transform->SetRot(rotation);
+	}
+
+	virtual void scale(glm::vec3 scale)
+	{
+		m_transform->SetScale(scale);
+	}
+
 protected:
 
 	QuadCore::Transform*	m_transform;

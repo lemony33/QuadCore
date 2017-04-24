@@ -10,9 +10,9 @@ class Cube : public Shape
 {
 public:
 
-	Cube()
+	Cube(glm::vec3 position)
 	{
-		m_transform = new Transform;
+		m_transform = new Transform(position);
 		std::string filename = shape_path + "Cube" + ".obj";
 		m_mesh = new Mesh(filename);
 
@@ -40,7 +40,6 @@ public:
 		m_transform->SetScale(scale);
 	}
 
-	
 
 	virtual void Draw(QuadCore::Camera* camera)
 	{
