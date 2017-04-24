@@ -41,6 +41,7 @@
     <ClInclude Include="Graphics_Simulator.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Obj_loader.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="ShapeManager.h" />

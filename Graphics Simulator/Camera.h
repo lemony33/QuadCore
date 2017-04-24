@@ -170,7 +170,7 @@ namespace QuadCore
 			m_up = x_up;
 			
 			m_forward = y_forward;
-			//m_up = glm::vec3(0,1,0);	// 조작 편의성을 위해 카메라 방향을 위로 맞춰준다.
+			m_up = glm::vec3(0,1,0);	// 조작 편의성을 위해 카메라 방향을 위로 맞춰준다.
 
 			// 각도 보정을 위한 정보 입력
 			degree_Axis_Y += fangle;

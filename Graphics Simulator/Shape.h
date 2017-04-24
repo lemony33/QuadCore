@@ -24,12 +24,42 @@ public:
 	virtual ~Shape() {}
 	
 public:
+	// 기능: 물체의 변환값을 입력한다.
+	// 입력: 위치, 각도, 크기
 	virtual void transform(glm::vec3 position, glm::vec3 rotation = glm::vec3(), glm::vec3 scale = glm::vec3(1,1,1)) = 0;
+
+	// 기능: 물체를 그려준다
 	virtual void Draw(QuadCore::Camera* camera) = 0;
 
 	virtual QuadCore::Transform* GetTransform()
 	{
 		return m_transform;
+	}
+
+	// 기능: 물체의 위치를 설정한다
+	virtual void position(glm::vec3 position)
+	{
+		m_transform->SetPos(position);
+	}
+
+	// 기능: 물체를 이동시킨다
+	virtual void translate(glm::vec3 position)
+	{
+		m_transform->SetPos(m_transform->GetPos() + position);
+		//m_transform->SetPos(position);
+	}
+		
+	// 기능: 물체를 회전시킨다
+	virtual void rotate(glm::vec3 rotation)
+	{
+		m_transform->SetRot(rotation);
+		//m_transform->SetRot(m_transform->GetRot() + rotation);
+	}
+
+	// 기능: 물체의 크기를 변화시킨다
+	virtual void scale(glm::vec3 scale)
+	{
+		m_transform->SetScale(scale);
 	}
 
 protected:
