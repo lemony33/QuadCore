@@ -22,16 +22,18 @@ uniform samplerCube skybox;
 
 
 void main()
-/*
+
 {
-    float ambientStrength = 0.3f;
-    vec3 ambient = ambientStrength * light_ambient;
-    
+    float ambientStrength = 0.1f;
+    //vec3 ambient = ambientStrength * light_ambient;
+	vec3 texcolor = texture(texture_diffuse, texCoord0).rgb;
+    vec3 ambient = ambientStrength * texcolor;
+
 	// Diffuse
 	vec3 norm = normalize(normal0);
-	vec3 lightDir = normalize(viewPos - FragPos);
-	float diff = max(dot(norm, lightDir), 0.0);
-	vec3 diffuse = diff * 1.5f * light_diffuse;
+	vec3 lightDir = normalize(lightPos - FragPos);
+	float diff = max(dot(lightDir, norm), 0.0);
+	vec3 diffuse = diff * texcolor;//* 1.5f * light_diffuse;
     
 	// Specular
 	float specularStrength = 0.9f;
@@ -48,13 +50,13 @@ void main()
     //vec3 R = reflect(-I, normalize(normal0));
 
 	vec3 R = refract(I, normalize(normal0), ratio);
-	gl_FragColor = texture(skybox, R)* vec4(result, 1.0f);
-		// * clamp(dot(-vec3(0,1,0), normal0), 0.0, 1.0)
-		// * vec4(result, 1.0f);	//lighting
+	gl_FragColor = texture(skybox, R) // texture(texture_diffuse, texCoord0)
+		 //* clamp(dot(-vec3(0,1,0), normal0), 0.0, 1.0)
+		 * vec4(result, 1.0f);	//lighting
 	
 	
 }
-*/
+/*
 {             
 	float ratio = 3.00 / 4.00; //1.00 / 1.52;
     vec3 I = normalize(FragPos - viewPos);
@@ -65,3 +67,4 @@ void main()
     color = texture(skybox, -R);
 
 }
+*/
