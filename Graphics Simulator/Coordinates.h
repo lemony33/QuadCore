@@ -13,7 +13,7 @@ using QuadCore::Shader;
 class Coordinates
 {
 public:
-	Coordinates() {}
+	Coordinates(float line_length = 1.0f) { Init(line_length); }
 	void Init(QuadCore::Transform* transform, QuadCore::Camera* camera, float line_length = 1.0f)
 	{
 		Vertex vertex_0 = Vertex(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(), glm::vec3());
@@ -42,6 +42,7 @@ public:
 
 	}
 
+private:
 	void Init(float line_length = 1.0f)
 	{
 		Vertex vertex_0 = Vertex(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(), glm::vec3());
@@ -65,6 +66,7 @@ public:
 		coor_shader = new Shader("../media/MapShader");
 	}
 
+public:
 	void Init_UI(QuadCore::Transform* transform, QuadCore::Camera* camera, float line_length = 1.0f)
 	{
 

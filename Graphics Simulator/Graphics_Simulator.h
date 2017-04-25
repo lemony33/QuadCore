@@ -5,11 +5,10 @@
 
 #include "Coordinates.h"
 
-#include "Scene.h"
+#include "SceneManager.h"
 
 namespace QuadCore
 {
-	
 
 
 class Graphics_Simulator
@@ -24,9 +23,9 @@ private:
 	const int  width_window = 640;	// 윈도우 창 (가로)
 	const int height_window = 640;	// 윈도우 창 (세로)
 
-	Display display;	
+	Display display;
 	
-	Scene scene;
+	SceneManager m_scene_manager;
 
 	Coordinates m_world_coordinates;
 	Coordinates m_UI_coordinates;

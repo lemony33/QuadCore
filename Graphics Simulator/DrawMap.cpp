@@ -19,6 +19,14 @@ QuadCore::DrawMap::~DrawMap()
 	delete[] m_Vertices;
 }
 
+void QuadCore::DrawMap::Init(Camera* the_camera)
+{
+	m_Camera = the_camera;
+
+	Transform the_transform;
+	m_Transform = the_transform;
+}
+
 void QuadCore::DrawMap::SetProperty(int matrixSize, float thickness, glm::vec4 color)
 {
 	// Matrix(Mesh)

@@ -18,6 +18,7 @@ namespace QuadCore
 		DrawMap();
 		DrawMap(Camera& the_camera);
 		virtual ~DrawMap();
+		void Init(Camera* the_camera);
 
 	private:
 		Transform m_Transform;

@@ -1,11 +1,11 @@
 #pragma once
 
 //#include "Texture.h"
-#include "Shape.h"
+#include "iShape.h"
 #include <vector>
 
 #include "Cube.h"
-
+#include "BasicObject.h"
 
 namespace QuadCore
 {
@@ -13,57 +13,70 @@ namespace QuadCore
 class ShapeManager
 {
 public:
-	ShapeManager()
+	ShapeManager() {}
+	virtual ~ShapeManager() {}
+
+	//// 기본도형을 모두 출력하는 테스트 코드
+	void Insert_TestObjects()
 	{
-		Insert_Object(glm::vec3(1, 1, 0));
-		Insert_Object(glm::vec3(2, 2, 0));
-		Insert_Object(glm::vec3(3, 3, 0));
-		Insert_Object(glm::vec3(4, 4, 0));
-		Insert_Object(glm::vec3(5, 5, 0));
-		Insert_Object(glm::vec3(1, 5, 3));
+		for (int i = 0; i < BasicObject::FIGURE::NUM_FIGURE; i++)
+		{
+			m_shape_list.push_back(new BasicObject(glm::vec3( sinf(i)*13, -3, cosf(i)*13), i ));
+		}
 	}
-	virtual ~ShapeManager();
 
-
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ	
 	// 물체를 리스트에 추가한다
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	void Insert_Object(glm::vec3 pos /*= glm::vec3()*/)
 	{
-		//m_shape = new Cube;
-		//Cube* cube = new Cube;
-		//cube->transform(pos);
-		m_shape_list.push_back(new Cube(pos));
+		m_shape_list.push_back(new BasicObject(pos, BasicObject::FIGURE::Cube));
 
 		//m_shape_list.at(0)->transform(pos);
 	}
 
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	// 선택한 물체를 리스트에서 삭제한다
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	void Delete_Objet()
 	{
 	}
 
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	//  선택한 물체의 주소값을 반환한다.
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	iShape* GetObject(int index)
+	{
+		if (index<0 || index>m_shape_list.size() - 1)	// 오류처리
+			return NULL;
+		return m_shape_list.at(index);
+	}
+
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	// 선택한 물체 리스트의 주소값을 반환한다.
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	std::vector<iShape*> GetObjectList(int index)
+	{
+		return m_shape_list;
+	}
 	
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	// 리스트의 모든 도형을 그려준다
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	void DrawAll()
 	{
 		float delim = 0.7;
 
 		for (int i = 0; i < m_shape_list.size(); i++)
 		{
-			m_shape_list.at(i)->Draw(m_camera);
-			m_shape_list.at(i)->rotate(glm::vec3(m_cosCounter * 0.3f, m_sinCounter * 0.5f, 0));
-			m_shape_list.at(i)->translate(glm::vec3(m_cosCounter*m_sinCounter * .03f *i, m_sinCounter*m_cosCounter * .05f *i, 0));
+			m_shape_list.at(i)->Draw(m_camera);			
 		}
 	}
 	
-	// 카운터를 설정한다
-	void SetCounter(float counter)
-	{
-		m_sinCounter = sinf(counter);	// sin counter
-		m_cosCounter = cosf(counter);	// cos counter
-	}
-	
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	// 초기화
 	// 그리기를 위해서 cameara 정보 필요
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	void Init(Camera* camera)
 	{
 		m_camera = camera;
@@ -72,14 +85,11 @@ public:
 private:
 	//QuadCore::Texture m_texture;
 	//Shape* m_shape;
-	std::vector<Shape*> m_shape_list;
+	std::vector<iShape*> m_shape_list;
 
 	QuadCore::Camera* m_camera;
 
-	typename glm::vec3 vec;
-
-	float m_sinCounter;
-	float m_cosCounter;
+	typename glm::vec3 vec;	
 };
 
 }

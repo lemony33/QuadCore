@@ -16,12 +16,12 @@
 namespace QuadCore
 {
 
-class Shape
+class iShape
 {
 public:
-	Shape() : shape_path("../media/shape/")
+	iShape() : shape_path("../media/shape/")
 	{}
-	virtual ~Shape() {}
+	virtual ~iShape() {}
 	
 public:
 	// 기능: 물체의 변환값을 입력한다.
@@ -61,8 +61,8 @@ public:
 	{
 		m_transform->SetScale(scale);
 	}
-
 protected:
+	std::string m_shape_name = "iShape";
 
 	QuadCore::Transform*	m_transform;
 	QuadCore::Mesh*			m_mesh;
@@ -88,37 +88,3 @@ protected:
 
 
 
-/*
-Cone
-ConeHalf
-ConeHexagon
-ConePentagon
-Cross
-Cube
-CubeCorner
-CubeCornerThin
-CubeEdgeIn
-CubeEdgeOut
-CubeHollow
-CubeHollowThin
-CubeTube
-Cylinder
-CylinderHalf
-CylinderTube
-CylinderTubeThin
-Heart
-Icosphere
-IcosphereSmall
-PrismHexagon
-PrismOctagon
-PrismTriangle
-Pyramid
-PyramidCorner
-PyramidTri
-Sphere
-SphereHalf
-Star
-Torus
-TorusHalf
-Wedge
-*/

@@ -1,27 +1,28 @@
 #pragma once
 
-#include "Shape.h"
+#include "iShape.h"
 
 
 namespace QuadCore
 {
 
-class Cube : public Shape
+class Cube : public iShape
 {
 public:
 
 	Cube(glm::vec3 position)
 	{
+		m_shape_name = "Cube";
+
 		m_transform = new Transform(position);
-		std::string filename = shape_path + "Cube" + ".obj";
+		std::string filename = shape_path + m_shape_name + ".obj";
 		m_mesh = new Mesh(filename);
 
 		//Shader shader1("../media/new_shader/basicShader_light");
 		m_shader = new Shader("../media/new_shader/basicShader_light");
 		m_texture = new Texture("../media/res/bricks.jpg");
 
-		m_coordinate = new Coordinates();
-		m_coordinate->Init(1.0f);
+		m_coordinate = new Coordinates(1.0f);
 	}
 
 	virtual ~Cube()
