@@ -21,12 +21,24 @@ class iShape
 public:
 	iShape() : shape_path("../media/shape/")
 	{}
-	virtual ~iShape() {}
+	virtual ~iShape()
+	{
+		delete(m_transform);
+		delete(m_mesh);
+		delete(m_shader);
+		delete(m_texture);
+		delete(m_coordinate);
+	}
 	
 public:
 	// 기능: 물체의 변환값을 입력한다.
 	// 입력: 위치, 각도, 크기
-	virtual void transform(glm::vec3 position, glm::vec3 rotation = glm::vec3(), glm::vec3 scale = glm::vec3(1,1,1)) = 0;
+	virtual void transform(glm::vec3 position, glm::vec3 rotation = glm::vec3(), glm::vec3 scale = glm::vec3(1, 1, 1))
+	{
+		m_transform->SetPos(position);
+		m_transform->SetRot(rotation);
+		m_transform->SetScale(scale);
+	}
 
 	// 기능: 물체를 그려준다
 	virtual void Draw(QuadCore::Camera* camera) = 0;
@@ -61,6 +73,12 @@ public:
 	{
 		m_transform->SetScale(scale);
 	}
+
+	virtual Shader* GetShader()
+	{
+		return m_shader;
+	}
+
 protected:
 	std::string m_shape_name = "iShape";
 
@@ -77,9 +95,6 @@ protected:
 
 	//Collider collider;
 	//Physics* physics;
-
-	//QuadCore::Shader*		m_shader;
-	//QuadCore::Texture*		m_texture;	
 
 	std::string shape_path;
 };

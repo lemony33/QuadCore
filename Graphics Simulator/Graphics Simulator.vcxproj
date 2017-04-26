@@ -44,12 +44,16 @@
     <ClInclude Include="Obj_loader.h" />
     <ClInclude Include="Scence_moving_block.h" />
     <ClInclude Include="Scence_moving_cube.h" />
-    <ClInclude Include="Scence_test_shader.h" />
+    <ClInclude Include="Scence_multi_light.h" />
+    <ClInclude Include="Scence_reflect_shader.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Scene_basicObjects.h" />
     <ClInclude Include="Scene_main.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="iShape.h" />
     <ClInclude Include="ShapeManager.h" />
+    <ClInclude Include="SkyBox.h" />
+    <ClInclude Include="Scene_SkyBox.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Scence_moving_wall.h" />
     <ClInclude Include="Texture.h" />

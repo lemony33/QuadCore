@@ -10,63 +10,62 @@ namespace QuadCore
 class BasicObject : public iShape
 {
 public:
-
 	BasicObject(glm::vec3 position, int figure_num)
 	{
-		SetName();
+		this->SetName();
 		
-
 		m_transform = new Transform(position);
 		m_coordinate = new Coordinates(1.0f);
 		
 		m_shape_name = objects[figure_num];
 
-		Init();
+
+		std::string filename = shape_path + m_shape_name + ".obj";
+		m_mesh = new Mesh(filename);
+		//Shader shader1("../media/new_shader/basicShader_light");
+		m_shader = new Shader("../media/new_shader/basicShader_light");
+		m_texture = new Texture("../media/res/bricks.jpg");
 	}
 
-	virtual ~BasicObject()
+	BasicObject(std::string mesh_name, std::string shader_name, std::string texture_name, Transform* transform = new Transform())
 	{
-		delete(m_transform);
-		delete(m_mesh);
-		delete(m_shader);
-		delete(m_texture);
-		delete(m_coordinate);
+		m_transform = transform;
+		m_coordinate = new Coordinates(1.0f);
+
+		using std::string;
+
+		string file_name_mesh = shape_path + mesh_name + ".obj";
+		m_mesh = new Mesh(file_name_mesh);
+
+		string file_name_shader = "../media/new_shader/" + shader_name;
+		m_shader = new Shader(file_name_shader);
+
+		string file_name_texture = "../media/res/" + texture_name + ".jpg";
+		m_texture = new Texture(file_name_texture);
 	}
 
 public:
 	void Init()
 	{
-
-		std::string filename = shape_path + m_shape_name + ".obj";
-		m_mesh = new Mesh(filename);
-
-		//Shader shader1("../media/new_shader/basicShader_light");
-		m_shader = new Shader("../media/new_shader/basicShader_light");
-		m_texture = new Texture("../media/res/bricks.jpg");
-
+		
 	}
 	void SetMesh()
 	{
-
+		std::string filename = shape_path + m_shape_name + ".obj";
+		m_mesh = new Mesh(filename);
 	}
 	void SetShader()
 	{
-
+		//Shader shader1("../media/new_shader/basicShader_light");
+		m_shader = new Shader("../media/new_shader/basicShader_light");
 	}
 	void SetTexture()
 	{
-
+		m_texture = new Texture("../media/res/bricks.jpg");
 	}
 
 
-public:
-
-	virtual void transform(glm::vec3 position, glm::vec3 rotation = glm::vec3(), glm::vec3 scale = glm::vec3(1, 1, 1))
-	{
-		m_transform->SetPos(position);
-		m_transform->SetRot(rotation);
-		m_transform->SetScale(scale);
-	}
+public:	
 
 	virtual void Draw(QuadCore::Camera* camera)
 	{

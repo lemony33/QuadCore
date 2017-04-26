@@ -23,9 +23,7 @@ public:
 
 private:
 	virtual void Draw()
-	{		
-
-		m_shape_manager.Insert_TestObjects();
+	{
 	}
 
 };

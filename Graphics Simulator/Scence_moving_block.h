@@ -31,12 +31,12 @@ public:
 private:
 	virtual void Draw()
 	{
-		m_shape_manager.Insert_Object(glm::vec3(1, 1, 0));
-		m_shape_manager.Insert_Object(glm::vec3(2, 2, 0));
-		m_shape_manager.Insert_Object(glm::vec3(3, 3, 0));
-		m_shape_manager.Insert_Object(glm::vec3(4, 4, 0));
-		m_shape_manager.Insert_Object(glm::vec3(5, 5, 0));
-		m_shape_manager.Insert_Object(glm::vec3(1, 5, 3));
+		m_shape_manager.Insert_Object_BasicShape(glm::vec3(1, 1, 0));
+		m_shape_manager.Insert_Object_BasicShape(glm::vec3(2, 2, 0));
+		m_shape_manager.Insert_Object_BasicShape(glm::vec3(3, 3, 0));
+		m_shape_manager.Insert_Object_BasicShape(glm::vec3(4, 4, 0));
+		m_shape_manager.Insert_Object_BasicShape(glm::vec3(5, 5, 0));
+		m_shape_manager.Insert_Object_BasicShape(glm::vec3(1, 5, 3));
 	}
 };
 

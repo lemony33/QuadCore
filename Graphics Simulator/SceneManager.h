@@ -9,19 +9,18 @@
 #include "Scence_moving_wall.h"
 #include "Scence_moving_block.h"
 #include "Scence_moving_cube.h"
-#include "Scence_test_shader.h"
+#include "Scence_reflect_shader.h"
+#include "Scence_multi_light.h"
+#include "Scene_basicObjects.h"
+
+#include "Scene_SkyBox.h"
 
 
 class SceneManager
 {
 public:
 	SceneManager()
-	{
-		m_scene_list.push_back(new Scene_main);
-		m_scene_list.push_back(new Scence_moving_wall);
-		m_scene_list.push_back(new Scence_moving_block);
-		m_scene_list.push_back(new Scence_moving_cube);
-		m_scene_list.push_back(new Scence_test_shader);
+	{		
 	}
 
 	virtual ~SceneManager()
@@ -33,6 +32,17 @@ public:
 	//�ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ�
 	void Init(QuadCore::Camera* camera)
 	{
+		m_scene_list.push_back(new Scene_SkyBox);
+
+		m_scene_list.push_back(new Scene_main);
+
+		m_scene_list.push_back(new Scene_basicObjects);
+		//m_scene_list.push_back(new Scence_moving_wall);
+		m_scene_list.push_back(new Scence_moving_block);
+		m_scene_list.push_back(new Scence_moving_cube);
+		m_scene_list.push_back(new Scence_reflect_shader);
+		m_scene_list.push_back(new Scence_multi_light);
+
 		//�ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ�
 
 		dMap.Init(camera);
