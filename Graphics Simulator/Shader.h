@@ -198,15 +198,6 @@ public:
 		for (int i = 0; i < 4; i++)
 		{
 			pointLight[i].SetValue(i, lightPositions[i].GetPos(), ambient[i], diffuse[i], specular[i]);
-
-			printf("i - %d  , lightPositions %.2f\n"
-				" ambient (%.2f,%.2f,%.2f) \n"
-				" diffuse (%.2f,%.2f,%.2f) \n"
-				" specular(%.2f,%.2f,%.2f) \n",
-				i, lightPositions[i].GetPos(),
-				ambient[i].x, ambient[i].y, ambient[i].z,
-				diffuse[i].x, diffuse[i].y, diffuse[i].z,
-				specular[i].x, specular[i].y, specular[i].z );
 		}
 	}
 
