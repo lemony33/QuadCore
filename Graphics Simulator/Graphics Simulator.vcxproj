@@ -26,7 +26,6 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Obj_loader.cpp" />
     <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="ShapeManager.cpp" />
     <ClCompile Include="stb_image.c" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
@@ -39,14 +38,22 @@
     <ClInclude Include="DrawMap.h" />
     <ClInclude Include="enum_type.h" />
     <ClInclude Include="Graphics_Simulator.h" />
+    <ClInclude Include="BasicObject.h" />
+    <ClInclude Include="iScene.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Obj_loader.h" />
-    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Scence_moving_block.h" />
+    <ClInclude Include="Scence_moving_cube.h" />
+    <ClInclude Include="Scence_test_shader.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Scene_main.h" />
     <ClInclude Include="Shader.h" />
-    <ClInclude Include="Shape.h" />
+    <ClInclude Include="iShape.h" />
     <ClInclude Include="ShapeManager.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="Scence_moving_wall.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
