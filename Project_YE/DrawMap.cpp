@@ -37,10 +37,10 @@ void QuadCore::DrawMap::SetProperty(int matrixSize, float thickness, glm::vec4 c
 		m_Indices[index + (matrixSize * 2)] = index + (matrixSize * 2);
 	}
 	m_Mesh = new Mesh(m_Vertices, matrixSize * 4, m_Indices, matrixSize * 4);
-	
+
 	// Shader
 	m_Shader = new Shader("../media/MapShader");
-	
+
 	// Line Color
 	m_Shader->SetLineColor(color);
 
@@ -51,6 +51,6 @@ void QuadCore::DrawMap::SetProperty(int matrixSize, float thickness, glm::vec4 c
 void QuadCore::DrawMap::DrawPlane()
 {
 	m_Shader->Bind();
-	m_Shader->Update(m_Transform, *m_Camera);
+	m_Shader->Update(m_Transform, *m_Camera, Line_Shading);
 	m_Mesh->DrawLines();
 }
