@@ -8,6 +8,9 @@
 #include "Transform.h"
 #include "stb_image.h"
 
+#include <AntTweakBar.h>
+
+
 namespace QuadCore
 {
 
@@ -50,6 +53,15 @@ namespace QuadCore
 	public:
 		virtual void onKey(int key, int action)
 		{
+			//=====Tw Key====
+			if (TwEventCharGLFW(key, action))    // Send event to AntTweakBar
+			{
+				// Event has not been handled by AntTweakBar
+				// Do something if needed.
+				return;
+				//???
+			}
+
 			switch (key)
 			{
 			case GLFW_KEY_RIGHT:
@@ -189,11 +201,19 @@ namespace QuadCore
 				break;
 			case GLFW_KEY_RIGHT_ALT:
 				break;
-			};
+			};			
 		}
 
 		virtual void onMouseButton(int button, int action)
 		{
+			//=====Tw Key====
+			if (TwEventMouseButtonGLFW(button, action))   // Send event to AntTweakBar
+			{
+				// Event has not been handled by AntTweakBar
+				// Do something if needed.
+				return;
+			}
+
 			if (isEnteredWindow == true)
 			{
 				int x, y;
@@ -243,10 +263,18 @@ namespace QuadCore
 						glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 					}
 				}
-			}
+			}			
 		}
 		virtual void onMouseMove(int x, int y)
 		{
+			//=====Tw Key====
+			if (TwEventMousePosGLFW(x, y))  // Send event to AntTweakBar
+			{
+				// Event has not been handled by AntTweakBar
+				// Do something if needed.
+				return;
+			}
+
 			if (isEnteredWindow == true)
 			{
 				// Left Button Down & Move
@@ -289,9 +317,20 @@ namespace QuadCore
 					tr_y = y;
 				}
 			}
+
+			
 		}
 		virtual void onMouseWheel(int wheelValue)
 		{
+			//=====Tw Key====
+			if (TwEventMouseWheelGLFW(wheelValue))   // Send event to AntTweakBar
+			{
+				// Event has not been handled by AntTweakBar
+				// Do something if needed.
+				return;
+				//???
+			}
+
 			if (isEnteredWindow == true)
 			{
 				// Wheel Up
@@ -307,7 +346,7 @@ namespace QuadCore
 					printf("MOUSE SCROLL DOWN\n");
 					camera->MovePosition(+3.0f);
 				}
-			}
+			}			
 		}
 		virtual void onMouseHover(int state)
 		{

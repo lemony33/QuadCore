@@ -1,3 +1,4 @@
+
 #include "Graphics_Simulator.h"
 #include <algorithm>
 #include "Mesh.h"
@@ -5,7 +6,6 @@
 #include "Texture.h"
 #include "Controls.h"
 #include "DrawMap.h"
-
 
 
 QuadCore::Graphics_Simulator::Graphics_Simulator()
@@ -53,21 +53,33 @@ void QuadCore::Graphics_Simulator::Run()
 	m_scene_manager.Init(&camera);
 
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	
+	//////////////////////////////
+
+
 	while (!display.IsClosed())
 	{	
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 		display.UpdateWindowSize();	// 화면 갱신
 		camera.Update(camera.GetPos(), 70.0f, display.GetWindowAspec(), 0.01F, 1000.0f);		
-				
+			
+
 		display.Clear(0.1f, 0.1f, 0.1f, 1.0f);	// 배경 초기화
 		display.Clear(1.0f, 1.0f, 1.0f, 1.0f);	// 배경 초기화
-		//display.Clear(0.3f, 0.3f, 0.3f, 1.0f);	// 배경 초기화
+		display.Clear(0.3f, 0.3f, 0.3f, 1.0f);	// 배경 초기화
+
+		display.Clear(0.1f, 0.3f, 0.4f, 1.0f);	// 배경 초기화
+		
 		
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		// Draw here
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
+		
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		
@@ -80,25 +92,28 @@ void QuadCore::Graphics_Simulator::Run()
 		// 월드 좌표계 그리기
 		m_world_coordinates.Draw();
 		
+		
 
 		////////////////////////////////////////////////////////////////////
-		// UI 좌표계 그리기
+		//// UI 좌표계 그리기
 
-		shader_UI.Bind();
-		texture1.Bind(0);
+		//shader_UI.Bind();
+		//texture1.Bind(0);
 
-		UI_transform.GetPos().x = +0.7f;
-		UI_transform.GetPos().y = -0.7f;
+		//UI_transform.GetPos().x = +0.7f;
+		//UI_transform.GetPos().y = -0.7f;
 
-		UI_transform.SetRot(camera.GetRot());
+		//UI_transform.SetRot(camera.GetRot());
 
-		shader_UI.Update(UI_transform, camera);
-		m_UI_coordinates.Draw(5.0f);
+		//shader_UI.Update(UI_transform, camera);
+		//m_UI_coordinates.Draw(5.0f);
 
 		////////////////////////////////////////////////////////////////////
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		
+		
+
 		display.Update();	// 화면갱신
 	}
 }

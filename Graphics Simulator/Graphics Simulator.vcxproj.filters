@@ -57,6 +57,9 @@
     <ClCompile Include="Obj_loader.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
+    <ClCompile Include="UI_TwBar.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DrawMap.h">
@@ -140,11 +143,14 @@
     <ClInclude Include="Scene_SkyBox.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Scene_basicObjects.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Scence_reflect_shader.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene_basicObjects.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_TwBar.h">
+      <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
