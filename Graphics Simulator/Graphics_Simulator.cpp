@@ -95,6 +95,7 @@ void QuadCore::Graphics_Simulator::Run()
 	//Mesh mesh1("../media/shape/CubeHollow.obj");
 	Mesh mesh2("../media/shape/CubeHollow.obj");
 	Mesh mesh3("../media/shape/Icosphere.obj");
+	Mesh SphereMesh("../media/shape/Sphere.obj");
 	Mesh skyboxMesh(SkyBoxVerties, sizeof(SkyBoxVerties) / sizeof(SkyBoxVerties[0]), indices, sizeof(indices) / sizeof(indices[0]));
 	//Mesh nanosuitMesh("../media/objects/nanosuit_reflection/nanosuit.obj");
 
@@ -113,6 +114,10 @@ void QuadCore::Graphics_Simulator::Run()
 	//3. Texture
 	Texture texture1("../media/res/bricks.jpg");
 	Texture texture2("../media/skyblue.jpg");
+	Texture SlimeTexture("../media/res/slime.jpg");
+	Texture JupiterTexture("../media/res/Jupiter.jpg");
+	Texture EarthTexture("../media/res/earth.jpg");
+	Texture MoonTexture("../media/res/moon.jpg");
 	//texture2.Reset();
 	//스카이박스 텍스쳐 들어가는 부분
 	std::vector<std::string> faces;
@@ -214,7 +219,7 @@ void QuadCore::Graphics_Simulator::Run()
 		////////////////////////////////////////////////////////////////////
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
+		//*************
 		glDepthFunc(GL_LEQUAL);
 		skyboxShader.Bind();
 		skyboxTexture.Bind(0);
