@@ -1,75 +1,83 @@
 #pragma once
 
-
 #include <GLEW-2.0.0_x64/GL/glew.h>
 #include <GLFW-3.2.1_x64/glfw3.h>
+#include <glm-0.9.8.4/glm/glm.hpp>
 #include <string>
-
-/*
-http://www.glfw.org/docs/latest/window_guide.html
-
-glfwSetWindowSizeLimits(window, 200, 200, 400, 400);
-glfwSetWindowSizeLimits(window, 640, 480, GLFW_DONT_CARE, GLFW_DONT_CARE);
-glfwSetWindowAspectRatio(window, 16, 9);
-
-
-GLFWimage images[2];
-images[0] = load_icon("my_icon.png");
-images[1] = load_icon("my_icon_small.png");
-glfwSetWindowIcon(window, 2, images);
-
-
-*/
-
 
 namespace QuadCore
 {
-
-
-class Display
-{
-public:
-	Display(int width, int height, const std::string& title);
-
-	void Clear(float r, float g, float b, float a);
-	void Update();
-	bool IsClosed();
-
-	virtual ~Display();
-
-public:
-	void GetWindowSize(int* width, int* height)
-	{		
-		*width = m_width;
-		*height = m_height;
-	}
-	float GetWindowAspec()
+	class Display
 	{
-		return ((float)m_width / (float)m_height);
-	}
-	void UpdateWindowSize()
-	{
-		glfwGetFramebufferSize(window, &m_width, &m_height);	// 현재크기 얻어오기
-		glViewport(0, 0, m_width, m_height);					// 뷰행렬 갱신
-	}
+	public:
+		Display();
+		Display(int width, int height, const std::string& title);
+		virtual ~Display();
 
-private:
-	int m_width;
-	int m_height;
-	
+	private:
+		Display(const Display& other) {}
+		void operator=(const Display& other) {}
 
-protected:
-private:
-	Display(const Display& other) {}
-	void operator=(const Display& other) {}
+	private:
+		GLFWwindow *window;
+		int m_width;
+		int m_height;
+		struct framebuffer
+		{
+			unsigned int ID;
+			unsigned int color0, color1, depth;
+		} m_Framebuffer;
+		unsigned int m_trackedID;
+		unsigned char pixeldata[4];
+		int m_CursorX;
+		int m_CursorY;
 
-	GLFWwindow *window;
+	public:
+		void SetCursor(int x, int y)
+		{
+			m_CursorX = x;
+			m_CursorY = y;
+		}
+		void Clear(float r, float g, float b, float a);
+		void Update();
+		bool IsClosed();
+		framebuffer GetFrameBuffer()
+		{
+			return m_Framebuffer;
+		}
 
-public:
-	GLFWwindow* GetWindow()
-	{
-		return window;
-	}
-};
-
+	public:
+		void GetWindowSize(int* width, int* height)
+		{
+			*width = m_width;
+			*height = m_height;
+		}
+		float GetWindowAspec()
+		{
+			return ((float)m_width / (float)m_height);
+		}
+		void UpdateWindowSize()
+		{
+			glfwGetFramebufferSize(window, &m_width, &m_height);
+			glViewport(0, 0, m_width, m_height);
+		}
+		GLFWwindow* GetWindow()
+		{
+			return window;
+		}
+		void SetupFramebuffer();
+		glm::vec4 IntegerToColor(int i);
+		unsigned int GetTrackedID()
+		{
+			return m_trackedID;
+		}
+		void SetTrackedID(int n)
+		{
+			m_trackedID = n;
+		}
+		unsigned char* GetPixelData()
+		{
+			return pixeldata;
+		}
+	};
 }

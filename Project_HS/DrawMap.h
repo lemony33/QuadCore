@@ -28,9 +28,17 @@ namespace QuadCore
 		Vertex* m_Vertices;
 		Mesh* m_Mesh;
 		Shader* m_Shader;
+		int*** m_PositionArray;
+		int m_MatrixSize;
 
 	public:
 		void SetProperty(int matrixSize, float thickness, glm::vec4 color);
 		void DrawPlane();
+
+		// Plane Position-Array
+		void SetPosition(glm::vec3 pos, int value = 1);
+		int GetPosition(glm::vec3 pos);
+		void PrintArray();
+		//
 	};
 }

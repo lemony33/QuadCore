@@ -3,141 +3,76 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
-#include "Controls.h"
 #include "DrawMap.h"
+#include "Controls.h"
 
+typedef unsigned int UINT;
 
 QuadCore::Graphics_Simulator::Graphics_Simulator()
 	: display(width_window, height_window, "Graphics Simulator - QuadCore")
 {
 }
-
-
 QuadCore::Graphics_Simulator::~Graphics_Simulator()
 {
 }
-
-
 void QuadCore::Graphics_Simulator::Run()
 {
-	// 1. Object
-	Mesh mesh1("../media/shape/Cube.obj");
-	//Mesh mesh1("../media/shape/Wedge.obj");
-	//Mesh mesh1("../media/shape/CubeHollow.obj");
-	Mesh mesh2("../media/shape/CubeHollow.obj");
-	Mesh mesh3("../media/shape/Icosphere.obj");
+	// Cube
+	Mesh mesh_cube("../media/shape/Cube.obj");
+	Shader shader_cube("../media/basicShader_ray");
+	Texture texture_cube("../media/Pexel.jpeg");
+	Transform transform_cube;
 
-	// 2. Shader
-	Shader shader1("../media/new_shader/basicShader_tex");
-	Shader shader2("../media/new_shader/basicShader_tex");
-	
-	//3. Texture
-	Texture texture1("../media/res/bricks.jpg");
-	Texture texture2("../media/skyblue.jpg");
-	//texture2.Reset();
-	
+	// CubeHollow
+	Mesh mesh_cubehollow("../media/shape/CubeHollow.obj");
+	Shader shader_cubehollow("../media/basicShader_ray");
+	Texture texture_cubehollow("../media/Pexel.jpeg");
+	Transform transform_cubehollow;
 
-	//4. Transform
-	Transform worldCoordinate;
-	Transform transform1;
-	Transform transform2;
-	Transform transform3;
-	
-	
-	//5. Camera
 	float aspec = (float)width_window / (float)height_window;
 	Camera camera(glm::vec3(0, 0, 10), 70.0f, aspec, 0.01F, 1000.0f);
 
-	// Controls (Mouse / Keyboard)
-	Controls controls(display.GetWindow());
-	Controls controller(controls, camera, worldCoordinate);
-
-	// Draw Map 새로 추가된 부분
+	// Plane
 	DrawMap dMap(camera);
-	dMap.SetProperty(100, 1.0f, glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
+	dMap.SetProperty(10, 1.0f, glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
 
-	// MS - 0420 - 좌표계 그리기
-	m_coordinates.Init(&worldCoordinate, &camera, 5.0f);
+	// Controller
+	Controls controls(display.GetWindow());
+	Controls controller(controls, camera, display);
 
-	Coordinates coor_model_1;
-	Coordinates coor_model_2;
-	Coordinates coor_model_3;
-	coor_model_1.Init(&transform1, &camera);
-	coor_model_2.Init(&transform2, &camera);
-	coor_model_3.Init(&transform3, &camera);
-
-
-
-	float counter = 0.0f;
-
+	int i = 0;
 	while (!display.IsClosed())
-	{	
-		float sinCounter = sinf(counter);	// sin counter
-		float cosCounter = cosf(counter);	// cos counter
+	{
+		// Window
+		display.UpdateWindowSize();
+		display.Clear(1.0f, 1.0f, 1.0f, 1.0f);
 
-		display.UpdateWindowSize();	// 화면 갱신
-		camera.Update(camera.GetPos(), 70.0f, display.GetWindowAspec(), 0.01F, 1000.0f);
-				
-		display.Clear(0.1f, 0.1f, 0.1f, 1.0f);	// 배경 초기화
-		display.Clear(1.0f, 1.0f, 1.0f, 1.0f);	// 배경 초기화
-
-		//display.Clear(0.3f, 0.3f, 0.3f, 1.0f);	// 배경 초기화
-
-		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-		// Draw here
-		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
-		// MS - 0420 - 좌표계 그리기
-		m_coordinates.Draw();
-
-
-		// Draw Map 새로 추가된 부분
+		// Draw Map
 		dMap.DrawPlane();
 
+		// Cube
+		shader_cube.Bind();
+		texture_cube.Bind(0);
+		transform_cube.SetPos(glm::vec3(0.0f, 0.0f, 0.0f));
+		if (dMap.GetPosition(glm::vec3(0.0f, 0.0f, 0.0f)) == 0)
+			dMap.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f), 1);
+		shader_cube.Update(transform_cube, camera);
+		mesh_cube.Draw();
 
-		m_shape_manager;
+		// CubeHollow
+		shader_cubehollow.Bind();
+		texture_cubehollow.Bind(1);
+		transform_cubehollow.SetPos(glm::vec3(2.0f, 0.0f, 0.0f));
+		if (dMap.GetPosition(glm::vec3(2.0f, 0.0f, 0.0f)) == 0)
+			dMap.SetPosition(glm::vec3(2.0f, 0.0f, 0.0f), 1);
+		shader_cubehollow.Update(transform_cubehollow, camera);
+		mesh_cubehollow.Draw();
 
-		///
-		float delim = 0.7;
+		// Print Array
+		if (i++ == 0)
+			dMap.PrintArray();
 
-
-		///
-		shader1.Bind();		
-		texture1.Bind(0);
-		//Texture::Reset();		// 텍스쳐 제거하는 방법
-
-		transform1.SetPos(glm::vec3(0, 0, 0));
-		transform1.SetPos(glm::vec3(0, 0.5, 0));
-
-		shader1.Update(transform1, camera);		
-		mesh1.Draw();
-		coor_model_1.Draw();
-
-
-		///
-		shader1.Bind();
-		texture1.Bind(0);
-
-		transform2.SetPos(glm::vec3(0, 0.5, -2));
-
-		shader1.Update(transform2, camera);
-		mesh1.Draw();
-		coor_model_2.Draw();
-
-
-
-		///
-		shader1.Bind();
-		texture1.Bind(0);
-
-		float r = 3.0f;
-		shader1.Update(transform3, camera);
-		
-
-
-		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-		
-		display.Update();	// 화면갱신
-		counter += 0.05f;	// 카운터 증가
+		// Update
+		display.Update();
 	}
 }
