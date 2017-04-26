@@ -39,7 +39,7 @@ public:
 	Mesh(const std::string& fileName);
 
 	void Draw();
-	void DrawLines();
+	void DrawLines(GLfloat width = 1.0f);
 
 	virtual ~Mesh();
 
@@ -65,11 +65,11 @@ private:
 	GLuint m_vertexArrayBuffers[NUM_BUFFERS];
 	unsigned int m_drawCount;
 
-	int MOD;
-	enum {
-		OBJFILE,
-		VERTICES
-	};
+	//int MOD;
+	//enum {
+	//	OBJFILE,
+	//	VERTICES
+	//};
 };
 
 

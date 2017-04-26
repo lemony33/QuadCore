@@ -19,21 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Controls.h" />
-    <ClInclude Include="Display.h" />
-    <ClInclude Include="DrawMap.h" />
-    <ClInclude Include="Graphics_Simulator.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Obj_loader.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="Shape.h" />
-    <ClInclude Include="ShapeManager.h" />
-    <ClInclude Include="stb_image.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="Transform.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="DrawMap.cpp" />
     <ClCompile Include="Graphics_Simulator.cpp" />
@@ -45,9 +30,28 @@
     <ClCompile Include="stb_image.c" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Controls.h" />
+    <ClInclude Include="Coordinates.h" />
+    <ClInclude Include="Cube.h" />
+    <ClInclude Include="Display.h" />
+    <ClInclude Include="DrawMap.h" />
+    <ClInclude Include="enum_type.h" />
+    <ClInclude Include="Graphics_Simulator.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Obj_loader.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="Shape.h" />
+    <ClInclude Include="ShapeManager.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="Transform.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B7C89D95-6E06-4AA3-B304-D1B0DC24010B}</ProjectGuid>
-    <RootNamespace>Project_HW</RootNamespace>
+    <ProjectGuid>{ACD7C8B3-B7EC-4ADF-AE62-CE75F0A3B8C9}</ProjectGuid>
+    <RootNamespace>GraphicsSimulator</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

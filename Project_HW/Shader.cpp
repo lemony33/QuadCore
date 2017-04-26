@@ -38,16 +38,15 @@ Shader::Shader(const std::string& fileName)
 	m_uniforms[VIEW_U]			= glGetUniformLocation(m_program, "view");			// View Matrix
 	m_uniforms[PROJECTION_U]	= glGetUniformLocation(m_program, "projection");	// Projection Matrix
 
-	m_uniforms[LIGHT_POS_U]		= glGetUniformLocation(m_program, "lightPos");		//
-	m_uniforms[VIEW_POS_U]		= glGetUniformLocation(m_program, "viewPos");		// 
-	
-	//m_uniforms[LIGHT_COLOR_U]	= glGetUniformLocation(m_program, "lightColor");	// 
+
+	// Fragment Shader uniforms
+	m_uniforms[VIEW_POS_U] = glGetUniformLocation(m_program, "viewPos");		// 
+	m_uniforms[LIGHT_POS_U]		= glGetUniformLocation(m_program, "lightPos");		//	
 	m_uniforms[LIGHT_AMBIENT_U] = glGetUniformLocation(m_program, "light_ambient");	// 
 	m_uniforms[LIGHT_DIFFUSE_U] = glGetUniformLocation(m_program, "light_diffuse");	// 
 	m_uniforms[LIGHT_SPECULAR_U] = glGetUniformLocation(m_program, "light_specular");	// 
 
-
-	m_uniforms[OBJECT_COLOR_U]	= glGetUniformLocation(m_program, "objectColor");	// 
+	m_uniforms[LINE_COLOR_U] = glGetUniformLocation(m_program, "lineColor");	// 
 
 }
 
@@ -67,7 +66,7 @@ void Shader::Bind()
 	glUseProgram(m_program);
 }
 
-void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera& camera) // transform, camera
+void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera& camera, SHADER_NAME fs_mode) // transform, camera
 {
 	glm::mat4 model = camera.GetViewProjection() * transform.GetModel();
 
@@ -77,38 +76,27 @@ void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera
 	glUniformMatrix4fv(m_uniforms[VIEW_U],			1, GL_FALSE, &camera.GetViewMatrix()[0][0]);		// View
 	glUniformMatrix4fv(m_uniforms[PROJECTION_U],	1, GL_FALSE, &camera.GetProjectionMatrix()[0][0] );	// Projection
 
-	//glUniformMatrix4fv(m_uniforms[LIGHT_POS_U],		1, GL_FALSE, &transform.GetModel()[0][0]);			// 
-	//glUniformMatrix4fv(m_uniforms[VIEW_POS_U],		1, GL_FALSE, &camera.GetViewMatrix()[0][0]);		// 
-	//glUniformMatrix4fv(m_uniforms[LIGHT_COLOR_U],	1, GL_FALSE, &camera.GetProjectionMatrix()[0][0]);	// 
-	//glUniformMatrix4fv(m_uniforms[OBJECT_COLOR_U],	1, GL_FALSE, &camera.GetProjectionMatrix()[0][0]);	// 
 
-	//glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-	glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+	// for 2D UI Shader
+	glm::mat4 guiMVP = glm::mat4(1.0f) * transform.GetModel();
+	glUniformMatrix4fv(100, 1, GL_FALSE, &guiMVP[0][0]);
 
-	//glUniform3f(m_uniforms[LIGHT_POS_U], camera.GetPos().x, camera.GetPos().y, camera.GetPos().z);
-	glUniform3f(m_uniforms[LIGHT_POS_U], lightPos.x, lightPos.y, lightPos.z); 
-	//glUniform3f(m_uniforms[VIEW_POS_U],		1.0f, 1.0f, 1.0f);
-	glUniform3f(m_uniforms[VIEW_POS_U], camera.GetPos().x, camera.GetPos().y, camera.GetPos().z);
-	
-	//glUniform3f(m_uniforms[LIGHT_COLOR_U], 1.0f, 0.5f, 0.31f);
-	glUniform3f(m_uniforms[LIGHT_AMBIENT_U], 1.0f, 0.0f, 0.0f);
-	glUniform3f(m_uniforms[LIGHT_DIFFUSE_U], 1.0f, 0.5f, 0.5f);
-	//glUniform3f(m_uniforms[LIGHT_DIFFUSE_U], sinf(camera.GetPos().x), sinf(camera.GetPos().y), cosf(camera.GetPos().z));
-	glUniform3f(m_uniforms[LIGHT_SPECULAR_U], 1.0f, 1.0f, 1.0f);
-
-	glUniform3f(m_uniforms[OBJECT_COLOR_U],	camera.GetPos().x, camera.GetPos().y, camera.GetPos().z);
-	//glUniform3f(m_uniforms[OBJECT_COLOR_U], 1.0f, 0.0f, 0.0f);
-
-	// Draw Map 새로 추가된 부분
-	GLfloat sender[4] = { 0 };
-	memcpy(&sender, &m_lineColor, sizeof(m_lineColor));
-	glUniform4fv(100, 1, sender);
+	switch (fs_mode)
+	{
+	case SHADER_NAME::Phong_Shading:
+		SetUniform_Fragment_phong(camera.GetPos());
+		break;
+	case SHADER_NAME::Line_Shading:
+		SetUniform__Fragment_gridmap();
+		break;
+	}
 }
 
 // Draw Map 새로 추가된 부분
 const void Shader::SetLineColor(glm::vec4 color)
 {
 	m_lineColor = color;
+	SetUniform__Fragment_gridmap();
 }
 
 static GLuint CreateShader(const std::string& text, GLenum shaderType)

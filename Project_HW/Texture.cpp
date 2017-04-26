@@ -24,25 +24,24 @@ Texture::Texture(const std::string& fileName)
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 	//glTexImage2D();
-	
-	stbi_image_free(imageData);
-
 	TextureMod = NORMAL_TEXTURE;
+	stbi_image_free(imageData);
 }
 
 Texture::Texture(std::vector<std::string> faces)
 {
 	glGenTextures(1, &SkyBoxTexture);
-		
+	
 	int width, height;
 
 	glBindTexture(GL_TEXTURE_CUBE_MAP, SkyBoxTexture);
-	
+
 	for (GLuint i = 0; i < faces.size(); i++)
 	{
 		unsigned char* imageData = stbi_load(faces[i].c_str(), &width, &height, 0, 3);
 		//image = SOIL_load_image(faces[i].c_str(), &width, &height, 0, SOIL_LOAD_RGB);
 		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+		stbi_image_free(imageData);
 	}
 
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -55,7 +54,6 @@ Texture::Texture(std::vector<std::string> faces)
 
 	TextureMod = SKYBOX_TEXTURE;
 }
-
 
 Texture::~Texture()
 {

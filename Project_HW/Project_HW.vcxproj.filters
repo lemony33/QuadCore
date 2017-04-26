@@ -77,9 +77,6 @@
     <ClCompile Include="Shader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Shape.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="ShapeManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>

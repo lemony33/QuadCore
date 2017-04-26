@@ -16,8 +16,6 @@ public:
 	Coordinates() {}
 	void Init(QuadCore::Transform* transform, QuadCore::Camera* camera, float line_length = 1.0f)
 	{
-
-
 		Vertex vertex_0 = Vertex(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(), glm::vec3());
 		Vertex vertex_x = Vertex(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(), glm::vec3());
 		Vertex vertex_y = Vertex(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(), glm::vec3());
