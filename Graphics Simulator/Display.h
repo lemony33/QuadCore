@@ -5,6 +5,8 @@
 #include <GLFW-3.2.1_x64/glfw3.h>
 #include <string>
 
+#include <AntTweakBar.h>
+
 /*
 http://www.glfw.org/docs/latest/window_guide.html
 
@@ -51,6 +53,7 @@ public:
 	{
 		glfwGetFramebufferSize(window, &m_width, &m_height);	// 현재크기 얻어오기
 		glViewport(0, 0, m_width, m_height);					// 뷰행렬 갱신
+		TwWindowSize(m_width, m_height);						// TwWindow 사이즈	///
 	}
 
 private:
