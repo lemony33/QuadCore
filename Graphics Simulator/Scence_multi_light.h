@@ -26,7 +26,8 @@ public:
 		lightTransforms[2].Init(glm::vec3(0, 1.0f * cos(m_counter / 10), 1.0f * sinf(m_counter / 10)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
 		lightTransforms[3].Init(glm::vec3(5.0f * sinf(-m_counter / 10), 0, 5.0f * cosf(-m_counter / 10)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
 
-		m_shape_manager.GetObject(0)->GetShader()->InputpointLight(lightTransforms, ambient, diffuse, specular);
+		for(int i = 0; i < 5; i++)
+		m_shape_manager.GetObject(i)->GetShader()->InputpointLight(lightTransforms, ambient, diffuse, specular);
 
 		m_shape_manager.DrawAll();
 	}
@@ -39,12 +40,12 @@ private:
 
 		//// multiLight		
 		Transform* multitest = new Transform(glm::vec3(0, 0.0f, 0), glm::vec3(), glm::vec3(1.0f));
-		BasicObject* object = new BasicObject("Sphere", "basicShader_multilight", "bricks", multitest);
+		BasicObject* object = new BasicObject("Sphere", "basicShader_multilight", "moon", multitest);
 		m_shape_manager.Insert_Object(object);
 
 		for (int i = 0; i < 4; i++)
 		{
-			BasicObject* light = new BasicObject("Cube", "lamp", "bricks", &lightTransforms[i]);
+			BasicObject* light = new BasicObject("Cube", "lamp", "moon", &lightTransforms[i]);
 			m_shape_manager.Insert_Object(light);
 		}
 	}
