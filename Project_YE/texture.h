@@ -7,24 +7,24 @@
 namespace QuadCore
 {
 
-class Texture
-{
-public:
-	Texture(const std::string& fileName);
+	class Texture
+	{
+	public:
+		Texture(const std::string& fileName);
 
-	void Bind(unsigned int unit);
+		void Bind(unsigned int unit);
 
-	virtual ~Texture();
+		virtual ~Texture();
 
-	static void Reset() { glBindTexture(GL_TEXTURE_2D, 0); }	// 외부에서 텍스쳐 로딩 초기화
+		static void Reset() { glBindTexture(GL_TEXTURE_2D, 0); }	// 외부에서 텍스쳐 로딩 초기화
 
-protected:
-private:
-	Texture(const Texture& other) {}
-	void operator=(const Texture& other) {}
+	protected:
+	private:
+		Texture(const Texture& other) {}
+		void operator=(const Texture& other) {}
 
-	GLuint m_texture;
-};
+		GLuint m_texture;
+	};
 
 
 }

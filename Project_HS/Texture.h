@@ -16,8 +16,6 @@ public:
 
 	virtual ~Texture();
 
-	static void Reset() { glBindTexture(GL_TEXTURE_2D, 0); }	// 외부에서 텍스쳐 로딩 초기화
-
 protected:
 private:
 	Texture(const Texture& other) {}

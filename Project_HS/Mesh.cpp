@@ -45,23 +45,28 @@ void Mesh::InitMesh(const QuadCore::IndexedModel& model)
 	// position
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
 	glBufferData(GL_ARRAY_BUFFER, model.positions.size() * sizeof(model.positions[0]), &model.positions[0], GL_STATIC_DRAW);
-
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 	// texture / texCoord
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[TEXCOORD_VB]);
 	glBufferData(GL_ARRAY_BUFFER, model.positions.size() * sizeof(model.texCoords[0]), &model.texCoords[0], GL_STATIC_DRAW);
-
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 	// Lighting
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[NORMAL_VB]);
 	glBufferData(GL_ARRAY_BUFFER, model.normals.size() * sizeof(model.normals[0]), &model.normals[0], GL_STATIC_DRAW);
-
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	// RAY-BEGIN
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[RAY_VB]);
+	glBufferData(GL_ARRAY_BUFFER, model.indices.size() * sizeof(model.indices[0]), &model.indices[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(3); 
+	//glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (void*)(sizeof(float) * 3));
+	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 0, 0);
+	// RAY-END
 
 	// obj file
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vertexArrayBuffers[INDEX_VB]);
@@ -74,23 +79,17 @@ void Mesh::Draw()
 {
 	glBindVertexArray(m_vertexArrayObject);
 
-
-
-	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0); // obj file
-	//glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
-
+	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 
-// DrawMap 새로 추가된 부분
-void Mesh::DrawLines(GLfloat width)
+void Mesh::DrawLines()
 {
 	glBindVertexArray(m_vertexArrayObject);
 
-	glLineWidth(width);
-
 	// Draw Map
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glLineWidth(1.0f);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -104,5 +103,8 @@ void Mesh::DrawLines(GLfloat width)
 	glDrawElements(GL_LINES, m_drawCount, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-	glDisable(GL_POLYGON_SMOOTH);
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(3);
 }

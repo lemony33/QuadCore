@@ -7,14 +7,14 @@
 namespace QuadCore
 {
 
-class ShapeManager
-{
-public:
-	ShapeManager();
-	virtual ~ShapeManager();
+	class ShapeManager
+	{
+	public:
+		ShapeManager();
+		virtual ~ShapeManager();
 
-private:
-	//QuadCore::Texture m_texture;
-};
+	private:
+		//QuadCore::Texture m_texture;
+	};
 
 }

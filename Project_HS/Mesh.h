@@ -1,19 +1,16 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include <glm-0.9.8.4/glm/glm.hpp>
 #include <GLEW-2.0.0_x64/GL/glew.h>
+#include <glm-0.9.8.4/glm/glm.hpp>
 #include "obj_loader.h"
 
 namespace QuadCore
 {
-
-
-
 class Vertex
 {
 public:
-	Vertex() {} // Draw Map 새로 추가된 부분
+	Vertex() {}
 	Vertex(const glm::vec3& pos, const glm::vec2& texCoord, const glm::vec3& normal = glm::vec3(0,0,0))
 	{
 		this->pos = pos;
@@ -39,7 +36,7 @@ public:
 	Mesh(const std::string& fileName);
 
 	void Draw();
-	void DrawLines(GLfloat width = 1.0f);
+	void DrawLines();
 
 	virtual ~Mesh();
 
@@ -55,6 +52,7 @@ private:
 		POSITION_VB,
 		TEXCOORD_VB, // texture
 		NORMAL_VB, // lighting
+		RAY_VB, // Ray
 
 		INDEX_VB, // obj file
 
@@ -65,8 +63,5 @@ private:
 	GLuint m_vertexArrayBuffers[NUM_BUFFERS];
 	unsigned int m_drawCount;
 };
-
-
 }
-
 #endif

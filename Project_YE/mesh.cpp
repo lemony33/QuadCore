@@ -25,7 +25,7 @@ Mesh::Mesh(QuadCore::Vertex* vertices, unsigned int numVertices, unsigned int* i
 	for (unsigned int i = 0; i < numIndices; i++)
 		model.indices.push_back(indices[i]);
 
-	InitMesh(model);	
+	InitMesh(model);
 }
 
 Mesh::~Mesh()
@@ -76,20 +76,19 @@ void Mesh::Draw()
 
 	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0); // obj file
 	//glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
-	//glDisable(GL_BLEND);
-	//glDepthMask(GL_TRUE);
-
+	
 	glBindVertexArray(0);
 }
 
 // DrawMap 새로 추가된 부분
-void Mesh::DrawLines()
+void Mesh::DrawLines(GLfloat width)
 {
 	glBindVertexArray(m_vertexArrayObject);
 
+	glLineWidth(width);
+
 	// Draw Map
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glLineWidth(1.0f);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

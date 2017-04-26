@@ -4,7 +4,6 @@
 
 using QuadCore::Shader;
 
-
 static void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);
 static std::string LoadShader(const std::string& fileName);
 static GLuint CreateShader(const std::string& text, GLenum shaderType);
@@ -18,11 +17,10 @@ Shader::Shader(const std::string& fileName)
 	for (unsigned int i = 0; i < NUM_SHADERS; i++)
 		glAttachShader(m_program, m_shaders[i]);
 
-
-	// Vertex Shader - IN
-	glBindAttribLocation(m_program, 0, "position");	// position
-	glBindAttribLocation(m_program, 1, "texCoord");	// texture
-	glBindAttribLocation(m_program, 2, "normal");	// lighting
+	glBindAttribLocation(m_program, 0, "position");
+	glBindAttribLocation(m_program, 1, "texCoord"); 
+	glBindAttribLocation(m_program, 2, "normal");
+	glBindAttribLocation(m_program, 3, "ray");
 
 	glLinkProgram(m_program);
 	CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Shader Program linking failed: ");
@@ -30,25 +28,8 @@ Shader::Shader(const std::string& fileName)
 	glValidateProgram(m_program);
 	CheckShaderError(m_program, GL_VALIDATE_STATUS, true, "Error: Shader Program is invalid: ");
 
-	// Vertex Shader - OUT
+	// TRANSFORM
 	m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
-
-	//***
-	m_uniforms[MODEL_U]			= glGetUniformLocation(m_program, "model");			// Model Matrix
-	m_uniforms[VIEW_U]			= glGetUniformLocation(m_program, "view");			// View Matrix
-	m_uniforms[PROJECTION_U]	= glGetUniformLocation(m_program, "projection");	// Projection Matrix
-
-	m_uniforms[LIGHT_POS_U]		= glGetUniformLocation(m_program, "lightPos");		//
-	m_uniforms[VIEW_POS_U]		= glGetUniformLocation(m_program, "viewPos");		// 
-	
-	//m_uniforms[LIGHT_COLOR_U]	= glGetUniformLocation(m_program, "lightColor");	// 
-	m_uniforms[LIGHT_AMBIENT_U] = glGetUniformLocation(m_program, "light_ambient");	// 
-	m_uniforms[LIGHT_DIFFUSE_U] = glGetUniformLocation(m_program, "light_diffuse");	// 
-	m_uniforms[LIGHT_SPECULAR_U] = glGetUniformLocation(m_program, "light_specular");	// 
-	m_uniforms[OBJECT_COLOR_U]	= glGetUniformLocation(m_program, "objectColor");	// 
-
-	m_uniforms[LINE_COLOR_U] = glGetUniformLocation(m_program, "lineColor");	// 
-
 }
 
 Shader::~Shader()
@@ -58,42 +39,47 @@ Shader::~Shader()
 		glDetachShader(m_program, m_shaders[i]);
 		glDeleteShader(m_shaders[i]);
 	}
-
 	glDeleteProgram(m_program);
 }
 
 void Shader::Bind()
 {
 	glUseProgram(m_program);
+	glReadBuffer(GL_COLOR_ATTACHMENT0);
 }
 
-void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera& camera, SHADER_NAME fs_mode) // transform, camera
+void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera& camera) // transform, camera
 {
 	glm::mat4 model = camera.GetViewProjection() * transform.GetModel();
 
-	glUniformMatrix4fv(m_uniforms[TRANSFORM_U],		1, GL_FALSE, &model[0][0]);
+	glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &model[0][0]);
 
-	glUniformMatrix4fv(m_uniforms[MODEL_U],			1, GL_FALSE, &transform.GetModel()[0][0] );			// Model
-	glUniformMatrix4fv(m_uniforms[VIEW_U],			1, GL_FALSE, &camera.GetViewMatrix()[0][0]);		// View
-	glUniformMatrix4fv(m_uniforms[PROJECTION_U],	1, GL_FALSE, &camera.GetProjectionMatrix()[0][0] );	// Projection
+	// Draw Map(Line Color)
+	GLfloat sender[4] = { 0 };
+	memcpy(&sender, &m_lineColor, sizeof(m_lineColor));
+	glUniform4fv(100, 1, sender);
 
-
-	switch (fs_mode)
-	{
-	case SHADER_NAME::Phong_Shading:
-		SetUniform_Fragment_phong();
-		break;
-	case SHADER_NAME::Line_Shading:
-		SetUniform__Fragment_gridmap();
-		break;
-	}
+	//// RAY-BEGIN
+	//glUniform4fv(
+	//	glGetUniformLocation(m_program, "IDcolor"),
+	//	1,
+	//	&IntegerToColor(100)[0]);
+	//// RAY-END
 }
 
-// Draw Map 새로 추가된 부분
+glm::vec4 Shader::IntegerToColor(int i)
+{
+	int r = (i & 0x000000FF) >> 0;
+	int g = (i & 0x0000FF00) >> 8;
+	int b = (i & 0x00FF0000) >> 16;
+	int a = (i & 0xFF000000) >> 24;
+	return glm::vec4((r / 255.0f), (g / 255.0f), (b / 255.0f), (a / 255.0f));
+}
+
+// Draw Map(Line Color)
 const void Shader::SetLineColor(glm::vec4 color)
 {
 	m_lineColor = color;
-	SetUniform__Fragment_gridmap();
 }
 
 static GLuint CreateShader(const std::string& text, GLenum shaderType)
@@ -107,7 +93,7 @@ static GLuint CreateShader(const std::string& text, GLenum shaderType)
 	GLint shaderSourceStringLengths[1];
 
 	shaderSourceStrings[0] = text.c_str();
-	shaderSourceStringLengths[0] = text.length();
+	shaderSourceStringLengths[0] = (size_t)text.length();
 
 	glShaderSource(shader, 1, shaderSourceStrings, shaderSourceStringLengths);
 	glCompileShader(shader);

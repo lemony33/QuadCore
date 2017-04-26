@@ -48,6 +48,12 @@
     <ClCompile Include="Display.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics_Simulator_YE.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_TwBar.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DrawMap.h">
@@ -87,6 +93,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Display.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Coordinates.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="enum_type.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_TwBar.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

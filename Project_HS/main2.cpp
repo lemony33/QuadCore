@@ -2,10 +2,8 @@
 
 int main(void)
 {
-	// Main Run
 	return Main::Instance().run();
 }
-
 void window_size_callback(GLFWwindow* window, int width, int height)
 {
 	Main::Instance().m_Displaysize = glm::ivec2(width, height);
@@ -13,45 +11,31 @@ void window_size_callback(GLFWwindow* window, int width, int height)
 }
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	// 키보드 이벤트
-	if (action == GLFW_PRESS || action == GLFW_REPEAT)
-	{
-		if (key == GLFW_KEY_W)
-			Main::Instance().m_Camera.z -= 0.2f;
-		if (key == GLFW_KEY_A)
-			Main::Instance().m_Camera.x -= 0.2f;
-		if (key == GLFW_KEY_S)
-			Main::Instance().m_Camera.z += 0.2f;
-		if (key == GLFW_KEY_D)
-			Main::Instance().m_Camera.x += 0.2f;
-	}
 }
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	// 마우스 휠 이벤트
 }
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
-	// invert y-coordinate
+	// Invert Y-Coordinate
 	Main::Instance().m_Cursor = glm::ivec2(xpos, Main::Instance().m_Displaysize.y - ypos);
 }
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
 	if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT)
-		std::cout << "clicked on " << Main::Instance().TrackedID() << std::endl;
+		std::cout << "Clicked On : " << Main::Instance().TrackedID() << std::endl;
 }
-
 glm::vec4 IntegerToColor(int i)
 {
 	int r = (i & 0x000000FF) >> 0;
 	int g = (i & 0x0000FF00) >> 8;
 	int b = (i & 0x00FF0000) >> 16;
 	int a = (i & 0xFF000000) >> 24;
-	return glm::vec4(r / 255.0, g / 255.0, b / 255.0, a / 255.0);
+	return glm::vec4((r / 255.0f), (g / 255.0f), (b / 255.0f), (a / 255.0f));
 }
 int Main::run()
 {
-	/* Loop until the user closes the window */
+	/* Loop Until The User Closes The Window */
 	while (!glfwWindowShouldClose(m_window))
 	{
 		/* Render here */
@@ -67,29 +51,24 @@ int Main::run()
 }
 void Main::render()
 {
-	// prepare framebuffer
-	// ---------------------------------------------------------------------------------------------
+	// ───────────────────────────────────── Prepare FrameBuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, m_Framebuffer.ID);
 
-	// clear scene buffer
-	glClearColor(0.3f, 0.3f, 0.3f, 0);
+	// Clear Scene Buffer
+	glClearColor(0.3f, 0.0f, 0.0f, 1.0f);
 	glDrawBuffer(GL_COLOR_ATTACHMENT0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// clear picking buffer (should be totally black)
-	glClearColor(0, 0, 0, 0);
+	// Clear Picking Buffer (Should Be totally Black)
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glDrawBuffer(GL_COLOR_ATTACHMENT1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// MRT: render into both layers
+	// MRT: Render Into Both Layers
 	unsigned int drawbuffers[] = { GL_COLOR_ATTACHMENT0 , GL_COLOR_ATTACHMENT1 };
 	glDrawBuffers(2, drawbuffers);
-	// ---------------------------------------------------------------------------------------------
-	//
-	//
-	//
-	// render scene
-	// ---------------------------------------------------------------------------------------------
+
+	// ───────────────────────────────────── Render Scene
 	static float angle(0);
 	angle += 0.001f;
 
@@ -114,7 +93,7 @@ void Main::render()
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 
-	// ─────────────────────────────────────────────────────── First Triangle
+	// ───────────────────────────────────── First Triangle
 	glUniformMatrix4fv(
 		glGetUniformLocation(m_program, "Model"),
 		1,
@@ -128,7 +107,7 @@ void Main::render()
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 
-	// ─────────────────────────────────────────────────────── Second Triangle
+	// ───────────────────────────────────── Second Triangle
 	glUniformMatrix4fv(
 		glGetUniformLocation(m_program, "Model"),
 		1,
@@ -138,11 +117,11 @@ void Main::render()
 	glUniform4fv(
 		glGetUniformLocation(m_program, "IDcolor"),
 		1,
-		&IntegerToColor(500)[0]);
+		&IntegerToColor(200)[0]);
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 
-	// ─────────────────────────────────────────────────────── Third Triangle
+	// ───────────────────────────────────── Third Triangle
 	glUniformMatrix4fv(
 		glGetUniformLocation(m_program, "Model"),
 		1,
@@ -152,20 +131,15 @@ void Main::render()
 	glUniform4fv(
 		glGetUniformLocation(m_program, "IDcolor"),
 		1,
-		&IntegerToColor(9999)[0]);
+		&IntegerToColor(300)[0]);
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
-
-
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glUseProgram(0);
-	// ---------------------------------------------------------------------------------------------
 
-
-	// picking
-	// ---------------------------------------------------------------------------------------------
+	// ───────────────────────────────────── Picking
 	unsigned char pixeldata[4];
 
 	// reading pixel data at current cursor position ...
@@ -174,27 +148,23 @@ void Main::render()
 
 	// convert pixel color back to (int)ID ...
 	m_trackedID = (pixeldata[0] << 0) | (pixeldata[1] << 8) | (pixeldata[2] << 16) | (pixeldata[3] << 24);
-	// ---------------------------------------------------------------------------------------------
-
-
-
+	// ─────────────────────────────────────
 	// copy to system-framebuffer
-	// ---------------------------------------------------------------------------------------------
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_Framebuffer.ID);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
 	glReadBuffer(GL_COLOR_ATTACHMENT0);	// default scene
-										//glReadBuffer(GL_COLOR_ATTACHMENT1);	// that would show you the IDcolors
+	//glReadBuffer(GL_COLOR_ATTACHMENT1);	// that would show you the IDcolors
 
-	glClearColor(1, 1, 1, 1);		// everything that is white is out of our framebuffers area
-	glClear(GL_COLOR_BUFFER_BIT);
+	//glClearColor(1, 1, 1, 1);		// everything that is white is out of our framebuffers area
+	//glClear(GL_COLOR_BUFFER_BIT);
 
 	glBlitFramebuffer(
 		0, 0, m_Framebuffer.size.x, m_Framebuffer.size.y,
 		0, 0, m_Framebuffer.size.x, m_Framebuffer.size.y,
 		GL_COLOR_BUFFER_BIT,
 		GL_NEAREST);
-	// ---------------------------------------------------------------------------------------------
+	// ─────────────────────────────────────
 }
 unsigned int Main::TrackedID() const
 {
@@ -210,7 +180,7 @@ Main::Main()
 
 	/* Create a windowed mode window and its OpenGL context */
 	m_Displaysize = glm::ivec2(640, 480);
-	m_window = glfwCreateWindow(m_Displaysize.x, m_Displaysize.y, "Hello World", NULL, NULL);
+	m_window = glfwCreateWindow(m_Displaysize.x, m_Displaysize.y, "Simple RayCasting Test v1.0", NULL, NULL);
 	if (!m_window)
 	{
 		glfwTerminate();

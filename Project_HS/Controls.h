@@ -6,18 +6,14 @@
 #include "Display.h"
 #include "Camera.h"
 #include "Transform.h"
-#include "Texture.h"
-#include "stb_image.h"
-#include <cassert>
-#include <string>
+#include "Display.h"
+
+#define GLFW_ENTERED				GLFW_TRUE
+#define GLFW_LEFT						GLFW_FALSE
+#define CAMERA_MOVE_UNIT	0.035f
 
 namespace QuadCore
 {
-
-
-#define GLFW_ENTERED					GLFW_TRUE
-#define GLFW_LEFT						GLFW_FALSE
-
 	class Controls
 	{
 	public:
@@ -30,37 +26,27 @@ namespace QuadCore
 			glfwSetScrollCallback(window, glfw_onMouseWheel);
 			glfwSetCursorEnterCallback(window, glfw_cursorEnterCallBack);
 
-			//SetMouseCursor(window);
+			//image = imageLoader("Mouse_Icon.png");
+			SetMouseCursor(window, image);
 		}
-		Controls(Controls& the_mouse, Camera& the_camera, Transform& the_transform)
+		Controls(Controls& the_mouse, Camera& the_camera, Display& the_display)
 		{
 			mouse = &the_mouse;
 			camera = &the_camera;
-			transform = &the_transform;
+			display = &the_display;
 		}
-		virtual ~Controls()
-		{
-			glfwDestroyCursor(cursor);
-
-			delete cursor;
-			delete camera;
-			delete mouse;
-			delete transform;
-		}
+		virtual ~Controls() { glfwDestroyCursor(cursor); }
 
 	private:
 		GLFWwindow* window;
 		GLFWcursor* cursor;
+		GLFWimage image;
 		static QuadCore::Camera* camera;
 		static QuadCore::Controls* mouse;
-		static QuadCore::Transform* transform;
+		static QuadCore::Display* display;
 		bool isEnteredWindow;
 		int tr_x, tr_y;
-		float CAMERA_MOVE_UNIT = 0.5f;
-
-	public:
-		int GetXpos() { return tr_x; }
-		int GetYpos() { return tr_y; }
+		unsigned int m_TrackedID;
 
 	public:
 		virtual void onKey(int key, int action)
@@ -68,135 +54,6 @@ namespace QuadCore
 			switch (key)
 			{
 			case GLFW_KEY_RIGHT:
-				if (action == GLFW_PRESS)
-				{
-					printf("Pressed Right-Key\n");
-				}
-				else if (action == GLFW_RELEASE)
-				{
-					printf("Released Right-Key\n");
-				}
-				break;
-
-			case GLFW_KEY_LEFT:
-				if (action == GLFW_PRESS)
-				{
-					printf("Pressed Left-Key\n");
-				}
-				else if (action == GLFW_RELEASE)
-				{
-					printf("Released Left-Key\n");
-				}
-				break;
-
-			case GLFW_KEY_UP:
-				if (action == GLFW_PRESS)
-				{
-					printf("Pressed Up-Key\n");
-				}
-				else if (action == GLFW_RELEASE)
-				{
-					printf("Released Up-Key\n");
-				}
-				break;
-
-			case GLFW_KEY_DOWN:
-				if (action == GLFW_PRESS)
-				{
-					printf("Pressed Down-Key\n");
-				}
-				else if (action == GLFW_RELEASE)
-				{
-					printf("Released Down-Key\n");
-				}
-				break;
-
-			case GLFW_KEY_F1:
-				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-				printf("MOUSE NORMAL MODE\n");
-				break;
-
-			case GLFW_KEY_F2:
-				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-				printf("MOUSE HIDDEN MODE\n");
-				break;
-
-			case GLFW_KEY_F3:
-				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-				printf("MOUSE DISABLED MODE\n");
-				break;
-
-			case GLFW_KEY_0:
-				break;
-			case GLFW_KEY_1:
-				break;
-			case GLFW_KEY_2:
-				break;
-			case GLFW_KEY_3:
-				break;
-			case GLFW_KEY_4:
-				break;
-			case GLFW_KEY_5:
-				break;
-			case GLFW_KEY_6:
-				break;
-			case GLFW_KEY_7:
-				break;
-			case GLFW_KEY_8:
-				break;
-			case GLFW_KEY_9:
-				break;
-
-				// z - rotate
-			case GLFW_KEY_Q:
-				break;
-			case GLFW_KEY_E:
-				break;
-
-				// x - rotate
-			case GLFW_KEY_W:
-				break;
-			case GLFW_KEY_S:
-				break;
-
-				// y - rotate
-			case GLFW_KEY_A:
-				break;
-			case GLFW_KEY_D:
-				break;
-
-			case GLFW_KEY_ESCAPE:
-				glfwDestroyWindow(window);
-				glfwTerminate();
-				exit(EXIT_SUCCESS);
-				break;
-			case GLFW_KEY_SPACE:
-				break;
-			case GLFW_KEY_ENTER:
-				if (!glfwGetWindowAttrib(window, GLFW_MAXIMIZED))
-				{
-					glfwMaximizeWindow(window);
-				}
-				else
-				{
-					// 스레드 문제 (키 여러번 눌림)
-					//glfwSetWindowSize(window, 800, 800);
-				}
-
-				break;
-			case GLFW_KEY_LEFT_SHIFT:
-				glfwSetWindowSize(window, 800, 800);
-				break;
-			case GLFW_KEY_LEFT_CONTROL:
-				break;
-			case GLFW_KEY_LEFT_ALT:
-				break;
-
-			case GLFW_KEY_RIGHT_SHIFT:
-				break;
-			case GLFW_KEY_RIGHT_CONTROL:
-				break;
-			case GLFW_KEY_RIGHT_ALT:
 				break;
 			};
 		}
@@ -206,24 +63,30 @@ namespace QuadCore
 			{
 				int x, y;
 				GetMousePosition(x, y);
-
-				// Left Button
 				if (button == GLFW_MOUSE_BUTTON_LEFT)
 				{
 					// Down
 					if (action == GLFW_PRESS)
 					{
-						printf("Down : [ %d, %d ]\n", (int)x, (int)y);
+						//// Read Pixels (Mouse Picking Part)
+						//glReadBuffer(GL_COLOR_ATTACHMENT1);
+						//glReadPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, display->GetPixelData());
+						//display->SetTrackedID
+						//((display->GetPixelData()[0] << 0) 
+						//	| (display->GetPixelData()[1] << 8) 
+						//	| (display->GetPixelData()[2] << 16) 
+						//	| (display->GetPixelData()[3] << 24));
+						//std::cout << "Clicked On : " << display->GetTrackedID() << std::endl;
+						display->SetCursor(x, y);
+						std::cout << "Clicked On : " << display->GetTrackedID() << std::endl;
 					}
 					// Up
 					if (action == GLFW_RELEASE)
 					{
-						printf("Up : [ %d, %d ]\n", (int)x, (int)y);
+
 					}
 				}
-
-				// Right Button
-				else if (button == GLFW_MOUSE_BUTTON_RIGHT)
+				if (button == GLFW_MOUSE_BUTTON_RIGHT)
 				{
 					// Down
 					if (action == GLFW_PRESS)
@@ -236,9 +99,7 @@ namespace QuadCore
 
 					}
 				}
-
-				// Wheel Button
-				else if (button == GLFW_MOUSE_BUTTON_MIDDLE)
+				if (button == GLFW_MOUSE_BUTTON_MIDDLE)
 				{
 					// Down
 					if (action == GLFW_PRESS)
@@ -262,16 +123,14 @@ namespace QuadCore
 					&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
 					&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE))
 				{
-					printf("Move : [ %d , %d ]\n", (int)x, (int)y);
+
 				}
 				// Right Button Down & Move
 				else if ((glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
 					&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 					&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE))
 				{
-					camera->SetAngle(tr_x - x, -(tr_y - y));
-					tr_x = x;
-					tr_y = y;
+
 				}
 
 				// Wheel Button Down & Move
@@ -279,10 +138,26 @@ namespace QuadCore
 					&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
 					&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS))
 				{
-					printf("Wheel button down&move\n");
-					camera->SetViewProjection(glm::vec3(tr_x - x, tr_y - y, 0.0f));
-					tr_x = x;
-					tr_y = y;
+					if (x > tr_x)
+					{
+						tr_x = x;
+						camera->SetViewMove(glm::vec3(-CAMERA_MOVE_UNIT, 0.0f, 0.0f));
+					}
+					else if (x < tr_x)
+					{
+						tr_x = x;
+						camera->SetViewMove(glm::vec3(CAMERA_MOVE_UNIT, 0.0f, 0.0f));
+					}
+					if (y > tr_y)
+					{
+						tr_y = y;
+						camera->SetViewMove(glm::vec3(0.0f, CAMERA_MOVE_UNIT, 0.0f));
+					}
+					else if (y < tr_y)
+					{
+						tr_y = y;
+						camera->SetViewMove(glm::vec3(0.0f, -CAMERA_MOVE_UNIT, 0.0f));
+					}
 				}
 
 				// No Button Down & Move
@@ -290,8 +165,7 @@ namespace QuadCore
 					&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
 					&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE))
 				{
-					tr_x = x;
-					tr_y = y;
+
 				}
 			}
 		}
@@ -299,65 +173,38 @@ namespace QuadCore
 		{
 			if (isEnteredWindow == true)
 			{
-				// Wheel Up
 				if (wheelValue > 0)
 				{
-					printf("MOUSE SCROLL  UP\n");
-					camera->MovePosition(-3.0f);
+					camera->SetViewMove(glm::vec3(0.0f, 0.0f, -CAMERA_MOVE_UNIT * 2));
 				}
-
-				// Wheel Down
-				if (wheelValue < 0)
+				else if (wheelValue < 0)
 				{
-					printf("MOUSE SCROLL DOWN\n");
-					camera->MovePosition(+3.0f);
+					camera->SetViewMove(glm::vec3(0.0f, 0.0f, CAMERA_MOVE_UNIT * 2));
 				}
 			}
 		}
 		virtual void onMouseHover(int state)
 		{
-			// Cursor on Window
 			if (state == GLFW_ENTERED)
 			{
 				isEnteredWindow = true;
-				printf("ENTERED WINDOW\n");
 			}
-
-			// Cursor out window
 			else if (state == GLFW_LEFT)
 			{
 				isEnteredWindow = false;
-				printf("LEFT WINDOW\n");
 			}
 		}
 
 	public:
-		void SetMouseCursor(GLFWwindow* window)
+		void SetMouseCursor(GLFWwindow* window, GLFWimage image)
 		{
-			// #1  Set Standard-Type Mouse Cursor
 			cursor = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
-			//cursor = glfwCreateStandardCursor(GLFW_CROSSHAIR_CURSOR);
-			//cursor = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
-			//cursor = glfwCreateStandardCursor(GLFW_HRESIZE_CURSOR);
-			//cursor = glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
-			//cursor = glfwCreateStandardCursor(GLFW_VRESIZE_CURSOR);
-
-			// #2  Set Customed Mouse Cursor
-			GLFWimage c_image;
-			int numComponents;
-			std::string c_fileName = "../media/그림5.png";
-			unsigned char* imageData = stbi_load((c_fileName).c_str(), &c_image.width, &c_image.height, &numComponents, 4);
-			c_image.pixels = imageData;
-			cursor = glfwCreateCursor(&c_image, 0, 0);
 			glfwSetCursor(window, cursor);
-
-			delete imageData;
 		}
 		void GetMousePosition(int& x, int& y)
 		{
 			double dx, dy;
 			glfwGetCursorPos(window, &dx, &dy);
-
 			x = static_cast<int>(floor(dx));
 			y = static_cast<int>(floor(dy));
 		}
@@ -386,5 +233,5 @@ namespace QuadCore
 	};
 	Controls*	Controls::mouse = NULL;
 	Camera* Controls::camera = NULL;
-	Transform* Controls::transform = NULL;
+	Display* Controls::display = NULL;
 }

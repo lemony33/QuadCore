@@ -1,33 +1,19 @@
 #include "RayCast.h"
-#include <GLEW-2.0.0_x64/GL/glew.h>
-#include <GLFW-3.2.1_x64\glfw3.h>
-#include <glm-0.9.8.4/glm/glm.hpp>
-#include <glm-0.9.8.4/glm/gtx/transform.hpp>
-#include <iostream>
 
-QuadCore::RayCast::RayCast(Controls& the_controls)
+RayCast::RayCast()
 {
-	m_Controls = &the_controls;
+	glBindFramebuffer(GL_FRAMEBUFFER, m_Framebuffer.ID);
+
+	// Clear Picking Buffer (Should Be totally Black)
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glDrawBuffer(GL_COLOR_ATTACHMENT1);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// MRT: Render Into Both Layers
+	unsigned int drawbuffers[] = { GL_COLOR_ATTACHMENT0 , GL_COLOR_ATTACHMENT1 };
+	glDrawBuffers(2, drawbuffers);
 }
 
-QuadCore::RayCast::~RayCast()
+RayCast::~RayCast()
 {
-
-}
-
-void QuadCore::RayCast::GetRayValue()
-{
-	m_RayX = m_Controls->GetXpos();
-	m_RayY = m_Controls->GetYpos();
-	printf(" RayCast Point : [ %d , %d ]\n", m_RayX, m_RayY);
-}
-
-void QuadCore::RayCast::IsCollidedWithObject()
-{
-
-}
-
-void QuadCore::RayCast::ChangeColor()
-{
-
 }
