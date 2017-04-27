@@ -152,5 +152,11 @@
     <ClInclude Include="UI_TwBar.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Scence_mirror.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scence_SolarSystem.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

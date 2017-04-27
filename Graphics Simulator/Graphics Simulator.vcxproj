@@ -46,6 +46,8 @@
     <ClInclude Include="Scence_moving_block.h" />
     <ClInclude Include="Scence_moving_cube.h" />
     <ClInclude Include="Scence_multi_light.h" />
+    <ClInclude Include="Scence_mirror.h" />
+    <ClInclude Include="Scence_SolarSystem.h" />
     <ClInclude Include="Scence_reflect_shader.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Scene_basicObjects.h" />
