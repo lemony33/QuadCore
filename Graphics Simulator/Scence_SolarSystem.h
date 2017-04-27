@@ -1,6 +1,6 @@
 #pragma once
 
-#define LIMIT 256
+#define LIMIT 128
 #include "iScene.h"
 
 using QuadCore::Transform;
@@ -56,30 +56,36 @@ public:
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(11.2f / 5.0f)); // 목성
 
-		SaturnSphere.Init(glm::vec3(0.0f + 9.5 * distance * sinf(m_counter * 29.46f * speed) / 3.0f,
+		SaturnSphere.Init(glm::vec3(0.0f + 9.5 * distance * sinf(m_counter * 29.46f * speed) / 4.0f,
 									0.0f,
-									0.0f + 9.5 * distance * cosf(m_counter * 29.46f * speed) / 3.0f),
+									0.0f + 9.5 * distance * cosf(m_counter * 29.46f * speed) / 4.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(9.4f / 5.0f)); // 토성
-		UranusSphere.Init(glm::vec3(0.0f + 19.2 * distance * sinf(m_counter * 84.07f * speed / 6.0f) / 4.0f,
+		UranusSphere.Init(glm::vec3(0.0f + 19.2 * distance * sinf(m_counter * 84.07f * speed / 8.0f) / 6.0f,
 									0.0f,
-									0.0f + 19.2 * distance * cosf(m_counter * 84.07f * speed / 6.0f) / 4.0f),
+									0.0f + 19.2 * distance * cosf(m_counter * 84.07f * speed / 8.0f) / 6.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(4.0f / 3.0f)); // 천왕성
 
-		NeptuneSphere.Init(glm::vec3(0.0f + 30.1 * distance * sinf(m_counter * 164.8f * speed / 2.0f) / 5.0f,
+		NeptuneSphere.Init(glm::vec3(0.0f + 30.1 * distance * sinf(m_counter * 164.8f * speed / 10.0f) / 7.0f,
 									0.0f,
-									0.0f + 30.1 * distance * cosf(m_counter * 164.8f * speed / 2.0f) / 5.0f),
+									0.0f + 30.1 * distance * cosf(m_counter * 164.8f * speed / 10.0f) / 7.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(3.9f / 2.0f)); // 해왕성
 
+		MoonSphere.Init(glm::vec3(EarthSphere.GetPos().x + 1.0f * distance * sinf(m_counter * 365.0f * speed / 10.0f) / 7.0f,
+									0.0f,
+									EarthSphere.GetPos().z + 1.0f * distance * cosf(m_counter * 365.0f * speed / 10.0f) / 7.0f),
+			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(0.1f)); // 달
 
-		lightTransforms[0].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
-		lightTransforms[1].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
-		lightTransforms[2].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
-		lightTransforms[3].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
 
-		for(int i = 0; i < 5; i++)
+		lightTransforms[0].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
+		lightTransforms[1].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
+		lightTransforms[2].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
+		lightTransforms[3].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
+
+		for(int i = 0; i < 10; i++)
 		m_shape_manager.GetObject(i)->GetShader()->InputpointLight(lightTransforms, ambient, diffuse, specular);
 
 		m_shape_manager.DrawAll();
@@ -109,34 +115,15 @@ private:
 		m_shape_manager.Insert_Object(Uranus_object);
 		BasicObject* Neptune_object = new BasicObject("BasicObjects/Sphere", "solarsystem/basicShader_solarsystem", "solarsystem/neptune", &NeptuneSphere);
 		m_shape_manager.Insert_Object(Neptune_object);
-
-
-		//Sky _ mirror
-		/*BasicObject* main_object = new BasicObject("Sphere", "basicShader_multilight", "earth", &mainSphere);
-		m_shape_manager.Insert_Object(main_object);
-		for (int i = 0; i < subSphereNum; i++)
-		{
-			BasicObject* light = new BasicObject("Sphere", "basicShader_multilight", "moon", &subSphere[i]);
-			m_shape_manager.Insert_Object(light);
-		}
-*/
-		//// multiLight		
-		/*Transform* multitest = new Transform(glm::vec3(0, 0.0f, 0), glm::vec3(), glm::vec3(1.0f));
-		BasicObject* object = new BasicObject("Sphere", "basicShader_multilight", "moon", multitest);
-		m_shape_manager.Insert_Object(object);
-
-		for (int i = 0; i < 4; i++)
-		{
-			BasicObject* light = new BasicObject("Cube", "lamp", "moon", &lightTransforms[i]);
-			m_shape_manager.Insert_Object(light);
-		}*/
+		BasicObject* Moon_object = new BasicObject("BasicObjects/Sphere", "solarsystem/basicShader_solarsystem", "solarsystem/moon", &MoonSphere);
+		m_shape_manager.Insert_Object(Moon_object);
 	}
 
 private:
 	//mirror
 	int subSphereNum = 128;
-	float distance = 5.0f; // 행성간 거리 및 크기 비율
-	float speed = 0.01f; // 공전주기 속도 비율
+	float distance = 7.0f; // 행성간 거리 및 크기 비율
+	float speed = 0.05f; // 공전주기 속도 비율
 	Transform SunSphere; // 태양
 	Transform MercurySphere; // 수성
 	Transform VenusSphere; // 금성
@@ -147,33 +134,31 @@ private:
 	Transform UranusSphere; // 천왕성
 	Transform NeptuneSphere; // 해왕성
 
-	Transform mainSphere;
-	Transform subSphere[LIMIT];
-	Transform MirrorSphere[LIMIT];
+	Transform MoonSphere; // 달
 	
 	// multiLight
 	Transform lightTransforms[4];
 
 	glm::vec3 ambient[4] =
 	{
-		glm::vec3(0.35f, 0.35f, 0.35f),
-		glm::vec3(0.05f, 0.05f, 0.05f),
-		glm::vec3(0.05f, 0.05f, 0.05f),
-		glm::vec3(0.05f, 0.05f, 0.05f),
+		glm::vec3(0.1f),
+		glm::vec3(0.00f, 0.00f, 0.00f),
+		glm::vec3(0.00f, 0.00f, 0.00f),
+		glm::vec3(0.00f, 0.00f, 0.00f),
 	};
 	glm::vec3 diffuse[4] =
 	{
-		glm::vec3(0.8f, 0.8f, 0.8f),
-		glm::vec3(0.8f, 0.8f, 0.8f),
-		glm::vec3(0.8f, 0.8f, 0.8f),
-		glm::vec3(0.8f, 0.8f, 0.8f),
+		glm::vec3(1.0f),
+		glm::vec3(0.00f, 0.00f, 0.00f),
+		glm::vec3(0.00f, 0.00f, 0.00f),
+		glm::vec3(0.00f, 0.00f, 0.00f),
 	};
 	glm::vec3 specular[4] =
 	{
-		glm::vec3(0.8f, 0.8f, 0.8f),
-		glm::vec3(0.8f, 0.8f, 0.8f),
-		glm::vec3(0.8f, 0.8f, 0.8f),
-		glm::vec3(0.8f, 0.8f, 0.8f),
+		glm::vec3(1.0f),
+		glm::vec3(0.00f, 0.00f, 0.00f),
+		glm::vec3(0.00f, 0.00f, 0.00f),
+		glm::vec3(0.00f, 0.00f, 0.00f),
 	};
 };
 
