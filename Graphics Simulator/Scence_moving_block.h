@@ -10,7 +10,6 @@ public:
 
 	Scence_moving_block()
 	{
-		Draw();
 	}
 
 	virtual ~Scence_moving_block()
@@ -18,14 +17,13 @@ public:
 	}
 
 public:
-	virtual void Play()
+	virtual void Animate()
 	{
 		for (int i = 0; i < 6; i++)
 		{
 			m_shape_manager.GetObject(i)->rotate(glm::vec3(m_cosCounter * 0.3f, m_sinCounter * 0.5f, 0));
 			m_shape_manager.GetObject(i)->translate(glm::vec3(m_cosCounter*m_sinCounter * .03f *i, m_sinCounter*m_cosCounter * .05f *i, 0));
 		}
-		m_shape_manager.DrawAll();
 	}
 
 private:

@@ -19,14 +19,22 @@ public:
 
 	/// 실제로 사용하는 함수
 public:
-	// 카메라 연결
+	// 초기화 (카메라 연결, 그리기 설정)
 	virtual void Init(Camera* camera)
 	{
 		m_shape_manager.Init(camera);
+		Draw();
 	}
 	// 그려진 내용을 재생한다
-	virtual void Play() = 0;
+	virtual void Play()
+	{
+		if (!m_enable)
+			return;
 
+		Animate();
+
+		m_shape_manager.DrawAll();
+	}
 
 	// 카운터를 설정한다
 	static void SetCounter(float counter)
@@ -35,14 +43,20 @@ public:
 		m_sinCounter = sinf(counter);	// sin counter
 		m_cosCounter = cosf(counter);	// cos counter
 	}
-	
 
+	void SetEnable(bool enable)
+	{
+		m_enable = enable;
+	}
+	
 	/// 내부적으로 그리기 로직만 처리
 protected:
 	virtual void Draw() = 0;
+	virtual void Animate() = 0;
 	
 protected:
 	ShapeManager m_shape_manager;
+	bool m_enable = false;
 };
 
 }

@@ -9,7 +9,6 @@ public:
 
 	Scence_moving_cube()
 	{
-		Draw();
 	}
 
 	virtual ~Scence_moving_cube()
@@ -17,7 +16,7 @@ public:
 	}
 
 public:
-	virtual void Play()
+	virtual void Animate()
 	{
 		m_shape_manager.GetObject(0)->position(glm::vec3(1.1, 1.1, 0));
 		m_shape_manager.GetObject(0)->translate(glm::vec3(delim * m_cosCounter, delim * m_sinCounter,0) );
@@ -29,9 +28,7 @@ public:
 
 		m_shape_manager.GetObject(2)->position(glm::vec3(-r / 2.0f, 0, 0));	// icosphere
 		m_shape_manager.GetObject(2)->translate(glm::vec3(sinf(m_counter) * r, cosf(m_counter) * r, 0/* tanf(m_counter) * r*/));
-		m_shape_manager.GetObject(2)->rotate(glm::vec3(m_counter * 0.7f, m_counter * 0.9f, 0));		
-		
-		m_shape_manager.DrawAll();
+		m_shape_manager.GetObject(2)->rotate(glm::vec3(m_counter * 0.7f, m_counter * 0.9f, 0));	
 	}
 
 private:

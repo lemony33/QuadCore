@@ -7,15 +7,15 @@ class SkyBox : public QuadCore::iShape
 public:
 	SkyBox(std::string img_name)
 	{
-		skyboxShader = new Shader("../media/shaders/cubemaps/" + img_name);
+		skyboxShader = new Shader("../resources/shaders/cubemaps/" + img_name);
 		skyboxMesh = new Mesh(SkyBoxVerties, sizeof(SkyBoxVerties) / sizeof(SkyBoxVerties[0]), indices, sizeof(indices) / sizeof(indices[0]));
 
-		faces.push_back("../media/textures/" + img_name + "/right.jpg");
-		faces.push_back("../media/textures/" + img_name + "/left.jpg");
-		faces.push_back("../media/textures/" + img_name + "/top.jpg");
-		faces.push_back("../media/textures/" + img_name + "/bottom.jpg");
-		faces.push_back("../media/textures/" + img_name + "/back.jpg");
-		faces.push_back("../media/textures/" + img_name + "/front.jpg");
+		faces.push_back("../resources/textures/cubemaps/" + img_name + "/right.jpg");
+		faces.push_back("../resources/textures/cubemaps/" + img_name + "/left.jpg");
+		faces.push_back("../resources/textures/cubemaps/" + img_name + "/top.jpg");
+		faces.push_back("../resources/textures/cubemaps/" + img_name + "/bottom.jpg");
+		faces.push_back("../resources/textures/cubemaps/" + img_name + "/back.jpg");
+		faces.push_back("../resources/textures/cubemaps/" + img_name + "/front.jpg");
 		
 		skyboxTexture = new QuadCore::Texture(faces);
 	}

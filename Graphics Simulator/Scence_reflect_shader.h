@@ -10,7 +10,6 @@ public:
 
 	Scence_reflect_shader()
 	{
-		Draw();
 	}
 
 	virtual ~Scence_reflect_shader()
@@ -18,10 +17,8 @@ public:
 	}
 
 public:
-	virtual void Play()
+	virtual void Animate()
 	{
-		
-		m_shape_manager.DrawAll();
 	}
 
 private:

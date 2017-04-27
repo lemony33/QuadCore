@@ -13,7 +13,6 @@ public:
 
 	Scene_SkyBox()
 	{
-		Draw();
 	}
 
 	virtual ~Scene_SkyBox()
@@ -21,9 +20,8 @@ public:
 	}
 
 public:
-	virtual void Play()
+	virtual void Animate()
 	{
-		m_shape_manager.DrawAll();
 	}
 
 private:
