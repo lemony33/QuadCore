@@ -1,6 +1,6 @@
 #pragma once
 
-#define LIMIT 256
+#define LIMIT 128
 #include "iScene.h"
 
 using QuadCore::Transform;
@@ -19,7 +19,7 @@ public:
 	}
 
 public:
-	virtual void Play()
+	virtual void Animate()
 	{
 		for (int i = 0; i < subSphereNum; i++)
 		{
@@ -41,14 +41,14 @@ private:
 
 		for (int i = 0; i < subSphereNum; i++)
 		{
-			BasicObject* light = new BasicObject("Sphere", "glass", "moon", &MirrorSphere[i]);
+			BasicObject* light = new BasicObject("BasicObjects/Sphere", "nanosuit/glass", "solarsystem/moon", &MirrorSphere[i]);
 			m_shape_manager.Insert_Object(light);
 		}
 	}
 
 private:
 	//mirror
-	int subSphereNum = 128;
+	int subSphereNum = 64;
 	Transform mainSphere;
 	Transform MirrorSphere[LIMIT];
 	

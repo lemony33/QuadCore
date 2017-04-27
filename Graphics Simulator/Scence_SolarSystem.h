@@ -19,7 +19,7 @@ public:
 	}
 
 public:
-	virtual void Play()
+	virtual void Animate()
 	{
 		//Çà¼º°è
 		SunSphere.Init(glm::vec3(0.0f),
@@ -91,23 +91,23 @@ private:
 		using QuadCore::BasicObject;
 		using QuadCore::Transform;
 
-		BasicObject* Sun_object = new BasicObject("Sphere", "basicShader_solarsystem", "solarsystem/sun", &SunSphere);
+		BasicObject* Sun_object = new BasicObject("BasicObjects/Sphere", "solarsystem/basicShader_solarsystem", "solarsystem/sun", &SunSphere);
 		m_shape_manager.Insert_Object(Sun_object);
-		BasicObject* Mercury_object = new BasicObject("Sphere", "basicShader_solarsystem", "solarsystem/mercury", &MercurySphere);
+		BasicObject* Mercury_object = new BasicObject("BasicObjects/Sphere", "solarsystem/basicShader_solarsystem", "solarsystem/mercury", &MercurySphere);
 		m_shape_manager.Insert_Object(Mercury_object);
-		BasicObject* Venus_object = new BasicObject("Sphere", "basicShader_solarsystem", "solarsystem/venus", &VenusSphere);
+		BasicObject* Venus_object = new BasicObject("BasicObjects/Sphere", "solarsystem/basicShader_solarsystem", "solarsystem/venus", &VenusSphere);
 		m_shape_manager.Insert_Object(Venus_object);
-		BasicObject* Earth_object = new BasicObject("Sphere", "basicShader_solarsystem", "solarsystem/earth", &EarthSphere);
+		BasicObject* Earth_object = new BasicObject("BasicObjects/Sphere", "solarsystem/basicShader_solarsystem", "solarsystem/earth", &EarthSphere);
 		m_shape_manager.Insert_Object(Earth_object);
-		BasicObject* Mars_object = new BasicObject("Sphere", "basicShader_solarsystem", "solarsystem/mars", &MarsSphere);
+		BasicObject* Mars_object = new BasicObject("BasicObjects/Sphere", "solarsystem/basicShader_solarsystem", "solarsystem/mars", &MarsSphere);
 		m_shape_manager.Insert_Object(Mars_object);
-		BasicObject* Jupiter_object = new BasicObject("Sphere", "basicShader_solarsystem", "solarsystem/jupiter", &JupiterSphere);
+		BasicObject* Jupiter_object = new BasicObject("BasicObjects/Sphere", "solarsystem/basicShader_solarsystem", "solarsystem/jupiter", &JupiterSphere);
 		m_shape_manager.Insert_Object(Jupiter_object);
-		BasicObject* Saturn_object = new BasicObject("Sphere", "basicShader_solarsystem", "solarsystem/saturn", &SaturnSphere);
+		BasicObject* Saturn_object = new BasicObject("BasicObjects/Sphere", "solarsystem/basicShader_solarsystem", "solarsystem/saturn", &SaturnSphere);
 		m_shape_manager.Insert_Object(Saturn_object);
-		BasicObject* Uranus_object = new BasicObject("Sphere", "basicShader_solarsystem", "solarsystem/uranus", &UranusSphere);
+		BasicObject* Uranus_object = new BasicObject("BasicObjects/Sphere", "solarsystem/basicShader_solarsystem", "solarsystem/uranus", &UranusSphere);
 		m_shape_manager.Insert_Object(Uranus_object);
-		BasicObject* Neptune_object = new BasicObject("Sphere", "basicShader_solarsystem", "solarsystem/neptune", &NeptuneSphere);
+		BasicObject* Neptune_object = new BasicObject("BasicObjects/Sphere", "solarsystem/basicShader_solarsystem", "solarsystem/neptune", &NeptuneSphere);
 		m_shape_manager.Insert_Object(Neptune_object);
 
 
