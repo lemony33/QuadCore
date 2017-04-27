@@ -94,12 +94,12 @@ void Scene::Init(bool changeLights)
 		glDeleteLists(objList, 1);      // delete previously created display list
 	objList = glGenLists(1);
 	glNewList(objList, GL_COMPILE);
-	DrawSubdivCylinderY(-0.9f, 0, -0.9f, 1.4f, 0.15f, 0.12f, Subdiv / 2 + 8, Subdiv);
-	DrawSubdivCylinderY(+0.9f, 0, -0.9f, 1.4f, 0.15f, 0.12f, Subdiv / 2 + 8, Subdiv);
-	DrawSubdivCylinderY(+0.9f, 0, +0.9f, 1.4f, 0.15f, 0.12f, Subdiv / 2 + 8, Subdiv);
-	DrawSubdivCylinderY(-0.9f, 0, +0.9f, 1.4f, 0.15f, 0.12f, Subdiv / 2 + 8, Subdiv);
-	DrawSubdivCylinderY(0, 0, 0, 0.4f, 0.5f, 0.3f, Subdiv + 16, Subdiv / 8 + 1);
-	DrawSubdivCylinderY(0, 0.4f, 0, 0.05f, 0.3f, 0.0f, Subdiv + 16, Subdiv / 16 + 1);
+	///DrawSubdivCylinderY(-0.9f, 0, -0.9f, 1.4f, 0.15f, 0.12f, Subdiv / 2 + 8, Subdiv);
+	///DrawSubdivCylinderY(+0.9f, 0, -0.9f, 1.4f, 0.15f, 0.12f, Subdiv / 2 + 8, Subdiv);
+	///DrawSubdivCylinderY(+0.9f, 0, +0.9f, 1.4f, 0.15f, 0.12f, Subdiv / 2 + 8, Subdiv);
+	///DrawSubdivCylinderY(-0.9f, 0, +0.9f, 1.4f, 0.15f, 0.12f, Subdiv / 2 + 8, Subdiv);
+	///DrawSubdivCylinderY(0, 0, 0, 0.4f, 0.5f, 0.3f, Subdiv + 16, Subdiv / 8 + 1);
+	///DrawSubdivCylinderY(0, 0.4f, 0, 0.05f, 0.3f, 0.0f, Subdiv + 16, Subdiv / 16 + 1);
 	glEndList();
 
 	// Create ground display list
@@ -107,7 +107,7 @@ void Scene::Init(bool changeLights)
 		glDeleteLists(groundList, 1);   // delete previously created display list
 	groundList = glGenLists(1);
 	glNewList(groundList, GL_COMPILE);
-	DrawSubdivPlaneY(-1.2f, 1.2f, 0, -1.2f, 1.2f, (3 * Subdiv) / 2, (3 * Subdiv) / 2);
+	///DrawSubdivPlaneY(-1.2f, 1.2f, 0, -1.2f, 1.2f, (3 * Subdiv) / 2, (3 * Subdiv) / 2);
 	glEndList();
 
 	// Create display list to draw light halos
@@ -115,7 +115,7 @@ void Scene::Init(bool changeLights)
 		glDeleteLists(haloList, 1);     // delete previously created display list
 	haloList = glGenLists(1);
 	glNewList(haloList, GL_COMPILE);
-	DrawSubdivHaloZ(0, 0, 0, 1, 32);
+	///DrawSubdivHaloZ(0, 0, 0, 1, 32);
 	glEndList();
 }
 
@@ -296,8 +296,8 @@ void Scene::Draw() const
 	glPushMatrix();
 	glScalef(1, -1, 1);
 	glColor3f(1, 1, 1);
-	glCallList(objList);
-	DrawHalos(true);
+	///glCallList(objList);
+	///DrawHalos(true);
 	glPopMatrix();
 	glCullFace(GL_BACK);
 
@@ -306,7 +306,7 @@ void Scene::Draw() const
 
 	// Draw the ground plane (using the Reflection parameter as transparency)
 	glColor4f(1, 1, 1, 1.0f - Reflection);
-	glCallList(groundList);
+	///glCallList(groundList);
 
 	// Draw the gradient background (requires to switch to screen-space normalized coordinates)
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -317,14 +317,14 @@ void Scene::Draw() const
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
-	glBegin(GL_QUADS);
-	glColor3f(BgColor0[0], BgColor0[1], BgColor0[2]);
-	glVertex3f(-1, -1, 0.9f);
-	glVertex3f(1, -1, 0.9f);
-	glColor3f(BgColor1[0], BgColor1[1], BgColor1[2]);
-	glVertex3f(1, 1, 0.9f);
-	glVertex3f(-1, 1, 0.9f);
-	glEnd();
+	///glBegin(GL_QUADS);
+	///glColor3f(BgColor0[0], BgColor0[1], BgColor0[2]);
+	///glVertex3f(-1, -1, 0.9f);
+	///glVertex3f(1, -1, 0.9f);
+	///glColor3f(BgColor1[0], BgColor1[1], BgColor1[2]);
+	///glVertex3f(1, 1, 0.9f);
+	///glVertex3f(-1, 1, 0.9f);
+	///glEnd();
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
@@ -338,8 +338,8 @@ void Scene::Draw() const
 	// Draw the unreflected scene
 	glPolygonMode(GL_FRONT_AND_BACK, (Wireframe ? GL_LINE : GL_FILL));
 	glColor3f(1, 1, 1);
-	glCallList(objList);
-	DrawHalos(false);
+	///glCallList(objList);
+	///DrawHalos(false);
 }
 
 
@@ -370,7 +370,7 @@ void Scene::DrawHalos(bool reflected) const
 		glTranslatef(cr*lights[i].Pos[0] + sr*lights[i].Pos[2], lights[i].Pos[1], -sr*lights[i].Pos[0] + cr*lights[i].Pos[2]);
 		//glScalef(0.5f*lights[i].Radius, 0.5f*lights[i].Radius, 1);
 		glScalef(0.05f, 0.05f, 1);
-		glCallList(haloList);
+		///glCallList(haloList);
 		glPopMatrix();
 	}
 	glPopMatrix();
