@@ -41,7 +41,7 @@ public:
 	}
 
 	// 기능: 물체를 그려준다
-	virtual void Draw(QuadCore::Camera* camera) = 0;
+	virtual void Draw(QuadCore::Camera* camera, bool enable_coor = false) = 0;
 
 	virtual QuadCore::Transform* GetTransform()
 	{

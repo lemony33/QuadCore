@@ -67,7 +67,7 @@ public:
 
 public:	
 
-	virtual void Draw(QuadCore::Camera* camera)
+	virtual void Draw(QuadCore::Camera* camera, bool enable_coor)
 	{
 		m_shader->Bind();
 		m_texture->Bind(0);
@@ -75,8 +75,11 @@ public:
 		m_shader->Update(*m_transform, *camera);
 		m_mesh->Draw();
 
-		m_coordinate->Init_Link(m_transform, camera);
-		m_coordinate->Draw(3.0f);
+		if (enable_coor)
+		{
+			m_coordinate->Init_Link(m_transform, camera);
+			m_coordinate->Draw(3.0f);
+		}
 	}
 
 public:
