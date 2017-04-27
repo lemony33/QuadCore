@@ -8,7 +8,6 @@ class Scene_main : public QuadCore::iScene
 public:
 	Scene_main()
 	{
-		Draw();
 	}
 
 	virtual ~Scene_main()
@@ -16,9 +15,8 @@ public:
 	}
 
 public:	
-	virtual void Play()
+	virtual void Animate()
 	{
-		m_shape_manager.DrawAll();
 	}
 
 private:

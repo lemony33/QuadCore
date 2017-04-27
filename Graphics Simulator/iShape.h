@@ -19,7 +19,7 @@ namespace QuadCore
 class iShape
 {
 public:
-	iShape() : shape_path("../media/shape/")
+	iShape() : shape_path("../resources/objects/")
 	{}
 	virtual ~iShape()
 	{
@@ -41,7 +41,7 @@ public:
 	}
 
 	// 기능: 물체를 그려준다
-	virtual void Draw(QuadCore::Camera* camera) = 0;
+	virtual void Draw(QuadCore::Camera* camera, bool enable_coor = false) = 0;
 
 	virtual QuadCore::Transform* GetTransform()
 	{

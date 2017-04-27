@@ -10,7 +10,6 @@ public:
 
 	Scence_moving_wall()
 	{
-		Draw();
 	}
 
 	virtual ~Scence_moving_wall()
@@ -18,13 +17,12 @@ public:
 	}
 
 public:
-	virtual void Play()
+	virtual void Animate()
 	{
 		for (int i = 0; i < 9; i++)
 		{
 			m_shape_manager.GetObject(i)->translate(glm::vec3(0, 0, m_sinCounter*.01 - 0.15*m_cosCounter));
 		}
-		m_shape_manager.DrawAll();
 	}
 
 private:
