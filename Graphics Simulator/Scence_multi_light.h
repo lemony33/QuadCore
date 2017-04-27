@@ -37,12 +37,12 @@ private:
 
 		//// multiLight		
 		Transform* multitest = new Transform(glm::vec3(0, 0.0f, 0), glm::vec3(), glm::vec3(1.0f));
-		BasicObject* object = new BasicObject("Sphere", "basicShader_multilight", "moon", multitest);
+		BasicObject* object = new BasicObject("BasicObjects/Sphere", "basicShader_multilight", "moon", multitest);
 		m_shape_manager.Insert_Object(object);
 
 		for (int i = 0; i < 4; i++)
 		{
-			BasicObject* light = new BasicObject("Cube", "lamp", "moon", &lightTransforms[i]);
+			BasicObject* light = new BasicObject("BasicObjects/Cube", "lamp", "moon", &lightTransforms[i]);
 			m_shape_manager.Insert_Object(light);
 		}
 	}

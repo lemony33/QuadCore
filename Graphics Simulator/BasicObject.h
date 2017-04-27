@@ -18,13 +18,14 @@ public:
 		m_coordinate = new Coordinates(1.0f);
 		
 		m_shape_name = objects[figure_num];
+		
+		//shape_path("../resources/objects/")
 
-
-		std::string filename = shape_path + m_shape_name + ".obj";
+		std::string filename = shape_path + "BasicObjects/" + m_shape_name + ".obj";
 		m_mesh = new Mesh(filename);
 		//Shader shader1("../media/new_shader/basicShader_light");
-		m_shader = new Shader("../media/new_shader/basicShader_light");
-		m_texture = new Texture("../media/res/bricks.jpg");
+		m_shader = new Shader("../resources/shaders/basicShader_light");
+		m_texture = new Texture("../resources/textures/bricks.jpg");
 	}
 
 	BasicObject(std::string mesh_name, std::string shader_name, std::string texture_name, Transform* transform = new Transform())
@@ -33,14 +34,16 @@ public:
 		m_coordinate = new Coordinates(1.0f);
 
 		using std::string;
+		
+		//shape_path("../resources/objects/")
 
 		string file_name_mesh = shape_path + mesh_name + ".obj";
 		m_mesh = new Mesh(file_name_mesh);
 
-		string file_name_shader = "../media/new_shader/" + shader_name;
+		string file_name_shader = "../resources/shaders/" + shader_name;
 		m_shader = new Shader(file_name_shader);
 
-		string file_name_texture = "../media/res/" + texture_name + ".jpg";
+		string file_name_texture = "../resources/textures/" + texture_name + ".jpg";
 		m_texture = new Texture(file_name_texture);
 	}
 
@@ -57,11 +60,11 @@ public:
 	void SetShader()
 	{
 		//Shader shader1("../media/new_shader/basicShader_light");
-		m_shader = new Shader("../media/new_shader/basicShader_light");
+		m_shader = new Shader("../resources/shaders/basicShader_light");
 	}
 	void SetTexture()
 	{
-		m_texture = new Texture("../media/res/bricks.jpg");
+		m_texture = new Texture("../resources/textures/bricks.jpg");
 	}
 
 

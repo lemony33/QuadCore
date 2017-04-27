@@ -40,8 +40,8 @@ private:
 		glassTrans = new Transform(glm::vec3(10.0, m_height, 0));
 		mirrorTrans = new Transform(glm::vec3(-10.0, m_height, 0));
 
-		BasicObject* glass = new BasicObject("nanosuit_reflection/nanosuit", "../shaders/cubemaps/glass", "bricks", glassTrans);
-		BasicObject* mirror = new BasicObject("nanosuit_reflection/nanosuit", "../shaders/cubemaps/mirror", "bricks", mirrorTrans);
+		BasicObject* glass = new BasicObject("nanosuit_reflection/nanosuit", "nanosuit/glass", "bricks", glassTrans);
+		BasicObject* mirror = new BasicObject("nanosuit_reflection/nanosuit", "nanosuit/mirror", "bricks", mirrorTrans);
 		m_shape_manager.Insert_Object(glass);
 		m_shape_manager.Insert_Object(mirror);
 	}

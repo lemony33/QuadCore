@@ -19,7 +19,7 @@ namespace QuadCore
 class iShape
 {
 public:
-	iShape() : shape_path("../media/shape/")
+	iShape() : shape_path("../resources/objects/")
 	{}
 	virtual ~iShape()
 	{

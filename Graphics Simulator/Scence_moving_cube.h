@@ -39,17 +39,17 @@ private:
 		
 		// cube - right side
 		Transform* transform1 = new Transform(glm::vec3(1.1, 1.1, 0));
-		BasicObject* object1 = new BasicObject("Cube", "basicShader_light", "bricks", transform1);
+		BasicObject* object1 = new BasicObject("BasicObjects/Cube", "basicShader_light", "bricks", transform1);
 		m_shape_manager.Insert_Object(object1);		
 
 		// cube - left side
 		Transform* transform2 = new Transform(glm::vec3(-1.1, 0, 0));
-		BasicObject* object2 = new BasicObject("Cube", "basicShader_light", "bricks", transform2);
+		BasicObject* object2 = new BasicObject("BasicObjects/Cube", "basicShader_light", "bricks", transform2);
 		m_shape_manager.Insert_Object(object2);		
 
 		// Icosphere
 		Transform* transform3 = new Transform(glm::vec3(-r / 2.0f, 0, 0));
-		BasicObject* object3 = new BasicObject("Icosphere", "basicShader_light", "bricks", transform3);
+		BasicObject* object3 = new BasicObject("BasicObjects/Icosphere", "basicShader_light", "bricks", transform3);
 		m_shape_manager.Insert_Object(object3);		
 		
 		//m_shape_manager.Delete_Objet(0); // 제거방법
