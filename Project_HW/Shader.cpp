@@ -76,6 +76,8 @@ void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera
 	glUniformMatrix4fv(m_uniforms[VIEW_U],			1, GL_FALSE, &camera.GetViewMatrix()[0][0]);		// View
 	glUniformMatrix4fv(m_uniforms[PROJECTION_U],	1, GL_FALSE, &camera.GetProjectionMatrix()[0][0] );	// Projection
 
+	glUniform3f(glGetUniformLocation(m_program, "pos"),
+		transform.GetPos_const().x, transform.GetPos_const().y, transform.GetPos_const().z);
 
 	// for 2D UI Shader
 	glm::mat4 guiMVP = glm::mat4(1.0f) * transform.GetModel();
