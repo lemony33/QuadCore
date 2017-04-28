@@ -11,16 +11,48 @@ public:
 
 	Scence_mirror()
 	{
-		Draw();
 	}
 
 	virtual ~Scence_mirror()
 	{
 	}
 
+private:
+	char m_key = 0;
 public:
+	bool KeyInput(char key)
+	{
+		printf("KeyInput: %c, ", key);
+		if (key == NULL)
+			return false;
+		if (key != '+' || key != '-')
+			return false;
+
+		m_key = key;
+		return true;
+	}
+	char Get_KeyInput()
+	{
+		printf("GetKey: %d \n", subSphereNum);
+		if (m_key == NULL)
+			return false;
+
+		char key = m_key;
+		m_key = NULL;
+		return key;
+	}
+
+
 	virtual void Animate()
 	{
+		if (Get_KeyInput())
+		{
+			printf(" / cur_num: %d \n", subSphereNum);
+			if(m_key=='+')
+				subSphereNum++;
+			if (m_key == '-')
+				subSphereNum--;
+		}
 		for (int i = 0; i < subSphereNum; i++)
 		{
 			MirrorSphere[i].Init(glm::vec3(5 * sinf((m_counter + i * 0.2f) / 5) * cosf(-(m_counter + i * 0.2f) / 5),
@@ -30,7 +62,6 @@ public:
 				glm::vec3(0.5f, 0.5f, 0.5f)
 			);
 		}
-		m_shape_manager.DrawAll();
 	}
 
 private:
@@ -48,7 +79,7 @@ private:
 
 private:
 	//mirror
-	int subSphereNum = 64;
+	int subSphereNum = 6;
 	Transform mainSphere;
 	Transform MirrorSphere[LIMIT];
 	

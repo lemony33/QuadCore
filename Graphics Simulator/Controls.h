@@ -49,7 +49,7 @@ namespace QuadCore
 		bool isEnteredWindow;
 		int tr_x, tr_y;
 		float CAMERA_MOVE_UNIT = 0.5f;
-
+		
 	public:
 		virtual void onKey(int key, int action)
 		{
@@ -174,6 +174,7 @@ namespace QuadCore
 				exit(EXIT_SUCCESS);
 				break;
 			case GLFW_KEY_SPACE:
+				m_cur_key = '+';
 				break;
 			case GLFW_KEY_ENTER:
 				if (!glfwGetWindowAttrib(window, GLFW_MAXIMIZED))
@@ -201,8 +202,25 @@ namespace QuadCore
 				break;
 			case GLFW_KEY_RIGHT_ALT:
 				break;
+
+
+			case GLFW_KEY_M:
+				m_cur_key = 'm';
+				break;
+			case GLFW_KEY_KP_ADD:
+				m_cur_key = '+';
+				break;
+			case GLFW_KEY_KP_SUBTRACT:
+				m_cur_key = '-';
+				break;
 			};			
 		}
+
+	private:
+		char m_cur_key = NULL;
+	public:		
+		char Get_curKey() { char key = m_cur_key;  m_cur_key = NULL; return key; }
+
 
 		virtual void onMouseButton(int button, int action)
 		{

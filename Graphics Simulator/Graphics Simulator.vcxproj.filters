@@ -152,5 +152,11 @@
     <ClInclude Include="SceneManager.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Scence_mirror.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scence_SolarSystem.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
