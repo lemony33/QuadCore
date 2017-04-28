@@ -105,11 +105,11 @@ public:
 		m_scene_list.push_back(new Scene_main);
 
 		m_scene_list.push_back(new Scene_basicObjects);
-		m_scene_list.push_back(new Scence_moving_wall);
+		//m_scene_list.push_back(new Scence_moving_wall);
 		m_scene_list.push_back(new Scence_moving_block);
 		m_scene_list.push_back(new Scence_moving_cube);
-		//m_scene_list.push_back(new Scence_reflect_shader);
-		//m_scene_list.push_back(new Scence_multi_light);
+		m_scene_list.push_back(new Scence_reflect_shader);
+		m_scene_list.push_back(new Scence_multi_light);
 
 
 		m_scene_list.at(0)->SetEnable(true);	//Scene_SkyBox
@@ -120,7 +120,7 @@ public:
 		m_scene_list.at(3)->SetEnable(true);	//Scence_moving_wall
 		m_scene_list.at(4)->SetEnable(true);	//Scence_moving_block
 		m_scene_list.at(5)->SetEnable(true);	//Scence_moving_cube
-		//m_scene_list.at(6)->SetEnable(true);	//Scence_reflect_shader
+		m_scene_list.at(6)->SetEnable(true);	//Scence_reflect_shader
 		//m_scene_list.at(7)->SetEnable(true);	//Scence_multi_light
 
 		//�ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ�
