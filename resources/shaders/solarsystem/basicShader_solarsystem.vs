@@ -8,11 +8,13 @@ layout (location = 2) in vec3 normal;	// lighting
 out vec2 texCoord0;  //texture
 out vec3 normal0;    //lighting
 out vec3 FragPos;
+out vec3 LPOS;
 
 uniform mat4 transform;  //uniform 에 transform을 set한다
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform vec3 pos;
 
 
 void main()
@@ -27,6 +29,8 @@ void main()
 
 	FragPos = vec3(model * vec4(position, 1.0f));
 	normal0 = mat3(transpose(inverse(model))) * normal;
+LPOS = pos;
+
 
 }
 
