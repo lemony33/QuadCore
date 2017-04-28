@@ -35,7 +35,7 @@ public:
 
 		return posMatrix * rotMatrix * scaleMatrix; // 순서 중요!
 	}
-
+	inline glm::vec3 GetPos_const() const { return m_pos; }
 	inline glm::vec3& GetPos() { return m_pos; }
 	inline glm::vec3& GetRot() { return m_rot; }
 	inline glm::vec3& GetScale() { return m_scale; }
