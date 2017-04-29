@@ -54,6 +54,9 @@ public:
 	double time = 0, dt;// Current time and enlapsed time
 	double turn = 0;    // Model turn counter
 
+	//본 프로젝트에 맞춘 추가적인 변수들
+	int SceneNumber = 0;
+
 private:
 	void    CreateBar();                    // create a tweak bar for lights
 

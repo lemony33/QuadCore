@@ -46,13 +46,20 @@ public:
 		TwAddVarRO(mainBar, "Time", TW_TYPE_DOUBLE, &scene.time, "precision=1 help='Time (in seconds).' ");
 
 		TwAddSeparator(mainBar, "", NULL);	// 아래쪽에 line생성
+		
+		// Scene Number
+		TwAddVarRW(mainBar, "Scene Number", TW_TYPE_INT32, &scene.SceneNumber,
+			" min=0 max=4 help='Change Scene' ");
+		//TwAddVarRW(TwBar *bar, const char *name, TwType type, void *var, const char *def);
+		TwAddSeparator(mainBar, "", NULL);
 
-											// Wireframe 효과
+		/*
+		// Wireframe 효과
 		TwAddVarRW(mainBar, "Wireframe", TW_TYPE_BOOLCPP, &scene.Wireframe,
 			"key=w help='Toggle wireframe display mode.' ");
 
 		TwAddSeparator(mainBar, "", NULL);
-
+		
 		// Background 컬러 변경
 		TwAddVarRW(mainBar, "Background Color", TW_TYPE_COLOR3F, &scene.BgColor0,
 			" help='Change the top background color.' ");
@@ -84,7 +91,7 @@ public:
 		TwType rotationType = TwDefineEnum("Rotation Mode", rotationEV, 3);
 		TwAddVarRW(mainBar, "Obj Rotation Scene", rotationType, &scene.Rotation,
 			" keyIncr=Backspace keyDecr=SHIFT+Backspace help='Stop or change the rotation mode.' ");
-
+		*/
 
 
 		scene.Init(true);
@@ -176,7 +183,9 @@ public:
 
 		for (int i = 0; i < m_scene_list.size(); i++)
 		{
-			m_scene_list.at(i)->Play();
+			//UI 값에 맞는 씬만 플레이 하도록
+			if(i== scene.SceneNumber)
+				m_scene_list.at(i)->Play();
 		}
 
 		// Rotate model	// TwSimple Rotation 추가
