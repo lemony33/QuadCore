@@ -1,3 +1,9 @@
+
+// MAIN UI 부분  == Graphics_Simulator.cpp,  Display.h
+// LIGHT UI 부분 == UI_TwBar.cpp , UI_TwBar.h
+
+
+/////////// UI 중에 LIGHT 부분 ///////////////////
 #include "UI_TwBar.h"
 
 const float FLOAT_2PI = 6.283185307f; // 2*PI
@@ -126,7 +132,8 @@ void TW_CALL ReinitCB(void *clientData)
 	scene->Init(true);                               // re-initialize the scene
 }
 
-// Light Bar 생성
+
+// Light Bar 생성 ///////////////////////////////////////////
 void Scene::CreateBar()
 {
 	// Light parameter
@@ -344,7 +351,9 @@ void Scene::Draw() const
 
 
 
-//================ Object 그리기 ==================//
+
+
+//================ 사실.. 필요없음. 빛에 붙어다니던 물체. Object 그리기 ==================//
 
 // Subroutine used to draw halos around light positions
 void Scene::DrawHalos(bool reflected) const

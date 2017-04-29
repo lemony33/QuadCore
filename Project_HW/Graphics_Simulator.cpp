@@ -345,7 +345,7 @@ void QuadCore::Graphics_Simulator::Run()
 
 
 
-
+			 
 
 			glDepthFunc(GL_LEQUAL);
 			skyboxShader.Bind();
