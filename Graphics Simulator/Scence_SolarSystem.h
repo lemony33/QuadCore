@@ -11,7 +11,6 @@ public:
 
 	Scence_SolarSystem()
 	{
-		Draw();
 	}
 
 	virtual ~Scence_SolarSystem()
@@ -88,7 +87,7 @@ public:
 			0.0f,
 			SaturnSphere.GetPos().z),
 			glm::vec3(-0.2f, 0, 0),
-			glm::vec3(4.0f, 0.01f, 4.0f)); numberofplanets++;// Åä¼º ¶ì
+			glm::vec3(4.0f, 0.5f, 4.0f)); numberofplanets++;// Åä¼º ¶ì
 		/////////////////////////////////////////////////////////////////////////////////////
 
 		// Scene ³» ºûÀÇ À§Ä¡µé
@@ -100,8 +99,6 @@ public:
 		//¸ðµç Çà¼º ½¦ÀÌ´õ¿¡ ºû Àû¿ë
 		for(int i = 0; i < numberofplanets; i++)
 		m_shape_manager.GetObject(i)->GetShader()->InputpointLight(lightTransforms, ambient, diffuse, specular);
-
-		m_shape_manager.DrawAll();
 	}
 
 private:
@@ -130,6 +127,7 @@ private:
 		m_shape_manager.Insert_Object(Neptune_object);
 		BasicObject* Moon_object = new BasicObject("BasicObjects/Sphere", "solarsystem/basicShader_solarsystem", "solarsystem/moon", &MoonSphere);
 		m_shape_manager.Insert_Object(Moon_object);
+
 		BasicObject* Saturn_Ring = new BasicObject("BasicObjects/Torus", "solarsystem/basicShader_solarsystem", "solarsystem/saturn_ring", &SaturnDonutRing);
 		m_shape_manager.Insert_Object(Saturn_Ring);
 	}
@@ -147,8 +145,7 @@ private:
 	Transform UranusSphere; // Ãµ¿Õ¼º
 	Transform NeptuneSphere; // ÇØ¿Õ¼º
 
-	Transform MoonSphere; // ´Þ
-	
+	Transform MoonSphere; // ´Þ	
 	Transform SaturnDonutRing; // Åä¼º ¸µ
 	
 	// multiLight

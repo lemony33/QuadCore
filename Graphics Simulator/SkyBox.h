@@ -7,7 +7,7 @@ class SkyBox : public QuadCore::iShape
 public:
 	SkyBox(std::string img_name)
 	{
-		skyboxShader = new Shader("../resources/shaders/cubemaps/" + img_name);
+		skyboxShader = new Shader("../resources/shaders/cubemaps/skybox"/*img_name*/);
 		skyboxMesh = new Mesh(SkyBoxVerties, sizeof(SkyBoxVerties) / sizeof(SkyBoxVerties[0]), indices, sizeof(indices) / sizeof(indices[0]));
 
 		faces.push_back("../resources/textures/cubemaps/" + img_name + "/right.jpg");

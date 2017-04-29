@@ -12,7 +12,7 @@
 #include "Scence_reflect_shader.h"
 #include "Scence_multi_light.h"
 #include "Scene_basicObjects.h"
-//#include "Scence_mirror.h"
+#include "Scence_mirror.h"
 #include "Scence_SolarSystem.h"
 
 #include "Scene_SkyBox.h"
@@ -97,6 +97,8 @@ public:
 	{
 	}
 
+	Scence_mirror* scence_mirror = new Scence_mirror();
+
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	// 필요한 설정값 초기화
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -110,16 +112,18 @@ public:
 		//m_scene_list.push_back(new Scence_moving_wall);
 		//m_scene_list.push_back(new Scence_moving_block);
 		//m_scene_list.push_back(new Scence_reflect_shader);
-		m_scene_list.push_back(new Scence_multi_light);
+		//m_scene_list.push_back(new Scence_multi_light);
 		m_scene_list.push_back(new Scence_SolarSystem); 
+
 		//m_scene_list.push_back(new Scence_mirror); // 로딩 렉 엄청 김
+		m_scene_list.push_back(scence_mirror); // 로딩 렉 엄청 김
 
 
-		m_scene_list.at(0)->SetEnable(false);	//Scene_SkyBox
+		m_scene_list.at(0)->SetEnable(true);	//Scene_SkyBox
 
 		m_scene_list.at(1)->SetEnable(true);	//Scene_main
 
-		m_scene_list.at(2)->SetEnable(false);	//Scene_basicObjects
+		m_scene_list.at(2)->SetEnable(true);	//Scene_basicObjects
 		m_scene_list.at(3)->SetEnable(true);	//Scence_moving_wall
 		//m_scene_list.at(4)->SetEnable(false);	//Scence_moving_block
 		//m_scene_list.at(5)->SetEnable(false);	//Scence_moving_cube
@@ -139,7 +143,14 @@ public:
 		{
 			m_scene_list.at(i)->Init(camera);
 		}
-	}		
+	}
+
+	public:
+		char m_cur_key = NULL;
+		void Set_CurKey(char cur_key)
+		{
+			m_cur_key = cur_key;
+		}
 
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	// 장면을 재생한다.
@@ -151,7 +162,11 @@ public:
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-		dMap.DrawPlane();		// Draw Map	
+		//dMap.DrawPlane();		// Draw Map	
+
+		
+		scence_mirror->KeyInput(m_cur_key);
+
 		
 		// TwSimple 배경추가
 		//display.Clear(scene.BgColor0[0], scene.BgColor0[1], scene.BgColor0[2], 1);	// 배경 초기화	
