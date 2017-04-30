@@ -30,7 +30,7 @@ public:
 	float g_LightDirection[3] = { -0.57735f, -0.57735f, -0.57735f };
 
 	Scene scene;
-
+	TwBar *mainUI; // play 함수에서 UI 불러오도록 하기위해 추가. 
 	SceneManager()
 	{		
 		
@@ -47,12 +47,12 @@ public:
 
 		TwAddSeparator(mainBar, "", NULL);	// 아래쪽에 line생성
 		
-		// Scene Number
+		// 씬 변경하는 메뉴, SceneNumber 변수를 조절함
 		TwAddVarRW(mainBar, "Scene Number", TW_TYPE_INT32, &scene.SceneNumber,
-			" min=0 max=4 help='Change Scene' ");
+			" min=0 max=3 help='Change Scene' ");
 		//TwAddVarRW(TwBar *bar, const char *name, TwType type, void *var, const char *def);
 		TwAddSeparator(mainBar, "", NULL);
-
+		
 		/*
 		// Wireframe 효과
 		TwAddVarRW(mainBar, "Wireframe", TW_TYPE_BOOLCPP, &scene.Wireframe,
@@ -96,7 +96,7 @@ public:
 
 		scene.Init(true);
 
-
+		mainUI = mainBar; // 이 함수에서 정의된 UI를 변수에 연결
 		
 	}
 
@@ -183,9 +183,26 @@ public:
 
 		for (int i = 0; i < m_scene_list.size(); i++)
 		{
-			//UI 값에 맞는 씬만 플레이 하도록
-			if(i== scene.SceneNumber)
-				m_scene_list.at(i)->Play();
+			//UI 값에 맞는 씬만 플레이
+			if (i == scene.SceneNumber)
+			{
+				// 이 부분을 나중에 switch로 하여 씬마다 필요한 메뉴를 추가하기
+				if (i == 3) // mirror 씬 일때
+				{
+					//sphere 갯수 정하는 UI 추가. 콘솔에서 오류사항 표기해주며 중복 생성 안되게 되있음
+					TwAddVarRW(mainUI, "NumberofSphere", TW_TYPE_INT32, &scene.Spheres,
+						" min=0 max=64 help='Change a number of sphere' ");
+					//씬 재생
+					m_scene_list.at(i)->Play(scene.Spheres);
+				}
+				else
+				{
+					//씬 재생
+					m_scene_list.at(i)->Play();
+					//sphere 메뉴 제거. 없으면 없다고 콘솔에 메시지는 뜨나 상관없음
+					TwRemoveVar(mainUI, "NumberofSphere");
+				}
+			}
 		}
 
 		// Rotate model	// TwSimple Rotation 추가

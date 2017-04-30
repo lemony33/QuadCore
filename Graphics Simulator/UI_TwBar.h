@@ -56,6 +56,7 @@ public:
 
 	//본 프로젝트에 맞춘 추가적인 변수들
 	int SceneNumber = 0;
+	int Spheres = 5;
 
 private:
 	void    CreateBar();                    // create a tweak bar for lights

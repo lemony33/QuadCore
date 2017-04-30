@@ -1,6 +1,6 @@
 #pragma once
 
-#define LIMIT 128
+#define LIMIT 32
 #include "iScene.h"
 
 using QuadCore::Transform;
@@ -41,7 +41,17 @@ public:
 		m_key = NULL;
 		return key;
 	}
+	virtual void Play(int pos)
+	{
+		if (!m_enable)
+			return;
+		if(pos != 0)
+			subSphereNum = pos;
 
+		Animate();
+
+		m_shape_manager.DrawAll();
+	}
 
 	virtual void Animate()
 	{
@@ -79,7 +89,7 @@ private:
 
 private:
 	//mirror
-	int subSphereNum = 6;
+	int subSphereNum = 32;
 	Transform mainSphere;
 	Transform MirrorSphere[LIMIT];
 	
