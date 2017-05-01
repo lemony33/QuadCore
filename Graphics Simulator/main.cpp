@@ -1,6 +1,5 @@
 #include "Graphics_Simulator.h"
 
-
 int main()
 {
 	QuadCore::Graphics_Simulator graphic_simulator;

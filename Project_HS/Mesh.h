@@ -52,7 +52,7 @@ private:
 		POSITION_VB,
 		TEXCOORD_VB, // texture
 		NORMAL_VB, // lighting
-		RAY_VB, // Ray
+		//RAY_VB, // Ray
 
 		INDEX_VB, // obj file
 

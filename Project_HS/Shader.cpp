@@ -20,7 +20,7 @@ Shader::Shader(const std::string& fileName)
 	glBindAttribLocation(m_program, 0, "position");
 	glBindAttribLocation(m_program, 1, "texCoord"); 
 	glBindAttribLocation(m_program, 2, "normal");
-	glBindAttribLocation(m_program, 3, "ray");
+	//glBindAttribLocation(m_program, 3, "ray");
 
 	glLinkProgram(m_program);
 	CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Shader Program linking failed: ");
@@ -45,7 +45,6 @@ Shader::~Shader()
 void Shader::Bind()
 {
 	glUseProgram(m_program);
-	glReadBuffer(GL_COLOR_ATTACHMENT0);
 }
 
 void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera& camera) // transform, camera
@@ -59,12 +58,12 @@ void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera
 	memcpy(&sender, &m_lineColor, sizeof(m_lineColor));
 	glUniform4fv(100, 1, sender);
 
-	//// RAY-BEGIN
+	// RAY-BEGIN
 	//glUniform4fv(
 	//	glGetUniformLocation(m_program, "IDcolor"),
 	//	1,
-	//	&IntegerToColor(100)[0]);
-	//// RAY-END
+	//	&IntegerToColor(200)[0]);
+	// RAY-END
 }
 
 glm::vec4 Shader::IntegerToColor(int i)

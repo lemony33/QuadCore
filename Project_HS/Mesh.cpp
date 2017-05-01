@@ -61,11 +61,11 @@ void Mesh::InitMesh(const QuadCore::IndexedModel& model)
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 	// RAY-BEGIN
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[RAY_VB]);
-	glBufferData(GL_ARRAY_BUFFER, model.indices.size() * sizeof(model.indices[0]), &model.indices[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(3); 
+	//glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[RAY_VB]);
+	//glBufferData(GL_ARRAY_BUFFER, model.indices.size() * sizeof(model.indices[0]), &model.indices[0], GL_STATIC_DRAW);
+	//glEnableVertexAttribArray(3); 
 	//glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (void*)(sizeof(float) * 3));
-	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 0, 0);
+	//glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	// RAY-END
 
 	// obj file
@@ -102,9 +102,4 @@ void Mesh::DrawLines()
 
 	glDrawElements(GL_LINES, m_drawCount, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
-
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-	glDisableVertexAttribArray(3);
 }
