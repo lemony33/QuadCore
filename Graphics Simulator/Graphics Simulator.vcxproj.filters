@@ -158,5 +158,8 @@
     <ClInclude Include="Scence_SolarSystem.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Scene_SkyBox_Universe.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -18,6 +18,26 @@ public:
 	}
 
 public:
+	virtual void Play(glm::vec3* pos, glm::vec3* ambient, glm::vec3* diffuse, glm::vec3* specular)
+	{
+		if (!m_enable)
+			return;
+
+		for (int i = 0; i < 3; i++)
+		{
+			lightTransforms[i + 1].SetPos(pos[i]);
+			lightTransforms[i + 1].SetScale(glm::vec3(0.5f));
+			this->ambient[i + 1] = ambient[i];
+			this->diffuse[i + 1] = diffuse[i];
+			this->specular[i + 1] = specular[i];
+
+		}
+
+		Animate();
+
+		m_shape_manager.DrawAll();
+	}
+
 	virtual void Animate()
 	{
 		// 밑 부분에 각 쉐이더에 빛을 적용하기 위한 for문 최대 갯수 정해주는 변수
@@ -27,7 +47,7 @@ public:
 		/////////////////////////////////////////////////////////////////////////////////////
 		SunSphere.Init(glm::vec3(0.0f),
 			glm::vec3(0.0f),
-			glm::vec3(109.0f / 40.0f)); numberofplanets++;// 태양
+			glm::vec3(109.0f / 30.0f)); numberofplanets++;// 태양
 
 		/*	부모 좌표(현재 태양 좌표) + { 지구 1.0 기준 태양과의 거리 * 거리 비율값 * 삼각함수( m_counter / 지구 대비 공전 주기 * 속도 비율값) }  */
 		MercurySphere.Init(glm::vec3(0.0f + 0.4 * distance * sinf(m_counter / 0.24f * speed),
@@ -54,20 +74,21 @@ public:
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(0.6f)); numberofplanets++;// 화성
 
-		JupiterSphere.Init(glm::vec3(0.0f + 5.2 * distance * sinf(m_counter / 11.86f * speed) / 3.0f,
+		JupiterSphere.Init(glm::vec3(0.0f + 5.2 * distance * sinf(m_counter / 11.86f * speed) / 2.0f,
 									0.0f,
-									0.0f + 5.2 * distance * cosf(m_counter / 11.86f * speed) / 3.0f),
+									0.0f + 5.2 * distance * cosf(m_counter / 11.86f * speed) / 2.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(11.2f / 5.0f)); numberofplanets++;// 목성
 
-		SaturnSphere.Init(glm::vec3(0.0f + 9.5 * distance * sinf(m_counter / 29.46f * speed) / 4.0f,
+		SaturnSphere.Init(glm::vec3(0.0f + 9.5 * distance * sinf(m_counter / 29.46f * speed) / 3.0f,
 									0.0f,
-									0.0f + 9.5 * distance * cosf(m_counter / 29.46f * speed) / 4.0f),
+									0.0f + 9.5 * distance * cosf(m_counter / 29.46f * speed) / 3.0f),
 			glm::vec3(-0.3f, 0.0f, 0.0f),
 			glm::vec3(9.4f / 5.0f)); numberofplanets++;// 토성
-		UranusSphere.Init(glm::vec3(0.0f + 19.2 * distance * sinf(m_counter / 84.07f * speed) / 6.0f,
+
+		UranusSphere.Init(glm::vec3(0.0f + 19.2 * distance * sinf(m_counter / 84.07f * speed) / 5.0f,
 									0.0f,
-									0.0f + 19.2 * distance * cosf(m_counter / 84.07f * speed) / 6.0f),
+									0.0f + 19.2 * distance * cosf(m_counter / 84.07f * speed) / 5.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(4.0f / 3.0f)); numberofplanets++;// 천왕성
 
@@ -77,9 +98,9 @@ public:
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(3.9f / 2.0f)); numberofplanets++;// 해왕성
 
-		MoonSphere.Init(glm::vec3(EarthSphere.GetPos().x + 1.0f * distance * sinf(m_counter * 27.0f / 365.0f * speed) / 7.0f,
+		MoonSphere.Init(glm::vec3(EarthSphere.GetPos().x + 0.7f * distance * sinf(m_counter * 27.0f / 365.0f * speed) / 7.0f,
 									0.0f,
-									EarthSphere.GetPos().z + 1.0f * distance * cosf(m_counter * 27.0f / 365.0f * speed) / 7.0f),
+									EarthSphere.GetPos().z + 0.7f * distance * cosf(m_counter * 27.0f / 365.0f * speed) / 7.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(0.25f)); numberofplanets++;// 달
 
@@ -92,12 +113,12 @@ public:
 
 		// Scene 내 빛의 위치들
 		lightTransforms[0].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
-		lightTransforms[1].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
+		/*lightTransforms[1].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
 		lightTransforms[2].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
-		lightTransforms[3].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
+		lightTransforms[3].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));*/
 
 		//모든 행성 쉐이더에 빛 적용
-		for(int i = 0; i < numberofplanets; i++)
+		for(int i = 0; i < numberofplanets + 4; i++)
 		m_shape_manager.GetObject(i)->GetShader()->InputpointLight(lightTransforms, ambient, diffuse, specular);
 	}
 
@@ -130,10 +151,16 @@ private:
 
 		BasicObject* Saturn_Ring = new BasicObject("BasicObjects/Torus", "solarsystem/basicShader_solarsystem", "solarsystem/saturn_ring", &SaturnDonutRing);
 		m_shape_manager.Insert_Object(Saturn_Ring);
+
+		for (int i = 0; i < 4; i++)
+		{
+			BasicObject* light = new BasicObject("BasicObjects/Cube", "lamp", "moon", &lightTransforms[i]);
+			m_shape_manager.Insert_Object(light);
+		}
 	}
 
 private:
-	float distance = 7.0f; // 행성간 거리 비율
+	float distance = 10.0f; // 행성간 거리 비율
 	float speed = 0.1f; // 공전주기 속도 비율
 	Transform SunSphere; // 태양
 	Transform MercurySphere; // 수성
