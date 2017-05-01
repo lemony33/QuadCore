@@ -22,17 +22,32 @@ namespace QuadCore
 		GLFWwindow *window;
 		int m_width;
 		int m_height;
-		struct framebuffer
+
+		struct FrameBuffer
 		{
+			glm::ivec2 size;
 			unsigned int ID;
-			unsigned int color0, color1, depth;
+			unsigned int color_default;
+			unsigned int color_picking;
+			unsigned int depth;
 		} m_Framebuffer;
+
 		unsigned int m_trackedID;
 		unsigned char pixeldata[4];
 		int m_CursorX;
 		int m_CursorY;
+		bool isPrint;
+		bool isMouseClicked;
 
 	public:
+		void SetPrint(bool b)
+		{
+			isPrint = b;
+		}
+		bool GetPrint()
+		{
+			return isprint;
+		}
 		void SetCursor(int x, int y)
 		{
 			m_CursorX = x;
@@ -41,10 +56,6 @@ namespace QuadCore
 		void Clear(float r, float g, float b, float a);
 		void Update();
 		bool IsClosed();
-		framebuffer GetFrameBuffer()
-		{
-			return m_Framebuffer;
-		}
 
 	public:
 		void GetWindowSize(int* width, int* height)
@@ -66,7 +77,6 @@ namespace QuadCore
 			return window;
 		}
 		void SetupFramebuffer();
-		glm::vec4 IntegerToColor(int i);
 		unsigned int GetTrackedID()
 		{
 			return m_trackedID;
@@ -79,5 +89,14 @@ namespace QuadCore
 		{
 			return pixeldata;
 		}
+		int GetWindowWidth() { return m_width; }
+		int GetWindowHeight() { return m_height; }
+		void PrepareFrameBufferForRender(int color_r, int color_g, int color_b, int color_a);
+		glm::vec4 IntegerToColor(int i);
+		void SetIsMouseClicked(bool b)
+		{
+			isMouseClicked = b;
+		}
+		void MousePicking();
 	};
 }

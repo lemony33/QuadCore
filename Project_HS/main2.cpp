@@ -66,7 +66,7 @@ void Main::render()
 
 	// MRT: Render Into Both Layers
 	unsigned int drawbuffers[] = { GL_COLOR_ATTACHMENT0 , GL_COLOR_ATTACHMENT1 };
-	glDrawBuffers(2, drawbuffers);
+	glDrawBuffers(2, drawbuffers);	
 
 	// 式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式 Render Scene
 	static float angle(0);
@@ -156,8 +156,8 @@ void Main::render()
 	glReadBuffer(GL_COLOR_ATTACHMENT0);	// default scene
 	//glReadBuffer(GL_COLOR_ATTACHMENT1);	// that would show you the IDcolors
 
-	//glClearColor(1, 1, 1, 1);		// everything that is white is out of our framebuffers area
-	//glClear(GL_COLOR_BUFFER_BIT);
+	glClearColor(1, 1, 1, 1);		// everything that is white is out of our framebuffers area
+	glClear(GL_COLOR_BUFFER_BIT);
 
 	glBlitFramebuffer(
 		0, 0, m_Framebuffer.size.x, m_Framebuffer.size.y,

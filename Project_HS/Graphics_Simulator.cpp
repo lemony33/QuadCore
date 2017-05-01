@@ -1,5 +1,4 @@
 #include "Graphics_Simulator.h"
-
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
@@ -9,43 +8,41 @@
 typedef unsigned int UINT;
 
 QuadCore::Graphics_Simulator::Graphics_Simulator()
-	: display(width_window, height_window, "Graphics Simulator - QuadCore")
-{
-}
-QuadCore::Graphics_Simulator::~Graphics_Simulator()
-{
-}
+	: display(width_window, height_window, "Graphics Simulator - QuadCore") {}
+QuadCore::Graphics_Simulator::~Graphics_Simulator() {}
+
 void QuadCore::Graphics_Simulator::Run()
 {
-	// Cube
+	// Set Cube
 	Mesh mesh_cube("../media/shape/Cube.obj");
 	Shader shader_cube("../media/basicShader_ray");
 	Texture texture_cube("../media/Pexel.jpeg");
 	Transform transform_cube;
 
-	// CubeHollow
+	// Set CubeHollow
 	Mesh mesh_cubehollow("../media/shape/CubeHollow.obj");
 	Shader shader_cubehollow("../media/basicShader_ray");
 	Texture texture_cubehollow("../media/Pexel.jpeg");
 	Transform transform_cubehollow;
 
+	// Set Camera
 	float aspec = (float)width_window / (float)height_window;
 	Camera camera(glm::vec3(0, 0, 10), 70.0f, aspec, 0.01F, 1000.0f);
 
-	// Plane
+	// Set Floor
 	DrawMap dMap(camera);
-	dMap.SetProperty(10, 1.0f, glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
+	dMap.SetProperty(10, 1.0f, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
-	// Controller
+	// Set Controller
 	Controls controls(display.GetWindow());
 	Controls controller(controls, camera, display);
 
-	int i = 0;
+	int temp_i = 0;
 	while (!display.IsClosed())
 	{
 		// Window
 		display.UpdateWindowSize();
-		display.Clear(1.0f, 1.0f, 1.0f, 1.0f);
+		display.Clear(0.0f, 0.5f, 0.0f, 0.0f);
 
 		// Draw Map
 		dMap.DrawPlane();
@@ -68,8 +65,11 @@ void QuadCore::Graphics_Simulator::Run()
 		shader_cubehollow.Update(transform_cubehollow, camera);
 		mesh_cubehollow.Draw();
 
+		// Picking
+		display.MousePicking();
+
 		// Print Array
-		if (i++ == 0)
+		if (temp_i++ == 0)
 			dMap.PrintArray();
 
 		// Update
