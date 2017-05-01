@@ -14,7 +14,7 @@
 #include "Scene_basicObjects.h"
 #include "Scence_mirror.h"
 #include "Scence_SolarSystem.h"
-
+#include "Scene_SkyBox_Universe.h"
 #include "Scene_SkyBox.h"
 
 
@@ -111,29 +111,26 @@ public:
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	void Init(QuadCore::Camera* camera)
 	{
+		
 		m_scene_list.push_back(new Scene_SkyBox);
-
-		m_scene_list.push_back(new Scene_main);
-
+		m_scene_list.push_back(new Scene_SkyBox_Universe);
+		//m_scene_list.push_back(new Scene_main);
 		//m_scene_list.push_back(new Scene_basicObjects);
 		//m_scene_list.push_back(new Scence_moving_wall);
 		//m_scene_list.push_back(new Scence_moving_block);
-		//m_scene_list.push_back(new Scence_reflect_shader);
-		//m_scene_list.push_back(new Scence_multi_light);
+		m_scene_list.push_back(new Scence_multi_light);
+		m_scene_list.push_back(new Scence_reflect_shader);		
 		m_scene_list.push_back(new Scence_SolarSystem); 
-
 		//m_scene_list.push_back(new Scence_mirror); // 로딩 렉 엄청 김
 		m_scene_list.push_back(scence_mirror); // 로딩 렉 엄청 김
-
+		
 
 		m_scene_list.at(0)->SetEnable(true);	//Scene_SkyBox
-
 		m_scene_list.at(1)->SetEnable(true);	//Scene_main
-
 		m_scene_list.at(2)->SetEnable(true);	//Scene_basicObjects
 		m_scene_list.at(3)->SetEnable(true);	//Scence_moving_wall
-		//m_scene_list.at(4)->SetEnable(false);	//Scence_moving_block
-		//m_scene_list.at(5)->SetEnable(false);	//Scence_moving_cube
+		m_scene_list.at(4)->SetEnable(true);	//Scence_moving_block
+		m_scene_list.at(5)->SetEnable(true);	//Scence_moving_cube
 		//m_scene_list.at(6)->SetEnable(false);	//Scence_reflect_shader
 		//m_scene_list.at(7)->SetEnable(false);	//Scence_multi_light
 		//m_scene_list.at(8)->SetEnable(true);	//Scence_SolarSystem
@@ -183,24 +180,61 @@ public:
 
 		for (int i = 0; i < m_scene_list.size(); i++)
 		{
+			glm::vec3 pos[3]; 
+			glm::vec3 ambient[3];
+			glm::vec3 diffuse[3];
+			glm::vec3 specular[3];
+			for(int i = 0; i < 3; i++)
+			{
+				pos[i] = glm::vec3(scene.multilights[i].posX, scene.multilights[i].posY, scene.multilights[i].posZ);
+				ambient[i] = glm::vec3(scene.multilights[i].ambient[0], scene.multilights[i].ambient[1], scene.multilights[i].ambient[2]);
+				diffuse[i] = glm::vec3(scene.multilights[i].diffuse[0], scene.multilights[i].diffuse[1], scene.multilights[i].diffuse[2]);
+				specular[i] = glm::vec3(scene.multilights[i].specular[0], scene.multilights[i].specular[1], scene.multilights[i].specular[2]);
+			}
+
 			//UI 값에 맞는 씬만 플레이
 			if (i == scene.SceneNumber)
 			{
-				// 이 부분을 나중에 switch로 하여 씬마다 필요한 메뉴를 추가하기
-				if (i == 3) // mirror 씬 일때
+				int j = i + 2;
+				switch (i)
 				{
+				case 0:
+					//씬 재생
+					m_scene_list.at(1)->Play();
+					m_scene_list.at(j)->Play();
+					//sphere 메뉴 제거. 없으면 없다고 콘솔에 메시지는 뜨나 상관없음
+					TwRemoveVar(mainUI, "NumberofSphere");
+					break;
+
+				case 1:
+					//씬 재생
+					m_scene_list.at(0)->Play();
+					m_scene_list.at(j)->Play();
+					//sphere 메뉴 제거. 없으면 없다고 콘솔에 메시지는 뜨나 상관없음
+					TwRemoveVar(mainUI, "NumberofSphere");
+					break;
+
+				case 2:
+					//씬 재생
+					m_scene_list.at(1)->Play();
+					m_scene_list.at(j)->Play(pos, ambient, diffuse, specular);
+					
+					//sphere 메뉴 제거. 없으면 없다고 콘솔에 메시지는 뜨나 상관없음
+					TwRemoveVar(mainUI, "NumberofSphere");
+					break;
+
+				case 3:
 					//sphere 갯수 정하는 UI 추가. 콘솔에서 오류사항 표기해주며 중복 생성 안되게 되있음
 					TwAddVarRW(mainUI, "NumberofSphere", TW_TYPE_INT32, &scene.Spheres,
 						" min=0 max=64 help='Change a number of sphere' ");
 					//씬 재생
-					m_scene_list.at(i)->Play(scene.Spheres);
-				}
-				else
-				{
-					//씬 재생
-					m_scene_list.at(i)->Play();
-					//sphere 메뉴 제거. 없으면 없다고 콘솔에 메시지는 뜨나 상관없음
-					TwRemoveVar(mainUI, "NumberofSphere");
+					m_scene_list.at(0)->Play();
+					m_scene_list.at(3)->Play();
+					m_scene_list.at(j)->Play(scene.Spheres);
+					break;
+
+				default:
+					break;
 				}
 			}
 		}

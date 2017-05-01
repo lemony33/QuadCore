@@ -63,14 +63,26 @@ public:
 			if (m_key == '-')
 				subSphereNum--;
 		}
-		for (int i = 0; i < subSphereNum; i++)
+		for (int i = 0; i < LIMIT; i++)
 		{
-			MirrorSphere[i].Init(glm::vec3(5 * sinf((m_counter + i * 0.2f) / 5) * cosf(-(m_counter + i * 0.2f) / 5),
-				5 * sinf(-(m_counter + i * 0.2f) / 5),
-				5 * cosf((m_counter + i * 0.2f) / 5) * cosf(-(m_counter + i * 0.2f) / 5)),
-				glm::vec3(),
-				glm::vec3(0.5f, 0.5f, 0.5f)
-			);
+			if (i < subSphereNum)
+			{
+				MirrorSphere[i].Init(glm::vec3(5 * sinf((m_counter + i * 0.2f) / 5) * cosf(-(m_counter + i * 0.2f) / 5),
+					5 * sinf(-(m_counter + i * 0.2f) / 5),
+					5 * cosf((m_counter + i * 0.2f) / 5) * cosf(-(m_counter + i * 0.2f) / 5)),
+					glm::vec3(),
+					glm::vec3(0.5f, 0.5f, 0.5f)
+				);
+			}
+			else
+			{
+				MirrorSphere[i].Init(glm::vec3(5 * sinf((m_counter + i * 0.2f) / 5) * cosf(-(m_counter + i * 0.2f) / 5),
+					5 * sinf(-(m_counter + i * 0.2f) / 5),
+					5 * cosf((m_counter + i * 0.2f) / 5) * cosf(-(m_counter + i * 0.2f) / 5)),
+					glm::vec3(),
+					glm::vec3(0.0f, 0.0f, 0.0f)
+				);
+			}
 		}
 	}
 

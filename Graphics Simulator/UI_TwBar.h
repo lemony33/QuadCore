@@ -16,6 +16,18 @@ struct Light
 	char    Name[4];				// light short name (will be named "1", "2", "3",...)
 	enum    AnimMode { ANIM_FIXED, ANIM_BOUNCE, ANIM_ROTATE, ANIM_COMBINED };
 	AnimMode Animation;				// light animation mode
+	float specular[4];
+};
+
+struct MultiLight
+{
+	char    Name[4];				// light short name (will be named "1", "2", "3",...)
+	float posX;
+	float posY;
+	float posZ;
+	float ambient[4];
+	float diffuse[4];
+	float specular[4];
 };
 
 class Scene
@@ -57,6 +69,7 @@ public:
 	//본 프로젝트에 맞춘 추가적인 변수들
 	int SceneNumber = 0;
 	int Spheres = 5;
+	MultiLight * multilights;
 
 private:
 	void    CreateBar();                    // create a tweak bar for lights
@@ -71,6 +84,7 @@ private:
 	int     maxLights;                      // maximum number of dynamic lights allowed by the graphic card
 	Light * lights;                         // array of lights
 	TwBar * lightsBar;                      // pointer to the tweak bar for lights created by CreateBar()
+	
 };
 
 #endif
