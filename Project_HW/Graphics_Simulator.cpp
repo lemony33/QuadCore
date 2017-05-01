@@ -90,14 +90,15 @@ void QuadCore::Graphics_Simulator::Run()
 
 	
 	// 1. Object
-	Mesh mesh1("../media/shape/Cube.obj");
+	//Mesh mesh1("../media/shape/Sphere.obj");
+	Mesh mesh1("../resources/objects/test/octahedron.obj");
 	//Mesh mesh1("../media/shape/Wedge.obj");
 	//Mesh mesh1("../media/shape/CubeHollow.obj");
 	Mesh mesh2("../media/shape/CubeHollow.obj");
 	Mesh mesh3("../media/shape/Icosphere.obj");
-	Mesh SphereMesh("../media/shape/bunny.obj");
+	Mesh SphereMesh("../media/shape/lucy.obj");
 	Mesh skyboxMesh(SkyBoxVerties, sizeof(SkyBoxVerties) / sizeof(SkyBoxVerties[0]), indices, sizeof(indices) / sizeof(indices[0]));
-	//Mesh nanosuitMesh("../media/objects/nanosuit_reflection/nanosuit.obj");
+	Mesh nanosuitMesh("../media/shape/lucy.obj");
 
 	
 
@@ -199,7 +200,10 @@ void QuadCore::Graphics_Simulator::Run()
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 		//### 유리, 금속
-		/*
+
+		glassTrans.SetScale(glm::vec3(10, 10, 10));		//
+		mirrorTrans.SetScale(glm::vec3(10, 10, 10));	//
+		
 		glassShader.Bind();
 		skyboxTexture.Bind(0);
 		glassShader.Update(glassTrans, camera);
@@ -208,7 +212,7 @@ void QuadCore::Graphics_Simulator::Run()
 		mirrorShader.Bind();
 		skyboxTexture.Bind(0);
 		mirrorShader.Update(mirrorTrans, camera);
-		nanosuitMesh.Draw();*/
+		nanosuitMesh.Draw();
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		

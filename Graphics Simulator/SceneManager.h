@@ -113,12 +113,12 @@ public:
 	{
 		m_scene_list.push_back(new Scene_SkyBox);
 
-		m_scene_list.push_back(new Scene_main);
+		//m_scene_list.push_back(new Scene_main);
 
 		//m_scene_list.push_back(new Scene_basicObjects);
 		//m_scene_list.push_back(new Scence_moving_wall);
 		//m_scene_list.push_back(new Scence_moving_block);
-		//m_scene_list.push_back(new Scence_reflect_shader);
+		m_scene_list.push_back(new Scence_reflect_shader);
 		//m_scene_list.push_back(new Scence_multi_light);
 		m_scene_list.push_back(new Scence_SolarSystem); 
 
