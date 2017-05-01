@@ -50,6 +50,6 @@ private:
 	QuadCore::Transform* glassTrans;
 	QuadCore::Transform* mirrorTrans;
 
-	float m_height = 30.0f;
+	float m_height = 50.0f;
 };
 

@@ -256,6 +256,7 @@ void QuadCore::Graphics_Simulator::Run()
 		multiLightShader.Update(multitest, camera);
 		SphereMesh.Draw();
 
+		lampShader.InputpointLight(lightTransforms, ambient, diffuse, specular);
 		for (int i = 0; i < 4; i++)
 		{
 			lampShader.Bind();
@@ -345,7 +346,7 @@ void QuadCore::Graphics_Simulator::Run()
 
 
 
-
+			 
 
 			glDepthFunc(GL_LEQUAL);
 			skyboxShader.Bind();

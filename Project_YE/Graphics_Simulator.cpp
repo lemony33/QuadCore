@@ -23,7 +23,6 @@ void QuadCore::Graphics_Simulator::Run()
 	Mesh mesh2("../media/shape/CubeHollow.obj");
 	Mesh mesh3("../media/shape/Icosphere.obj");
 	
-
 	// 2. Shader
 	Shader shader1("../media/new_shader/basicShader_light");
 	Shader shader2("../media/new_shader/basicShader_tex");
@@ -48,7 +47,7 @@ void QuadCore::Graphics_Simulator::Run()
 	Controls controls(display.GetWindow());
 	Controls controller(controls, camera, world_transform);
 
-	// Draw Map 새로 추가된 부분
+	// Draw Map
 	DrawMap dMap(camera);
 	dMap.SetProperty(100, 1.0f, glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
 
@@ -66,13 +65,14 @@ void QuadCore::Graphics_Simulator::Run()
 
 	float counter = 0.0f;
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////// UI 중에 MAIN 부분 ///////////////////
 
 	float bgColor[] = { 0.1f, 0.2f, 0.4f };         // Background color 
 	unsigned char cubeColor[] = { 255, 0, 0, 128 }; // Model color (32bits RGBA)
 	float g_Rotation[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	float g_LightDirection[] = { -0.57735f, -0.57735f, -0.57735f };
 
+	// UI_TwBar.h의 Scene 불러오기
 	Scene scene;
 	
 	// Initialize AntTweakBar
@@ -85,7 +85,7 @@ void QuadCore::Graphics_Simulator::Run()
 	// 시간
 	TwAddVarRO(mainBar, "Time", TW_TYPE_DOUBLE, &scene.time, "precision=1 help='Time (in seconds).' ");
 
-	TwAddSeparator(mainBar, "", NULL);	// 아래쪽에 line생성
+	TwAddSeparator(mainBar, "", NULL);	// UI 아래쪽에 line생성
 
 	// Wireframe 효과
 	TwAddVarRW(mainBar, "Wireframe", TW_TYPE_BOOLCPP, &scene.Wireframe,
@@ -125,13 +125,8 @@ void QuadCore::Graphics_Simulator::Run()
 	TwAddVarRW(mainBar, "Obj Rotation Scene", rotationType, &scene.Rotation,
 				" keyIncr=Backspace keyDecr=SHIFT+Backspace help='Stop or change the rotation mode.' ");
 
-
-
 	scene.Init(true);
 	//////////////////////////////
-
-	// Initialize the 3D scene
-//	Scene scene;
 	
 
 	while (!display.IsClosed())
@@ -142,7 +137,8 @@ void QuadCore::Graphics_Simulator::Run()
 		display.UpdateWindowSize();	// 화면 갱신
 		camera.Update(camera.GetPos(), 70.0f, display.GetWindowAspec(), 0.01F, 1000.0f);
 
-		// TwSimple 배경추가
+
+		///////// UI 배경 변경 ///////////////
 		display.Clear(scene.BgColor0[0], scene.BgColor0[1], scene.BgColor0[2], 1);	// 배경 초기화	
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -178,11 +174,7 @@ void QuadCore::Graphics_Simulator::Run()
 		transform1.GetRot().x = scene.turn * 0.3f;
 
 		shader1.Update(transform1, camera);
-		mesh1.Draw();
-
-
-		//coor_model_1.Draw();
-	
+		mesh1.Draw();	
 
 		// Move lights
 		scene.Update(scene.time);
@@ -192,11 +184,12 @@ void QuadCore::Graphics_Simulator::Run()
 		texture1.Bind(0);
 		shader1.Update(sceneT, camera);
 
-		// Draw Light UI 
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+		// LIGHT UI 그려주기 ////////// 
 		scene.Draw();
 
-		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-		// Draw tweak bar UI
+		// MAING UI 그려주기 //////////
 		TwDraw();
 
 		display.Update();	// 화면갱신

@@ -36,6 +36,9 @@ public:
 		m_shape_manager.DrawAll();
 	}
 
+	//인자 전달용 play 오버로딩 함수. 각 함수마다 변수를 처리하는게 다를 수 있으므로 자식에서 함수 내용 정하도록
+	virtual void Play(int pos) {}
+
 	// 카운터를 설정한다
 	static void SetCounter(float counter)
 	{

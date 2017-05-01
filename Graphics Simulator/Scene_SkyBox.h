@@ -29,6 +29,7 @@ private:
 	{
 		using QuadCore::iShape;
 		iShape* skybox_lake = new SkyBox("skybox");
+		//iShape* skybox_lake = new SkyBox("milkyway");
 		m_shape_manager.Insert_Object(skybox_lake);
 	}
 };

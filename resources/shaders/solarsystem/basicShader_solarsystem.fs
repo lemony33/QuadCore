@@ -4,13 +4,15 @@
 in vec2 texCoord0;  //texture
 in vec3 normal0;    //lighting
 in vec3 FragPos; //***********
-in vec3 LPOS;
-//dirLight
+in vec3 LPOS; // 이 쉐이더의 메인
+
+//dirLight : 원래는 유니티에 DirectLight같은 Default 빛 정보들
 uniform vec3 lightPos;
 uniform vec3 light_ambient;
 uniform vec3 light_diffuse;
 uniform vec3 light_specular;
 
+// 추가적인 빛들의 정보 구조체
 struct PointLight{
 	vec3 lightPos;
 	vec3 light_ambient;
@@ -33,7 +35,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 
 void main()
 {
-	if(LPOS.x == 0 && LPOS.z == 0)
+	if(LPOS.x == 0 && LPOS.z == 0) // 이 쉐이더가 태양꺼일때
 		gl_FragColor = vec4(vec3(texture(texture_diffuse, texCoord0)) * 2.0 , 1.0);
 	else
 	{

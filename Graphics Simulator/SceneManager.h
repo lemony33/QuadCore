@@ -12,7 +12,7 @@
 #include "Scence_reflect_shader.h"
 #include "Scence_multi_light.h"
 #include "Scene_basicObjects.h"
-//#include "Scence_mirror.h"
+#include "Scence_mirror.h"
 #include "Scence_SolarSystem.h"
 
 #include "Scene_SkyBox.h"
@@ -30,7 +30,7 @@ public:
 	float g_LightDirection[3] = { -0.57735f, -0.57735f, -0.57735f };
 
 	Scene scene;
-
+	TwBar *mainUI; // play 함수에서 UI 불러오도록 하기위해 추가. 
 	SceneManager()
 	{		
 		
@@ -46,13 +46,20 @@ public:
 		TwAddVarRO(mainBar, "Time", TW_TYPE_DOUBLE, &scene.time, "precision=1 help='Time (in seconds).' ");
 
 		TwAddSeparator(mainBar, "", NULL);	// 아래쪽에 line생성
-
-											// Wireframe 효과
+		
+		// 씬 변경하는 메뉴, SceneNumber 변수를 조절함
+		TwAddVarRW(mainBar, "Scene Number", TW_TYPE_INT32, &scene.SceneNumber,
+			" min=0 max=3 help='Change Scene' ");
+		//TwAddVarRW(TwBar *bar, const char *name, TwType type, void *var, const char *def);
+		TwAddSeparator(mainBar, "", NULL);
+		
+		/*
+		// Wireframe 효과
 		TwAddVarRW(mainBar, "Wireframe", TW_TYPE_BOOLCPP, &scene.Wireframe,
 			"key=w help='Toggle wireframe display mode.' ");
 
 		TwAddSeparator(mainBar, "", NULL);
-
+		
 		// Background 컬러 변경
 		TwAddVarRW(mainBar, "Background Color", TW_TYPE_COLOR3F, &scene.BgColor0,
 			" help='Change the top background color.' ");
@@ -84,18 +91,20 @@ public:
 		TwType rotationType = TwDefineEnum("Rotation Mode", rotationEV, 3);
 		TwAddVarRW(mainBar, "Obj Rotation Scene", rotationType, &scene.Rotation,
 			" keyIncr=Backspace keyDecr=SHIFT+Backspace help='Stop or change the rotation mode.' ");
-
+		*/
 
 
 		scene.Init(true);
 
-
+		mainUI = mainBar; // 이 함수에서 정의된 UI를 변수에 연결
 		
 	}
 
 	virtual ~SceneManager()
 	{
 	}
+
+	Scence_mirror* scence_mirror = new Scence_mirror();
 
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	// 필요한 설정값 초기화
@@ -110,16 +119,18 @@ public:
 		//m_scene_list.push_back(new Scence_moving_wall);
 		//m_scene_list.push_back(new Scence_moving_block);
 		//m_scene_list.push_back(new Scence_reflect_shader);
-		m_scene_list.push_back(new Scence_multi_light);
+		//m_scene_list.push_back(new Scence_multi_light);
 		m_scene_list.push_back(new Scence_SolarSystem); 
+
 		//m_scene_list.push_back(new Scence_mirror); // 로딩 렉 엄청 김
+		m_scene_list.push_back(scence_mirror); // 로딩 렉 엄청 김
 
 
-		m_scene_list.at(0)->SetEnable(false);	//Scene_SkyBox
+		m_scene_list.at(0)->SetEnable(true);	//Scene_SkyBox
 
 		m_scene_list.at(1)->SetEnable(true);	//Scene_main
 
-		m_scene_list.at(2)->SetEnable(false);	//Scene_basicObjects
+		m_scene_list.at(2)->SetEnable(true);	//Scene_basicObjects
 		m_scene_list.at(3)->SetEnable(true);	//Scence_moving_wall
 		//m_scene_list.at(4)->SetEnable(false);	//Scence_moving_block
 		//m_scene_list.at(5)->SetEnable(false);	//Scence_moving_cube
@@ -139,7 +150,14 @@ public:
 		{
 			m_scene_list.at(i)->Init(camera);
 		}
-	}		
+	}
+
+	public:
+		char m_cur_key = NULL;
+		void Set_CurKey(char cur_key)
+		{
+			m_cur_key = cur_key;
+		}
 
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	// 장면을 재생한다.
@@ -151,7 +169,11 @@ public:
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-		dMap.DrawPlane();		// Draw Map	
+		//dMap.DrawPlane();		// Draw Map	
+
+		
+		scence_mirror->KeyInput(m_cur_key);
+
 		
 		// TwSimple 배경추가
 		//display.Clear(scene.BgColor0[0], scene.BgColor0[1], scene.BgColor0[2], 1);	// 배경 초기화	
@@ -161,7 +183,26 @@ public:
 
 		for (int i = 0; i < m_scene_list.size(); i++)
 		{
-			m_scene_list.at(i)->Play();
+			//UI 값에 맞는 씬만 플레이
+			if (i == scene.SceneNumber)
+			{
+				// 이 부분을 나중에 switch로 하여 씬마다 필요한 메뉴를 추가하기
+				if (i == 3) // mirror 씬 일때
+				{
+					//sphere 갯수 정하는 UI 추가. 콘솔에서 오류사항 표기해주며 중복 생성 안되게 되있음
+					TwAddVarRW(mainUI, "NumberofSphere", TW_TYPE_INT32, &scene.Spheres,
+						" min=0 max=64 help='Change a number of sphere' ");
+					//씬 재생
+					m_scene_list.at(i)->Play(scene.Spheres);
+				}
+				else
+				{
+					//씬 재생
+					m_scene_list.at(i)->Play();
+					//sphere 메뉴 제거. 없으면 없다고 콘솔에 메시지는 뜨나 상관없음
+					TwRemoveVar(mainUI, "NumberofSphere");
+				}
+			}
 		}
 
 		// Rotate model	// TwSimple Rotation 추가

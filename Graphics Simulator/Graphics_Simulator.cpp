@@ -86,13 +86,15 @@ void QuadCore::Graphics_Simulator::Run()
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		
 		//### 시나리오별 장면 재생
+		printf("%c \n", controller.Get_curKey());
+		m_scene_manager.Set_CurKey(controller.Get_curKey());
 		m_scene_manager.Play();
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 				
 
 		// 월드 좌표계 그리기
-		m_world_coordinates.Draw();
+		//m_world_coordinates.Draw();
 		
 		
 
