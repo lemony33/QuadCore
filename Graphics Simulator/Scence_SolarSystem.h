@@ -154,7 +154,7 @@ private:
 
 		for (int i = 0; i < 4; i++)
 		{
-			BasicObject* light = new BasicObject("BasicObjects/Cube", "lamp", "moon", &lightTransforms[i]);
+			BasicObject* light = new BasicObject("Bulb", "lamp", "moon", &lightTransforms[i]);
 			m_shape_manager.Insert_Object(light);
 		}
 	}
