@@ -96,9 +96,10 @@ void QuadCore::Graphics_Simulator::Run()
 	//Mesh mesh1("../media/shape/CubeHollow.obj");
 	Mesh mesh2("../media/shape/CubeHollow.obj");
 	Mesh mesh3("../media/shape/Icosphere.obj");
-	Mesh SphereMesh("../media/shape/lucy.obj");
+	//Mesh SphereMesh("../resources/objects/test/LivingRoom.obj");
+	Mesh SphereMesh("../media/res/chess.obj");
 	Mesh skyboxMesh(SkyBoxVerties, sizeof(SkyBoxVerties) / sizeof(SkyBoxVerties[0]), indices, sizeof(indices) / sizeof(indices[0]));
-	Mesh nanosuitMesh("../media/shape/lucy.obj");
+	Mesh nanosuitMesh("../media/shape/Cube.obj");
 
 	
 
@@ -116,6 +117,8 @@ void QuadCore::Graphics_Simulator::Run()
 
 	//3. Texture
 	Texture texture1("../media/res/bricks.jpg");
+	//Texture texture1("../media/res/earth.jpg");
+
 	Texture texture2("../media/skyblue.jpg");
 	Texture SlimeTexture("../media/res/slime.jpg");
 	Texture JupiterTexture("../media/res/Jupiter.jpg");
@@ -201,18 +204,18 @@ void QuadCore::Graphics_Simulator::Run()
 
 		//### 유리, 금속
 
-		glassTrans.SetScale(glm::vec3(10, 10, 10));		//
-		mirrorTrans.SetScale(glm::vec3(10, 10, 10));	//
-		
-		glassShader.Bind();
-		skyboxTexture.Bind(0);
-		glassShader.Update(glassTrans, camera);
-		nanosuitMesh.Draw();
+		//glassTrans.SetScale(glm::vec3(10, 10, 10));		//
+		//mirrorTrans.SetScale(glm::vec3(10, 10, 10));	//
+		//
+		//glassShader.Bind();
+		//skyboxTexture.Bind(0);
+		//glassShader.Update(glassTrans, camera);
+		//nanosuitMesh.Draw();
 
-		mirrorShader.Bind();
-		skyboxTexture.Bind(0);
-		mirrorShader.Update(mirrorTrans, camera);
-		nanosuitMesh.Draw();
+		//mirrorShader.Bind();
+		//skyboxTexture.Bind(0);
+		//mirrorShader.Update(mirrorTrans, camera);
+		//nanosuitMesh.Draw();
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		
@@ -253,7 +256,7 @@ void QuadCore::Graphics_Simulator::Run()
 			glm::vec3(0.5f, 0.5f, 1.0f),
 			glm::vec3(1.0f, 1.0f, 1.0f),
 		};
-		Transform multitest(glm::vec3(0, -1.0f, 0), glm::vec3(), glm::vec3(10.0f));
+		Transform multitest(glm::vec3(0, -1.0f, 0), glm::vec3(), glm::vec3(0.01f));
 		multiLightShader.InputpointLight(lightTransforms, ambient, diffuse, specular);
 		multiLightShader.Bind();
 		texture1.Bind(0);
@@ -344,7 +347,6 @@ void QuadCore::Graphics_Simulator::Run()
 					texture1.Bind(0);
 					shader1.Update(BarTransform, camera);
 					mesh1.Draw();
-
 				}
 			}
 
@@ -352,12 +354,12 @@ void QuadCore::Graphics_Simulator::Run()
 
 			 
 
-			glDepthFunc(GL_LEQUAL);
-			skyboxShader.Bind();
-			skyboxTexture.Bind(0);
-			skyboxMesh.Draw();
-			skyboxShader.Update(world_transform, camera);
-			glDepthFunc(GL_LESS);
+			//glDepthFunc(GL_LEQUAL);
+			//skyboxShader.Bind();
+			//skyboxTexture.Bind(0);
+			//skyboxMesh.Draw();
+			//skyboxShader.Update(world_transform, camera);
+			//glDepthFunc(GL_LESS);
 		}
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ

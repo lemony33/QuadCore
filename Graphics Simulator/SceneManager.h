@@ -12,11 +12,12 @@
 #include "Scence_reflect_shader.h"
 #include "Scence_multi_light.h"
 #include "Scene_basicObjects.h"
-#include "Scence_mirror.h"
+//#include "Scence_mirror.h"
 #include "Scence_SolarSystem.h"
 #include "Scene_SkyBox_Universe.h"
 #include "Scene_SkyBox.h"
 
+#include "Scene_room.h"
 
 #include "UI_TwBar.h"
 
@@ -104,25 +105,33 @@ public:
 	{
 	}
 
-	Scence_mirror* scence_mirror = new Scence_mirror();
+	//Scence_mirror* scence_mirror = new Scence_mirror();
 
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	// 필요한 설정값 초기화
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	void Init(QuadCore::Camera* camera)
 	{
-		
 		m_scene_list.push_back(new Scene_SkyBox);
 		m_scene_list.push_back(new Scene_SkyBox_Universe);
-		//m_scene_list.push_back(new Scene_main);
-		//m_scene_list.push_back(new Scene_basicObjects);
-		//m_scene_list.push_back(new Scence_moving_wall);
-		//m_scene_list.push_back(new Scence_moving_block);
-		m_scene_list.push_back(new Scence_multi_light);
-		m_scene_list.push_back(new Scence_reflect_shader);		
-		m_scene_list.push_back(new Scence_SolarSystem); 
-		//m_scene_list.push_back(new Scence_mirror); // 로딩 렉 엄청 김
-		m_scene_list.push_back(scence_mirror); // 로딩 렉 엄청 김
+
+		m_scene_list.push_back(new Scene_room);
+		m_scene_list.push_back(new Scene_main);
+		m_scene_list.push_back(new Scene_main);
+		m_scene_list.push_back(new Scene_main);
+		m_scene_list.push_back(new Scene_main);
+		////m_scene_list.push_back(new Scene_main);
+		////m_scene_list.push_back(new Scene_basicObjects);
+		////m_scene_list.push_back(new Scence_moving_wall);
+		////m_scene_list.push_back(new Scence_moving_block);
+		//m_scene_list.push_back(new Scence_multi_light);
+		//m_scene_list.push_back(new Scence_reflect_shader);		
+		//m_scene_list.push_back(new Scence_SolarSystem); 
+		////m_scene_list.push_back(new Scence_mirror); // 로딩 렉 엄청 김
+		//m_scene_list.push_back(scence_mirror); // 로딩 렉 엄청 김
+
+		
+
 		
 
 		m_scene_list.at(0)->SetEnable(true);	//Scene_SkyBox
@@ -169,7 +178,7 @@ public:
 		//dMap.DrawPlane();		// Draw Map	
 
 		
-		scence_mirror->KeyInput(m_cur_key);
+		//scence_mirror->KeyInput(m_cur_key);
 
 		
 		// TwSimple 배경추가
@@ -200,7 +209,7 @@ public:
 				{
 				case 0:
 					//씬 재생
-					m_scene_list.at(1)->Play();
+					//m_scene_list.at(1)->Play();
 					m_scene_list.at(j)->Play();
 					//sphere 메뉴 제거. 없으면 없다고 콘솔에 메시지는 뜨나 상관없음
 					TwRemoveVar(mainUI, "NumberofSphere");

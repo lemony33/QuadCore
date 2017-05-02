@@ -23,5 +23,4 @@ private:
 	virtual void Draw()
 	{
 	}
-
 };
