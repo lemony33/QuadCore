@@ -129,7 +129,7 @@ private:
 		glUniform3f(m_uniforms[OBJECT_COLOR_U], 1.0f, 0.0f, 0.0f);
 
 
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 5; i++)
 		{
 			glUniform3f(glGetUniformLocation(m_program, pointLight[i].uniformName[0].c_str()),
 				pointLight[i].positiion.x, pointLight[i].positiion.y, pointLight[i].positiion.z);
@@ -190,12 +190,12 @@ private:
 	GLuint m_uniforms[NUM_UNIFORMS];
 
 	///
-	PointLight pointLight[4];
+	PointLight pointLight[5];
 
 public:
 	void InputpointLight(Transform* lightPositions, glm::vec3* ambient, glm::vec3* diffuse, glm::vec3* specular)
 	{
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 5; i++)
 		{
 			pointLight[i].SetValue(i, lightPositions[i].GetPos(), ambient[i], diffuse[i], specular[i]);
 		}

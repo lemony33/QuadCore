@@ -18,7 +18,7 @@ public:
 	}
 
 public:
-	virtual void Play(glm::vec3* pos, glm::vec3* ambient, glm::vec3* diffuse, glm::vec3* specular)
+	virtual void Play(int speed, glm::vec3* pos, glm::vec3* ambient, glm::vec3* diffuse, glm::vec3* specular)
 	{
 		if (!m_enable)
 			return;
@@ -116,9 +116,23 @@ public:
 		/*lightTransforms[1].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
 		lightTransforms[2].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
 		lightTransforms[3].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));*/
+		
+		lightTransforms[4].Init(glm::vec3(0 + nuclear * distance * sinf(m_counter / 0.4f * speed),
+			0,
+			0 + nuclear * distance * cosf(m_counter / 0.4f * speed)),
+			glm::vec3(),
+			glm::vec3(0.2f));
+		if (nuclear < 35/7 && reverse == false)
+			nuclear += 0.001f;
+		else if (nuclear > 35/7 && reverse == false)
+			reverse = true;
+		else if (nuclear > 0 && reverse == true)
+			nuclear -= 0.001f;
+		else if (nuclear <= 0 && reverse == true)
+			reverse = false;
 
 		//모든 행성 쉐이더에 빛 적용
-		for(int i = 0; i < numberofplanets + 4; i++)
+		for(int i = 0; i < numberofplanets + 5; i++)
 		m_shape_manager.GetObject(i)->GetShader()->InputpointLight(lightTransforms, ambient, diffuse, specular);
 	}
 
@@ -152,14 +166,16 @@ private:
 		BasicObject* Saturn_Ring = new BasicObject("BasicObjects/Torus", "solarsystem/basicShader_solarsystem", "solarsystem/saturn_ring", &SaturnDonutRing);
 		m_shape_manager.Insert_Object(Saturn_Ring);
 
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 5; i++)
 		{
-			BasicObject* light = new BasicObject("Bulb", "lamp", "moon", &lightTransforms[i]);
+			BasicObject* light = new BasicObject("BasicObjects/Sphere", "lamp", "moon", &lightTransforms[i]);
 			m_shape_manager.Insert_Object(light);
 		}
 	}
 
 private:
+	bool reverse = false;
+	float nuclear = 0;
 	float distance = 10.0f; // 행성간 거리 비율
 	float speed = 0.1f; // 공전주기 속도 비율
 	Transform SunSphere; // 태양
@@ -176,28 +192,31 @@ private:
 	Transform SaturnDonutRing; // 토성 링
 	
 	// multiLight
-	Transform lightTransforms[4];
+	Transform lightTransforms[5];
 
-	glm::vec3 ambient[4] =
+	glm::vec3 ambient[5] =
 	{
 		glm::vec3(0.1f), // 태양 빛
 		glm::vec3(0.00f, 0.00f, 0.00f),
 		glm::vec3(0.00f, 0.00f, 0.00f),
 		glm::vec3(0.00f, 0.00f, 0.00f),
+		glm::vec3(0.5f, 0.1f, 0.1f)
 	};
-	glm::vec3 diffuse[4] =
+	glm::vec3 diffuse[5] =
 	{
 		glm::vec3(1.0f), // 태양 빛
 		glm::vec3(0.00f, 0.00f, 0.00f),
 		glm::vec3(0.00f, 0.00f, 0.00f),
 		glm::vec3(0.00f, 0.00f, 0.00f),
+		glm::vec3(0.6f, 0.2f, 0.2f)
 	};
-	glm::vec3 specular[4] =
+	glm::vec3 specular[5] =
 	{
 		glm::vec3(1.0f), // 태양 빛
 		glm::vec3(0.00f, 0.00f, 0.00f),
 		glm::vec3(0.00f, 0.00f, 0.00f),
 		glm::vec3(0.00f, 0.00f, 0.00f),
+		glm::vec3(0.6f, 0.2f, 0.2f)
 	};
 };
 
