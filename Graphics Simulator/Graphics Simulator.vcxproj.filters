@@ -173,5 +173,8 @@
     <ClInclude Include="World_coordinate.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Scene_ShowRoom.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

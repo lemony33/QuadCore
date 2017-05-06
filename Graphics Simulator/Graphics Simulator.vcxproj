@@ -55,6 +55,7 @@
     <ClInclude Include="Scene_basicObjects.h" />
     <ClInclude Include="Scene_main.h" />
     <ClInclude Include="Scene_room.h" />
+    <ClInclude Include="Scene_ShowRoom.h" />
     <ClInclude Include="Scene_SkyBox_Universe.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="iShape.h" />

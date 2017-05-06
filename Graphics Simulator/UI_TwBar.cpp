@@ -138,7 +138,7 @@ void Scene::CreateBar()
 
 	// Bar 이름
 	lightsBar = TwNewBar("Lights");
-	TwDefine(" Lights label='LIGHTS' position='20 400' alpha=0 help='Use this bar to edit the lights in the scene.' ");
+	TwDefine(" Lights label='LIGHTS' size ='245 450' position='30 450' alpha=0 help='Use this bar to edit the lights in the scene.' ");
 
 	// 추가 될 각 multilight의 속성 
 	TwStructMember lightMembers[] = // Light structure
@@ -157,7 +157,7 @@ void Scene::CreateBar()
 	for (int i = 0; i<3; ++i)  // Add 'maxLights' variables of type lightType; 
 	{   // unused lights variables (over NumLights) will hidden by Scene::Update( )
 		_snprintf(multilights[i].Name, sizeof(multilights[i].Name), "%d", i + 1);							// Create a name for each light ("1", "2", "3",...)
-		TwAddVarRW(lightsBar, multilights[i].Name, lightType, &multilights[i], " group='Edit lights' ");  // Add a lightType variable and group it into the 'Edit lights' group
+		TwAddVarRW(lightsBar, multilights[i].Name, lightType, &multilights[i], " opened=true group='Edit lights' ");  // Add a lightType variable and group it into the 'Edit lights' group
 
 																								// Set 'label' and 'help' parameters of the light
 		char paramValue[64];
