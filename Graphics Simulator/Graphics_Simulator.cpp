@@ -20,23 +20,11 @@ QuadCore::Graphics_Simulator::~Graphics_Simulator()
 
 
 void QuadCore::Graphics_Simulator::Run()
-{	
-
-	Shader shader_UI = ("../media/new_shader/basicShader_2D_HUD");
-	Texture texture1("../media/res/bricks.jpg");
-
-	/*Texture SlimeTexture("../media/res/slime.jpg");*/
-	//Texture JupiterTexture("../media/res/Jupiter.jpg");
-	//Texture EarthTexture("../media/res/earth.jpg");
-	//Texture MoonTexture("../media/res/moon.jpg");
-
-
+{
 	//4. Transform
 	Transform world_transform;
-	Transform UI_transform;
+	///Transform UI_transform;
 
-	Transform glassTrans(glm::vec3(10.0, 0, 0));
-	Transform mirrorTrans(glm::vec3(-10.0, 0, 0));
 		
 	//5. Camera
 	float aspec = (float)width_window / (float)height_window;
@@ -46,18 +34,12 @@ void QuadCore::Graphics_Simulator::Run()
 	Controls controls(display.GetWindow());
 	Controls controller(controls, camera, world_transform);
 
-	m_world_coordinates.Init(&world_transform, &camera, 50.0f);
-	m_UI_coordinates.Init_UI(&UI_transform, &camera, 0.1f);
-
-
+	///m_world_coordinates.Init(&world_transform, &camera, 50.0f);
+	///m_UI_coordinates.Init_UI(&UI_transform, &camera, 0.1f);
+	
 	m_scene_manager.Init(&camera, &display);
 
-
-
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	
-	//////////////////////////////
 
 
 	while (!display.IsClosed())
@@ -91,28 +73,9 @@ void QuadCore::Graphics_Simulator::Run()
 		m_scene_manager.Play();
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-				
-
+		
 		// 월드 좌표계 그리기
 		//m_world_coordinates.Draw();
-		
-		
-
-		////////////////////////////////////////////////////////////////////
-		//// UI 좌표계 그리기
-
-		shader_UI.Bind();
-		texture1.Bind(0);
-
-		UI_transform.GetPos().x = +0.7f;
-		UI_transform.GetPos().y = -0.7f;
-
-		UI_transform.SetRot(camera.GetRot());
-
-		shader_UI.Update(UI_transform, camera);
-		m_UI_coordinates.Draw(5.0f);
-
-		////////////////////////////////////////////////////////////////////
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		

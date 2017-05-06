@@ -3,6 +3,9 @@
 #include "ShapeManager.h"
 #include "iScene.h"
 
+#include "World_coordinate.h"
+#include "miniUI_coordinate.h"
+
 #include "DrawMap.h"
 
 #include "Scene_main.h"
@@ -12,7 +15,7 @@
 #include "Scence_reflect_shader.h"
 #include "Scence_multi_light.h"
 #include "Scene_basicObjects.h"
-#include "Scence_mirror.h"
+//#include "Scence_mirror.h"
 #include "Scence_SolarSystem.h"
 #include "Scene_SkyBox_Universe.h"
 #include "Scene_SkyBox.h"
@@ -33,7 +36,9 @@ public:
 	bool m_scene_2 = false;	// solar system
 	bool m_scene_3 = false;	// show room
 
-
+	bool switch_mini_coordinate = true;
+	bool switch_world_coordinate = false;
+	bool switch_grid_map = false;
 
 	unsigned char cubeColor[4] = { 255, 0, 0, 128 }; // Model color (32bits RGBA)
 	float g_Rotation[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -83,15 +88,17 @@ public:
 
 
 		
-		// Wireframe 효과
-		TwAddVarRW(mainBar, "Wireframe", TW_TYPE_BOOLCPP, &scene.Wireframe,
-			"key=w help='Toggle wireframe display mode.' ");
+		// 
+		TwAddVarRW(mainBar, "mini_coordinate", TW_TYPE_BOOLCPP, &switch_mini_coordinate, "key=B help='mini_coordinate' ");
+		TwAddVarRW(mainBar, "world_coordinate", TW_TYPE_BOOLCPP, &switch_world_coordinate, "key=N help='world_coordinate' ");
+		TwAddVarRW(mainBar, "Grid Map", TW_TYPE_BOOLCPP, &switch_grid_map, "key=M help='draw_Grid_Map' ");
 
 		TwAddSeparator(mainBar, "", NULL);
-		
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		
 
 		TwAddSeparator(mainBar, "", NULL);
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 		// Cube 컬러 변경
 		TwAddVarRW(mainBar, "Obj Color", TW_TYPE_COLOR32, &cubeColor,
@@ -138,6 +145,7 @@ public:
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	void Init(QuadCore::Camera* camera, QuadCore::Display* display)
 	{
+		m_camera = camera;
 		m_display = display;
 
 		m_background_list.push_back(new Scene_main);
@@ -155,7 +163,7 @@ public:
 		m_scene_list.push_back(new Scence_moving_wall);
 		m_scene_list.push_back(new Scence_moving_block);
 		m_scene_list.push_back(new Scene_main);
-		m_scene_list.push_back(new Scence_mirror);
+		m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_main);
 
@@ -198,39 +206,75 @@ public:
 		}
 	}
 
-	public:
-		char m_cur_key = NULL;
-		void Set_CurKey(char cur_key)
+public:
+	char m_cur_key = NULL;
+	void Set_CurKey(char cur_key)
+	{
+		m_cur_key = cur_key;
+	}
+
+	void SetScene()
+	{
+		//// 씬 중복선택 안되도록 처리할 것
+		switch (scene.BackgroundNum_prev)
 		{
-			m_cur_key = cur_key;
-		}
-
-	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	// 장면을 재생한다.
-	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	void Play()
-	{		
-		counter += 0.05f;
-		QuadCore::iScene::SetCounter(counter);
-
-		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
-		m_display->Clear(m_bgColor[0], m_bgColor[1], m_bgColor[2], 1.0f);
-
-		
-		// 씬 중복선택 안되도록 처리할 것
-		if ((m_scene_1 == true&& m_scene_2 == true) || (m_scene_2 == true&& m_scene_3 == true) || (m_scene_3 == true&&m_scene_1 == true))
-		{
-			m_scene_1 = false;
-			m_scene_2 = false;
-			m_scene_3 = false;
+		case 1:
+			if (m_scene_1 == true && m_scene_2 == true)
+			{
+				m_scene_1 = false;
+				scene.BackgroundNum = 2;
+			}
+			if (m_scene_3 == true && m_scene_1 == true)
+			{
+				m_scene_1 = false;
+				scene.BackgroundNum = 3;
+			}
+			break;
+		case 2:
+			if (m_scene_1 == true && m_scene_2 == true)
+			{
+				m_scene_2 = false;
+				scene.BackgroundNum = 1;
+			}
+			if (m_scene_2 == true && m_scene_3 == true)
+			{
+				m_scene_2 = false;
+				scene.BackgroundNum = 3;
+			}
+			break;
+		case 3:
+			if (m_scene_2 == true && m_scene_3 == true)
+			{
+				m_scene_3 = false;
+				scene.BackgroundNum = 2;
+			}
+			if (m_scene_3 == true && m_scene_1 == true)
+			{
+				m_scene_3 = false;
+				scene.BackgroundNum = 1;
+			}
+			break;
 		}
 
 		// 씬 선택창
-		if (m_scene_1)			{ scene.BackgroundNum = 1; }
-		else if (m_scene_2)		{ scene.BackgroundNum = 2; }
-		else if (m_scene_3)		{ scene.BackgroundNum = 3; }
-		//else					{ scene.BackgroundNum = 0; }
+		if (m_scene_1) {
+			scene.BackgroundNum_prev = 1;
+			scene.BackgroundNum = 1;
+
+			scene.SceneNumber = 1;	// 원하는 씬으로 설정
+		}
+		if (m_scene_2) {
+			scene.BackgroundNum_prev = 2;
+			scene.BackgroundNum = 2;
+
+			scene.SceneNumber = 2;	// 원하는 씬으로 설정
+		}
+		if (m_scene_3) {
+			scene.BackgroundNum_prev = 3;
+			scene.BackgroundNum = 3;
+
+			scene.SceneNumber = 3;	// 원하는 씬으로 설정
+		}
 
 		if (IsDefault)
 		{
@@ -241,16 +285,29 @@ public:
 			scene.BackgroundNum = 0;
 			scene.SceneNumber = 0;
 		}
+	}
 
-		//dMap.DrawPlane();		// Draw Map	
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	// 장면을 재생한다.
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	void Play()
+	{		
+		counter += 0.05f;
+		QuadCore::iScene::SetCounter(counter);
 
-		
-		//scence_mirror->KeyInput(m_cur_key);
+		m_display->Clear(m_bgColor[0], m_bgColor[1], m_bgColor[2], 1.0f);
 
-		
-		// TwSimple 배경추가
-		//display.Clear(scene.BgColor0[0], scene.BgColor0[1], scene.BgColor0[2], 1);	// 배경 초기화	
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		this->SetScene();
+
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+				
+
+		if (switch_grid_map)
+		{
+			dMap.DrawPlane();		// Draw Map	
+		}
+
+		//scence_mirror->KeyInput(m_cur_key);		
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		for (int i = 0; i < m_background_list.size(); i++)
@@ -295,7 +352,7 @@ public:
 					m_scene_list.at(j)->Play();
 					break;
 				case 3:
-					m_scene_list.at(5)->Play();
+					m_scene_list.at(j)->Play();
 					break;
 				}
 			}
@@ -364,6 +421,13 @@ public:
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		// Draw tweak bar UI
 		TwDraw();
+
+
+		//////////////////////////////////////////////////////////////////////
+		////// UI 좌표계 그리기
+		m_world_coordinate.Draw(m_camera, switch_world_coordinate);
+		m_mini_coordinate.Draw(m_camera, switch_mini_coordinate);
+		//////////////////////////////////////////////////////////////////////
 	}
 	
 private:
@@ -373,6 +437,11 @@ private:
 	std::vector<QuadCore::iScene*> m_scene_list;
 
 	QuadCore::DrawMap dMap;
+
+	QuadCore::Camera* m_camera;
 	QuadCore::Display* m_display;
+
+	QuadCore::miniUI_coordinate m_mini_coordinate;
+	QuadCore::World_coordinate m_world_coordinate;
 };
 

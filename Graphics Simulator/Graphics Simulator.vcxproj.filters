@@ -167,5 +167,11 @@
     <ClInclude Include="Scence_display.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="miniUI_coordinate.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="World_coordinate.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
