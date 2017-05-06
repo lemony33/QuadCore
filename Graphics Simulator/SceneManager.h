@@ -46,6 +46,7 @@ public:
 
 	Scene scene;
 	TwBar *mainUI; // play 함수에서 UI 불러오도록 하기위해 추가. 
+	TwBar *objectUI;
 	SceneManager()
 	{
 
@@ -64,7 +65,7 @@ public:
 		TwAddSeparator(mainBar, "", NULL);	// 아래쪽에 line생성
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-		TwAddVarRW(mainBar, "SetDefault", TW_TYPE_BOOLCPP, &IsDefault, "key=R help='Toggle wireframe display mode.' ");
+		TwAddVarRW(mainBar, "SetDefault", TW_TYPE_BOOLCPP, &IsDefault, "key=R help='set to default mode.' ");
 
 		// 배경 변경하는 메뉴, SceneNumber 변수를 조절함
 		TwAddVarRW(mainBar, "Background Number", TW_TYPE_INT32, &scene.BackgroundNum, " min=0 max=3 help='Change Background' ");
@@ -83,7 +84,7 @@ public:
 		///TwAddButton(mainBar, "Button", TW_TYPE_CDSTRING, , );
 		
 		// Background 컬러 변경
-		TwAddVarRW(mainBar, "Background Color", TW_TYPE_COLOR3F, &m_bgColor, " help='Change the top background color.' ");
+		TwAddVarRW(mainBar, "Background Color", TW_TYPE_COLOR3F, &m_bgColor, " opened=true help='Change the top background color.' ");
 		TwAddSeparator(mainBar, "", NULL);
 
 
@@ -96,42 +97,47 @@ public:
 		TwAddSeparator(mainBar, "", NULL);
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		
-
-		TwAddSeparator(mainBar, "", NULL);
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
+
+		TwBar *objectBar = TwNewBar("Object");
+		TwDefine(" Object label='OBJECT' position='1600 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+
+		//TwAddSeparator(mainBar, "", NULL);
+
+
 		// Cube 컬러 변경
-		TwAddVarRW(mainBar, "Obj Color", TW_TYPE_COLOR32, &cubeColor,
+		TwAddVarRW(objectBar, "Obj Color", TW_TYPE_COLOR32, &cubeColor,
 			"alpha help='Color and transparency of the cube.' ");
 
-		TwAddSeparator(mainBar, "", NULL);
+		TwAddSeparator(objectBar, "", NULL);
 
 		// 도형 Rotation Speed 조정 // Its key shortcuts are [s] and [S].
-		TwAddVarRW(mainBar, "Obj Rotation Speed", TW_TYPE_DOUBLE, &scene.speed,
+		TwAddVarRW(objectBar, "Obj Rotation Speed", TW_TYPE_DOUBLE, &scene.speed,
 			" min=0 max=10 step=0.01 keyIncr=s keyDecr=S help='Rotation speed (turns/second)' ");
 
-		TwAddSeparator(mainBar, "", NULL);
+		TwAddSeparator(objectBar, "", NULL);
 
 		// 도형 Rotation 
-		TwAddVarRW(mainBar, "Obj Rotation", TW_TYPE_QUAT4F, &g_Rotation,
+		TwAddVarRW(objectBar, "Obj Rotation", TW_TYPE_QUAT4F, &g_Rotation,
 			" opened=true help='Change the object orientation.' ");
 
-		TwAddSeparator(mainBar, "", NULL);
+		TwAddSeparator(objectBar, "", NULL);
 
 		// 도형 Rotation 모드
 		TwEnumVal rotationEV[] = { { Scene::ROT_OFF, "Stopped" },
 		{ Scene::ROT_CW,  "Clockwise" },
 		{ Scene::ROT_CCW, "Counter-clockwise" } };
 		TwType rotationType = TwDefineEnum("Rotation Mode", rotationEV, 3);
-		TwAddVarRW(mainBar, "Obj Rotation Scene", rotationType, &scene.Rotation,
+		TwAddVarRW(objectBar, "Obj Rotation Scene", rotationType, &scene.Rotation,
 			" keyIncr=Backspace keyDecr=SHIFT+Backspace help='Stop or change the rotation mode.' ");
-		
-
 
 		scene.Init(true);
 
 		mainUI = mainBar; // 이 함수에서 정의된 UI를 변수에 연결
-		
+		objectUI = objectBar;
 	}
 
 	virtual ~SceneManager()
@@ -160,6 +166,7 @@ public:
 		
 		m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_basicObjects);
+		m_scene_list.push_back(new Scence_SolarSystem);
 		m_scene_list.push_back(new Scence_moving_wall);
 		m_scene_list.push_back(new Scence_moving_block);
 		m_scene_list.push_back(new Scene_main);
@@ -213,7 +220,10 @@ public:
 		m_cur_key = cur_key;
 	}
 
-	void SetScene()
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	// 미리 설정된 시나리오를 선택한다.
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	void Select_Scene()
 	{
 		//// 씬 중복선택 안되도록 처리할 것
 		switch (scene.BackgroundNum_prev)
@@ -297,11 +307,10 @@ public:
 
 		m_display->Clear(m_bgColor[0], m_bgColor[1], m_bgColor[2], 1.0f);
 
-		this->SetScene();
+		this->Select_Scene();
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-				
-
+		
 		if (switch_grid_map)
 		{
 			dMap.DrawPlane();		// Draw Map	
@@ -349,7 +358,8 @@ public:
 					m_scene_list.at(j)->Play();
 					break;
 				case 2:
-					m_scene_list.at(j)->Play();
+					//m_scene_list.at(j)->Play();
+					m_scene_list.at(j)->Play(pos, ambient, diffuse, specular);
 					break;
 				case 3:
 					m_scene_list.at(j)->Play();
