@@ -36,6 +36,8 @@ public:
 	bool m_scene_2 = false;	// solar system
 	bool m_scene_3 = false;	// show room
 
+	bool m_stopper = false;
+
 	bool switch_mini_coordinate = true;
 	bool switch_world_coordinate = false;
 	bool switch_grid_map = false;
@@ -60,6 +62,9 @@ public:
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		// 시간
 		TwAddVarRO(mainBar, "Time", TW_TYPE_DOUBLE, &scene.time, "precision=1 help='Time (in seconds).' ");
+
+		TwAddVarRW(mainBar, "Counter", TW_TYPE_FLOAT, &counter, "precision=1 help='Time (in seconds).' ");
+		TwAddVarRW(mainBar, "STOP", TW_TYPE_BOOLCPP, &m_stopper, "key=P help='mini_coordinate' ");
 
 
 		TwAddSeparator(mainBar, "", NULL);	// 아래쪽에 line생성
@@ -301,8 +306,9 @@ public:
 	// 장면을 재생한다.
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	void Play()
-	{		
-		counter += 0.05f;
+	{
+		if(!m_stopper)
+			counter += 0.05f;
 		QuadCore::iScene::SetCounter(counter);
 
 		m_display->Clear(m_bgColor[0], m_bgColor[1], m_bgColor[2], 1.0f);
@@ -359,7 +365,7 @@ public:
 					break;
 				case 2:
 					//m_scene_list.at(j)->Play();
-					m_scene_list.at(j)->Play(pos, ambient, diffuse, specular);
+					m_scene_list.at(j)->Play(i, pos, ambient, diffuse, specular);
 					break;
 				case 3:
 					m_scene_list.at(j)->Play();
