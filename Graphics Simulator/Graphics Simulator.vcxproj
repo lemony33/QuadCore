@@ -42,6 +42,7 @@
     <ClInclude Include="BasicObject.h" />
     <ClInclude Include="iScene.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="miniUI_coordinate.h" />
     <ClInclude Include="Obj_loader.h" />
     <ClInclude Include="Scence_display.h" />
     <ClInclude Include="Scence_moving_block.h" />
@@ -66,6 +67,7 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UI_TwBar.h" />
+    <ClInclude Include="World_coordinate.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ACD7C8B3-B7EC-4ADF-AE62-CE75F0A3B8C9}</ProjectGuid>
