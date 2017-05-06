@@ -55,21 +55,16 @@ public:
 
 	virtual void Animate()
 	{
-		if (Get_KeyInput())
-		{
-			printf(" / cur_num: %d \n", subSphereNum);
-			if(m_key=='+')
-				subSphereNum++;
-			if (m_key == '-')
-				subSphereNum--;
-		}
+		glassTrans = Transform(glm::vec3(10.0, 0, 0), glm::vec3(0, m_counter / 10.0, 0));
+		mirrorTrans = Transform(glm::vec3(-10.0, 0, 0), glm::vec3(0, m_counter / 10.0, 0));
+
 		for (int i = 0; i < LIMIT; i++)
 		{
 			if (i < subSphereNum)
 			{
 				MirrorSphere[i].Init(glm::vec3(5 * sinf((m_counter + i * 0.2f) / 5) * cosf(-(m_counter + i * 0.2f) / 5),
-					5 * sinf(-(m_counter + i * 0.2f) / 5),
-					5 * cosf((m_counter + i * 0.2f) / 5) * cosf(-(m_counter + i * 0.2f) / 5)),
+					2.0f + 5 * sinf(-(m_counter + i * 0.2f) / 5),
+					0),//5 * cosf((m_counter + i * 0.2f) / 5) * cosf(-(m_counter + i * 0.2f) / 5)),
 					glm::vec3(),
 					glm::vec3(0.5f, 0.5f, 0.5f)
 				);
@@ -92,6 +87,11 @@ private:
 		using QuadCore::BasicObject;
 		using QuadCore::Transform;
 
+		BasicObject* glass = new BasicObject("nanosuit_reflection/nanosuit", "nanosuit/glass", "bricks", &glassTrans);
+		BasicObject* mirror = new BasicObject("nanosuit_reflection/nanosuit", "nanosuit/mirror", "bricks", &mirrorTrans);
+		m_shape_manager.Insert_Object(glass);
+		m_shape_manager.Insert_Object(mirror);
+
 		for (int i = 0; i < subSphereNum; i++)
 		{
 			BasicObject* light = new BasicObject("BasicObjects/Sphere", "nanosuit/glass", "solarsystem/moon", &MirrorSphere[i]);
@@ -102,7 +102,8 @@ private:
 private:
 	//mirror
 	int subSphereNum = 32;
-	Transform mainSphere;
+	Transform glassTrans;
+	Transform mirrorTrans;
 	Transform MirrorSphere[LIMIT];
 	
 	// multiLight

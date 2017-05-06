@@ -27,7 +27,7 @@ void main()
     vec3 I = normalize(FragPos - viewPos);
 
     //vec3 R = reflect(I, normalize(normal0));
-	vec3 R = refract(I, normalize(normal0), ratio);
+	vec3 R = refract(-I, normalize(normal0), ratio);
 
     color = texture(skybox, -R);
 

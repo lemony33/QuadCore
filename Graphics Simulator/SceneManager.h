@@ -12,7 +12,7 @@
 #include "Scence_reflect_shader.h"
 #include "Scence_multi_light.h"
 #include "Scene_basicObjects.h"
-//#include "Scence_mirror.h"
+#include "Scence_mirror.h"
 #include "Scence_SolarSystem.h"
 #include "Scene_SkyBox_Universe.h"
 #include "Scene_SkyBox.h"
@@ -155,7 +155,7 @@ public:
 		m_scene_list.push_back(new Scence_moving_wall);
 		m_scene_list.push_back(new Scence_moving_block);
 		m_scene_list.push_back(new Scene_main);
-		m_scene_list.push_back(new Scene_main);
+		m_scene_list.push_back(new Scence_mirror);
 		m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_main);
 
@@ -230,7 +230,7 @@ public:
 		if (m_scene_1)			{ scene.BackgroundNum = 1; }
 		else if (m_scene_2)		{ scene.BackgroundNum = 2; }
 		else if (m_scene_3)		{ scene.BackgroundNum = 3; }
-		else					{ scene.BackgroundNum = 0; }
+		//else					{ scene.BackgroundNum = 0; }
 
 		if (IsDefault)
 		{
@@ -295,7 +295,7 @@ public:
 					m_scene_list.at(j)->Play();
 					break;
 				case 3:
-					m_scene_list.at(j)->Play();
+					m_scene_list.at(5)->Play();
 					break;
 				}
 			}
