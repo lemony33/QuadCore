@@ -114,7 +114,7 @@ public:
 
 
 		TwBar *objectBar = TwNewBar("Object");
-		TwDefine(" Object label='OBJECT' position='1600 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+		TwDefine(" Object label='OBJECT' size ='245 400' position='1640 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 
 		//TwAddSeparator(mainBar, "", NULL);
 
