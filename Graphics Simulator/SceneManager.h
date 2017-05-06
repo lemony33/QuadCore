@@ -357,17 +357,17 @@ public:
 				int j = i;
 				switch (i)
 				{
-				case 0:
+				case 0:								// 0.Default(none)
 					m_scene_list.at(j)->Play();
 					break;
-				case 1:
+				case 1:								// 1.SkyBox
 					m_scene_list.at(j)->Play();
 					break;
-				case 2:
+				case 2:								// 2.Solar System
 					//m_scene_list.at(j)->Play();
 					m_scene_list.at(j)->Play(i, pos, ambient, diffuse, specular);
 					break;
-				case 3:
+				case 3:								// 3.Show Room
 					m_scene_list.at(j)->Play();
 					break;
 				}
