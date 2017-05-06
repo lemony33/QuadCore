@@ -50,7 +50,7 @@ void QuadCore::Graphics_Simulator::Run()
 	m_UI_coordinates.Init_UI(&UI_transform, &camera, 0.1f);
 
 
-	m_scene_manager.Init(&camera);
+	m_scene_manager.Init(&camera, &display);
 
 
 
@@ -67,14 +67,14 @@ void QuadCore::Graphics_Simulator::Run()
 		display.UpdateWindowSize();	// 화면 갱신
 		camera.Update(camera.GetPos(), 70.0f, display.GetWindowAspec(), 0.01F, 1000.0f);
 
-		display.Clear(0.1f, 0.1f, 0.1f, 1.0f);	// 배경 초기화
-		display.Clear(1.0f, 1.0f, 1.0f, 1.0f);	// 배경 초기화
-		display.Clear(0.3f, 0.3f, 0.3f, 1.0f);	// 배경 초기화
+		//display.Clear(0.1f, 0.1f, 0.1f, 1.0f);	// 배경 초기화
+		//display.Clear(1.0f, 1.0f, 1.0f, 1.0f);	// 배경 초기화
+		//display.Clear(0.3f, 0.3f, 0.3f, 1.0f);	// 배경 초기화
 
-		display.Clear(0.1f, 0.3f, 0.4f, 1.0f);	// 배경 초기화
-		display.Clear(0.0f / 255.0f, 76.0f / 255.0f, 176.0f / 255.0f, 1.0f);	// 배경 초기화
+		//display.Clear(0.1f, 0.3f, 0.4f, 1.0f);	// 배경 초기화
+		//display.Clear(0.0f / 255.0f, 76.0f / 255.0f, 176.0f / 255.0f, 1.0f);	// 배경 초기화
 
-		display.Clear(0.0f / 255.0f, 6.0f / 255.0f, 106.0f / 255.0f, 1.0f);	// 배경 초기화
+		//display.Clear(0.0f / 255.0f, 6.0f / 255.0f, 106.0f / 255.0f, 1.0f);	// 배경 초기화
 		
 		
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ

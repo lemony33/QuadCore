@@ -25,7 +25,16 @@ class SceneManager
 {
 public:
 
-	float bgColor[3] = { 0.1f, 0.2f, 0.4f };         // Background color 
+	//float bgColor[3] = { 0.1f, 0.2f, 0.4f };         // Background color 
+
+	float m_bgColor[3] = { 0.0f / 255.0f, 6.0f / 255.0f, 106.0f / 255.0f };	// Background color 
+	bool IsDefault = false;	
+	bool m_scene_1 = false;	// skybox
+	bool m_scene_2 = false;	// solar system
+	bool m_scene_3 = false;	// show room
+
+
+
 	unsigned char cubeColor[4] = { 255, 0, 0, 128 }; // Model color (32bits RGBA)
 	float g_Rotation[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	float g_LightDirection[3] = { -0.57735f, -0.57735f, -0.57735f };
@@ -33,8 +42,7 @@ public:
 	Scene scene;
 	TwBar *mainUI; // play 함수에서 UI 불러오도록 하기위해 추가. 
 	SceneManager()
-	{		
-		
+	{
 
 		// Initialize AntTweakBar
 		TwInit(TW_OPENGL, NULL);
@@ -43,33 +51,45 @@ public:
 		TwBar *mainBar = TwNewBar("Main");
 		TwDefine(" Main label='MAIN' position='30 30' alpha=0 help='Use this bar to edit the main in the scene.' ");
 
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		// 시간
 		TwAddVarRO(mainBar, "Time", TW_TYPE_DOUBLE, &scene.time, "precision=1 help='Time (in seconds).' ");
 
+
 		TwAddSeparator(mainBar, "", NULL);	// 아래쪽에 line생성
-		
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+		TwAddVarRW(mainBar, "SetDefault", TW_TYPE_BOOLCPP, &IsDefault, "key=R help='Toggle wireframe display mode.' ");
+
 		// 배경 변경하는 메뉴, SceneNumber 변수를 조절함
-		TwAddVarRW(mainBar, "Background Number", TW_TYPE_INT32, &scene.BackgroundNum,
-			" min=0 max=3 help='Change Background' ");
+		TwAddVarRW(mainBar, "Background Number", TW_TYPE_INT32, &scene.BackgroundNum, " min=0 max=3 help='Change Background' ");
 
 		// 씬 변경하는 메뉴, SceneNumber 변수를 조절함
-		TwAddVarRW(mainBar, "Scene Number", TW_TYPE_INT32, &scene.SceneNumber,
-			" min=0 max=3 help='Change Scene' ");
+		TwAddVarRW(mainBar, "Scene Number", TW_TYPE_INT32, &scene.SceneNumber, " min=0 max=3 help='Change Scene' ");
 		//TwAddVarRW(TwBar *bar, const char *name, TwType type, void *var, const char *def);
+
+		TwAddVarRW(mainBar, "1.SkyBox", TW_TYPE_BOOLCPP, &m_scene_1, "key=1 help='Scene1. SkyBox' ");
+		TwAddVarRW(mainBar, "2.Solar System", TW_TYPE_BOOLCPP, &m_scene_2, "key=2 help='Scene2. Solar System' ");
+		TwAddVarRW(mainBar, "3.Show Room", TW_TYPE_BOOLCPP, &m_scene_3, "key=3 help='Scene3. Show Room' ");
+
 		TwAddSeparator(mainBar, "", NULL);
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 		///TwAddButton(mainBar, "Button", TW_TYPE_CDSTRING, , );
 		
-		/*
+		// Background 컬러 변경
+		TwAddVarRW(mainBar, "Background Color", TW_TYPE_COLOR3F, &m_bgColor, " help='Change the top background color.' ");
+		TwAddSeparator(mainBar, "", NULL);
+
+
+		
 		// Wireframe 효과
 		TwAddVarRW(mainBar, "Wireframe", TW_TYPE_BOOLCPP, &scene.Wireframe,
 			"key=w help='Toggle wireframe display mode.' ");
 
 		TwAddSeparator(mainBar, "", NULL);
 		
-		// Background 컬러 변경
-		TwAddVarRW(mainBar, "Background Color", TW_TYPE_COLOR3F, &scene.BgColor0,
-			" help='Change the top background color.' ");
+		
 
 		TwAddSeparator(mainBar, "", NULL);
 
@@ -98,7 +118,7 @@ public:
 		TwType rotationType = TwDefineEnum("Rotation Mode", rotationEV, 3);
 		TwAddVarRW(mainBar, "Obj Rotation Scene", rotationType, &scene.Rotation,
 			" keyIncr=Backspace keyDecr=SHIFT+Backspace help='Stop or change the rotation mode.' ");
-		*/
+		
 
 
 		scene.Init(true);
@@ -116,8 +136,10 @@ public:
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	// 필요한 설정값 초기화
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	void Init(QuadCore::Camera* camera)
+	void Init(QuadCore::Camera* camera, QuadCore::Display* display)
 	{
+		m_display = display;
+
 		m_background_list.push_back(new Scene_main);
 		m_background_list.push_back(new Scene_SkyBox);
 		m_background_list.push_back(new Scene_SkyBox_Universe);
@@ -192,6 +214,33 @@ public:
 		QuadCore::iScene::SetCounter(counter);
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+		m_display->Clear(m_bgColor[0], m_bgColor[1], m_bgColor[2], 1.0f);
+
+		
+		// 씬 중복선택 안되도록 처리할 것
+		if ((m_scene_1 == true&& m_scene_2 == true) || (m_scene_2 == true&& m_scene_3 == true) || (m_scene_3 == true&&m_scene_1 == true))
+		{
+			m_scene_1 = false;
+			m_scene_2 = false;
+			m_scene_3 = false;
+		}
+
+		// 씬 선택창
+		if (m_scene_1)			{ scene.BackgroundNum = 1; }
+		else if (m_scene_2)		{ scene.BackgroundNum = 2; }
+		else if (m_scene_3)		{ scene.BackgroundNum = 3; }
+		else					{ scene.BackgroundNum = 0; }
+
+		if (IsDefault)
+		{
+			m_scene_1 = false;
+			m_scene_2 = false;
+			m_scene_3 = false;
+
+			scene.BackgroundNum = 0;
+			scene.SceneNumber = 0;
+		}
 
 		//dMap.DrawPlane();		// Draw Map	
 
@@ -324,5 +373,6 @@ private:
 	std::vector<QuadCore::iScene*> m_scene_list;
 
 	QuadCore::DrawMap dMap;
+	QuadCore::Display* m_display;
 };
 
