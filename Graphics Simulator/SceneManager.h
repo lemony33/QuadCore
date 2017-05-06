@@ -49,6 +49,17 @@ public:
 	Scene scene;
 	TwBar *mainUI; // play 함수에서 UI 불러오도록 하기위해 추가. 
 	TwBar *objectUI;
+	
+	//미러씬 UI
+	TwBar *mirrorUI;
+	bool mirrorUIenable = false; // 다른 씬에서 OnOff하기 위한 변수
+	bool mirrorcheckbutton = false;
+	
+	//태양계씬 UI
+	TwBar *solarUI;
+	bool solarUIenable = false; // 다른 씬에서 OnOff하기 위한 변수
+
+
 	SceneManager()
 	{
 
@@ -459,5 +470,43 @@ private:
 
 	QuadCore::miniUI_coordinate m_mini_coordinate;
 	QuadCore::World_coordinate m_world_coordinate;
+
+	void TurnOnMirrorUI()
+	{
+		TwBar *mirrorBar = TwNewBar("Mirror");
+		TwDefine(" Object label='Mirror' position='1600 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+		TwAddVarRW(mirrorBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
+		TwAddVarRW(mainUI, "NumberofSphere", TW_TYPE_INT32, &scene.Spheres,
+			" min=0 max=32 help='Change a number of sphere' ");
+
+		mirrorUI = mirrorBar;
+
+		mirrorUIenable = true;
+	}
+	void TurnOffMirrorUI()
+	{
+		TwDeleteBar(mirrorUI);
+
+		mirrorUIenable = false;
+	}
+
+	void TurnOnSolarUI()
+	{
+		TwBar *solarBar = TwNewBar("Mirror");
+		TwDefine(" Object label='Mirror' position='1600 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+		//TwAddVarRW(solarBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
+		/*TwAddVarRW(solarBar, "NumberofSphere", TW_TYPE_INT32, &scene.Spheres,
+			" min=0 max=32 help='Change a number of sphere' ");*/
+
+		solarUI = solarBar;
+
+		mirrorUIenable = true;
+	}
+	void TurnOffSolarUI()
+	{
+		TwDeleteBar(solarUI);
+
+		solarUIenable = false;
+	}
 };
 

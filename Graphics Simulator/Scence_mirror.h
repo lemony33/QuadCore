@@ -45,6 +45,7 @@ public:
 	{
 		if (!m_enable)
 			return;
+
 		if(pos != 0)
 			subSphereNum = pos;
 
