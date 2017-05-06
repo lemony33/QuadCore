@@ -63,6 +63,7 @@ public:
 	//태양계씬 UI
 	TwBar *solarUI;
 	bool solarUIenable = false; // 다른 씬에서 OnOff하기 위한 변수
+	float rotspeed = 0.1;
 
 
 	SceneManager()
@@ -188,9 +189,9 @@ public:
 
 		
 		m_scene_list.push_back(new Scene_main);
-		//m_scene_list.push_back(new Scence_mirror);			// 1.SkyBox
-		//m_scene_list.push_back(new Scence_SolarSystem);		// 2.Solar System
-		//m_scene_list.push_back(new Scene_ShowRoom);			// 3.Show Room
+		m_scene_list.push_back(new Scence_mirror);			// 1.SkyBox
+		m_scene_list.push_back(new Scence_SolarSystem);		// 2.Solar System
+		m_scene_list.push_back(new Scene_ShowRoom);			// 3.Show Room
 		//m_scene_list.push_back(new Scence_multi_light);
 		//m_scene_list.push_back(new Scence_moving_wall);
 		//m_scene_list.push_back(new Scence_moving_block);
@@ -361,19 +362,29 @@ public:
 				switch (i)
 				{
 				case 0:								// 0.Default(none)
+					TurnOffMirrorUI();
+					TurnOffSolarUI();
 					m_scene_list.at(j)->Play();
 					break;
 				case 1:								// 1.SkyBox
-					m_scene_list.at(j)->Play();
+					TurnOnMirrorUI();
+					TurnOffSolarUI();
+					m_scene_list.at(j)->Play(scene.Spheres);
 					break;
 				case 2:								// 2.Solar System
 					//m_scene_list.at(j)->Play();
-					m_scene_list.at(j)->Play(i, pos, ambient, diffuse, specular);
+					TurnOffMirrorUI();
+					TurnOnSolarUI();
+					m_scene_list.at(j)->Play(rotspeed, pos, ambient, diffuse, specular);
 					break;
 				case 3:								// 3.Show Room
+					TurnOffMirrorUI();
+					TurnOffSolarUI();
 					m_scene_list.at(j)->Play();
 					break;
 				default:
+					TurnOffMirrorUI();
+					TurnOffSolarUI();
 					m_scene_list.at(j)->Play();
 					break;
 				}
@@ -468,38 +479,46 @@ private:
 
 	void TurnOnMirrorUI()
 	{
-		TwBar *mirrorBar = TwNewBar("Mirror");
-		TwDefine(" Object label='Mirror' position='1600 30' alpha=0 help='Use this bar to edit object in the scene.' ");
-		TwAddVarRW(mirrorBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
-		TwAddVarRW(mainUI, "NumberofSphere", TW_TYPE_INT32, &scene.Spheres,
-			" min=0 max=32 help='Change a number of sphere' ");
+		if (!mirrorUIenable)
+		{
+			TwBar *mirrorBar = TwNewBar("Mirror");
+			TwDefine(" Object label='Mirror' position='1600 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			TwAddVarRW(mirrorBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
+			TwAddVarRW(mirrorBar, "NumberofSphere", TW_TYPE_INT32, &scene.Spheres,
+				" min=0 max=32 help='Change a number of sphere' ");
 
-		mirrorUI = mirrorBar;
+			mirrorUI = mirrorBar;
 
-		mirrorUIenable = true;
+			mirrorUIenable = true;
+		}
 	}
 	void TurnOffMirrorUI()
 	{
-		TwDeleteBar(mirrorUI);
+		if(mirrorUIenable)
+			TwDeleteBar(mirrorUI);
 
 		mirrorUIenable = false;
 	}
 
 	void TurnOnSolarUI()
 	{
-		TwBar *solarBar = TwNewBar("Mirror");
-		TwDefine(" Object label='Mirror' position='1600 30' alpha=0 help='Use this bar to edit object in the scene.' ");
-		//TwAddVarRW(solarBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
-		/*TwAddVarRW(solarBar, "NumberofSphere", TW_TYPE_INT32, &scene.Spheres,
-			" min=0 max=32 help='Change a number of sphere' ");*/
+		if (!solarUIenable)
+		{
+			TwBar *solarBar = TwNewBar("Solar");
+			TwDefine(" Object label='Solar' position='1600 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			//TwAddVarRW(solarBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
+			TwAddVarRW(solarBar, "RotSpeed", TW_TYPE_FLOAT, &rotspeed,
+				" min=0.1 max=2.0 step=0.01 help='Change a number of sphere' ");
 
-		solarUI = solarBar;
+			solarUI = solarBar;
 
-		mirrorUIenable = true;
+			solarUIenable = true;
+		}
 	}
 	void TurnOffSolarUI()
 	{
-		TwDeleteBar(solarUI);
+		if(solarUIenable)
+			TwDeleteBar(solarUI);
 
 		solarUIenable = false;
 	}

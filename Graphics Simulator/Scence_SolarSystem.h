@@ -18,11 +18,14 @@ public:
 	}
 
 public:
-	virtual void Play(int speed, glm::vec3* pos, glm::vec3* ambient, glm::vec3* diffuse, glm::vec3* specular)
+	virtual void Play(float speed, glm::vec3* pos, glm::vec3* ambient, glm::vec3* diffuse, glm::vec3* specular)
 	{
 		if (!m_enable)
 			return;
-
+		if (speed < 0.1) this->speed = 0.1f;
+		else if (speed > 2.0) this->speed = 2.0f;
+		else this->speed = speed;
+		printf("rotspeed = %f\n", this->speed);
 		for (int i = 0; i < 3; i++)
 		{
 			lightTransforms[i + 1].SetPos(pos[i]);
