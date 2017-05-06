@@ -164,5 +164,8 @@
     <ClInclude Include="Scence_mirror.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Scence_display.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

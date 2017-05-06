@@ -43,6 +43,7 @@
     <ClInclude Include="iScene.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Obj_loader.h" />
+    <ClInclude Include="Scence_display.h" />
     <ClInclude Include="Scence_moving_block.h" />
     <ClInclude Include="Scence_moving_cube.h" />
     <ClInclude Include="Scence_multi_light.h" />

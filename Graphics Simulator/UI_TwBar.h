@@ -67,6 +67,7 @@ public:
 	double turn = 0;    // Model turn counter
 
 	//본 프로젝트에 맞춘 추가적인 변수들
+	int BackgroundNum = 0;
 	int SceneNumber = 0;
 	int Spheres = 5;
 	MultiLight * multilights;
