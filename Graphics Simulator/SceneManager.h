@@ -9,14 +9,19 @@
 #include "DrawMap.h"
 
 #include "Scene_main.h"
+
+// 시나리오
+#include "Scence_mirror.h"			// 1.SkyBox
+#include "Scence_SolarSystem.h"		// 2.Solar System
+#include "Scene_ShowRoom.h"			// 3.Show Room
+
 #include "Scence_moving_wall.h"
 #include "Scence_moving_block.h"
 #include "Scence_moving_cube.h"
-#include "Scence_reflect_shader.h"
+#include "Scence_reflect_shader.h"	// temp
 #include "Scence_multi_light.h"
 #include "Scene_basicObjects.h"
-//#include "Scence_mirror.h"
-#include "Scence_SolarSystem.h"
+
 #include "Scene_SkyBox_Universe.h"
 #include "Scene_SkyBox.h"
 
@@ -68,7 +73,7 @@ public:
 
 		// UI_Bar 이름 // Create a tweak bar
 		TwBar *mainBar = TwNewBar("Main");
-		TwDefine(" Main label='MAIN' position='30 30' alpha=0 help='Use this bar to edit the main in the scene.' ");
+		TwDefine(" Main label='MAIN' fontsize=3 size ='245 400' position='30 30' alpha=0 help='Use this bar to edit the main in the scene.' ");
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		// 시간
@@ -87,7 +92,8 @@ public:
 		TwAddVarRW(mainBar, "Background Number", TW_TYPE_INT32, &scene.BackgroundNum, " min=0 max=3 help='Change Background' ");
 
 		// 씬 변경하는 메뉴, SceneNumber 변수를 조절함
-		TwAddVarRW(mainBar, "Scene Number", TW_TYPE_INT32, &scene.SceneNumber, " min=0 max=3 help='Change Scene' ");
+		scene.SceneNumber = 0;
+		TwAddVarRW(mainBar, "Scene Number", TW_TYPE_INT32, &scene.SceneNumber, " min=0 max=8 help='Change Scene' ");
 		//TwAddVarRW(TwBar *bar, const char *name, TwType type, void *var, const char *def);
 
 		TwAddVarRW(mainBar, "1.SkyBox", TW_TYPE_BOOLCPP, &m_scene_1, "key=1 help='Scene1. SkyBox' ");
@@ -119,7 +125,7 @@ public:
 
 
 		TwBar *objectBar = TwNewBar("Object");
-		TwDefine(" Object label='OBJECT' position='1600 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+		TwDefine(" Object label='OBJECT' size ='245 400' position='1640 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 
 		//TwAddSeparator(mainBar, "", NULL);
 
@@ -175,43 +181,30 @@ public:
 		m_background_list.push_back(new Scene_SkyBox_Universe);
 		m_background_list.push_back(new Scene_room);
 
-		m_background_list.at(1)->SetEnable(true);
-		m_background_list.at(2)->SetEnable(true);
-		m_background_list.at(3)->SetEnable(true);
+		for (int i = 0; i < m_background_list.size(); i++)
+		{
+			m_background_list.at(i)->SetEnable(true);
+		}
 
 		
 		m_scene_list.push_back(new Scene_main);
-		m_scene_list.push_back(new Scene_basicObjects);
-		m_scene_list.push_back(new Scence_SolarSystem);
-		m_scene_list.push_back(new Scence_moving_wall);
-		m_scene_list.push_back(new Scence_moving_block);
-		m_scene_list.push_back(new Scene_main);
-		m_scene_list.push_back(new Scene_main);
-		m_scene_list.push_back(new Scene_main);
-		m_scene_list.push_back(new Scene_main);
-
-		////m_scene_list.push_back(new Scene_main);
-		////m_scene_list.push_back(new Scene_basicObjects);
-		////m_scene_list.push_back(new Scence_moving_wall);
-		////m_scene_list.push_back(new Scence_moving_block);
+		//m_scene_list.push_back(new Scence_mirror);			// 1.SkyBox
+		//m_scene_list.push_back(new Scence_SolarSystem);		// 2.Solar System
+		//m_scene_list.push_back(new Scene_ShowRoom);			// 3.Show Room
 		//m_scene_list.push_back(new Scence_multi_light);
-		//m_scene_list.push_back(new Scence_reflect_shader);		
-		//m_scene_list.push_back(new Scence_SolarSystem); 
-		////m_scene_list.push_back(new Scence_mirror); // 로딩 렉 엄청 김
-		//m_scene_list.push_back(scence_mirror); // 로딩 렉 엄청 김
-
-		
-
-		m_scene_list.at(0)->SetEnable(true);	//Scene_SkyBox
-		m_scene_list.at(1)->SetEnable(true);	//Scene_main
-		m_scene_list.at(2)->SetEnable(true);	//Scene_basicObjects
-		m_scene_list.at(3)->SetEnable(true);	//Scence_moving_wall
-		m_scene_list.at(4)->SetEnable(true);	//Scence_moving_block
-		m_scene_list.at(5)->SetEnable(true);	//Scence_moving_cube
-		//m_scene_list.at(6)->SetEnable(false);	//Scence_reflect_shader
-		//m_scene_list.at(7)->SetEnable(false);	//Scence_multi_light
-		//m_scene_list.at(8)->SetEnable(true);	//Scence_SolarSystem
-		//m_scene_list.at(9)->SetEnable(false);	//Scence_mirror
+		//m_scene_list.push_back(new Scence_moving_wall);
+		//m_scene_list.push_back(new Scence_moving_block);
+		//m_scene_list.push_back(new Scene_basicObjects);
+		m_scene_list.push_back(new Scene_main);
+		m_scene_list.push_back(new Scene_main);
+		m_scene_list.push_back(new Scene_main);
+		m_scene_list.push_back(new Scene_main);
+		///m_scene_list.push_back(new Scence_reflect_shader);	// 미사용 테스트 버전
+				
+		for (int i = 0; i < m_scene_list.size(); i++)
+		{
+			m_scene_list.at(i)->SetEnable(true);
+		}
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
@@ -361,24 +354,26 @@ public:
 
 			//
 			
-
 			//UI 값에 맞는 씬만 플레이
 			if (i == scene.SceneNumber)
 			{
 				int j = i;
 				switch (i)
 				{
-				case 0:
+				case 0:								// 0.Default(none)
 					m_scene_list.at(j)->Play();
 					break;
-				case 1:
+				case 1:								// 1.SkyBox
 					m_scene_list.at(j)->Play();
 					break;
-				case 2:
+				case 2:								// 2.Solar System
 					//m_scene_list.at(j)->Play();
 					m_scene_list.at(j)->Play(i, pos, ambient, diffuse, specular);
 					break;
-				case 3:
+				case 3:								// 3.Show Room
+					m_scene_list.at(j)->Play();
+					break;
+				default:
 					m_scene_list.at(j)->Play();
 					break;
 				}
