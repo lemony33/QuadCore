@@ -127,8 +127,8 @@ public:
 		m_background_list.at(2)->SetEnable(true);
 		m_background_list.at(3)->SetEnable(true);
 
-
-
+		
+		m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_basicObjects);
 		m_scene_list.push_back(new Scence_moving_wall);
 		m_scene_list.push_back(new Scence_moving_block);
