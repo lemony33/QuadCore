@@ -28,12 +28,12 @@ public:
 		printf("rotspeed = %f\n", this->speed);
 		for (int i = 0; i < 3; i++)
 		{
-			lightTransforms[i + 1].SetPos(pos[i]);
-			lightTransforms[i + 1].SetRot(glm::vec3(0, m_counter / 0.5f  * speed, 0));
-			lightTransforms[i + 1].SetScale(glm::vec3(0.3f, 0.2f + 0.1f * sinf(m_counter * speed * 20.0f), 0.3f));
-			this->ambient[i + 1] = ambient[i];
-			this->diffuse[i + 1] = diffuse[i];
-			this->specular[i + 1] = specular[i];
+			lightTransforms[i].SetPos(pos[i]);
+			lightTransforms[i].SetRot(glm::vec3(0, m_counter / 0.5f  * speed, 0));
+			lightTransforms[i].SetScale(glm::vec3(0.3f, 0.2f + 0.1f * sinf(m_counter * speed * 20.0f), 0.3f));
+			this->ambient[i] = ambient[i];
+			this->diffuse[i] = diffuse[i];
+			this->specular[i] = specular[i];
 
 		}
 
@@ -116,10 +116,7 @@ public:
 		/////////////////////////////////////////////////////////////////////////////////////
 
 		// Scene ³» ºûÀÇ À§Ä¡µé
-		lightTransforms[0].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
-		/*lightTransforms[1].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
-		lightTransforms[2].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
-		lightTransforms[3].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));*/
+		lightTransforms[3].Init(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f)); // ÅÂ¾çºû
 		
 		lightTransforms[4].Init(glm::vec3(0 + nuclear * distance * sinf(m_counter / 0.4f * speed),
 			0,
@@ -201,26 +198,26 @@ private:
 
 	glm::vec3 ambient[5] =
 	{
+		glm::vec3(0.00f, 0.00f, 0.00f),
+		glm::vec3(0.00f, 0.00f, 0.00f),
+		glm::vec3(0.00f, 0.00f, 0.00f),
 		glm::vec3(0.1f), // ÅÂ¾ç ºû
-		glm::vec3(0.00f, 0.00f, 0.00f),
-		glm::vec3(0.00f, 0.00f, 0.00f),
-		glm::vec3(0.00f, 0.00f, 0.00f),
 		glm::vec3(0.5f, 0.1f, 0.1f)
 	};
 	glm::vec3 diffuse[5] =
 	{
+		glm::vec3(0.00f, 0.00f, 0.00f),
+		glm::vec3(0.00f, 0.00f, 0.00f),
+		glm::vec3(0.00f, 0.00f, 0.00f),
 		glm::vec3(1.0f), // ÅÂ¾ç ºû
-		glm::vec3(0.00f, 0.00f, 0.00f),
-		glm::vec3(0.00f, 0.00f, 0.00f),
-		glm::vec3(0.00f, 0.00f, 0.00f),
 		glm::vec3(0.6f, 0.2f, 0.2f)
 	};
 	glm::vec3 specular[5] =
 	{
+		glm::vec3(0.00f, 0.00f, 0.00f),
+		glm::vec3(0.00f, 0.00f, 0.00f),
+		glm::vec3(0.00f, 0.00f, 0.00f),
 		glm::vec3(1.0f), // ÅÂ¾ç ºû
-		glm::vec3(0.00f, 0.00f, 0.00f),
-		glm::vec3(0.00f, 0.00f, 0.00f),
-		glm::vec3(0.00f, 0.00f, 0.00f),
 		glm::vec3(0.6f, 0.2f, 0.2f)
 	};
 };

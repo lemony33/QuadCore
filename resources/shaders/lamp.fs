@@ -24,7 +24,7 @@ void main()
         	round(pointLights[i].lightPos.y) == round(LPOS.y) &&
         	round(pointLights[i].lightPos.z) == round(LPOS.z))
         {
-            color = vec4(pointLights[i].light_ambient * pointLights[i].light_diffuse * pointLights[i].light_specular * 40.0, 1.0);
+            color = vec4((pointLights[i].light_ambient + pointLights[i].light_diffuse + pointLights[i].light_specular) * 0.3, 1.0);
             return;
         }
     }
