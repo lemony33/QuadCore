@@ -28,50 +28,28 @@ uniform sampler2D texture_diffuse;
 uniform PointLight pointLights[LIGHTSNUM];
 
 // Function prototypes
-vec4 CalcPointLight2(PointLight light, vec3 normal, vec3 fragPos);
-
 vec3 CalcDirLight(vec3 normal, vec3 viewDir);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 
 void main()
 {
-    	//gl_FragColor = ambient + diffuse + specular + rim;
-
-	vec4 result;
-	for(int i = 0; i < LIGHTSNUM; i++)
-		result += CalcPointLight2(pointLights[i], normal0, FragPos);
-	gl_FragColor = result;
-
-	/////////
-
-	//vec3 norm = normalize(normal0);
-	//vec3 viewDir = normalize(viewPos - FragPos);
-	//vec3 result = CalcDirLight(norm, viewDir);
-	//for(int i = 0; i < LIGHTSNUM; i++)
-	//	result += CalcPointLight(pointLights[i], norm, FragPos, viewDir); 
-	//gl_FragColor = vec4(result, 1.0);
-}
-
-////////////////////////////////////////////////////////////////////////////////////
-
-// Calculates the color when using a point light.
-vec4 CalcPointLight2(PointLight light, vec3 normal, vec3 fragPos)
-{
 	// Lighting constants
-	const vec3 light_pos = vec3(100.0, 100.0, 100.0);
+    	const vec4 ambient = vec4(0.1, 0.1, 0.2, 1.0);
+const vec3 light_pos = vec3(100.0, 100.0, 100.0);
 
 	const vec4 diffuse_albedo = vec4(0.7, 0.65, 0.65, 1.0);
     	const vec4 specular_albedo = vec4(0.7, 0.7, 0.7, 1.0);
 
-	const float specular_power = 32.0;
+	const float specular_power = 128.0;
 	const vec4 rim_albedo = vec4(0.5, 0.5, 0.5, 1.0);
     	const float rim_power = 1.25;
 
-	////////////////////
+	
+
 
 	// Interpolated vertex coordinate
     	// in view-space
-    	vec3 P = vec3(fragPos);
+    	vec3 P = vec3(FragPos);
 
     	// Interpolated vertex normal
     	// in view-space
@@ -79,7 +57,8 @@ vec4 CalcPointLight2(PointLight light, vec3 normal, vec3 fragPos)
 
 	// Transform the light vector
     	// into a direction in view space
-    	vec3 L = normalize(light.lightPos - fragPos);
+    	vec3 L = normalize(lightPos- P);
+
 
     	// The viewing vector points to
     	// the origin from the vertex
@@ -89,48 +68,37 @@ vec4 CalcPointLight2(PointLight light, vec3 normal, vec3 fragPos)
     	// defined by the normal (N)
     	vec3 R = reflect(-L, N);
 
-	
-
-	//// Attenuation
-    	float distance = length(light.lightPos - fragPos);
-    	float attenuation = 1.0f / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
-
-	///////////////////
-
-	///////////////////
-
-
-	vec4 ambient = vec4(light.light_ambient * vec3(texture(texture_diffuse, texCoord0)), 1.0);
-
     	// Compute the diffuse contribution
-    	vec4 diffuse = max(0.0, dot(N, L)) * vec4(light.light_diffuse,1.0) * texture2D(texture_diffuse, texCoord0);
+    	vec4 diffuse = max(0.0, dot(N, L)) * diffuse_albedo * texture2D(texture_diffuse, texCoord0);
 
-	// Traditional Phong specular contribution
+	// Traditional Phong specular
+    	// contribution
     	// ( no Blinn-Phong optimisation )
-	vec4 specular = pow( max(0.0, dot(R, V)), specular_power ) * vec4(light.light_specular,1.0);
+	vec4 specular = pow( max(0.0, dot(R, V)), specular_power ) * specular_albedo;
 	
 	// Artificial rim colour contributes
-    	// when normal is at a grazing angle to the view
+    	// when normal is at a grazing
+    	// angle to the view
     	vec4 rim = pow( smoothstep(0.0, 1.0, 1.0 - dot(N, V)), rim_power) * rim_albedo;
 
+    	// Final fragment colour is the
+    	// sum of contributions
+    	gl_FragColor = ambient + diffuse + specular + rim;
+
+
+
+	/////////
+
+	//vec3 norm = normalize(normal0);
+	//vec3 viewDir = normalize(viewPos - FragPos);
+	//vec3 result = CalcDirLight(norm, viewDir);
+	//for(int i = 0; i < LIGHTSNUM; i++)
+	//	result += CalcPointLight(pointLights[i], norm, FragPos, viewDir); 
+	//gl_FragColor = vec4(result, 1.0);
 	
-    	ambient *= attenuation;
-	diffuse *= attenuation;
-	specular *= attenuation;
-	rim *= attenuation;
-
-	return (ambient + diffuse + specular);
-
-	//vec3 ambient = light.light_ambient * vec3(texture(texture_diffuse, texCoord0));
-   // vec3 diffuse = light.light_diffuse * diff * vec3(texture(texture_diffuse, texCoord0));
-	//vec3 specular = spec * light.light_specular * vec3(texture(texture_diffuse, texCoord0));
-
-	//ambient *= attenuation;
-    	//diffuse_albedo *= attenuation;
-    	//specular_albedo *= attenuation;
-	//rim *= attenuation;
-    	//return (ambient + diffuse_albedo + specular_albedo + rim);
 }
+
+////////////////////////////////////////////////////////////////////////////////////
 
 // Calculates the color when using a directional light.
 vec3 CalcDirLight(vec3 normal, vec3 viewDir)
