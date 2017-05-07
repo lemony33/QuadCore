@@ -10,6 +10,9 @@
 
 #include <AntTweakBar.h>
 
+#include <thread>
+#include <chrono>
+
 
 namespace QuadCore
 {
@@ -67,7 +70,8 @@ public:
 			// Do something if needed.
 			return;
 			//???
-		}		
+		}
+
 
 		switch (key)
 		{
@@ -218,18 +222,22 @@ public:
 			}
 			break;
 		case GLFW_KEY_LEFT_SHIFT:
-			glfwSetWindowSize(window, 800, 800);
 			break;
 		case GLFW_KEY_LEFT_CONTROL:
 			break;
 		case GLFW_KEY_LEFT_ALT:
-			if (glfwGetInputMode(window, GLFW_KEY_O) == GLFW_PRESS)
-			{
-				glfwSetWindowSize(window, 800, 800);
-			}
 			break;
 
 		case GLFW_KEY_RIGHT_SHIFT:
+			// 키보드 중복입력 방지 테스트
+			//if (!glfwGetWindowAttrib(window, GLFW_MAXIMIZED))
+			//{
+			//	glfwMaximizeWindow(window);
+			//}
+			//else
+			//{
+			//	glfwSetWindowSize(window, 800, 800);
+			//}
 			break;
 		case GLFW_KEY_RIGHT_CONTROL:
 			break;
@@ -247,6 +255,11 @@ public:
 			m_cur_key = '-';
 			break;
 		};
+
+
+		// 키보드 중복입력 방지를 위한 코드 (효과없음)
+		//https://github.com/glfw/glfw/issues/747
+		//std::this_thread::sleep_for(std::chrono::milliseconds(30));
 	}
 
 	void SetFullScreen(bool flag)
