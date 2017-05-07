@@ -132,9 +132,9 @@ public:
 		//TwAddSeparator(mainBar, "", NULL);
 
 
-		// Cube 컬러 변경
-		TwAddVarRW(objectBar, "Obj Color", TW_TYPE_COLOR32, &cubeColor,
-			"alpha help='Color and transparency of the cube.' ");
+		//// Cube 컬러 변경
+		//TwAddVarRW(objectBar, "Obj Color", TW_TYPE_COLOR32, &cubeColor,
+		//	"alpha help='Color and transparency of the cube.' ");
 
 		TwAddSeparator(objectBar, "", NULL);
 
@@ -357,6 +357,7 @@ public:
 			}
 
 			//
+			float final_speed = 0;
 			
 			//UI 값에 맞는 씬만 플레이
 			if (i == scene.SceneNumber)
@@ -384,7 +385,20 @@ public:
 					TurnOffMirrorUI();
 					TurnOffSolarUI();
 					//m_scene_list.at(j)->Play();
-					m_scene_list.at(j)->Play(rotspeed_object, pos, ambient, diffuse, specular);
+					final_speed = rotspeed_object;
+
+					if (scene.Rotation == Scene::ROT_OFF)
+						final_speed = 0;
+					else if (scene.Rotation == Scene::ROT_CW)
+						final_speed = -rotspeed_object;
+					else if (scene.Rotation == Scene::ROT_CCW)
+						final_speed = +rotspeed_object;
+
+
+					if (m_stopper)
+						final_speed = 0;
+
+					m_scene_list.at(j)->Play(final_speed, pos, ambient, diffuse, specular);
 					break;
 				default:
 					TurnOffMirrorUI();
