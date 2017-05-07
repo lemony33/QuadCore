@@ -57,7 +57,7 @@ const vec3 light_pos = vec3(100.0, 100.0, 100.0);
 
 	// Transform the light vector
     	// into a direction in view space
-    	vec3 L = normalize(lightPos - P);
+    	vec3 L = normalize(light_pos - P);
 
 
     	// The viewing vector points to
