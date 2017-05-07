@@ -172,7 +172,7 @@ private:
 
 		for (int i = 0; i < 5; i++)
 		{
-			BasicObject* light = new BasicObject("BasicObjects/Sphere", "lamp", "slime", &lightTransforms[i]);
+			BasicObject* light = new BasicObject("BasicObjects/Sphere", "lamp_texture", "slime", &lightTransforms[i]);
 			m_shape_manager.Insert_Object(light);
 		}
 	}
