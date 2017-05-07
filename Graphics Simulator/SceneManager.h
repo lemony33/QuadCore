@@ -191,7 +191,9 @@ public:
 		m_scene_list.push_back(new Scene_main);
 		//m_scene_list.push_back(new Scence_mirror);			// 1.SkyBox
 		//m_scene_list.push_back(new Scence_SolarSystem);		// 2.Solar System
-		//m_scene_list.push_back(new Scene_ShowRoom);			// 3.Show Room
+		m_scene_list.push_back(new Scene_main);
+		m_scene_list.push_back(new Scene_main);
+		m_scene_list.push_back(new Scene_ShowRoom);			// 3.Show Room
 		//m_scene_list.push_back(new Scence_moving_wall);		// 빛의 위치 설명할 때 사용
 		//m_scene_list.push_back(new Scence_moving_block);	// 회오리 모양으로 오브젝트 배치해보면 좋을듯
 		//m_scene_list.push_back(new Scene_basicObjects);		// 다양한 오브젝트에서 빛이 적용되는 모습 시연
