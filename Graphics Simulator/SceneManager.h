@@ -64,6 +64,7 @@ public:
 	TwBar *solarUI;
 	bool solarUIenable = false; // 다른 씬에서 OnOff하기 위한 변수
 	float rotspeed = 0.1;
+	float rotspeed_object = 0;
 
 
 	SceneManager()
@@ -138,7 +139,7 @@ public:
 		TwAddSeparator(objectBar, "", NULL);
 
 		// 도형 Rotation Speed 조정 // Its key shortcuts are [s] and [S].
-		TwAddVarRW(objectBar, "Obj Rotation Speed", TW_TYPE_DOUBLE, &scene.speed,
+		TwAddVarRW(objectBar, "Obj Rotation Speed", TW_TYPE_FLOAT, &rotspeed_object,
 			" min=0 max=10 step=0.01 keyDecr=, keyIncr=. help='Rotation speed (turns/second)' ");
 
 		TwAddSeparator(objectBar, "", NULL);
@@ -382,7 +383,8 @@ public:
 				case 3:								// 3.Show Room
 					TurnOffMirrorUI();
 					TurnOffSolarUI();
-					m_scene_list.at(j)->Play();
+					//m_scene_list.at(j)->Play();
+					m_scene_list.at(j)->Play(rotspeed_object, pos, ambient, diffuse, specular);
 					break;
 				default:
 					TurnOffMirrorUI();
