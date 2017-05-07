@@ -16,7 +16,7 @@ struct PointLight{
     float linear;
     float quadratic;
 };
-#define LIGHTSNUM 4
+#define LIGHTSNUM 5
 uniform vec3 viewPos;
 uniform sampler2D texture_diffuse;
 uniform PointLight pointLights[LIGHTSNUM];

@@ -13,7 +13,7 @@ struct PointLight{
     float linear;
     float quadratic;
 };
-#define LIGHTSNUM 4
+#define LIGHTSNUM 5
 uniform PointLight pointLights[LIGHTSNUM];
 void main()
 {
