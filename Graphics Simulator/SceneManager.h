@@ -508,7 +508,7 @@ private:
 			TwDefine(" Solar label='SOLAR' size ='245 400' position='1640 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 			//TwAddVarRW(solarBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
 			TwAddVarRW(solarBar, "RotSpeed", TW_TYPE_FLOAT, &rotspeed,
-				" min=0.1 max=2.0 step=0.01 help='Change a number of sphere' ");
+				" min=0.01 max=2.0 step=0.01 help='Change a number of sphere' ");
 
 			solarUI = solarBar;
 
