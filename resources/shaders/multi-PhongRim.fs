@@ -65,7 +65,7 @@ vec4 CalcPointLight2(PointLight light, vec3 normal, vec3 fragPos)
     	//const float rim_power = 1.25;
 
 	const vec4 rim_albedo = vec4(0.01, 0.01, 0.01, 1.0);
-    	const float rim_power = 0.25;
+    	const float rim_power = 1.25;
 
 
 	////////////////////
@@ -112,13 +112,13 @@ vec4 CalcPointLight2(PointLight light, vec3 normal, vec3 fragPos)
 	
 	// Artificial rim colour contributes
     	// when normal is at a grazing angle to the view
-    	vec4 rim = pow( smoothstep(0.0, 1.0, 1.0 - dot(N, V)), rim_power) * rim_albedo;
+    	vec4 rim = pow( smoothstep(0.0, 1.0, 1.0 - dot(N, V)), rim_power/5.0) * rim_albedo;
 
 	
     	ambient *= attenuation;
 	diffuse *= attenuation;
 	specular *= attenuation;
-	rim *= attenuation;
+	//rim *= attenuation;
 
 	return (ambient + diffuse + specular + rim );
 }
