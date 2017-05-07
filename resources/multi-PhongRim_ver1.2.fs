@@ -119,7 +119,7 @@ vec4 CalcPointLight2(PointLight light, vec3 normal, vec3 fragPos)
 	specular *= attenuation;
 	rim *= attenuation;
 
-	return (ambient + diffuse + specular);
+	return (ambient + diffuse + specular + rim);
 
 	//vec3 ambient = light.light_ambient * vec3(texture(texture_diffuse, texCoord0));
    // vec3 diffuse = light.light_diffuse * diff * vec3(texture(texture_diffuse, texCoord0));
