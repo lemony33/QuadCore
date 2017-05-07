@@ -66,17 +66,17 @@ void Scene::Init(bool changeLights)
 			multilights[i].posX = 0;
 			multilights[i].posY = 0;
 			multilights[i].posZ = 0;
-			multilights[i].ambient[0] = (float)rand() / RAND_MAX;
-			multilights[i].ambient[1] = (float)rand() / RAND_MAX;
-			multilights[i].ambient[2] = (multilights[i].ambient[0]>multilights[i].ambient[1]) ? 1.0f - multilights[i].ambient[1] : 1.0f - multilights[i].ambient[0];
+			multilights[i].ambient[0] = 0.1f;
+			multilights[i].ambient[1] = 0.1f;
+			multilights[i].ambient[2] = 0.1f;
 			multilights[i].ambient[3] = 1;
-			multilights[i].diffuse[0] = (float)rand() / RAND_MAX;
-			multilights[i].diffuse[1] = (float)rand() / RAND_MAX;
-			multilights[i].diffuse[2] = (multilights[i].diffuse[0]>multilights[i].diffuse[1]) ? 1.0f - multilights[i].diffuse[1] : 1.0f - multilights[i].diffuse[0];
+			multilights[i].diffuse[0] = 0.4f;
+			multilights[i].diffuse[1] = (i == 0) ? 0.8f : 0.4f;
+			multilights[i].diffuse[2] = (i == 1) ? 0.8f : 0.4f;
 			multilights[i].diffuse[3] = 1;
-			multilights[i].specular[0] = (float)rand() / RAND_MAX;
-			multilights[i].specular[1] = (float)rand() / RAND_MAX;
-			multilights[i].specular[2] = (multilights[i].specular[0]>multilights[i].specular[1]) ? 1.0f - multilights[i].specular[1] : 1.0f - multilights[i].specular[0];
+			multilights[i].specular[0] = 0.5f;
+			multilights[i].specular[1] = (i == 0) ? 1.0f : 0.5f;
+			multilights[i].specular[2] = (i == 1) ? 1.0f : 0.5f;
 			multilights[i].specular[3] = 1;
 		}
 
