@@ -124,44 +124,12 @@ public:
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
-
-		TwBar *objectBar = TwNewBar("Object");
-		TwDefine(" Object label='OBJECT' size ='245 400' position='1640 30' alpha=0 help='Use this bar to edit object in the scene.' ");
-
-		//TwAddSeparator(mainBar, "", NULL);
-
-
-		//// Cube 컬러 변경
-		//TwAddVarRW(objectBar, "Obj Color", TW_TYPE_COLOR32, &cubeColor,
-		//	"alpha help='Color and transparency of the cube.' ");
-
-		TwAddSeparator(objectBar, "", NULL);
-
-		// 도형 Rotation Speed 조정 // Its key shortcuts are [s] and [S].
-		TwAddVarRW(objectBar, "Obj Rotation Speed", TW_TYPE_FLOAT, &rotspeed_object,
-			" min=0 max=10 step=0.01 keyDecr=, keyIncr=. help='Rotation speed (turns/second)' ");
-
-		TwAddSeparator(objectBar, "", NULL);
-
-		// 도형 Rotation 
-		TwAddVarRW(objectBar, "Obj Rotation", TW_TYPE_QUAT4F, &g_Rotation,
-			" opened=true help='Change the object orientation.' ");
-
-		TwAddSeparator(objectBar, "", NULL);
-
-		// 도형 Rotation 모드
-		TwEnumVal rotationEV[] = { { Scene::ROT_OFF, "Stopped" },
-		{ Scene::ROT_CW,  "Clockwise" },
-		{ Scene::ROT_CCW, "Counter-clockwise" } };
-		TwType rotationType = TwDefineEnum("Rotation Mode", rotationEV, 3);
-		TwAddVarRW(objectBar, "Obj Rotation Scene", rotationType, &scene.Rotation,
-			" keyIncr=Backspace keyDecr=SHIFT+Backspace help='Stop or change the rotation mode.' ");
+				
 
 		scene.Init(true);
 
 		mainUI = mainBar; // 이 함수에서 정의된 UI를 변수에 연결
-		objectUI = objectBar;
+		
 	}
 
 	virtual ~SceneManager()
@@ -368,22 +336,26 @@ public:
 				case 0:								// 0.Default(none)
 					TurnOffMirrorUI();
 					TurnOffSolarUI();
+					TurnOffRoomUI();
 					m_scene_list.at(j)->Play();
 					break;
 				case 1:								// 1.SkyBox
 					TurnOnMirrorUI();
 					TurnOffSolarUI();
+					TurnOffRoomUI();
 					m_scene_list.at(j)->Play(scene.Spheres);
 					break;
 				case 2:								// 2.Solar System
 					//m_scene_list.at(j)->Play();
 					TurnOffMirrorUI();
 					TurnOnSolarUI();
+					TurnOffRoomUI();
 					m_scene_list.at(j)->Play(rotspeed, pos, ambient, diffuse, specular);
 					break;
 				case 3:								// 3.Show Room
 					TurnOffMirrorUI();
 					TurnOffSolarUI();
+					TurnOnRoomUI();
 					//m_scene_list.at(j)->Play();
 					final_speed = rotspeed_object;
 
@@ -403,6 +375,7 @@ public:
 				default:
 					TurnOffMirrorUI();
 					TurnOffSolarUI();
+					TurnOffRoomUI();
 					m_scene_list.at(j)->Play();
 					break;
 				}
@@ -540,5 +513,58 @@ private:
 
 		solarUIenable = false;
 	}
+
+	bool roomUIenable = false;
+
+	void TurnOnRoomUI()
+	{
+		if (!roomUIenable)
+		{
+			TwBar *objectBar = TwNewBar("Object");
+			TwDefine(" Object label='OBJECT' size ='245 400' position='1640 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+
+			//TwAddSeparator(mainBar, "", NULL);
+
+
+			//// Cube 컬러 변경
+			//TwAddVarRW(objectBar, "Obj Color", TW_TYPE_COLOR32, &cubeColor,
+			//	"alpha help='Color and transparency of the cube.' ");
+
+			TwAddSeparator(objectBar, "", NULL);
+
+			// 도형 Rotation Speed 조정 // Its key shortcuts are [s] and [S].
+			TwAddVarRW(objectBar, "Obj Rotation Speed", TW_TYPE_FLOAT, &rotspeed_object,
+				" min=0 max=10 step=0.01 keyDecr=, keyIncr=. help='Rotation speed (turns/second)' ");
+
+			TwAddSeparator(objectBar, "", NULL);
+
+			// 도형 Rotation 
+			TwAddVarRW(objectBar, "Obj Rotation", TW_TYPE_QUAT4F, &g_Rotation,
+				" opened=true help='Change the object orientation.' ");
+
+			TwAddSeparator(objectBar, "", NULL);
+
+			// 도형 Rotation 모드
+			TwEnumVal rotationEV[] = { { Scene::ROT_OFF, "Stopped" },
+			{ Scene::ROT_CW,  "Clockwise" },
+			{ Scene::ROT_CCW, "Counter-clockwise" } };
+			TwType rotationType = TwDefineEnum("Rotation Mode", rotationEV, 3);
+			TwAddVarRW(objectBar, "Obj Rotation Scene", rotationType, &scene.Rotation,
+				" keyIncr=Backspace keyDecr=SHIFT+Backspace help='Stop or change the rotation mode.' ");
+
+			objectUI = objectBar;
+
+			roomUIenable = true;
+		}
+	}
+
+	void TurnOffRoomUI()
+	{
+		if (roomUIenable)
+			TwDeleteBar(objectUI);
+
+		roomUIenable = false;
+	}
+
 };
 
