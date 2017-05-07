@@ -482,7 +482,7 @@ private:
 		if (!mirrorUIenable)
 		{
 			TwBar *mirrorBar = TwNewBar("Mirror");
-			TwDefine(" Object label='Mirror' position='1600 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			TwDefine(" Mirror label='MIRROR' size ='245 400' position='1640 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 			TwAddVarRW(mirrorBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
 			TwAddVarRW(mirrorBar, "NumberofSphere", TW_TYPE_INT32, &scene.Spheres,
 				" min=0 max=32 help='Change a number of sphere' ");
@@ -505,7 +505,7 @@ private:
 		if (!solarUIenable)
 		{
 			TwBar *solarBar = TwNewBar("Solar");
-			TwDefine(" Object label='Solar' position='1600 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			TwDefine(" Solar label='SOLAR' size ='245 400' position='1640 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 			//TwAddVarRW(solarBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
 			TwAddVarRW(solarBar, "RotSpeed", TW_TYPE_FLOAT, &rotspeed,
 				" min=0.1 max=2.0 step=0.01 help='Change a number of sphere' ");
