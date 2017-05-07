@@ -139,7 +139,7 @@ public:
 
 		// 도형 Rotation Speed 조정 // Its key shortcuts are [s] and [S].
 		TwAddVarRW(objectBar, "Obj Rotation Speed", TW_TYPE_DOUBLE, &scene.speed,
-			" min=0 max=10 step=0.01 keyIncr=s keyDecr=S help='Rotation speed (turns/second)' ");
+			" min=0 max=10 step=0.01 keyDecr=, keyIncr=. help='Rotation speed (turns/second)' ");
 
 		TwAddSeparator(objectBar, "", NULL);
 
@@ -189,9 +189,9 @@ public:
 
 		
 		m_scene_list.push_back(new Scene_main);
-		m_scene_list.push_back(new Scence_mirror);			// 1.SkyBox
-		m_scene_list.push_back(new Scence_SolarSystem);		// 2.Solar System
-		m_scene_list.push_back(new Scene_ShowRoom);			// 3.Show Room
+		//m_scene_list.push_back(new Scence_mirror);			// 1.SkyBox
+		//m_scene_list.push_back(new Scence_SolarSystem);		// 2.Solar System
+		//m_scene_list.push_back(new Scene_ShowRoom);			// 3.Show Room
 		//m_scene_list.push_back(new Scence_multi_light);
 		//m_scene_list.push_back(new Scence_moving_wall);
 		//m_scene_list.push_back(new Scence_moving_block);

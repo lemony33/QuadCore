@@ -30,6 +30,9 @@ public:
 		glfwSetCursorEnterCallback(window, glfw_cursorEnterCallBack);
 
 		SetMouseCursor(window);
+
+		monitor = glfwGetPrimaryMonitor();
+		mode = glfwGetVideoMode(monitor);
 	}
 	Controls(Controls& the_mouse, Camera& the_camera, Transform& the_transform)
 	{
@@ -49,6 +52,11 @@ private:
 	int tr_x, tr_y;
 	float CAMERA_MOVE_UNIT = 0.5f;
 
+	const GLFWvidmode* mode;
+	GLFWmonitor* monitor;
+	bool Is_MAXIMIZE = false;
+	bool Is_Duplication = false;
+
 public:
 	virtual void onKey(int key, int action)
 	{
@@ -59,7 +67,7 @@ public:
 			// Do something if needed.
 			return;
 			//???
-		}
+		}		
 
 		switch (key)
 		{
@@ -175,17 +183,42 @@ public:
 		case GLFW_KEY_SPACE:
 			m_cur_key = '+';
 			break;
+
+		case GLFW_KEY_F11:
+			glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+			Is_MAXIMIZE = true;
+			break;
 		case GLFW_KEY_ENTER:
-			if (!glfwGetWindowAttrib(window, GLFW_MAXIMIZED))
+			if ((glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS)
+				&& (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS))
 			{
-				glfwMaximizeWindow(window);
+				glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+				Is_MAXIMIZE = true;
+				break;
+			}
+
+			if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_RELEASE)// 스레드 문제 해결을 위한 코드 (키 여러번 눌림)
+			{
+				Is_Duplication = true;
 			}
 			else
 			{
-				// 스레드 문제 (키 여러번 눌림)
-				//glfwSetWindowSize(window, 800, 800);
+				Is_Duplication = false;
+			}
+			if (Is_MAXIMIZE && !Is_Duplication)
+			{
+				glfwSetWindowMonitor(window, NULL, 0, 38, mode->width, mode->height, mode->refreshRate);
+				glfwMaximizeWindow(window);
+				Is_Duplication = false;
+				Is_MAXIMIZE = false;
 			}
 
+			if (glfwGetKey(window, GLFW_KEY_ENTER) != GLFW_REPEAT)
+			{
+			}
+			if (!glfwGetWindowAttrib(window, GLFW_MAXIMIZED))
+			{
+			}
 			break;
 		case GLFW_KEY_LEFT_SHIFT:
 			glfwSetWindowSize(window, 800, 800);
@@ -193,6 +226,10 @@ public:
 		case GLFW_KEY_LEFT_CONTROL:
 			break;
 		case GLFW_KEY_LEFT_ALT:
+			if (glfwGetInputMode(window, GLFW_KEY_O) == GLFW_PRESS)
+			{
+				glfwSetWindowSize(window, 800, 800);
+			}
 			break;
 
 		case GLFW_KEY_RIGHT_SHIFT:
