@@ -10,6 +10,13 @@ Display::Display(int width, int height, const std::string& title)
 		return;
 		//return -1;
 
+	//###
+	monitor = glfwGetPrimaryMonitor();
+	mode = glfwGetVideoMode(monitor);
+	width = mode->width;
+	height = mode->height;
+	//###
+
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 	

@@ -68,6 +68,10 @@ private:
 
 	GLFWwindow *window;
 
+	//###
+	const GLFWvidmode* mode;
+	GLFWmonitor* monitor;
+
 public:
 	GLFWwindow* GetWindow()
 	{

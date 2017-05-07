@@ -192,8 +192,7 @@ public:
 			if ((glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS)
 				&& (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS))
 			{
-				glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
-				Is_MAXIMIZE = true;
+				SetFullScreen(true);
 				break;
 			}
 
@@ -207,10 +206,8 @@ public:
 			}
 			if (Is_MAXIMIZE && !Is_Duplication)
 			{
-				glfwSetWindowMonitor(window, NULL, 0, 38, mode->width, mode->height, mode->refreshRate);
-				glfwMaximizeWindow(window);
+				SetFullScreen(false);
 				Is_Duplication = false;
-				Is_MAXIMIZE = false;
 			}
 
 			if (glfwGetKey(window, GLFW_KEY_ENTER) != GLFW_REPEAT)
@@ -250,6 +247,21 @@ public:
 			m_cur_key = '-';
 			break;
 		};
+	}
+
+	void SetFullScreen(bool flag)
+	{
+		if (flag)
+		{
+			glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+			Is_MAXIMIZE = true;
+		}
+		else
+		{
+			glfwSetWindowMonitor(window, NULL, 0, 38, mode->width, mode->height, mode->refreshRate);
+			glfwMaximizeWindow(window);
+			Is_MAXIMIZE = false;
+		}
 	}
 
 private:
