@@ -90,7 +90,7 @@ public:
 		TwAddVarRW(mainBar, "SetDefault", TW_TYPE_BOOLCPP, &IsDefault, "key=R help='set to default mode.' ");
 
 		// 배경 변경하는 메뉴, SceneNumber 변수를 조절함
-		TwAddVarRW(mainBar, "Background Number", TW_TYPE_INT32, &scene.BackgroundNum, " min=0 max=3 help='Change Background' ");
+		TwAddVarRW(mainBar, "Background Num", TW_TYPE_INT32, &scene.BackgroundNum, " min=0 max=3 help='Change Background' ");
 
 		// 씬 변경하는 메뉴, SceneNumber 변수를 조절함
 		scene.SceneNumber = 0;
@@ -189,13 +189,13 @@ public:
 
 		
 		m_scene_list.push_back(new Scene_main);
-		//m_scene_list.push_back(new Scence_mirror);			// 1.SkyBox
-		//m_scene_list.push_back(new Scence_SolarSystem);		// 2.Solar System
-		//m_scene_list.push_back(new Scene_ShowRoom);			// 3.Show Room
-		//m_scene_list.push_back(new Scence_multi_light);
-		//m_scene_list.push_back(new Scence_moving_wall);
-		//m_scene_list.push_back(new Scence_moving_block);
-		//m_scene_list.push_back(new Scene_basicObjects);
+		m_scene_list.push_back(new Scence_mirror);			// 1.SkyBox
+		m_scene_list.push_back(new Scence_SolarSystem);		// 2.Solar System
+		m_scene_list.push_back(new Scene_ShowRoom);			// 3.Show Room
+		m_scene_list.push_back(new Scence_multi_light);
+		m_scene_list.push_back(new Scence_moving_wall);
+		m_scene_list.push_back(new Scence_moving_block);
+		m_scene_list.push_back(new Scene_basicObjects);
 		m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_main);
