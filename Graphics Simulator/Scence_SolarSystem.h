@@ -22,14 +22,15 @@ public:
 	{
 		if (!m_enable)
 			return;
-		if (speed < 0.1) this->speed = 0.1f;
+		if (speed < 0.01) this->speed = 0.01f;
 		else if (speed > 2.0) this->speed = 2.0f;
 		else this->speed = speed;
 		printf("rotspeed = %f\n", this->speed);
 		for (int i = 0; i < 3; i++)
 		{
 			lightTransforms[i + 1].SetPos(pos[i]);
-			lightTransforms[i + 1].SetScale(glm::vec3(0.5f));
+			lightTransforms[i + 1].SetRot(glm::vec3(0, m_counter / 0.5f  * speed, 0));
+			lightTransforms[i + 1].SetScale(glm::vec3(0.3f, 0.2f + 0.1f * sinf(m_counter * speed * 20.0f), 0.3f));
 			this->ambient[i + 1] = ambient[i];
 			this->diffuse[i + 1] = diffuse[i];
 			this->specular[i + 1] = specular[i];
@@ -56,55 +57,55 @@ public:
 		MercurySphere.Init(glm::vec3(0.0f + 0.4 * distance * sinf(m_counter / 0.24f * speed),
 									0.0f,
 									0.0f + 0.4 * distance * cosf(m_counter / 0.24f * speed)),
-			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(0.0f, m_counter / 59.0f * speed * rotspeed, 0.0f),
 			glm::vec3(0.4f)); numberofplanets++;// 수성
 
 		VenusSphere.Init(glm::vec3(0.0f + 0.7 * distance * sinf(m_counter / 0.62f * speed),
 									0.0f,
 									0.0f + 0.7 * distance * cosf(m_counter / 0.62f * speed)),
-			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(0.0f, m_counter / 243.0f * speed * rotspeed, 0.0f),
 			glm::vec3(0.9f)); numberofplanets++;// 금성
 
 		EarthSphere.Init(glm::vec3(0.0f + 1.0 * distance * sinf(m_counter * 1.0f * speed),
 									0.0f,
 									0.0f + 1.0 * distance * cosf(m_counter * 1.0f * speed)),
-			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(0.0f, m_counter / 1.0f * speed * rotspeed, 0.0f),
 			glm::vec3(1.0f)); numberofplanets++;// 지구
 
 		MarsSphere.Init(glm::vec3(0.0f + 1.5 * distance * sinf(m_counter / 1.88f * speed),
 									0.0f,
 									0.0f + 1.5 * distance * cosf(m_counter / 1.88f * speed)),
-			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(0.0f, m_counter / 1.03f * speed * rotspeed, 0.0f),
 			glm::vec3(0.6f)); numberofplanets++;// 화성
 
 		JupiterSphere.Init(glm::vec3(0.0f + 5.2 * distance * sinf(m_counter / 11.86f * speed) / 2.0f,
 									0.0f,
 									0.0f + 5.2 * distance * cosf(m_counter / 11.86f * speed) / 2.0f),
-			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(0.0f, m_counter / 0.41f * speed * rotspeed, 0.0f),
 			glm::vec3(11.2f / 5.0f)); numberofplanets++;// 목성
 
 		SaturnSphere.Init(glm::vec3(0.0f + 9.5 * distance * sinf(m_counter / 29.46f * speed) / 3.0f,
 									0.0f,
 									0.0f + 9.5 * distance * cosf(m_counter / 29.46f * speed) / 3.0f),
-			glm::vec3(-0.3f, 0.0f, 0.0f),
+			glm::vec3(0.0f, m_counter / 0.44f * speed * rotspeed, 0.0f),
 			glm::vec3(9.4f / 5.0f)); numberofplanets++;// 토성
 
 		UranusSphere.Init(glm::vec3(0.0f + 19.2 * distance * sinf(m_counter / 84.07f * speed) / 5.0f,
 									0.0f,
 									0.0f + 19.2 * distance * cosf(m_counter / 84.07f * speed) / 5.0f),
-			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(0.0f, m_counter / 0.65f * speed * rotspeed, 0.0f),
 			glm::vec3(4.0f / 3.0f)); numberofplanets++;// 천왕성
 
 		NeptuneSphere.Init(glm::vec3(0.0f + 30.1 * distance * sinf(m_counter / 164.8f * speed) / 7.0f,
 									0.0f,
 									0.0f + 30.1 * distance * cosf(m_counter / 164.8f * speed) / 7.0f),
-			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(0.0f, m_counter / 0.77f * speed * rotspeed, 0.0f),
 			glm::vec3(3.9f / 2.0f)); numberofplanets++;// 해왕성
 
 		MoonSphere.Init(glm::vec3(EarthSphere.GetPos().x + 0.7f * distance * sinf(m_counter * 27.0f / 365.0f * speed) / 7.0f,
 									0.0f,
 									EarthSphere.GetPos().z + 0.7f * distance * cosf(m_counter * 27.0f / 365.0f * speed) / 7.0f),
-			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(0.0f, m_counter * 27.0f / 365.0f * speed, 0.0f),
 			glm::vec3(0.25f)); numberofplanets++;// 달
 
 		SaturnDonutRing.Init(glm::vec3(SaturnSphere.GetPos().x,
@@ -123,8 +124,8 @@ public:
 		lightTransforms[4].Init(glm::vec3(0 + nuclear * distance * sinf(m_counter / 0.4f * speed),
 			0,
 			0 + nuclear * distance * cosf(m_counter / 0.4f * speed)),
-			glm::vec3(),
-			glm::vec3(0.2f));
+			glm::vec3(0, m_counter / 0.5f  * speed, 0),
+			glm::vec3(0.3f, 0.2f + 0.1f * sinf(m_counter * speed * 20.0f), 0.3f));
 		if (nuclear < 35/7 && reverse == false)
 			nuclear += 0.001f;
 		else if (nuclear > 35/7 && reverse == false)
@@ -171,7 +172,7 @@ private:
 
 		for (int i = 0; i < 5; i++)
 		{
-			BasicObject* light = new BasicObject("BasicObjects/Sphere", "lamp", "moon", &lightTransforms[i]);
+			BasicObject* light = new BasicObject("BasicObjects/Sphere", "lamp", "slime", &lightTransforms[i]);
 			m_shape_manager.Insert_Object(light);
 		}
 	}
@@ -181,6 +182,7 @@ private:
 	float nuclear = 0;
 	float distance = 10.0f; // 행성간 거리 비율
 	float speed = 0.1f; // 공전주기 속도 비율
+	float rotspeed = 2.0f; // 자전주기 속도 비율
 	Transform SunSphere; // 태양
 	Transform MercurySphere; // 수성
 	Transform VenusSphere; // 금성

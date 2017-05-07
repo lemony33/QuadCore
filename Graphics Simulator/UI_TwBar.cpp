@@ -143,9 +143,9 @@ void Scene::CreateBar()
 	// 추가 될 각 multilight의 속성 
 	TwStructMember lightMembers[] = // Light structure
 	{
-		{ "Pos - X",     TW_TYPE_FLOAT, offsetof(MultiLight, posX),     " min=-500.00 max=500.00 help='Light PositionX.' " },
-		{ "Pos - Y",     TW_TYPE_FLOAT, offsetof(MultiLight, posY),     " min=-500.00 max=500.00 help='Light PositionY.' " },
-		{ "Pos - Z",     TW_TYPE_FLOAT, offsetof(MultiLight, posZ),     " min=-500.00 max=500.00 help='Light PositionZ.' " },
+		{ "Pos - X",     TW_TYPE_FLOAT, offsetof(MultiLight, posX),     " min=-500.00 max=500.00 step=0.1 help='Light PositionX.' " },
+		{ "Pos - Y",     TW_TYPE_FLOAT, offsetof(MultiLight, posY),     " min=-500.00 max=500.00 step=0.1 help='Light PositionY.' " },
+		{ "Pos - Z",     TW_TYPE_FLOAT, offsetof(MultiLight, posZ),     " min=-500.00 max=500.00 step=0.1 help='Light PositionZ.' " },
 		
 		{ "Ambient",     TW_TYPE_COLOR3F, offsetof(MultiLight, ambient),     " help='Light Ambient.' " },
 		{ "Diffuse",     TW_TYPE_COLOR3F, offsetof(MultiLight, diffuse),     " help='Light Diffuse.' " },

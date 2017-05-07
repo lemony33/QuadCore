@@ -1,24 +1,36 @@
+#version 430 core
 
-#version 330 core
+// mesh header file 참고
+layout (location = 0) in vec3 position;	// position
+layout (location = 1) in vec2 texCoord;	// texture
+layout (location = 2) in vec3 normal;	// lighting
 
-layout (location = 0) in vec3 position;
-layout (location = 1) in vec3 texCoord;
-layout (location = 2) in vec3 normal;
-
-//out vec2 texCoord0;  //texture
-//out vec3 normal0;    //lighting
+out vec2 texCoord0;  //texture
+out vec3 normal0;    //lighting
+out vec3 FragPos;
 out vec3 LPOS;
 
-uniform mat4 transform; 
+uniform mat4 transform;  //uniform 에 transform을 set한다
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 uniform vec3 pos;
 
 
 void main()
-
 {
+//	gl_Position = transform * vec4(position, 1.0);	//trnasform
+	gl_Position = projection * view *  model * vec4(position, 1.0f);
 
-    gl_Position = transform * vec4(position, 1.0f);
-	//texCoord0 = texCoord;
-    LPOS = pos;
 
-} 
+	// OUT TO FRAGMENT SHADER
+	texCoord0 = texCoord;
+//	normal0 = (transform * vec4(normal, 0.0)).xyz;	//lighting
+
+	FragPos = vec3(model * vec4(position, 1.0f));
+	normal0 = mat3(transpose(inverse(model))) * normal;
+LPOS = pos;
+
+
+}
+
