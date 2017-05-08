@@ -516,6 +516,10 @@ private:
 
 	bool roomUIenable = false;
 
+	enum OBJECT_MODE { Bunny, Lucy, Lucycat };
+	enum SHADER_MODE { Phong, Multi, Rim };
+	enum TEXTURE_MODE { Bricks, Skyblue, Formula };
+
 	void TurnOnRoomUI()
 	{
 		if (!roomUIenable)
@@ -528,27 +532,27 @@ private:
 
 			
 			TwEnumVal objectEV[] = {
-				{ Scene::ROT_OFF, "Bunny" },
-				{ Scene::ROT_CW,  "Lucy" },
-				{ Scene::ROT_CCW, "Lucycat" }
+				{ OBJECT_MODE::Bunny, "Bunny" },
+				{ OBJECT_MODE::Lucy,  "Lucy" },
+				{ OBJECT_MODE::Lucycat, "Lucycat" }
 			};
-			TwType objectType = TwDefineEnum("Shader Mode", objectEV, 3);
+			TwType objectType = TwDefineEnum("Object Mode", objectEV, 3);
 			TwAddVarRW(objectBar, "Select Object", objectType, &scene.Rotation,
 				" keyIncr=Backspace keyDecr=SHIFT+Backspace help='...' ");
 
 			TwEnumVal shaderEV[] = {
-										{ Scene::ROT_OFF, "Flat Shading" },
-										{ Scene::ROT_CW,  "Phong Shading" },
-										{ Scene::ROT_CCW, "Multi Shading" }
+										{ SHADER_MODE::Phong, "Phong Shading" },
+										{ SHADER_MODE::Multi,  "Multi Shading" },
+										{ SHADER_MODE::Rim, "Rim Shading" }
 									};
 			TwType shaderType = TwDefineEnum("Shader Mode", shaderEV, 3);
 			TwAddVarRW(objectBar, "Select Shader", shaderType, &scene.Rotation,
 				" keyIncr=Backspace keyDecr=SHIFT+Backspace help='...' ");
 
 			TwEnumVal textureEV[] = {
-				{ Scene::ROT_OFF, "Bricks" },
-				{ Scene::ROT_CW,  "SkyBlue" },
-				{ Scene::ROT_CCW, "Formula" }
+				{ TEXTURE_MODE::Bricks, "Bricks" },
+				{ TEXTURE_MODE::Skyblue,  "SkyBlue" },
+				{ TEXTURE_MODE::Formula, "Formula" }
 			};
 			TwType textureType = TwDefineEnum("Texture Mode", textureEV, 3);
 			TwAddVarRW(objectBar, "Select Texture", textureType, &scene.Rotation,
