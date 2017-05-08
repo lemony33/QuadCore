@@ -9,7 +9,9 @@
 
 
 QuadCore::Graphics_Simulator::Graphics_Simulator()
-	: display(width_window, height_window, "Graphics Simulator - QuadCore")
+	: display(width_window, height_window, "Graphics Simulator - QuadCore"),
+	  aspec((float)width_window / (float)height_window),
+	  camera(glm::vec3(0, 0, 10), 70.0f, aspec, 0.01F, 1000.0f)
 {
 }
 
@@ -22,13 +24,13 @@ QuadCore::Graphics_Simulator::~Graphics_Simulator()
 void QuadCore::Graphics_Simulator::Run()
 {
 	//4. Transform
-	Transform world_transform;
+	//Transform world_transform;
 	///Transform UI_transform;
 
 		
 	//5. Camera
-	float aspec = (float)width_window / (float)height_window;
-	Camera camera(glm::vec3(0, 0, 10), 70.0f, aspec, 0.01F, 1000.0f);
+	//float aspec = (float)width_window / (float)height_window;
+	//Camera camera(glm::vec3(0, 0, 10), 70.0f, aspec, 0.01F, 1000.0f);
 
 	// Controls (Mouse / Keyboard)
 	Controls controls(display.GetWindow());
