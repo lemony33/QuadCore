@@ -521,9 +521,38 @@ private:
 		if (!roomUIenable)
 		{
 			TwBar *objectBar = TwNewBar("Object");
-			TwDefine(" Object label='OBJECT' size ='245 400' position='1640 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			TwDefine(" Object label='OBJECT' size ='300 400' position='1585 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			//TwDefine(" Object label='OBJECT' size ='245 400' position='1640 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 
 			//TwAddSeparator(mainBar, "", NULL);
+
+			
+			TwEnumVal objectEV[] = {
+				{ Scene::ROT_OFF, "Bunny" },
+				{ Scene::ROT_CW,  "Lucy" },
+				{ Scene::ROT_CCW, "Lucycat" }
+			};
+			TwType objectType = TwDefineEnum("Shader Mode", objectEV, 3);
+			TwAddVarRW(objectBar, "Select Object", objectType, &scene.Rotation,
+				" keyIncr=Backspace keyDecr=SHIFT+Backspace help='...' ");
+
+			TwEnumVal shaderEV[] = {
+										{ Scene::ROT_OFF, "Flat Shading" },
+										{ Scene::ROT_CW,  "Phong Shading" },
+										{ Scene::ROT_CCW, "Multi Shading" }
+									};
+			TwType shaderType = TwDefineEnum("Shader Mode", shaderEV, 3);
+			TwAddVarRW(objectBar, "Select Shader", shaderType, &scene.Rotation,
+				" keyIncr=Backspace keyDecr=SHIFT+Backspace help='...' ");
+
+			TwEnumVal textureEV[] = {
+				{ Scene::ROT_OFF, "Bricks" },
+				{ Scene::ROT_CW,  "SkyBlue" },
+				{ Scene::ROT_CCW, "Formula" }
+			};
+			TwType textureType = TwDefineEnum("Texture Mode", textureEV, 3);
+			TwAddVarRW(objectBar, "Select Texture", textureType, &scene.Rotation,
+				" keyIncr=Backspace keyDecr=SHIFT+Backspace help='...' ");
 
 
 			//// Cube 컬러 변경
