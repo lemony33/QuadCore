@@ -79,28 +79,28 @@ public:
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		// 시간
-		TwAddVarRO(mainBar, "Time", TW_TYPE_DOUBLE, &scene.time, "precision=1 help='Time (in seconds).' ");
+		TwAddVarRO(mainBar, "Run Time", TW_TYPE_DOUBLE, &scene.time, "precision=1 help='Time (in seconds).' ");
 
 		TwAddVarRW(mainBar, "Counter", TW_TYPE_FLOAT, &counter, "precision=1 help='Time (in seconds).' ");
-		TwAddVarRW(mainBar, "STOP", TW_TYPE_BOOLCPP, &m_stopper, "key=P help='mini_coordinate' ");
+		TwAddVarRW(mainBar, "Stop", TW_TYPE_BOOLCPP, &m_stopper, "key=P help='mini_coordinate' ");
 
 
 		TwAddSeparator(mainBar, "", NULL);	// 아래쪽에 line생성
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-		TwAddVarRW(mainBar, "SetDefault", TW_TYPE_BOOLCPP, &IsDefault, "key=R help='set to default mode.' ");
+		TwAddVarRW(mainBar, "Set Default", TW_TYPE_BOOLCPP, &IsDefault, "key=R help='set to default mode.' ");
 
 		// 배경 변경하는 메뉴, SceneNumber 변수를 조절함
 		TwAddVarRW(mainBar, "Background Num", TW_TYPE_INT32, &scene.BackgroundNum, " min=0 max=3 help='Change Background' ");
 
 		// 씬 변경하는 메뉴, SceneNumber 변수를 조절함
 		scene.SceneNumber = 0;
-		TwAddVarRW(mainBar, "Scene Number", TW_TYPE_INT32, &scene.SceneNumber, " min=0 max=8 help='Change Scene' ");
+		TwAddVarRW(mainBar, "Animation Num", TW_TYPE_INT32, &scene.SceneNumber, " min=0 max=8 help='Change Scene' ");
 		//TwAddVarRW(TwBar *bar, const char *name, TwType type, void *var, const char *def);
 
-		TwAddVarRW(mainBar, "1.SkyBox", TW_TYPE_BOOLCPP, &m_scene_1, "key=1 help='Scene1. SkyBox' ");
-		TwAddVarRW(mainBar, "2.Solar System", TW_TYPE_BOOLCPP, &m_scene_2, "key=2 help='Scene2. Solar System' ");
-		TwAddVarRW(mainBar, "3.Show Room", TW_TYPE_BOOLCPP, &m_scene_3, "key=3 help='Scene3. Show Room' ");
+		TwAddVarRW(mainBar, " 1. SkyBox", TW_TYPE_BOOLCPP, &m_scene_1, "key=1 help='Scene1. SkyBox' ");
+		TwAddVarRW(mainBar, " 2. Solar System", TW_TYPE_BOOLCPP, &m_scene_2, "key=2 help='Scene2. Solar System' ");
+		TwAddVarRW(mainBar, " 3. Room", TW_TYPE_BOOLCPP, &m_scene_3, "key=3 help='Scene3. Show Room' ");
 
 		TwAddSeparator(mainBar, "", NULL);
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -114,9 +114,9 @@ public:
 
 		
 		// 
-		TwAddVarRW(mainBar, "mini_coordinate", TW_TYPE_BOOLCPP, &switch_mini_coordinate, "key=B help='mini_coordinate' ");
-		TwAddVarRW(mainBar, "world_coordinate", TW_TYPE_BOOLCPP, &switch_world_coordinate, "key=N help='world_coordinate' ");
-		TwAddVarRW(mainBar, "Grid Map", TW_TYPE_BOOLCPP, &switch_grid_map, "key=M help='draw_Grid_Map' ");
+		TwAddVarRW(mainBar, "Mini Coordinate", TW_TYPE_BOOLCPP, &switch_mini_coordinate, "key=B help='mini_coordinate' ");
+		TwAddVarRW(mainBar, "World Coordinate", TW_TYPE_BOOLCPP, &switch_world_coordinate, "key=N help='world_coordinate' ");
+		TwAddVarRW(mainBar, "Grid World Map", TW_TYPE_BOOLCPP, &switch_grid_map, "key=M help='draw_Grid_Map' ");
 
 		TwAddSeparator(mainBar, "", NULL);
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -158,10 +158,10 @@ public:
 
 		
 		m_scene_list.push_back(new Scene_main);
-		//m_scene_list.push_back(new Scence_mirror);			// 1.SkyBox
-		//m_scene_list.push_back(new Scence_SolarSystem);		// 2.Solar System
-		m_scene_list.push_back(new Scene_main);
-		m_scene_list.push_back(new Scene_main);
+		m_scene_list.push_back(new Scence_mirror);			// 1.SkyBox
+		m_scene_list.push_back(new Scence_SolarSystem);		// 2.Solar System
+		//m_scene_list.push_back(new Scene_main);
+		//m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_ShowRoom);			// 3.Show Room
 		//m_scene_list.push_back(new Scence_moving_wall);		// 빛의 위치 설명할 때 사용
 		//m_scene_list.push_back(new Scence_moving_block);	// 회오리 모양으로 오브젝트 배치해보면 좋을듯
@@ -473,7 +473,7 @@ private:
 		if (!mirrorUIenable)
 		{
 			TwBar *mirrorBar = TwNewBar("Mirror");
-			TwDefine(" Mirror label='MIRROR' size ='245 400' position='1640 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			TwDefine(" Mirror label='MIRROR' size ='245 400' position='1340 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 			TwAddVarRW(mirrorBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
 			TwAddVarRW(mirrorBar, "NumberofSphere", TW_TYPE_INT32, &scene.Spheres,
 				" min=0 max=32 help='Change a number of sphere' ");
@@ -496,7 +496,7 @@ private:
 		if (!solarUIenable)
 		{
 			TwBar *solarBar = TwNewBar("Solar");
-			TwDefine(" Solar label='SOLAR' size ='245 400' position='1640 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			TwDefine(" Solar label='SOLAR' size ='245 400' position='1340 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 			//TwAddVarRW(solarBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
 			TwAddVarRW(solarBar, "RotSpeed", TW_TYPE_FLOAT, &rotspeed,
 				" min=0.01 max=2.0 step=0.01 help='Change a number of sphere' ");
@@ -525,7 +525,7 @@ private:
 		if (!roomUIenable)
 		{
 			TwBar *objectBar = TwNewBar("Object");
-			TwDefine(" Object label='OBJECT' size ='300 400' position='1585 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			TwDefine(" Object label='OBJECT' size ='300 400' position='1285 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 			//TwDefine(" Object label='OBJECT' size ='245 400' position='1640 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 
 			//TwAddSeparator(mainBar, "", NULL);
