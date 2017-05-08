@@ -39,7 +39,7 @@ public:
 
 		Animate();
 
-		m_shape_manager.DrawAll();
+		m_shape_manager.DrawAll(m_local_coordinate);
 	}
 
 	virtual void Animate()

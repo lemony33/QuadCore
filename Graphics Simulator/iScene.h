@@ -25,6 +25,12 @@ public:
 		m_shape_manager.Init(camera);
 		Draw();
 	}
+	bool m_local_coordinate = false;
+	void Set_LocalCoordinate(bool local_coordinate)
+	{
+		m_local_coordinate = local_coordinate;
+	}
+
 	// 그려진 내용을 재생한다
 	virtual void Play()
 	{
@@ -33,12 +39,13 @@ public:
 
 		Animate();
 
-		m_shape_manager.DrawAll();
+		m_shape_manager.DrawAll(m_local_coordinate);
 	}
 
 	//인자 전달용 play 오버로딩 함수. 각 함수마다 변수를 처리하는게 다를 수 있으므로 자식에서 함수 내용 정하도록
 	virtual void Play(int pos) {}
 	virtual void Play(float speed, glm::vec3* pos, glm::vec3* ambient, glm::vec3* diffuse, glm::vec3* specular) {}
+	virtual void Play(float* g_rotation, float speed, glm::vec3* pos, glm::vec3* ambient, glm::vec3* diffuse, glm::vec3* specular) {}
 
 	// 카운터를 설정한다
 	static void SetCounter(float counter)

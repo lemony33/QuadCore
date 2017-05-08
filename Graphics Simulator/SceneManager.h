@@ -45,6 +45,7 @@ public:
 
 	bool switch_mini_coordinate = true;
 	bool switch_world_coordinate = false;
+	bool switch_local_coordinate = false;
 	bool switch_grid_map = false;
 
 	unsigned char cubeColor[4] = { 255, 0, 0, 128 }; // Model color (32bits RGBA)
@@ -98,7 +99,7 @@ public:
 		TwAddVarRW(mainBar, "Animation Num", TW_TYPE_INT32, &scene.SceneNumber, " min=0 max=8 help='Change Scene' ");
 		//TwAddVarRW(TwBar *bar, const char *name, TwType type, void *var, const char *def);
 
-		TwAddVarRW(mainBar, " 1. SkyBox", TW_TYPE_BOOLCPP, &m_scene_1, "key=1 help='Scene1. SkyBox' ");
+		TwAddVarRW(mainBar, " 1. Skybox", TW_TYPE_BOOLCPP, &m_scene_1, "key=1 help='Scene1. SkyBox' ");
 		TwAddVarRW(mainBar, " 2. Solar System", TW_TYPE_BOOLCPP, &m_scene_2, "key=2 help='Scene2. Solar System' ");
 		TwAddVarRW(mainBar, " 3. Room", TW_TYPE_BOOLCPP, &m_scene_3, "key=3 help='Scene3. Show Room' ");
 
@@ -116,9 +117,10 @@ public:
 		// 
 		TwAddVarRW(mainBar, "Mini Coordinate", TW_TYPE_BOOLCPP, &switch_mini_coordinate, "key=B help='mini_coordinate' ");
 		TwAddVarRW(mainBar, "World Coordinate", TW_TYPE_BOOLCPP, &switch_world_coordinate, "key=N help='world_coordinate' ");
+		TwAddVarRW(mainBar, "Local Coordinate", TW_TYPE_BOOLCPP, &switch_local_coordinate, "key=L help='world_coordinate' ");
 		TwAddVarRW(mainBar, "Grid World Map", TW_TYPE_BOOLCPP, &switch_grid_map, "key=M help='draw_Grid_Map' ");
 
-		TwAddSeparator(mainBar, "", NULL);
+		//TwAddSeparator(mainBar, "", NULL);
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -163,10 +165,10 @@ public:
 		//m_scene_list.push_back(new Scene_main);
 		//m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_ShowRoom);			// 3.Show Room
-		//m_scene_list.push_back(new Scence_moving_wall);		// 빛의 위치 설명할 때 사용
-		//m_scene_list.push_back(new Scence_moving_block);	// 회오리 모양으로 오브젝트 배치해보면 좋을듯
-		//m_scene_list.push_back(new Scene_basicObjects);		// 다양한 오브젝트에서 빛이 적용되는 모습 시연
-		//m_scene_list.push_back(new Scence_multi_light);		// 여러개의 물체에 적용되는 빛
+		m_scene_list.push_back(new Scence_moving_wall);		// 빛의 위치 설명할 때 사용
+		m_scene_list.push_back(new Scence_moving_block);	// 회오리 모양으로 오브젝트 배치해보면 좋을듯
+		m_scene_list.push_back(new Scene_basicObjects);		// 다양한 오브젝트에서 빛이 적용되는 모습 시연
+		m_scene_list.push_back(new Scence_multi_light);		// 여러개의 물체에 적용되는 빛
 		m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_main);
@@ -297,6 +299,7 @@ public:
 		{
 			dMap.DrawPlane();		// Draw Map	
 		}
+				
 
 		//scence_mirror->KeyInput(m_cur_key);		
 
@@ -331,6 +334,9 @@ public:
 			if (i == scene.SceneNumber)
 			{
 				int j = i;
+
+				m_scene_list.at(j)->Set_LocalCoordinate(switch_local_coordinate);
+
 				switch (i)
 				{
 				case 0:								// 0.Default(none)
@@ -370,7 +376,15 @@ public:
 					if (m_stopper)
 						final_speed = 0;
 
-					m_scene_list.at(j)->Play(final_speed, pos, ambient, diffuse, specular);
+					if (reset_rotation)
+					{
+						g_Rotation[0] = 0.0f;
+						g_Rotation[1] = 0.0f;
+						g_Rotation[2] = 0.0f;
+						reset_rotation = false;
+					}
+
+					m_scene_list.at(j)->Play(g_Rotation, final_speed, pos, ambient, diffuse, specular);
 					break;
 				default:
 					TurnOffMirrorUI();
@@ -380,53 +394,6 @@ public:
 					break;
 				}
 			}
-			/*
-			//UI 값에 맞는 씬만 플레이
-			if (i == scene.SceneNumber)
-			{
-				int j = i + 3;
-				switch (i)
-				{
-				case 0:
-					//씬 재생
-					//m_scene_list.at(1)->Play();
-					m_scene_list.at(j)->Play();
-					//sphere 메뉴 제거. 없으면 없다고 콘솔에 메시지는 뜨나 상관없음
-					TwRemoveVar(mainUI, "NumberofSphere");
-					break;
-
-				case 1:
-					//씬 재생
-					m_scene_list.at(0)->Play();
-					m_scene_list.at(j)->Play();
-					//sphere 메뉴 제거. 없으면 없다고 콘솔에 메시지는 뜨나 상관없음
-					TwRemoveVar(mainUI, "NumberofSphere");
-					break;
-
-				case 2:
-					//씬 재생
-					m_scene_list.at(1)->Play();
-					m_scene_list.at(j)->Play(pos, ambient, diffuse, specular);
-					
-					//sphere 메뉴 제거. 없으면 없다고 콘솔에 메시지는 뜨나 상관없음
-					TwRemoveVar(mainUI, "NumberofSphere");
-					break;
-
-				case 3:
-					//sphere 갯수 정하는 UI 추가. 콘솔에서 오류사항 표기해주며 중복 생성 안되게 되있음
-					TwAddVarRW(mainUI, "NumberofSphere", TW_TYPE_INT32, &scene.Spheres,
-						" min=0 max=64 help='Change a number of sphere' ");
-					//씬 재생
-					m_scene_list.at(0)->Play();
-					m_scene_list.at(3)->Play();
-					m_scene_list.at(j)->Play(scene.Spheres);
-					break;
-
-				default:
-					break;
-				}				
-			}
-			*/
 		}
 
 		// Rotate model	// TwSimple Rotation 추가
@@ -472,10 +439,10 @@ private:
 	{
 		if (!mirrorUIenable)
 		{
-			TwBar *mirrorBar = TwNewBar("Mirror");
-			TwDefine(" Mirror label='MIRROR' size ='245 400' position='1340 30' alpha=0 help='Use this bar to edit object in the scene.' ");
-			TwAddVarRW(mirrorBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
-			TwAddVarRW(mirrorBar, "NumberofSphere", TW_TYPE_INT32, &scene.Spheres,
+			TwBar *mirrorBar = TwNewBar("Skybox");
+			TwDefine(" Skybox label='SKYBOX' size ='245 400' position='1340 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			//TwAddVarRW(mirrorBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
+			TwAddVarRW(mirrorBar, "Sphere Num", TW_TYPE_INT32, &scene.Spheres,
 				" min=0 max=32 help='Change a number of sphere' ");
 
 			mirrorUI = mirrorBar;
@@ -496,9 +463,9 @@ private:
 		if (!solarUIenable)
 		{
 			TwBar *solarBar = TwNewBar("Solar");
-			TwDefine(" Solar label='SOLAR' size ='245 400' position='1340 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			TwDefine(" Solar label='SOLAR SYSTEM' size ='245 400' position='1340 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 			//TwAddVarRW(solarBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
-			TwAddVarRW(solarBar, "RotSpeed", TW_TYPE_FLOAT, &rotspeed,
+			TwAddVarRW(solarBar, "Rotation Speed", TW_TYPE_FLOAT, &rotspeed,
 				" min=0.01 max=2.0 step=0.01 help='Change a number of sphere' ");
 
 			solarUI = solarBar;
@@ -520,6 +487,10 @@ private:
 	enum SHADER_MODE { Phong, Multi, Rim };
 	enum TEXTURE_MODE { Bricks, Skyblue, Formula };
 
+	OBJECT_MODE object_mode;
+	SHADER_MODE shader_mode;
+	TEXTURE_MODE texture_mode;
+
 	void TurnOnRoomUI()
 	{
 		if (!roomUIenable)
@@ -537,8 +508,8 @@ private:
 				{ OBJECT_MODE::Lucycat, "Lucycat" }
 			};
 			TwType objectType = TwDefineEnum("Object Mode", objectEV, 3);
-			TwAddVarRW(objectBar, "Select Object", objectType, &scene.Rotation,
-				" keyIncr=Backspace keyDecr=SHIFT+Backspace help='...' ");
+			TwAddVarRW(objectBar, "Select Object", objectType, &object_mode,
+				" keyIncr=H keyDecr=Y help='...' ");
 
 			TwEnumVal shaderEV[] = {
 										{ SHADER_MODE::Phong, "Phong Shading" },
@@ -546,8 +517,8 @@ private:
 										{ SHADER_MODE::Rim, "Rim Shading" }
 									};
 			TwType shaderType = TwDefineEnum("Shader Mode", shaderEV, 3);
-			TwAddVarRW(objectBar, "Select Shader", shaderType, &scene.Rotation,
-				" keyIncr=Backspace keyDecr=SHIFT+Backspace help='...' ");
+			TwAddVarRW(objectBar, "Select Shader", shaderType, &shader_mode,
+				" keyIncr=J keyDecr=U help='...' ");
 
 			TwEnumVal textureEV[] = {
 				{ TEXTURE_MODE::Bricks, "Bricks" },
@@ -555,8 +526,8 @@ private:
 				{ TEXTURE_MODE::Formula, "Formula" }
 			};
 			TwType textureType = TwDefineEnum("Texture Mode", textureEV, 3);
-			TwAddVarRW(objectBar, "Select Texture", textureType, &scene.Rotation,
-				" keyIncr=Backspace keyDecr=SHIFT+Backspace help='...' ");
+			TwAddVarRW(objectBar, "Select Texture", textureType, &texture_mode,
+				" keyIncr=K keyDecr=I help='...' ");
 
 
 			//// Cube 컬러 변경
@@ -571,11 +542,14 @@ private:
 
 			TwAddSeparator(objectBar, "", NULL);
 
+			TwAddVarRW(objectBar, "Reset Rotation", TW_TYPE_BOOLCPP, &reset_rotation, "key=C help='reset_rotation' ");
+
 			// 도형 Rotation 
 			TwAddVarRW(objectBar, "Obj Rotation", TW_TYPE_QUAT4F, &g_Rotation,
 				" opened=true help='Change the object orientation.' ");
 
 			TwAddSeparator(objectBar, "", NULL);
+			
 
 			// 도형 Rotation 모드
 			TwEnumVal rotationEV[] = { { Scene::ROT_OFF, "Stopped" },
@@ -583,13 +557,15 @@ private:
 			{ Scene::ROT_CCW, "Counter-clockwise" } };
 			TwType rotationType = TwDefineEnum("Rotation Mode", rotationEV, 3);
 			TwAddVarRW(objectBar, "Obj Rotation Scene", rotationType, &scene.Rotation,
-				" keyIncr=Backspace keyDecr=SHIFT+Backspace help='Stop or change the rotation mode.' ");
+				" keyIncr=X keyDecr=Z help='Stop or change the rotation mode.' ");
 
 			objectUI = objectBar;
 
 			roomUIenable = true;
 		}
 	}
+
+	bool reset_rotation = false;
 
 	void TurnOffRoomUI()
 	{

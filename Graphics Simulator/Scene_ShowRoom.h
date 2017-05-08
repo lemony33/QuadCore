@@ -15,7 +15,7 @@ public:
 	}
 
 public:
-	virtual void Play(float speed, glm::vec3* pos, glm::vec3* ambient, glm::vec3* diffuse, glm::vec3* specular)
+	virtual void Play(float* g_rotation, float speed, glm::vec3* pos, glm::vec3* ambient, glm::vec3* diffuse, glm::vec3* specular)
 	{
 		if (!m_enable)
 			return;
@@ -26,7 +26,44 @@ public:
 		rot += speed*0.01f;
 		if (rot > 2.0f*glm::pi<float>())
 			rot = 0.0f;
-		multitest->SetRot(glm::vec3(0, rot, 0));
+		//transform_obj->SetRot(glm::vec3(0, rot, 0));
+
+
+
+		//if (prev_rot[0] == g_rotation[0])
+		//{
+		//	g_rotation[0] -= 0.01f;
+		//	if (g_rotation[0] < 0)
+		//		g_rotation[0] = 0.0f;
+		//}
+		//if (prev_rot[1] == g_rotation[1])
+		//{
+		//	g_rotation[1] -= 0.01f;
+		//	if (g_rotation[1] < 0)
+		//		g_rotation[1] = 0.0f;
+		//}
+		//if (prev_rot[2] == g_rotation[2])
+		//{
+		//	g_rotation[2] -= 0.01f;
+		//	if (g_rotation[2] < 0)
+		//		g_rotation[2] = 0.0f;
+		//}
+
+
+		float radians[3] = {
+			g_rotation[0] * glm::pi<float>(),	// / 180.0f
+			g_rotation[1] * glm::pi<float>(),
+			g_rotation[2] * glm::pi<float>(),
+		};
+
+
+		printf(" ( %02f , %02f , %02f )", g_rotation[0], g_rotation[1], g_rotation[2]);
+		transform_obj->SetRot(glm::vec3(radians[0], radians[1] + rot, radians[2]));
+
+		prev_rot[0] = g_rotation[0];
+		prev_rot[1] = g_rotation[1];
+		prev_rot[2] = g_rotation[2];
+
 
 		for (int i = 0; i < 3; i++)
 		{
@@ -41,7 +78,7 @@ public:
 
 		Animate();
 
-		m_shape_manager.DrawAll();
+		m_shape_manager.DrawAll(m_local_coordinate);
 	}
 
 public:
@@ -72,8 +109,13 @@ private:
 		//multitest = new Transform(glm::vec3(0, -2.0f, 0), glm::vec3(), glm::vec3(20.0f));
 		//object = new BasicObject("bunny", "basicShader_multilight_prev", "bricks", multitest);
 		
-		multitest = new Transform(glm::vec3(0, -2.0f, 0), glm::vec3(), glm::vec3(20.0f));
-		object = new BasicObject("bunny", "multi-PhongRim", "skyblue", multitest);
+		//transform_obj = new Transform(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(20.0f));
+		////transform_obj = new Transform(glm::vec3(0, -2.0f, 0), glm::vec3(), glm::vec3(20.0f));
+		//object = new BasicObject("bunny", "multi-PhongRim", "skyblue", transform_obj);
+
+
+		transform_obj = new Transform(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
+		object = new BasicObject("BasicObjects/Cube", "multi-PhongRim", "skyblue", transform_obj);
 
 		m_shape_manager.Insert_Object(object);
 
@@ -85,7 +127,7 @@ private:
 	}
 
 private:
-	Transform* multitest;
+	Transform* transform_obj;
 	QuadCore::BasicObject* object;
 
 	// multiLight
@@ -119,4 +161,7 @@ private:
 
 	//float speed = 0.1f; // 공전주기 속도 비율
 	float rot = 0.0f;
+
+	float prev_rot[3] = {};
+	//float curr_rot[3] = {};
 };

@@ -78,13 +78,13 @@ public:
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	// 리스트의 모든 도형을 그려준다
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	void DrawAll()
+	void DrawAll(bool local_coordinate = false)
 	{
 		float delim = 0.7;
 
 		for (int i = 0; i < m_shape_list.size(); i++)
 		{
-			m_shape_list.at(i)->Draw(m_camera);			
+			m_shape_list.at(i)->Draw(m_camera, local_coordinate);
 		}
 	}
 	

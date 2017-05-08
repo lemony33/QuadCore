@@ -167,7 +167,7 @@ void Scene::CreateBar()
 		TwSetParam(lightsBar, multilights[i].Name, "help", TW_PARAM_CSTRING, 1, paramValue);  // Set help
 	}
 
-	TwAddSeparator(lightsBar, "", NULL);
+	//TwAddSeparator(lightsBar, "", NULL);
 
 }
 

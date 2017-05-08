@@ -189,8 +189,10 @@ public:
 			break;
 
 		case GLFW_KEY_F11:
-			glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
-			Is_MAXIMIZE = true;
+			SetFullScreen(true);
+			break;
+		case GLFW_KEY_F12:
+			SetFullScreen(false);
 			break;
 		case GLFW_KEY_ENTER:
 			if ((glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS)
@@ -210,8 +212,12 @@ public:
 			}
 			if (Is_MAXIMIZE && !Is_Duplication)
 			{
-				SetFullScreen(false);
-				Is_Duplication = false;
+				if ((glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+					&& (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS))
+				{
+					SetFullScreen(false);
+					Is_Duplication = false;
+				}
 			}
 
 			if (glfwGetKey(window, GLFW_KEY_ENTER) != GLFW_REPEAT)
