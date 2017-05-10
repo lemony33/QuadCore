@@ -39,7 +39,6 @@ public:
 
 		m_transform = transform;
 		m_camera = camera;
-
 	}
 
 private:
