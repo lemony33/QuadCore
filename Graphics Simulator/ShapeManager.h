@@ -49,6 +49,28 @@ public:
 		m_shape_list.erase(m_shape_list.begin()+index);
 	}
 
+
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	// 선택한 물체를 리스트에서 변경한다
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	void Modify_Objet(int index, iShape* shape)
+	{
+		m_shape_list.erase(m_shape_list.begin() + index);
+
+		std::vector<iShape*>::iterator it = m_shape_list.begin();
+		m_shape_list.insert(it, shape);
+
+		//// 기존 오브젝트를 다른 포인터에 연결
+		//iShape* tShape = m_shape_list.at(index);
+
+		//// 현재 포인터에 새로운 오브젝트를 연결
+		//m_shape_list.at(index) = shape;
+
+		//// 기존 오브젝트를 제거
+		//delete(tShape);
+		//tShape = NULL;
+	}
+
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	//  선택한 물체의 주소값을 반환한다.
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ

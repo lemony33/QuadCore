@@ -37,6 +37,37 @@ public:
 		
 		//shape_path("../resources/objects/")
 
+
+		string file_name_shader = "../resources/shaders/" + shader_name;
+		m_shader = new Shader(file_name_shader);
+
+		string file_name_texture = "../resources/textures/" + texture_name + ".jpg";
+		m_texture = new Texture(file_name_texture);
+
+
+
+		string file_name_mesh = shape_path + mesh_name + ".obj";
+		m_mesh = new Mesh(file_name_mesh);
+	}
+
+public:
+	void Init(std::string mesh_name, std::string shader_name, std::string texture_name, Transform* transform = new Transform())
+	{
+		// 1. 기존 데이터들을 다른 포인터에 연결
+		Transform*		prev_transform = m_transform;
+		Coordinates*	prev_coordinate = m_coordinate;
+		Mesh*		prev_mesh = m_mesh;
+		Shader*		prev_shader = m_shader;
+		Texture*	prev_texture = m_texture;
+
+
+		m_transform = transform;
+		m_coordinate = new Coordinates(1.0f);
+
+		using std::string;
+
+		//shape_path("../resources/objects/")
+
 		string file_name_mesh = shape_path + mesh_name + ".obj";
 		m_mesh = new Mesh(file_name_mesh);
 
@@ -45,12 +76,19 @@ public:
 
 		string file_name_texture = "../resources/textures/" + texture_name + ".jpg";
 		m_texture = new Texture(file_name_texture);
-	}
 
-public:
-	void Init()
-	{
-		
+
+		delete(prev_transform);
+		delete(prev_coordinate);
+		delete(prev_mesh);
+		delete(prev_shader);
+		delete(prev_texture);
+
+		prev_transform = NULL;
+		prev_coordinate = NULL;
+		prev_mesh = NULL;
+		prev_shader = NULL;
+		prev_texture = NULL;
 	}
 	void SetMesh()
 	{

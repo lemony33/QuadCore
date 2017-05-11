@@ -29,6 +29,11 @@
 
 #include "UI_TwBar.h"
 
+
+#include "Render_Mode.h"
+
+
+
 class SceneManager
 {
 public:
@@ -160,15 +165,15 @@ public:
 
 		
 		m_scene_list.push_back(new Scene_main);
-		m_scene_list.push_back(new Scence_mirror);			// 1.SkyBox
-		m_scene_list.push_back(new Scence_SolarSystem);		// 2.Solar System
-		//m_scene_list.push_back(new Scene_main);
-		//m_scene_list.push_back(new Scene_main);
+		//m_scene_list.push_back(new Scence_mirror);			// 1.SkyBox
+		//m_scene_list.push_back(new Scence_SolarSystem);		// 2.Solar System
+		m_scene_list.push_back(new Scene_main);
+		m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_ShowRoom);			// 3.Show Room
-		m_scene_list.push_back(new Scence_moving_wall);		// 빛의 위치 설명할 때 사용
-		m_scene_list.push_back(new Scence_moving_block);	// 회오리 모양으로 오브젝트 배치해보면 좋을듯
-		m_scene_list.push_back(new Scene_basicObjects);		// 다양한 오브젝트에서 빛이 적용되는 모습 시연
-		m_scene_list.push_back(new Scence_multi_light);		// 여러개의 물체에 적용되는 빛
+		//m_scene_list.push_back(new Scence_moving_wall);		// 빛의 위치 설명할 때 사용
+		//m_scene_list.push_back(new Scence_moving_block);	// 회오리 모양으로 오브젝트 배치해보면 좋을듯
+		//m_scene_list.push_back(new Scene_basicObjects);		// 다양한 오브젝트에서 빛이 적용되는 모습 시연
+		//m_scene_list.push_back(new Scence_multi_light);		// 여러개의 물체에 적용되는 빛
 		m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_main);
@@ -384,6 +389,9 @@ public:
 						reset_rotation = false;
 					}
 
+					if(IsChanged_Reder_Mode())
+						m_scene_list.at(j)->Set_RenderMode(object_mode, shader_mode, texture_mode);
+
 					m_scene_list.at(j)->Play(g_Rotation, final_speed, pos, ambient, diffuse, specular);
 					break;
 				default:
@@ -483,14 +491,35 @@ private:
 
 	bool roomUIenable = false;
 
-	enum OBJECT_MODE { Bunny, Lucy, Lucycat };
-	enum SHADER_MODE { Phong, Multi, Rim };
-	enum TEXTURE_MODE { Bricks, Skyblue, Formula };
+public:
+
+
+private:
+	OBJECT_MODE check_object_mode;
+	SHADER_MODE check_shader_mode;
+	TEXTURE_MODE check_texture_mode;
 
 	OBJECT_MODE object_mode;
 	SHADER_MODE shader_mode;
 	TEXTURE_MODE texture_mode;
 
+	bool IsChanged_Reder_Mode()
+	{
+		if ((object_mode != check_object_mode)
+			|| (shader_mode != check_shader_mode)
+			|| (texture_mode != check_texture_mode))
+		{
+			check_object_mode = object_mode;
+			check_shader_mode = shader_mode;
+			check_texture_mode = texture_mode;
+			printf("Changed Render Mode\n");
+			return true;
+		}
+		return false;
+	}
+
+
+private:
 	void TurnOnRoomUI()
 	{
 		if (!roomUIenable)
@@ -562,6 +591,11 @@ private:
 			objectUI = objectBar;
 
 			roomUIenable = true;
+
+			///
+			check_object_mode = object_mode;
+			check_shader_mode = shader_mode;
+			check_texture_mode = texture_mode;
 		}
 	}
 

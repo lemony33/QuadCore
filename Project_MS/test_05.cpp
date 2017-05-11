@@ -22,7 +22,7 @@ void QuadCore::Graphics_Simulator::Run()
 	//// mesh 삼각형 도형그려주기
 	Vertex vertices[] = {
 		Vertex(glm::vec3(-0.5, -0.5, 0.0),	glm::vec2(0.0,0.0), glm::vec3(0, 0, 1)),
-		Vertex(glm::vec3(+0.5, -0.5, 0.0),	glm::vec2(0.0,1.0), glm::vec3(0, 0, 1)),
+		Vertex(glm::vec3(+0.5, -0.5, 0.0),	glm::vec2(1.0,0.0), glm::vec3(0, 0, 1)),
 		Vertex(glm::vec3(+0.5, +0.5, 0.0),	glm::vec2(1.0,1.0), glm::vec3(0, 0, 1)),
 		Vertex(glm::vec3(-0.5, +0.5, 0.0),	glm::vec2(0.0,1.0), glm::vec3(0, 0, 1)),
 	};
@@ -71,7 +71,7 @@ void QuadCore::Graphics_Simulator::Run()
 		transform.GetPos().x -= 2.5;
 		transform.SetScale(glm::vec3(1, 1, 1));
 		shader.Update(transform, camera);
-		mesh1.Draw();
+		///mesh1.Draw();
 
 		shader2.Bind();
 		texture2.Bind(0);
@@ -80,7 +80,7 @@ void QuadCore::Graphics_Simulator::Run()
 		//transform.GetPos().z += 1.5;
 		transform.SetScale(glm::vec3(3, 0.5, 1));
 		shader.Update(transform, camera);
-		mesh2.Draw();
+		///mesh2.Draw();
 
 
 		//shader.Bind();
@@ -112,8 +112,8 @@ void QuadCore::Graphics_Simulator::Run()
 		//transform_UI.GetPos().x += 1.0f;
 		//transform_UI.GetPos().y += 1.0f;
 
-		transform_UI.GetRot().x = counter * 0.5;
-		transform_UI.GetRot().y = counter * 0.5;
+		transform_UI.GetRot().x = counter * 0.05;
+		transform_UI.GetRot().y = counter * 0.05;
 
 		//glDisable(GL_DEPTH_TEST);
 		shader_UI.Update(transform_UI, camera);
