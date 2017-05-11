@@ -176,5 +176,8 @@
     <ClInclude Include="Scene_ShowRoom.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Render_Mode.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

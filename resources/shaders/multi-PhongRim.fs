@@ -37,12 +37,13 @@ void main()
 {
     	//gl_FragColor = ambient + diffuse + specular + rim;
 
-	//vec3 norm = normalize(normal0);
-	//vec3 viewDir = normalize(viewPos - FragPos);
-	//vec4 result = vec4(CalcDirLight(norm, viewDir), 1.0);
-	vec4 result;
+	vec3 norm = normalize(normal0);
+	vec3 viewDir = normalize(viewPos - FragPos);
+	vec4 result = vec4(CalcDirLight(norm, viewDir), 1.0);
+	//vec4 result;
 	for(int i = 0; i < LIGHTSNUM; i++)
 		result += CalcPointLight2(pointLights[i], normal0, FragPos);
+	//result += CalcPointLight2(pointLights[0], normal0, FragPos);
 	gl_FragColor = result;
 
 	/////////
@@ -60,11 +61,17 @@ void main()
 // Calculates the color when using a point light.
 vec4 CalcPointLight2(PointLight light, vec3 normal, vec3 fragPos)
 {
-	const float specular_power = 32.0;
+	//const float specular_power = 32.0;
+	const float specular_power = 128.0;
+
 	//const vec4 rim_albedo = vec4(0.5, 0.5, 0.5, 1.0);
     	//const float rim_power = 1.25;
 
+	//const vec4 rim_albedo = vec4(0.05, 0.05, 0.05, 1.0);
+	//const vec4 rim_albedo = vec4(0.1, 0.1, 0.1, 1.0);
 	const vec4 rim_albedo = vec4(0.01, 0.01, 0.01, 1.0);
+	//const vec4 rim_albedo = vec4(0.03, 0.03, 0.03, 1.0);
+
     	const float rim_power = 1.25;
 
 
@@ -95,6 +102,8 @@ vec4 CalcPointLight2(PointLight light, vec3 normal, vec3 fragPos)
 	//// Attenuation
     	float distance = length(light.lightPos - fragPos);
     	float attenuation = 1.0f / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
+
+	//attenuation /= 4.0;
 
 	///////////////////
 

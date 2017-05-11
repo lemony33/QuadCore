@@ -44,6 +44,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="miniUI_coordinate.h" />
     <ClInclude Include="Obj_loader.h" />
+    <ClInclude Include="Render_Mode.h" />
     <ClInclude Include="Scence_display.h" />
     <ClInclude Include="Scence_moving_block.h" />
     <ClInclude Include="Scence_moving_cube.h" />

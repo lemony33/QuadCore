@@ -42,6 +42,7 @@ const vec3 light_pos = vec3(100.0, 100.0, 100.0);
 
 	const float specular_power = 128.0;
 	const vec4 rim_albedo = vec4(0.5, 0.5, 0.5, 1.0);
+	//const vec4 rim_albedo = vec4(0.05, 0.05, 0.05, 1.0);
     	const float rim_power = 1.25;
 
 	
