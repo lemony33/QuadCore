@@ -201,7 +201,7 @@ private:
 		glm::vec3(0.00f, 0.00f, 0.00f),
 		glm::vec3(0.00f, 0.00f, 0.00f),
 		glm::vec3(0.00f, 0.00f, 0.00f),
-		glm::vec3(0.1f), // еб╬Г ╨Ш
+		glm::vec3(1.0f), // еб╬Г ╨Ш
 		glm::vec3(0.2f, 0.1f, 0.1f)
 	};
 	glm::vec3 diffuse[5] =
