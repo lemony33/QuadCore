@@ -185,15 +185,15 @@ public:
 		switch (shader_mode)
 		{
 		case SHADER_MODE::Phong:
-			m_sahder_name = "basicShader_light_edit";
+			m_sahder_name = "Final/1_Single_Phong";
 			IsChanged_RenderMode = true;
 			break;
 		case SHADER_MODE::Multi:
-			m_sahder_name = "basicShader_multilight_prev";
+			m_sahder_name = "Final/2_Multi_Phong";
 			IsChanged_RenderMode = true;
 			break;
 		case SHADER_MODE::Rim:
-			m_sahder_name = "../multi-PhongRim_ver1.3";
+			m_sahder_name = "Final/3_Multi-Phong_Rim";
 			IsChanged_RenderMode = true;
 			break;
 		default:

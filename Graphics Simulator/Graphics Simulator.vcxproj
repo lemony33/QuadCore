@@ -71,6 +71,14 @@
     <ClInclude Include="UI_TwBar.h" />
     <ClInclude Include="World_coordinate.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\resources\shaders\Final\1_Single_Phong.fs" />
+    <None Include="..\resources\shaders\Final\1_Single_Phong.vs" />
+    <None Include="..\resources\shaders\Final\2_Multi_Phong.fs" />
+    <None Include="..\resources\shaders\Final\2_Multi_Phong.vs" />
+    <None Include="..\resources\shaders\Final\3_Multi-Phong_Rim.fs" />
+    <None Include="..\resources\shaders\Final\3_Multi-Phong_Rim.vs" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ACD7C8B3-B7EC-4ADF-AE62-CE75F0A3B8C9}</ProjectGuid>
     <RootNamespace>GraphicsSimulator</RootNamespace>

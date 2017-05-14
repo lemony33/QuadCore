@@ -1,40 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="System">
       <UniqueIdentifier>{468d1da1-4542-42a4-a2a8-30b51d6dacd7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Data">
-      <UniqueIdentifier>{44f9933f-962f-4885-a009-ae99810fc6f7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility">
       <UniqueIdentifier>{330fb89c-7139-47ab-a2b9-052e0f3c200d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects">
+    <Filter Include="Object">
+      <UniqueIdentifier>{44f9933f-962f-4885-a009-ae99810fc6f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shape">
       <UniqueIdentifier>{a681d07c-431d-4b78-80a1-134c4311b132}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scenes">
+    <Filter Include="Scene">
       <UniqueIdentifier>{8b60f065-3a33-4d0c-ae23-4d487fb5aba3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Test Scene">
+      <UniqueIdentifier>{716d0c6e-e675-41fd-912d-5d29c7d57805}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Default Scene">
+      <UniqueIdentifier>{c6cd2612-121d-42ec-80ea-2863e4823819}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Background Scene">
+      <UniqueIdentifier>{d38201e9-5500-4236-8311-5d6c8babb24f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shape\GridMap">
+      <UniqueIdentifier>{3b29f39c-aebe-44ff-bbed-fdbe4bf46d12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Others">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawMap.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Others</Filter>
     </ClCompile>
     <ClCompile Include="Graphics_Simulator.cpp">
       <Filter>System</Filter>
@@ -43,13 +48,13 @@
       <Filter>System</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>Data</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
-      <Filter>Data</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
-      <Filter>Data</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="stb_image.c">
       <Filter>Utility</Filter>
@@ -58,18 +63,18 @@
       <Filter>Utility</Filter>
     </ClCompile>
     <ClCompile Include="UI_TwBar.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawMap.cpp">
+      <Filter>Shape\GridMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DrawMap.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Cube.h">
-      <Filter>Objects</Filter>
+      <Filter>Shape</Filter>
     </ClInclude>
     <ClInclude Include="ShapeManager.h">
-      <Filter>Objects</Filter>
+      <Filter>Shape</Filter>
     </ClInclude>
     <ClInclude Include="Controls.h">
       <Filter>System</Filter>
@@ -84,19 +89,19 @@
       <Filter>System</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
-      <Filter>Data</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
-      <Filter>Data</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>Data</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Coordinates.h">
-      <Filter>Data</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
-      <Filter>Data</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>Utility</Filter>
@@ -105,79 +110,102 @@
       <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="enum_type.h">
-      <Filter>Data</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="iShape.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="iScene.h">
-      <Filter>Objects</Filter>
+      <Filter>Shape</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="Scene_main.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Scence_moving_wall.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Scence_moving_block.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Scence_moving_cube.h">
-      <Filter>Scenes</Filter>
+      <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="BasicObject.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Scence_multi_light.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene_SkyBox.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Scence_reflect_shader.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene_basicObjects.h">
-      <Filter>Scenes</Filter>
+      <Filter>Shape</Filter>
     </ClInclude>
     <ClInclude Include="UI_TwBar.h">
-      <Filter>소스 파일</Filter>
+      <Filter>Others</Filter>
     </ClInclude>
     <ClInclude Include="SkyBox.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Scence_SolarSystem.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene_SkyBox_Universe.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene_room.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Scence_mirror.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Scence_display.h">
-      <Filter>Scenes</Filter>
+      <Filter>Shape</Filter>
     </ClInclude>
     <ClInclude Include="miniUI_coordinate.h">
-      <Filter>Objects</Filter>
+      <Filter>Shape</Filter>
     </ClInclude>
     <ClInclude Include="World_coordinate.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene_ShowRoom.h">
-      <Filter>Scenes</Filter>
+      <Filter>Shape</Filter>
     </ClInclude>
     <ClInclude Include="Render_Mode.h">
-      <Filter>Objects</Filter>
+      <Filter>Shape</Filter>
     </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="iScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scence_mirror.h">
+      <Filter>Scene\Default Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scence_SolarSystem.h">
+      <Filter>Scene\Default Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene_ShowRoom.h">
+      <Filter>Scene\Default Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scence_display.h">
+      <Filter>Scene\Test Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scence_moving_block.h">
+      <Filter>Scene\Test Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scence_moving_cube.h">
+      <Filter>Scene\Test Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scence_moving_wall.h">
+      <Filter>Scene\Test Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scence_multi_light.h">
+      <Filter>Scene\Test Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scence_reflect_shader.h">
+      <Filter>Scene\Test Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene_room.h">
+      <Filter>Scene\Background Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene_SkyBox.h">
+      <Filter>Scene\Background Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene_SkyBox_Universe.h">
+      <Filter>Scene\Background Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene_basicObjects.h">
+      <Filter>Scene\Test Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawMap.h">
+      <Filter>Shape\GridMap</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\resources\shaders\Final\2_Multi_Phong.vs">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="..\resources\shaders\Final\3_Multi-Phong_Rim.fs">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="..\resources\shaders\Final\3_Multi-Phong_Rim.vs">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="..\resources\shaders\Final\1_Single_Phong.fs">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="..\resources\shaders\Final\1_Single_Phong.vs">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="..\resources\shaders\Final\2_Multi_Phong.fs">
+      <Filter>Shader Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
