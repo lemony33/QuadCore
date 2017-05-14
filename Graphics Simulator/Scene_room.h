@@ -55,6 +55,13 @@ private:
 		BasicObject* objBack = new BasicObject("BasicObjects/Cube", "basicShader_light", "black_formula", tBack);
 		BasicObject* objFront = new BasicObject("BasicObjects/Cube", "basicShader_light", "black_formula", tFront);
 
+		//BasicObject* objTop = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tTop);
+		//BasicObject* objBottom = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tBottom);
+		//BasicObject* objLeft = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tLeft);
+		//BasicObject* objRight = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tRight);
+		//BasicObject* objBack = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tBack);
+		//BasicObject* objFront = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tFront);
+
 		m_shape_manager.Insert_Object(objTop);
 		m_shape_manager.Insert_Object(objBottom);
 		m_shape_manager.Insert_Object(objLeft);

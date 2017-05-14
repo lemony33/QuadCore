@@ -108,20 +108,76 @@ public:
 	bool IsChanged_RenderMode = false;
 	virtual void Set_RenderMode(int object_mode, int shader_mode, int texture_mode)
 	{
+		//m_object_name = "Final/ALucy_new";
+		//m_object_name = "Final/LivingRoom";
+		//m_object_name = "Final/nanosuit";
+		m_object_name = "Final/bunny_zipper";
 		switch (object_mode)
 		{
 		case OBJECT_MODE::Bunny:
-			m_object_name = "Bunny";
+			m_object_name = "Final/Bunny";
 			IsChanged_RenderMode = true;
 			break;
 		case OBJECT_MODE::Lucy:
-			m_object_name = "Lucy";
+			m_object_name = "Final/HQ_Lucy";
 			IsChanged_RenderMode = true;
 			break;
 		case OBJECT_MODE::Lucycat:
-			m_object_name = "Voronoi_Lucy";
+			m_object_name = "Final/lucycat";
 			IsChanged_RenderMode = true;
 			break;
+		case OBJECT_MODE::Lucycat_voronol:
+			m_object_name = "Final/lucycat_voronol";
+			IsChanged_RenderMode = true;
+			break;
+
+		case OBJECT_MODE::bear:
+			m_object_name = "Final/bear";
+			IsChanged_RenderMode = true;
+			break;
+		case OBJECT_MODE::nanosuit:
+			m_object_name = "Final/nanosuit";
+			IsChanged_RenderMode = true;
+			break;
+
+
+			//glove, chair, WineGlasses,
+		case OBJECT_MODE::glove:
+			m_object_name = "Final/glove";
+			IsChanged_RenderMode = true;
+			break;
+		case OBJECT_MODE::chair:
+			m_object_name = "Final/chair";
+			IsChanged_RenderMode = true;
+			break;
+		case OBJECT_MODE::WineGlasses:
+			m_object_name = "Final/WineGlasses";
+			IsChanged_RenderMode = true;
+			break;
+
+
+			//Torus, Cube, Sphere, Icosphere, CubeHollow,
+		case OBJECT_MODE::Torus:
+			m_object_name = "BasicObjects/Torus";
+			IsChanged_RenderMode = true;
+			break;
+		case OBJECT_MODE::Cube:
+			m_object_name = "BasicObjects/Cube";
+			IsChanged_RenderMode = true;
+			break;
+		case OBJECT_MODE::Sphere:
+			m_object_name = "BasicObjects/Sphere";
+			IsChanged_RenderMode = true;
+			break;
+		case OBJECT_MODE::Icosphere:
+			m_object_name = "BasicObjects/Icosphere";
+			IsChanged_RenderMode = true;
+			break;
+		case OBJECT_MODE::CubeHollow:
+			m_object_name = "BasicObjects/CubeHollow";
+			IsChanged_RenderMode = true;
+			break;
+
 		default:
 			break;
 		}
@@ -159,6 +215,64 @@ public:
 			break;
 		case TEXTURE_MODE::Formula:
 			m_texture_name = "formula";
+			//m_texture_name = "metal";
+			IsChanged_RenderMode = true;
+			break;
+
+		//	dark_spot, diamond, grain_grass, iron, lines_dark, metal, moon,
+		//		slime, surface_dark, surface_gold_shine, pastel, wall_brick, wood,
+
+		case TEXTURE_MODE::dark_spot:
+			m_texture_name = "dark_spot";
+			IsChanged_RenderMode = true;
+			break;
+		case TEXTURE_MODE::diamond:
+			m_texture_name = "diamond";
+			IsChanged_RenderMode = true;
+			break;
+		case TEXTURE_MODE::grain_grass:
+			m_texture_name = "grain_grass";
+			IsChanged_RenderMode = true;
+			break;
+		case TEXTURE_MODE::iron:
+			m_texture_name = "iron";
+			IsChanged_RenderMode = true;
+			break;
+		case TEXTURE_MODE::lines_dark:
+			m_texture_name = "lines_dark";
+			IsChanged_RenderMode = true;
+			break;
+		case TEXTURE_MODE::metal:
+			m_texture_name = "metal";
+			IsChanged_RenderMode = true;
+			break;
+		case TEXTURE_MODE::moon:
+			m_texture_name = "moon";
+			IsChanged_RenderMode = true;
+			break;
+
+		case TEXTURE_MODE::slime:
+			m_texture_name = "slime";
+			IsChanged_RenderMode = true;
+			break;
+		case TEXTURE_MODE::surface_dark:
+			m_texture_name = "surface_dark";
+			IsChanged_RenderMode = true;
+			break;
+		case TEXTURE_MODE::surface_gold_shine:
+			m_texture_name = "surface_gold_shine";
+			IsChanged_RenderMode = true;
+			break;
+		case TEXTURE_MODE::pastel:
+			m_texture_name = "pastel";
+			IsChanged_RenderMode = true;
+			break;
+		case TEXTURE_MODE::wall_brick:
+			m_texture_name = "wall_brick";
+			IsChanged_RenderMode = true;
+			break;
+		case TEXTURE_MODE::wood:
+			m_texture_name = "wood";
 			IsChanged_RenderMode = true;
 			break;
 		default:
@@ -174,19 +288,23 @@ public:
 		lightTransforms[1].Init(glm::vec3(100.0f));
 		lightTransforms[2].Init(glm::vec3(100.0f));*/
 
-		lightTransforms[0].Init(glm::vec3(1.0f * sinf(m_counter / 10), 0, 1.0f * cosf(m_counter / 10)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
+		///lightTransforms[0].Init(glm::vec3(1.0f * sinf(m_counter / 10), 0, 1.0f * cosf(m_counter / 10)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
 		///lightTransforms[1].Init(glm::vec3(1.0f * cos(m_counter / 10), 1.0f * sinf(m_counter / 10), 0), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
 		///lightTransforms[2].Init(glm::vec3(0, 1.0f * cos(m_counter / 10), 1.0f * sinf(m_counter / 10)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
 		///lightTransforms[3].Init(glm::vec3(5.0f * sinf(-m_counter / 10), 0, 5.0f * cosf(-m_counter / 10)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
 		
 		float r = 3.0f;
-		lightTransforms[1].Init(glm::vec3(r*1.0f * cos(m_counter / 10), r*1.0f * sinf(m_counter / 10), 0), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
-		lightTransforms[2].Init(glm::vec3(0, r*1.0f * cos(m_counter / 10), r*1.0f * sinf(m_counter / 10)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
-		lightTransforms[3].Init(glm::vec3(r*5.0f * sinf(-m_counter / 10), 0, r*5.0f * cosf(-m_counter / 10)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
+		// R, G, B
+		//lightTransforms[0].Init(glm::vec3(r*1.0f * sinf(m_counter / 10), 0, r*1.0f * cosf(m_counter / 10)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
+		//lightTransforms[1].Init(glm::vec3(r*1.0f * cos(m_counter / 10), r*1.0f * sinf(m_counter / 10), 0), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
+		//lightTransforms[2].Init(glm::vec3(0, r*1.0f * cos(m_counter / 10), r*1.0f * sinf(m_counter / 10)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
 
-		//lightTransforms[2].Init(Rotate_Axis_normal(glm::vec3(1, 0, 0), sinf(m_counter)*360.0f), glm::vec3(0, 0, r));
-		//lightTransforms[2].Init(Rotate_Axis_normal(glm::vec3(0, 1, 0), sinf(m_counter)*360.0f), glm::vec3(0, 0, r));
-		//lightTransforms[3].Init(Rotate_Axis_normal(glm::vec3(0, 0, 1), sinf(m_counter)*360.0f), glm::vec3(0, r, 0));
+		// White
+		lightTransforms[3].Init(glm::vec3(5.0f * sinf(-m_counter / 10), 0, 5.0f * cosf(-m_counter / 10)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
+
+		lightTransforms[0].Init(Rotate_Axis_normal(glm::vec3(1, 0, 0), m_counter * 5.0f, glm::vec3(0, 0, r)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
+		lightTransforms[1].Init(Rotate_Axis_normal(glm::vec3(0, 1, 0), m_counter * 5.0f, glm::vec3(r, 0, 0)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
+		lightTransforms[2].Init(Rotate_Axis_normal(glm::vec3(0, 0, 1), m_counter * 5.0f, glm::vec3(0, r, 0)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
 
 		for (int i = 0; i < 5; i++)
 			m_shape_manager.GetObject(i)->GetShader()->InputpointLight(lightTransforms, ambient, diffuse, specular);
@@ -276,7 +394,7 @@ private:
 
 		for (int i = 0; i < 4; i++)
 		{
-			BasicObject* light = new BasicObject("test/octahedron", "lamp_prev", "moon", &lightTransforms[i]);
+			BasicObject* light = new BasicObject("test/octahedron", "lamp", "moon", &lightTransforms[i]);
 			m_shape_manager.Insert_Object(light);
 		}
 	}
@@ -291,7 +409,7 @@ private:
 
 		if ((transform_obj == NULL) && (object == NULL))
 		{
-			transform_obj = new Transform(glm::vec3(0, -2.0f, 0), glm::vec3(), glm::vec3(20.0f));
+			transform_obj = new Transform(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
 			object = new BasicObject(mesh, shader, texture, transform_obj);
 			IsChanged_RenderMode = false;
 						
@@ -305,7 +423,7 @@ private:
 			///object->Init(mesh, shader, texture, transform_obj);
 
 			///QuadCore::BasicObject* pObject = new BasicObject(mesh, shader, texture, transform_obj);
-			transform_obj = new Transform(glm::vec3(), glm::vec3(), glm::vec3(20.0f));
+			transform_obj = new Transform(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
 			object = new BasicObject(mesh, shader, texture, transform_obj);
 			m_shape_manager.Modify_Objet(0, object);
 

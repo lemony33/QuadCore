@@ -48,7 +48,7 @@ public:
 
 	bool m_stopper = false;
 
-	bool switch_mini_coordinate = true;
+	bool switch_mini_coordinate = false;
 	bool switch_world_coordinate = false;
 	bool switch_local_coordinate = false;
 	bool switch_grid_map = false;
@@ -165,15 +165,13 @@ public:
 
 		
 		m_scene_list.push_back(new Scene_main);
-		//m_scene_list.push_back(new Scence_mirror);			// 1.SkyBox
-		//m_scene_list.push_back(new Scence_SolarSystem);		// 2.Solar System
-		m_scene_list.push_back(new Scene_main);
-		m_scene_list.push_back(new Scene_main);
+		m_scene_list.push_back(new Scence_mirror);			// 1.SkyBox
+		m_scene_list.push_back(new Scence_SolarSystem);		// 2.Solar System
 		m_scene_list.push_back(new Scene_ShowRoom);			// 3.Show Room
-		//m_scene_list.push_back(new Scence_moving_wall);		// 빛의 위치 설명할 때 사용
-		//m_scene_list.push_back(new Scence_moving_block);	// 회오리 모양으로 오브젝트 배치해보면 좋을듯
-		//m_scene_list.push_back(new Scene_basicObjects);		// 다양한 오브젝트에서 빛이 적용되는 모습 시연
-		//m_scene_list.push_back(new Scence_multi_light);		// 여러개의 물체에 적용되는 빛
+		m_scene_list.push_back(new Scence_moving_wall);		// 빛의 위치 설명할 때 사용
+		m_scene_list.push_back(new Scence_moving_block);	// 회오리 모양으로 오브젝트 배치해보면 좋을듯
+		m_scene_list.push_back(new Scene_basicObjects);		// 다양한 오브젝트에서 빛이 적용되는 모습 시연
+		m_scene_list.push_back(new Scence_multi_light);		// 여러개의 물체에 적용되는 빛
 		m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_main);
@@ -448,10 +446,11 @@ private:
 		if (!mirrorUIenable)
 		{
 			TwBar *mirrorBar = TwNewBar("Skybox");
-			TwDefine(" Skybox label='SKYBOX' size ='245 400' position='1340 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			TwDefine(" Skybox label='SKYBOX' size ='245 400' position='760 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			//TwDefine(" Skybox label='SKYBOX' size ='245 400' position='1340 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 			//TwAddVarRW(mirrorBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
-			TwAddVarRW(mirrorBar, "Sphere Num", TW_TYPE_INT32, &scene.Spheres,
-				" min=0 max=32 help='Change a number of sphere' ");
+			//TwAddVarRW(mirrorBar, "Sphere Num", TW_TYPE_INT32, &scene.Spheres, " min=0 max=180 help='Change a number of sphere' ");
+			TwAddVarRW(mirrorBar, "Sphere Num", TW_TYPE_INT32, &scene.Spheres, " min=0 max=32 help='Change a number of sphere' ");
 
 			mirrorUI = mirrorBar;
 
@@ -471,7 +470,8 @@ private:
 		if (!solarUIenable)
 		{
 			TwBar *solarBar = TwNewBar("Solar");
-			TwDefine(" Solar label='SOLAR SYSTEM' size ='245 400' position='1340 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			TwDefine(" Solar label='SOLAR SYSTEM' size ='245 400' position='760 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			//TwDefine(" Solar label='SOLAR SYSTEM' size ='245 400' position='1340 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 			//TwAddVarRW(solarBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
 			TwAddVarRW(solarBar, "Rotation Speed", TW_TYPE_FLOAT, &rotspeed,
 				" min=0.01 max=2.0 step=0.01 help='Change a number of sphere' ");
@@ -525,7 +525,8 @@ private:
 		if (!roomUIenable)
 		{
 			TwBar *objectBar = TwNewBar("Object");
-			TwDefine(" Object label='OBJECT' size ='300 400' position='1285 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			TwDefine(" Object label='OBJECT' size ='300 400' position='705 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			//TwDefine(" Object label='OBJECT' size ='300 400' position='1285 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 			//TwDefine(" Object label='OBJECT' size ='245 400' position='1640 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 
 			//TwAddSeparator(mainBar, "", NULL);
@@ -534,9 +535,27 @@ private:
 			TwEnumVal objectEV[] = {
 				{ OBJECT_MODE::Bunny, "Bunny" },
 				{ OBJECT_MODE::Lucy,  "Lucy" },
-				{ OBJECT_MODE::Lucycat, "Lucycat" }
+				{ OBJECT_MODE::Lucycat, "Lucycat" },
+				{ OBJECT_MODE::Lucycat_voronol, "Lucycat_voronol" },
+
+				{ OBJECT_MODE::bear, "bear" },
+				{ OBJECT_MODE::nanosuit, "nanosuit" },
+
+				//glove, chair, WineGlasses,
+				{ OBJECT_MODE::glove, "glove" },
+				{ OBJECT_MODE::chair, "chair" },
+				{ OBJECT_MODE::WineGlasses, "WineGlasses" },
+
+				//Torus, Cube, Sphere, Icosphere, CubeHollow,
+				{ OBJECT_MODE::Torus, "Torus" },
+				{ OBJECT_MODE::Cube, "Cube" },
+				{ OBJECT_MODE::Sphere, "Sphere" },
+				{ OBJECT_MODE::Icosphere, "Icosphere" },
+				{ OBJECT_MODE::CubeHollow, "CubeHollow" },
+
+
 			};
-			TwType objectType = TwDefineEnum("Object Mode", objectEV, 3);
+			TwType objectType = TwDefineEnum("Object Mode", objectEV, OBJECT_MODE::OBJECT_MODE_SIZE);
 			TwAddVarRW(objectBar, "Select Object", objectType, &object_mode,
 				" keyIncr=H keyDecr=Y help='...' ");
 
@@ -545,16 +564,35 @@ private:
 										{ SHADER_MODE::Multi,  "Multi Shading" },
 										{ SHADER_MODE::Rim, "Rim Shading" }
 									};
-			TwType shaderType = TwDefineEnum("Shader Mode", shaderEV, 3);
+			TwType shaderType = TwDefineEnum("Shader Mode", shaderEV, SHADER_MODE::SHADER_MODE_SIZE);
 			TwAddVarRW(objectBar, "Select Shader", shaderType, &shader_mode,
 				" keyIncr=J keyDecr=U help='...' ");
 
 			TwEnumVal textureEV[] = {
 				{ TEXTURE_MODE::Bricks, "Bricks" },
-				{ TEXTURE_MODE::Skyblue,  "SkyBlue" },
-				{ TEXTURE_MODE::Formula, "Formula" }
+				{ TEXTURE_MODE::Skyblue,  "Skyblue" },
+				{ TEXTURE_MODE::Formula, "Formula" },
+
+				{ TEXTURE_MODE::dark_spot, "dark_spot" },
+				{ TEXTURE_MODE::diamond, "diamond" },
+				{ TEXTURE_MODE::grain_grass, "grain_grass" },
+				{ TEXTURE_MODE::iron, "iron" },
+				{ TEXTURE_MODE::lines_dark, "lines_dark" },
+				{ TEXTURE_MODE::metal, "metal" },
+				{ TEXTURE_MODE::moon, "moon" },
+
+				{ TEXTURE_MODE::slime, "slime" },
+				{ TEXTURE_MODE::surface_dark, "surface_dark" },
+				{ TEXTURE_MODE::surface_gold_shine, "surface_gold_shine" },
+				{ TEXTURE_MODE::pastel, "pastel" },
+				{ TEXTURE_MODE::wall_brick, "wall_brick" },
+				{ TEXTURE_MODE::wood, "wood" },
+				/*
+				dark_spot, diamond, grain_grass, iron, lines_dark, metal, moon,
+				slime, surface_dark, surface_gold_shine, pastel, wall_brick, wood,
+				*/
 			};
-			TwType textureType = TwDefineEnum("Texture Mode", textureEV, 3);
+			TwType textureType = TwDefineEnum("Texture Mode", textureEV, TEXTURE_MODE::TEXTURE_MODE_SIZE);
 			TwAddVarRW(objectBar, "Select Texture", textureType, &texture_mode,
 				" keyIncr=K keyDecr=I help='...' ");
 

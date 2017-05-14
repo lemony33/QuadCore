@@ -155,6 +155,7 @@ public:
 		case GLFW_KEY_9:
 			break;
 
+
 			// z - rotate
 		case GLFW_KEY_Q:
 			camera->Rotate_Axis_Z(+1.0f);
@@ -255,10 +256,18 @@ public:
 			m_cur_key = 'm';
 			break;
 		case GLFW_KEY_KP_ADD:
-			m_cur_key = '+';
+			camera->MovePosition(-0.001f);
+			//m_cur_key = '+';
 			break;
 		case GLFW_KEY_KP_SUBTRACT:
-			m_cur_key = '-';
+			camera->MovePosition(+0.001f);
+			//m_cur_key = '-';
+			break;
+		case GLFW_KEY_LEFT_BRACKET:
+			camera->MovePosition(+0.000001f);
+			break;
+		case GLFW_KEY_RIGHT_BRACKET:
+			camera->MovePosition(-0.000001f);
 			break;
 		};
 

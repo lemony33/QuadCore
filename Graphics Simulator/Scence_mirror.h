@@ -1,5 +1,6 @@
 #pragma once
 
+//#define LIMIT 180
 #define LIMIT 32
 #include "iScene.h"
 
@@ -102,6 +103,7 @@ private:
 
 private:
 	//mirror
+	//int subSphereNum = 180;
 	int subSphereNum = 32;
 	Transform glassTrans;
 	Transform mirrorTrans;
