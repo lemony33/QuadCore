@@ -68,6 +68,9 @@
     <ClCompile Include="DrawMap.cpp">
       <Filter>Shape\GridMap</Filter>
     </ClCompile>
+    <ClCompile Include="Coordinates.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cube.h">

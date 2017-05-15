@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Coordinates.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="DrawMap.cpp" />
     <ClCompile Include="Graphics_Simulator.cpp" />
