@@ -5,13 +5,15 @@
 using QuadCore::Mesh;
 
 
+// 
 Mesh::Mesh(const std::string& fileName)
 {
 	IndexedModel model = OBJModel(fileName).ToIndexedModel();
-	//MOD = OBJFILE;
 	InitMesh(model);
 }
 
+
+// 
 Mesh::Mesh(QuadCore::Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices)
 {
 	IndexedModel model;
@@ -25,15 +27,19 @@ Mesh::Mesh(QuadCore::Vertex* vertices, unsigned int numVertices, unsigned int* i
 
 	for (unsigned int i = 0; i < numIndices; i++)
 		model.indices.push_back(indices[i]);
-	//MOD = VERTICES;
+
 	InitMesh(model);	
 }
 
+
+// 
 Mesh::~Mesh()
 {
 	glDeleteVertexArrays(1, &m_vertexArrayObject);
 }
 
+
+// 
 void Mesh::InitMesh(const QuadCore::IndexedModel& model)
 {
 	m_drawCount = model.indices.size(); // obj file
@@ -71,22 +77,19 @@ void Mesh::InitMesh(const QuadCore::IndexedModel& model)
 	glBindVertexArray(0);
 }
 
+
+// 
 void Mesh::Draw()
 {
 	glBindVertexArray(m_vertexArrayObject);
 	
-	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0); // obj file
-
-	//if (MOD == OBJFILE)
-	//	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0); // obj file
-	//else if (MOD == VERTICES)
-	//	glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
-		
+	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0); // obj file		
 
 	glBindVertexArray(0);
 }
 
-// DrawMap 새로 추가된 부분
+
+// 선을 width 굵기로 그린다.
 void Mesh::DrawLines(GLfloat width)
 {
 	glBindVertexArray(m_vertexArrayObject);

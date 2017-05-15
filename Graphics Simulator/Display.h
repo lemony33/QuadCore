@@ -53,7 +53,7 @@ public:
 	{
 		glfwGetFramebufferSize(window, &m_width, &m_height);	// 현재크기 얻어오기
 		glViewport(0, 0, m_width, m_height);					// 뷰행렬 갱신
-		TwWindowSize(m_width, m_height);						// TwWindow 사이즈	///
+		TwWindowSize(m_width, m_height);						// TwWindow 사이즈
 	}
 
 private:

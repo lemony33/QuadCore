@@ -109,23 +109,18 @@ private:
 	inline void SetUniform_Fragment_phong(glm::vec3 cameraposition)
 	{
 		////glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-		//glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
-		glm::vec3 lightPos(-0.2f, -1.0f, -0.3f);
+		glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+		//glm::vec3 lightPos(-0.2f, -1.0f, -0.3f);
 
 		glUniform3f(m_uniforms[LIGHT_POS_U], lightPos.x, lightPos.y, lightPos.z);
-		//glUniform3f(m_uniforms[LIGHT_	POS_U], lightPos.x, lightPos.y, lightPos.z); 
-		//glUniform3f(m_uniforms[VIEW_POS_U], 1.0f, 1.0f, 1.0f);
+
 		glUniform3f(m_uniforms[VIEW_POS_U], cameraposition.x, cameraposition.y, cameraposition.z);
 
-		////glUniform3f(m_uniforms[LIGHT_COLOR_U], 1.0f, 0.5f, 0.31f);
-		//glUniform3f(m_uniforms[LIGHT_AMBIENT_U], 1.0f, 1.0f, 1.0f);
-		//glUniform3f(m_uniforms[LIGHT_DIFFUSE_U], 0.5f, 0.5f, 0.5f);
-		//glUniform3f(m_uniforms[LIGHT_SPECULAR_U], 1.0f, 1.0f, 1.0f);
+
 		glUniform3f(m_uniforms[LIGHT_AMBIENT_U], 0.1f, 0.1f, 0.1f);
 		glUniform3f(m_uniforms[LIGHT_DIFFUSE_U], 0.4f, 0.4f, 0.4f);
 		glUniform3f(m_uniforms[LIGHT_SPECULAR_U], 0.5f, 0.5f, 0.5f);
 
-		//glUniform3f(m_uniforms[OBJECT_COLOR_U], camera.GetPos().x, camera.GetPos().y, camera.GetPos().z);
 		glUniform3f(m_uniforms[OBJECT_COLOR_U], 1.0f, 0.0f, 0.0f);
 
 
@@ -185,9 +180,9 @@ private:
 		NUM_UNIFORMS
 	};
 
-	GLuint m_program;
-	GLuint m_shaders[NUM_SHADERS];
-	GLuint m_uniforms[NUM_UNIFORMS];
+	GLuint m_program;					// Program
+	GLuint m_shaders[NUM_SHADERS];		// Shader
+	GLuint m_uniforms[NUM_UNIFORMS];	// Uniform
 
 	///
 	PointLight pointLight[5];
