@@ -27,123 +27,26 @@
 
 #include "Scene_room.h"
 
-#include "UI_TwBar.h"
+//#include "UI_TwBar.h"
+//#include "Render_Mode.h"
+#include "Menu.h"
 
-
-#include "Render_Mode.h"
 
 
 
 class SceneManager
 {
 public:
-
-	//float bgColor[3] = { 0.1f, 0.2f, 0.4f };         // Background color 
-
-	float m_bgColor[3] = { 0.0f / 255.0f, 6.0f / 255.0f, 106.0f / 255.0f };	// Background color 
-	bool IsDefault = false;	
-	bool m_scene_1 = false;	// skybox
-	bool m_scene_2 = false;	// solar system
-	bool m_scene_3 = false;	// show room
-
-	bool m_stopper = false;
-
-	bool switch_mini_coordinate = false;
-	bool switch_world_coordinate = false;
-	bool switch_local_coordinate = false;
-	bool switch_grid_map = false;
-
-	unsigned char cubeColor[4] = { 255, 0, 0, 128 }; // Model color (32bits RGBA)
-	float g_Rotation[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	float g_LightDirection[3] = { -0.57735f, -0.57735f, -0.57735f };
-
-	Scene scene;
-	TwBar *mainUI; // play 함수에서 UI 불러오도록 하기위해 추가. 
-	TwBar *objectUI;
+	Menu menu;
 	
-	//미러씬 UI
-	TwBar *mirrorUI;
-	bool mirrorUIenable = false; // 다른 씬에서 OnOff하기 위한 변수
-	bool mirrorcheckbutton = false;
-	
-	//태양계씬 UI
-	TwBar *solarUI;
-	bool solarUIenable = false; // 다른 씬에서 OnOff하기 위한 변수
-	float rotspeed = 0.1;
-	float rotspeed_object = 0;
-
-
 	SceneManager()
 	{
-
-		// Initialize AntTweakBar
-		TwInit(TW_OPENGL, NULL);
-
-		// UI_Bar 이름 // Create a tweak bar
-		TwBar *mainBar = TwNewBar("Main");
-		TwDefine(" Main label='MAIN' fontsize=3 size ='245 400' position='30 30' alpha=0 help='Use this bar to edit the main in the scene.' ");
-
-		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-		// 시간
-		TwAddVarRO(mainBar, "Run Time", TW_TYPE_DOUBLE, &scene.time, "precision=1 help='Time (in seconds).' ");
-
-		TwAddVarRW(mainBar, "Counter", TW_TYPE_FLOAT, &counter, "precision=1 help='Time (in seconds).' ");
-		TwAddVarRW(mainBar, "Stop", TW_TYPE_BOOLCPP, &m_stopper, "key=P help='mini_coordinate' ");
-
-
-		TwAddSeparator(mainBar, "", NULL);	// 아래쪽에 line생성
-		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
-		TwAddVarRW(mainBar, "Set Default", TW_TYPE_BOOLCPP, &IsDefault, "key=R help='set to default mode.' ");
-
-		// 배경 변경하는 메뉴, SceneNumber 변수를 조절함
-		TwAddVarRW(mainBar, "Background Num", TW_TYPE_INT32, &scene.BackgroundNum, " min=0 max=3 help='Change Background' ");
-
-		// 씬 변경하는 메뉴, SceneNumber 변수를 조절함
-		scene.SceneNumber = 0;
-		TwAddVarRW(mainBar, "Animation Num", TW_TYPE_INT32, &scene.SceneNumber, " min=0 max=8 help='Change Scene' ");
-		//TwAddVarRW(TwBar *bar, const char *name, TwType type, void *var, const char *def);
-
-		TwAddVarRW(mainBar, " 1. Skybox", TW_TYPE_BOOLCPP, &m_scene_1, "key=1 help='Scene1. SkyBox' ");
-		TwAddVarRW(mainBar, " 2. Solar System", TW_TYPE_BOOLCPP, &m_scene_2, "key=2 help='Scene2. Solar System' ");
-		TwAddVarRW(mainBar, " 3. Room", TW_TYPE_BOOLCPP, &m_scene_3, "key=3 help='Scene3. Show Room' ");
-
-		TwAddSeparator(mainBar, "", NULL);
-		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
-		///TwAddButton(mainBar, "Button", TW_TYPE_CDSTRING, , );
-		
-		// Background 컬러 변경
-		TwAddVarRW(mainBar, "Background Color", TW_TYPE_COLOR3F, &m_bgColor, " opened=true help='Change the top background color.' ");
-		TwAddSeparator(mainBar, "", NULL);
-
-
-		
-		// 
-		TwAddVarRW(mainBar, "Mini Coordinate", TW_TYPE_BOOLCPP, &switch_mini_coordinate, "key=B help='mini_coordinate' ");
-		TwAddVarRW(mainBar, "World Coordinate", TW_TYPE_BOOLCPP, &switch_world_coordinate, "key=N help='world_coordinate' ");
-		TwAddVarRW(mainBar, "Local Coordinate", TW_TYPE_BOOLCPP, &switch_local_coordinate, "key=L help='world_coordinate' ");
-		TwAddVarRW(mainBar, "Grid World Map", TW_TYPE_BOOLCPP, &switch_grid_map, "key=M help='draw_Grid_Map' ");
-
-		//TwAddSeparator(mainBar, "", NULL);
-		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-		
-		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-				
-
-		scene.Init(true);
-
-		mainUI = mainBar; // 이 함수에서 정의된 UI를 변수에 연결
-		
+		menu.Init(true);
 	}
 
 	virtual ~SceneManager()
 	{
 	}
-
-	//Scence_mirror* scence_mirror = new Scence_mirror();
 
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	// 필요한 설정값 초기화
@@ -202,11 +105,6 @@ public:
 	}
 
 public:
-	char m_cur_key = NULL;
-	void Set_CurKey(char cur_key)
-	{
-		m_cur_key = cur_key;
-	}
 
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	// 미리 설정된 시나리오를 선택한다.
@@ -214,74 +112,74 @@ public:
 	void Select_Scene()
 	{
 		//// 씬 중복선택 안되도록 처리할 것
-		switch (scene.BackgroundNum_prev)
+		switch (menu.BackgroundNum_prev)
 		{
 		case 1:
-			if (m_scene_1 == true && m_scene_2 == true)
+			if (menu.m_scene_1 == true && menu.m_scene_2 == true)
 			{
-				m_scene_1 = false;
-				scene.BackgroundNum = 2;
+				menu.m_scene_1 = false;
+				menu.BackgroundNum = 2;
 			}
-			if (m_scene_3 == true && m_scene_1 == true)
+			if (menu.m_scene_3 == true && menu.m_scene_1 == true)
 			{
-				m_scene_1 = false;
-				scene.BackgroundNum = 3;
+				menu.m_scene_1 = false;
+				menu.BackgroundNum = 3;
 			}
 			break;
 		case 2:
-			if (m_scene_1 == true && m_scene_2 == true)
+			if (menu.m_scene_1 == true && menu.m_scene_2 == true)
 			{
-				m_scene_2 = false;
-				scene.BackgroundNum = 1;
+				menu.m_scene_2 = false;
+				menu.BackgroundNum = 1;
 			}
-			if (m_scene_2 == true && m_scene_3 == true)
+			if (menu.m_scene_2 == true && menu.m_scene_3 == true)
 			{
-				m_scene_2 = false;
-				scene.BackgroundNum = 3;
+				menu.m_scene_2 = false;
+				menu.BackgroundNum = 3;
 			}
 			break;
 		case 3:
-			if (m_scene_2 == true && m_scene_3 == true)
+			if (menu.m_scene_2 == true && menu.m_scene_3 == true)
 			{
-				m_scene_3 = false;
-				scene.BackgroundNum = 2;
+				menu.m_scene_3 = false;
+				menu.BackgroundNum = 2;
 			}
-			if (m_scene_3 == true && m_scene_1 == true)
+			if (menu.m_scene_3 == true && menu.m_scene_1 == true)
 			{
-				m_scene_3 = false;
-				scene.BackgroundNum = 1;
+				menu.m_scene_3 = false;
+				menu.BackgroundNum = 1;
 			}
 			break;
 		}
 
 		// 씬 선택창
-		if (m_scene_1) {
-			scene.BackgroundNum_prev = 1;
-			scene.BackgroundNum = 1;
+		if (menu.m_scene_1) {
+			menu.BackgroundNum_prev = 1;
+			menu.BackgroundNum = 1;
 
-			scene.SceneNumber = 1;	// 원하는 씬으로 설정
+			menu.SceneNumber = 1;	// 원하는 씬으로 설정
 		}
-		if (m_scene_2) {
-			scene.BackgroundNum_prev = 2;
-			scene.BackgroundNum = 2;
+		if (menu.m_scene_2) {
+			menu.BackgroundNum_prev = 2;
+			menu.BackgroundNum = 2;
 
-			scene.SceneNumber = 2;	// 원하는 씬으로 설정
+			menu.SceneNumber = 2;	// 원하는 씬으로 설정
 		}
-		if (m_scene_3) {
-			scene.BackgroundNum_prev = 3;
-			scene.BackgroundNum = 3;
+		if (menu.m_scene_3) {
+			menu.BackgroundNum_prev = 3;
+			menu.BackgroundNum = 3;
 
-			scene.SceneNumber = 3;	// 원하는 씬으로 설정
+			menu.SceneNumber = 3;	// 원하는 씬으로 설정
 		}
 
-		if (IsDefault)
+		if (menu.IsDefault)
 		{
-			m_scene_1 = false;
-			m_scene_2 = false;
-			m_scene_3 = false;
+			menu.m_scene_1 = false;
+			menu.m_scene_2 = false;
+			menu.m_scene_3 = false;
 
-			scene.BackgroundNum = 0;
-			scene.SceneNumber = 0;
+			menu.BackgroundNum = 0;
+			menu.SceneNumber = 0;
 		}
 	}
 
@@ -290,17 +188,17 @@ public:
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	void Play()
 	{
-		if(!m_stopper)
-			counter += 0.05f;
-		QuadCore::iScene::SetCounter(counter);
+		if(!menu.m_stopper)
+			menu.counter += 0.05f;
+		QuadCore::iScene::SetCounter(menu.counter);
 
-		m_display->Clear(m_bgColor[0], m_bgColor[1], m_bgColor[2], 1.0f);
+		m_display->Clear(menu.m_bgColor[0], menu.m_bgColor[1], menu.m_bgColor[2], 1.0f);
 
 		this->Select_Scene();
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		
-		if (switch_grid_map)
+		if (menu.switch_grid_map)
 		{
 			dMap.DrawPlane();		// Draw Map	
 		}
@@ -311,7 +209,7 @@ public:
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		for (int i = 0; i < m_background_list.size(); i++)
 		{
-			if (i == scene.BackgroundNum)
+			if (i == menu.BackgroundNum)
 			{				
 				m_background_list.at(i)->Play();
 			}
@@ -326,114 +224,103 @@ public:
 			glm::vec3 specular[3];
 			for(int i = 0; i < 3; i++)
 			{
-				pos[i] = glm::vec3(scene.multilights[i].posX, scene.multilights[i].posY, scene.multilights[i].posZ);
-				ambient[i] = glm::vec3(scene.multilights[i].ambient[0], scene.multilights[i].ambient[1], scene.multilights[i].ambient[2]);
-				diffuse[i] = glm::vec3(scene.multilights[i].diffuse[0], scene.multilights[i].diffuse[1], scene.multilights[i].diffuse[2]);
-				specular[i] = glm::vec3(scene.multilights[i].specular[0], scene.multilights[i].specular[1], scene.multilights[i].specular[2]);
+				pos[i] = glm::vec3(menu.multilights[i].posX, menu.multilights[i].posY, menu.multilights[i].posZ);
+				ambient[i] = glm::vec3(menu.multilights[i].ambient[0], menu.multilights[i].ambient[1], menu.multilights[i].ambient[2]);
+				diffuse[i] = glm::vec3(menu.multilights[i].diffuse[0], menu.multilights[i].diffuse[1], menu.multilights[i].diffuse[2]);
+				specular[i] = glm::vec3(menu.multilights[i].specular[0], menu.multilights[i].specular[1], menu.multilights[i].specular[2]);
 			}
 
 			//
 			float final_speed = 0;
 			
 			//UI 값에 맞는 씬만 플레이
-			if (i == scene.SceneNumber)
+			if (i == menu.SceneNumber)
 			{
 				int j = i;
 
-				m_scene_list.at(j)->Set_LocalCoordinate(switch_local_coordinate);
+				m_scene_list.at(j)->Set_LocalCoordinate(menu.switch_local_coordinate);
 
 				switch (i)
 				{
 				case 0:								// 0.Default(none)
-					TurnOffMirrorUI();
-					TurnOffSolarUI();
-					TurnOffRoomUI();
+					menu.TurnOffMirrorUI();
+					menu.TurnOffSolarUI();
+					menu.TurnOffRoomUI();
 					m_scene_list.at(j)->Play();
 					break;
 				case 1:								// 1.SkyBox
-					TurnOnMirrorUI();
-					TurnOffSolarUI();
-					TurnOffRoomUI();
-					m_scene_list.at(j)->Play(scene.Spheres);
+					menu.TurnOnMirrorUI();
+					menu.TurnOffSolarUI();
+					menu.TurnOffRoomUI();
+					m_scene_list.at(j)->Play(menu.Spheres);
 					break;
 				case 2:								// 2.Solar System
 					//m_scene_list.at(j)->Play();
-					TurnOffMirrorUI();
-					TurnOnSolarUI();
-					TurnOffRoomUI();
-					m_scene_list.at(j)->Play(rotspeed, pos, ambient, diffuse, specular);
+					menu.TurnOffMirrorUI();
+					menu.TurnOnSolarUI();
+					menu.TurnOffRoomUI();
+					m_scene_list.at(j)->Play(menu.rotspeed, pos, ambient, diffuse, specular);
 					break;
 				case 3:								// 3.Show Room
-					TurnOffMirrorUI();
-					TurnOffSolarUI();
-					TurnOnRoomUI();
+					menu.TurnOffMirrorUI();
+					menu.TurnOffSolarUI();
+					menu.TurnOnRoomUI();
 					//m_scene_list.at(j)->Play();
-					final_speed = rotspeed_object;
+					final_speed = menu.rotspeed_object;
 
-					if (scene.Rotation == Scene::ROT_OFF)
+					if (menu.Rotation == Menu::ROT_OFF)
 						final_speed = 0;
-					else if (scene.Rotation == Scene::ROT_CW)
-						final_speed = -rotspeed_object;
-					else if (scene.Rotation == Scene::ROT_CCW)
-						final_speed = +rotspeed_object;
+					else if (menu.Rotation == Menu::ROT_CW)
+						final_speed = -menu.rotspeed_object;
+					else if (menu.Rotation == Menu::ROT_CCW)
+						final_speed = +menu.rotspeed_object;
 
 
-					if (m_stopper)
+					if (menu.m_stopper)
 						final_speed = 0;
 
-					if (reset_rotation)
+					if (menu.reset_rotation)
 					{
-						g_Rotation[0] = 0.0f;
-						g_Rotation[1] = 0.0f;
-						g_Rotation[2] = 0.0f;
-						reset_rotation = false;
+						menu.g_Rotation[0] = 0.0f;
+						menu.g_Rotation[1] = 0.0f;
+						menu.g_Rotation[2] = 0.0f;
+						menu.reset_rotation = false;
 					}
 
-					if(IsChanged_Reder_Mode())
-						m_scene_list.at(j)->Set_RenderMode(object_mode, shader_mode, texture_mode);
+					if(menu.IsChanged_Reder_Mode())
+						m_scene_list.at(j)->Set_RenderMode(menu.object_mode, menu.shader_mode, menu.texture_mode);
 
 
-					m_scene_list.at(j)->Set_EffectMode(EFFECT_MODE::EFFECT_PAUSE, is_effect_pause);
-					m_scene_list.at(j)->Set_EffectMode(EFFECT_MODE::EXPLODE, is_explode);
-					m_scene_list.at(j)->Set_EffectMode(EFFECT_MODE::NORMAL_VIEW, is_normal_view);
+					m_scene_list.at(j)->Set_EffectMode(EFFECT_MODE::EFFECT_PAUSE, menu.is_effect_pause);
+					m_scene_list.at(j)->Set_EffectMode(EFFECT_MODE::EXPLODE, menu.is_explode);
+					m_scene_list.at(j)->Set_EffectMode(EFFECT_MODE::NORMAL_VIEW, menu.is_normal_view);
 
-					m_scene_list.at(j)->Sync_Value_Explode_Speed(&m_explode_speed);
-					m_scene_list.at(j)->Sync_Value_Normal(&m_normal_length);
+					m_scene_list.at(j)->Sync_Value_Explode_Speed(&menu.m_explode_speed);
+					m_scene_list.at(j)->Sync_Value_Normal(&menu.m_normal_length);
 
-					m_scene_list.at(j)->Sync_Value_Explode_Factor(&m_explode_factor);
+					m_scene_list.at(j)->Sync_Value_Explode_Factor(&menu.m_explode_factor);
 
 					
 					// Normal Viewer 설정값 변경시 재로딩
-					if (IsChanged_Effect_Mode())
+					if (menu.IsChanged_Effect_Mode())
 					{
 						//m_normal_length = 0.2f;
-						m_scene_list.at(j)->Set_RenderMode(object_mode, shader_mode, texture_mode);
+						m_scene_list.at(j)->Set_RenderMode(menu.object_mode, menu.shader_mode, menu.texture_mode);
 					}
 
-					m_scene_list.at(j)->Play(g_Rotation, final_speed, pos, ambient, diffuse, specular);
+					m_scene_list.at(j)->Play(menu.g_Rotation, final_speed, pos, ambient, diffuse, specular);
 					break;
 				default:
-					TurnOffMirrorUI();
-					TurnOffSolarUI();
-					TurnOffRoomUI();
+					menu.TurnOffMirrorUI();
+					menu.TurnOffSolarUI();
+					menu.TurnOffRoomUI();
 					m_scene_list.at(j)->Play();
 					break;
 				}
 			}
 		}
 
-		// Rotate model	// TwSimple Rotation 추가
-		scene.dt = glfwGetTime() - scene.time;
-		if (scene.dt < 0) scene.dt = 0;
-		scene.time += scene.dt;
-		scene.turn += scene.speed*scene.dt;
-
-		///
-		// Move lights
-		scene.Update(scene.time);
-
-		// Draw Light UI 
-		scene.Draw();
+		menu.SetTime(glfwGetTime());
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		// Draw tweak bar UI
@@ -442,13 +329,12 @@ public:
 
 		//////////////////////////////////////////////////////////////////////
 		////// UI 좌표계 그리기
-		m_world_coordinate.Draw(m_camera, switch_world_coordinate);
-		m_mini_coordinate.Draw(m_camera, switch_mini_coordinate);
+		m_world_coordinate.Draw(m_camera, menu.switch_world_coordinate);
+		m_mini_coordinate.Draw(m_camera, menu.switch_mini_coordinate);
 		//////////////////////////////////////////////////////////////////////
 	}
 	
 private:
-	float counter = 0.0f;
 
 	std::vector<QuadCore::iScene*> m_background_list;
 	std::vector<QuadCore::iScene*> m_scene_list;
@@ -460,245 +346,5 @@ private:
 
 	QuadCore::miniUI_coordinate m_mini_coordinate;
 	QuadCore::World_coordinate m_world_coordinate;
-
-	void TurnOnMirrorUI()
-	{
-		if (!mirrorUIenable)
-		{
-			TwBar *mirrorBar = TwNewBar("Skybox");
-			TwDefine(" Skybox label='SKYBOX' size ='245 400' position='760 30' alpha=0 help='Use this bar to edit object in the scene.' ");
-			//TwDefine(" Skybox label='SKYBOX' size ='245 400' position='1340 30' alpha=0 help='Use this bar to edit object in the scene.' ");
-			//TwAddVarRW(mirrorBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
-			//TwAddVarRW(mirrorBar, "Sphere Num", TW_TYPE_INT32, &scene.Spheres, " min=0 max=180 help='Change a number of sphere' ");
-			TwAddVarRW(mirrorBar, "Sphere Num", TW_TYPE_INT32, &scene.Spheres, " min=0 max=32 help='Change a number of sphere' ");
-
-			mirrorUI = mirrorBar;
-
-			mirrorUIenable = true;
-		}
-	}
-	void TurnOffMirrorUI()
-	{
-		if(mirrorUIenable)
-			TwDeleteBar(mirrorUI);
-
-		mirrorUIenable = false;
-	}
-
-	void TurnOnSolarUI()
-	{
-		if (!solarUIenable)
-		{
-			TwBar *solarBar = TwNewBar("Solar");
-			TwDefine(" Solar label='SOLAR SYSTEM' size ='245 400' position='760 30' alpha=0 help='Use this bar to edit object in the scene.' ");
-			//TwDefine(" Solar label='SOLAR SYSTEM' size ='245 400' position='1340 30' alpha=0 help='Use this bar to edit object in the scene.' ");
-			//TwAddVarRW(solarBar, "BOOLBUTTON", TW_TYPE_BOOLCPP, &mirrorcheckbutton, " help='control' ");
-			TwAddVarRW(solarBar, "Rotation Speed", TW_TYPE_FLOAT, &rotspeed,
-				" min=0.01 max=2.0 step=0.01 help='Change a number of sphere' ");
-
-			solarUI = solarBar;
-
-			solarUIenable = true;
-		}
-	}
-	void TurnOffSolarUI()
-	{
-		if(solarUIenable)
-			TwDeleteBar(solarUI);
-
-		solarUIenable = false;
-	}
-
-	bool roomUIenable = false;
-
-public:
-
-
-private:
-	OBJECT_MODE check_object_mode;
-	SHADER_MODE check_shader_mode;
-	TEXTURE_MODE check_texture_mode;
-
-	OBJECT_MODE object_mode;
-	SHADER_MODE shader_mode;
-	TEXTURE_MODE texture_mode;
-
-	bool IsChanged_Reder_Mode()
-	{
-		if ((object_mode != check_object_mode)
-			|| (shader_mode != check_shader_mode)
-			|| (texture_mode != check_texture_mode))
-		{
-			check_object_mode = object_mode;
-			check_shader_mode = shader_mode;
-			check_texture_mode = texture_mode;
-			printf("Changed Render Mode\n");
-			return true;
-		}
-		return false;
-	}
-
-	bool updated_normal_mode;
-	bool IsChanged_Effect_Mode()
-	{
-		if (is_normal_view != updated_normal_mode)
-		{
-			updated_normal_mode = is_normal_view;
-			printf("Updated Normal View Mode\n");
-			return true;
-		}
-		return false;
-	}
-
-
-private:
-	void TurnOnRoomUI()
-	{
-		if (!roomUIenable)
-		{
-			TwBar *objectBar = TwNewBar("Object");
-			TwDefine(" Object label='OBJECT' size ='300 400' position='705 30' alpha=0 help='Use this bar to edit object in the scene.' ");
-			//TwDefine(" Object label='OBJECT' size ='300 400' position='1285 30' alpha=0 help='Use this bar to edit object in the scene.' ");
-			//TwDefine(" Object label='OBJECT' size ='245 400' position='1640 30' alpha=0 help='Use this bar to edit object in the scene.' ");
-
-			//TwAddSeparator(mainBar, "", NULL);
-
-			
-			TwEnumVal objectEV[] = {
-				{ OBJECT_MODE::Bunny, "Bunny" },
-				{ OBJECT_MODE::Lucy,  "Lucy" },
-				{ OBJECT_MODE::Lucycat, "Lucycat" },
-				{ OBJECT_MODE::Lucycat_voronol, "Lucycat_voronol" },
-
-				{ OBJECT_MODE::bear, "bear" },
-				{ OBJECT_MODE::nanosuit, "nanosuit" },
-
-				//glove, chair, WineGlasses,
-				{ OBJECT_MODE::glove, "glove" },
-				{ OBJECT_MODE::chair, "chair" },
-				{ OBJECT_MODE::WineGlasses, "WineGlasses" },
-
-				//Torus, Cube, Sphere, Icosphere, CubeHollow,
-				{ OBJECT_MODE::Torus, "Torus" },
-				{ OBJECT_MODE::Cube, "Cube" },
-				{ OBJECT_MODE::Sphere, "Sphere" },
-				{ OBJECT_MODE::Icosphere, "Icosphere" },
-				{ OBJECT_MODE::CubeHollow, "CubeHollow" },
-
-
-			};
-			TwType objectType = TwDefineEnum("Object Mode", objectEV, OBJECT_MODE::OBJECT_MODE_SIZE);
-			TwAddVarRW(objectBar, "Select Object", objectType, &object_mode,
-				" keyIncr=H keyDecr=Y help='...' ");
-
-			TwEnumVal shaderEV[] = {
-										{ SHADER_MODE::Phong, "Phong Shading" },
-										{ SHADER_MODE::Multi,  "Multi Shading" },
-										{ SHADER_MODE::Rim, "Rim Shading" }
-									};
-			TwType shaderType = TwDefineEnum("Shader Mode", shaderEV, SHADER_MODE::SHADER_MODE_SIZE);
-			TwAddVarRW(objectBar, "Select Shader", shaderType, &shader_mode,
-				" keyIncr=J keyDecr=U help='...' ");
-
-			TwEnumVal textureEV[] = {
-				{ TEXTURE_MODE::Bricks, "Bricks" },
-				{ TEXTURE_MODE::Skyblue,  "Skyblue" },
-				{ TEXTURE_MODE::Formula, "Formula" },
-
-				{ TEXTURE_MODE::dark_spot, "dark_spot" },
-				{ TEXTURE_MODE::diamond, "diamond" },
-				{ TEXTURE_MODE::grain_grass, "grain_grass" },
-				{ TEXTURE_MODE::iron, "iron" },
-				{ TEXTURE_MODE::lines_dark, "lines_dark" },
-				{ TEXTURE_MODE::metal, "metal" },
-				{ TEXTURE_MODE::moon, "moon" },
-
-				{ TEXTURE_MODE::slime, "slime" },
-				{ TEXTURE_MODE::surface_dark, "surface_dark" },
-				{ TEXTURE_MODE::surface_gold_shine, "surface_gold_shine" },
-				{ TEXTURE_MODE::pastel, "pastel" },
-				{ TEXTURE_MODE::wall_brick, "wall_brick" },
-				{ TEXTURE_MODE::wood, "wood" },
-				/*
-				dark_spot, diamond, grain_grass, iron, lines_dark, metal, moon,
-				slime, surface_dark, surface_gold_shine, pastel, wall_brick, wood,
-				*/
-			};
-			TwType textureType = TwDefineEnum("Texture Mode", textureEV, TEXTURE_MODE::TEXTURE_MODE_SIZE);
-			TwAddVarRW(objectBar, "Select Texture", textureType, &texture_mode,
-				" keyIncr=K keyDecr=I help='...' ");
-
-
-			//// Cube 컬러 변경
-			//TwAddVarRW(objectBar, "Obj Color", TW_TYPE_COLOR32, &cubeColor,
-			//	"alpha help='Color and transparency of the cube.' ");
-
-			TwAddSeparator(objectBar, "", NULL);
-
-			// 도형 Rotation Speed 조정 // Its key shortcuts are [s] and [S].
-			TwAddVarRW(objectBar, "Obj Rotation Speed", TW_TYPE_FLOAT, &rotspeed_object,
-				" min=0 max=10 step=0.01 keyDecr=, keyIncr=. help='Rotation speed (turns/second)' ");
-
-			TwAddSeparator(objectBar, "", NULL);
-
-			TwAddVarRW(objectBar, "Reset Rotation", TW_TYPE_BOOLCPP, &reset_rotation, "key=C help='reset_rotation' ");
-
-			// 도형 Rotation 
-			TwAddVarRW(objectBar, "Obj Rotation", TW_TYPE_QUAT4F, &g_Rotation,
-				" opened=true help='Change the object orientation.' ");
-
-			TwAddSeparator(objectBar, "", NULL);
-			
-
-			// 도형 Rotation 모드
-			TwEnumVal rotationEV[] = { { Scene::ROT_OFF, "Stopped" },
-			{ Scene::ROT_CW,  "Clockwise" },
-			{ Scene::ROT_CCW, "Counter-clockwise" } };
-			TwType rotationType = TwDefineEnum("Rotation Mode", rotationEV, 3);
-			TwAddVarRW(objectBar, "Obj Rotation Scene", rotationType, &scene.Rotation,
-				" keyIncr=X keyDecr=Z help='Stop or change the rotation mode.' ");
-
-			TwAddSeparator(objectBar, "", NULL);
-
-			TwAddVarRW(objectBar, "Pause Effect", TW_TYPE_BOOLCPP, &is_effect_pause, "key=0 help='Pause Effect' ");
-			TwAddVarRW(objectBar, "Object Explode", TW_TYPE_BOOLCPP, &is_explode, "help='effect_explode' ");
-			TwAddVarRW(objectBar, "Explode Factor", TW_TYPE_FLOAT, &m_explode_factor, " min=0.00 max=10.00 step=0.1 help='explode factor' ");
-			TwAddVarRW(objectBar, "Explode Speed", TW_TYPE_FLOAT, &m_explode_speed, " min=0.00 max=10.00 step=0.1 help='explode speed' ");
-			TwAddVarRW(objectBar, "Normal Viewer", TW_TYPE_BOOLCPP, &is_normal_view, "help='effect_normal' ");
-			TwAddVarRW(objectBar, "Normal Length", TW_TYPE_FLOAT, &m_normal_length, " min=0.00 max=2.00 step=0.001 help='Resize Normal Length' ");
-
-
-
-			objectUI = objectBar;
-
-			roomUIenable = true;
-
-			///
-			check_object_mode = object_mode;
-			check_shader_mode = shader_mode;
-			check_texture_mode = texture_mode;
-
-			updated_normal_mode = is_normal_view;
-		}
-	}
-
-	bool reset_rotation = false;
-	bool is_explode = false;
-	bool is_normal_view = false;
-	bool is_effect_pause = false;
-	
-	float m_explode_factor = 0.7f;
-	float m_explode_speed = 1.0f;
-	float m_normal_length = 0.02f;
-
-
-	void TurnOffRoomUI()
-	{
-		if (roomUIenable)
-			TwDeleteBar(objectUI);
-
-		roomUIenable = false;
-	}
-
 };
 

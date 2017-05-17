@@ -186,7 +186,6 @@ public:
 			exit(EXIT_SUCCESS);
 			break;
 		case GLFW_KEY_SPACE:
-			m_cur_key = '+';
 			break;
 
 		case GLFW_KEY_F11:
@@ -253,7 +252,6 @@ public:
 
 
 		case GLFW_KEY_M:
-			m_cur_key = 'm';
 			break;
 		case GLFW_KEY_KP_ADD:
 			camera->MovePosition(-0.001f);
@@ -292,12 +290,8 @@ public:
 		}
 	}
 
-private:
-	char m_cur_key = NULL;
+
 public:
-	char Get_curKey() { char key = m_cur_key;  m_cur_key = NULL; return key; }
-
-
 	virtual void onMouseButton(int button, int action)
 	{
 		//=====Tw Key====

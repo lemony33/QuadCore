@@ -41,8 +41,6 @@ void QuadCore::Graphics_Simulator::Run()
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		
 		//### 시나리오별 장면 재생
-		printf("%c \n", controller.Get_curKey());
-		m_scene_manager.Set_CurKey(controller.Get_curKey());
 		m_scene_manager.Play();
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ		

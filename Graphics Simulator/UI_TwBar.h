@@ -5,7 +5,7 @@
 #include <GLEW-2.0.0_x64/GL/glew.h>
 
 #define _snprintf snprintf
-
+/*
 struct Light
 {
 	bool    Active;					// light On or Off
@@ -53,14 +53,12 @@ public:
 	float   Ambient;				// scene ambient factor 
 	float   Reflection;				// ground plane reflection factor (0=no reflection, 1=full reflection)
 	double  RotYAngle;				// rotation angle of the scene around its Y axis (in degree)
-	enum    RotMode { ROT_OFF, ROT_CW, ROT_CCW };
-	RotMode Rotation;				// scene rotation mode (off, clockwise, counter-clockwise)
+	//enum    RotMode { ROT_OFF, ROT_CW, ROT_CCW };
+	//RotMode Rotation;				// scene rotation mode (off, clockwise, counter-clockwise)
 
 	Scene();                        // constructor
 	~Scene();                       // destructor
 	void    Init(bool changeLightPos);      // (re)initialize the scene
-	void    Draw() const;                   // draw scene
-	void    Update(double time);            // move lights
 
 	double speed = 0.3; // Model rotation speed
 	double time = 0, dt;// Current time and enlapsed time
@@ -88,5 +86,5 @@ private:
 	TwBar * lightsBar;                      // pointer to the tweak bar for lights created by CreateBar()
 	
 };
-
+*/
 #endif

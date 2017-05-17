@@ -71,6 +71,9 @@
     <ClCompile Include="Coordinates.cpp">
       <Filter>Object</Filter>
     </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShapeManager.h">
@@ -189,6 +192,9 @@
     </ClInclude>
     <ClInclude Include="ExtraObject.h">
       <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Others</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
