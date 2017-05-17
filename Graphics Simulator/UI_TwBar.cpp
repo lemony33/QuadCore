@@ -1,5 +1,5 @@
 #include "UI_TwBar.h"
-
+/*
 const float FLOAT_2PI = 6.283185307f; // 2*PI
 
 // Constructor
@@ -21,7 +21,7 @@ Scene::Scene()
 	Ambient = 0.2f;
 	Reflection = 0.5f;
 	RotYAngle = 0;
-	Rotation = ROT_CCW;
+	//Rotation = ROT_CCW;
 	objList = 0;
 	groundList = 0;
 	haloList = 0;
@@ -123,12 +123,12 @@ void Scene::Init(bool changeLights)
 	glEndList();
 }
 
-// Callback function associated to the 'Change lights' button of the lights tweak bar.
-void TW_CALL ReinitCB(void *clientData)
-{
-	Scene *scene = static_cast<Scene *>(clientData); // scene pointer is stored in clientData
-	scene->Init(true);                               // re-initialize the scene
-}
+//// Callback function associated to the 'Change lights' button of the lights tweak bar.
+//void TW_CALL ReinitCB(void *clientData)
+//{
+//	Scene *scene = static_cast<Scene *>(clientData); // scene pointer is stored in clientData
+//	scene->Init(true);                               // re-initialize the scene
+//}
 
 // Light Bar 생성
 void Scene::CreateBar()
@@ -172,21 +172,7 @@ void Scene::CreateBar()
 }
 
 ///////////////////////////////////////필요없고 헤더파일 수정하기 귀찮아서 냅둠 ///////////////////////////////
-// Light Bar Update 
-void Scene::Update(double time)
-{
-	float horizSpeed, vertSpeed;
-}
 
-// Activate OpenGL lights; hide unused lights in the Lights tweak bar; 
-// and draw the scene. The scene is reflected by the ground plane, so it is
-// drawn two times: first reflected, and second normal (unreflected).
-
-// Light Bar & Scene 생성
-void Scene::Draw() const
-{
-	
-}
 
 
 
@@ -222,3 +208,4 @@ void TW_CALL GetSubdivCB(void *value, void *clientData)
 {
 }
 
+*/

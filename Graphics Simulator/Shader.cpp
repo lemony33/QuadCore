@@ -51,6 +51,76 @@ Shader::Shader(const std::string& fileName)
 
 }
 
+Shader::Shader(const std::string& fileName, int shader_num, bool normal_mode)
+{
+	if (shader_num != 3) {
+		printf("GEROMETRY SHADER LODING FAILED \n");
+		return;
+	}
+	printf("GEROMETRY SHADER LODING...!!!\n");
+
+	///
+	std::string shader_filepath = "../resources/shaders/Final/";
+	std::string geometry = "Geometry_1_default";
+	if (normal_mode)
+		geometry = "Geometry_2_normal_view";
+	///
+
+	geometry = shader_filepath + geometry;
+	///printf((geometry+"\n").c_str());
+
+	std::string vertexfn = "Vertex_1_default";
+	vertexfn = shader_filepath + vertexfn;
+
+	m_program = glCreateProgram();
+	//m_shaders[0] = CreateShader(LoadShader(fileName + ".vs"), GL_VERTEX_SHADER);
+	//m_shaders[1] = CreateShader(LoadShader(fileName + ".gs"), GL_GEOMETRY_SHADER);
+
+	m_shaders[0] = CreateShader(LoadShader(vertexfn + ".vs"), GL_VERTEX_SHADER);
+	m_shaders[1] = CreateShader(LoadShader(geometry + ".gs"), GL_GEOMETRY_SHADER);
+	m_shaders[2] = CreateShader(LoadShader(fileName + ".fs"), GL_FRAGMENT_SHADER);
+
+	for (unsigned int i = 0; i < NUM_SHADERS; i++)
+		glAttachShader(m_program, m_shaders[i]);
+
+
+	// Vertex Shader - IN
+	glBindAttribLocation(m_program, 0, "position");	// position
+	glBindAttribLocation(m_program, 1, "texCoord");	// texture
+	glBindAttribLocation(m_program, 2, "normal");	// lighting
+
+	glLinkProgram(m_program);
+	CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Shader Program linking failed: ");
+	printf((fileName+"\n").c_str());
+
+	glValidateProgram(m_program);
+	CheckShaderError(m_program, GL_VALIDATE_STATUS, true, "Error: Shader Program is invalid: ");
+
+	// Vertex Shader - OUT
+	m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
+
+	//***
+	m_uniforms[MODEL_U] = glGetUniformLocation(m_program, "model");			// Model Matrix
+	m_uniforms[VIEW_U] = glGetUniformLocation(m_program, "view");			// View Matrix
+	m_uniforms[PROJECTION_U] = glGetUniformLocation(m_program, "projection");	// Projection Matrix
+
+	m_uniforms[LIGHT_POS_U] = glGetUniformLocation(m_program, "lightPos");		//
+	m_uniforms[VIEW_POS_U] = glGetUniformLocation(m_program, "viewPos");		// 
+
+																				//m_uniforms[LIGHT_COLOR_U]	= glGetUniformLocation(m_program, "lightColor");	// 
+	m_uniforms[LIGHT_AMBIENT_U] = glGetUniformLocation(m_program, "light_ambient");	// 
+	m_uniforms[LIGHT_DIFFUSE_U] = glGetUniformLocation(m_program, "light_diffuse");	// 
+	m_uniforms[LIGHT_SPECULAR_U] = glGetUniformLocation(m_program, "light_specular");	// 
+	m_uniforms[OBJECT_COLOR_U] = glGetUniformLocation(m_program, "objectColor");	// 
+
+	m_uniforms[LINE_COLOR_U] = glGetUniformLocation(m_program, "lineColor");	// 
+
+	m_uniforms[EXPLODE_FACTOR] = glGetUniformLocation(m_program, "explode_factor");	// 
+	m_uniforms[NORMAL_VIEWER] = glGetUniformLocation (m_program, "i_normal_viewer");
+	m_uniforms[NORMAL_LENGTH] = glGetUniformLocation(m_program, "normal_length");
+
+}
+
 Shader::~Shader()
 {
 	for (unsigned int i = 0; i < NUM_SHADERS; i++)
@@ -83,6 +153,16 @@ void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera
 	// for 2D UI Shader
 	glm::mat4 guiMVP = glm::mat4(1.0f) * transform.GetModel();
 	glUniformMatrix4fv(100, 1, GL_FALSE, &guiMVP[0][0]);
+
+
+	///
+	//glUniform1f(m_uniforms[EXPLODE_FACTOR], sinf((float)timer.GetCounter_timer() * 8.0f) * cosf((float)timer.GetCounter_timer() * 6.0f) * 0.7f + 0.1f);
+	glUniform1f(m_uniforms[EXPLODE_FACTOR], m_explode_factor);
+
+	glUniform1i(m_uniforms[NORMAL_VIEWER], m_normal_viewer);
+	glUniform1f(m_uniforms[NORMAL_LENGTH], m_normal_length);
+
+	///m_normal_viewer
 
 	switch (fs_mode)
 	{
@@ -165,5 +245,50 @@ static void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 			glGetShaderInfoLog(shader, sizeof(error), NULL, error);
 
 		std::cerr << errorMessage << ": '" << error << "'" << std::endl;
+	}
+}
+
+
+
+
+inline void Shader::SetUniform_Fragment_phong(glm::vec3 cameraposition)
+{
+	////glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+	glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+	//glm::vec3 lightPos(-0.2f, -1.0f, -0.3f);
+
+	glUniform3f(m_uniforms[LIGHT_POS_U], lightPos.x, lightPos.y, lightPos.z);
+
+	glUniform3f(m_uniforms[VIEW_POS_U], cameraposition.x, cameraposition.y, cameraposition.z);
+
+
+	glUniform3f(m_uniforms[LIGHT_AMBIENT_U], 0.1f, 0.1f, 0.1f);
+	glUniform3f(m_uniforms[LIGHT_DIFFUSE_U], 0.4f, 0.4f, 0.4f);
+	glUniform3f(m_uniforms[LIGHT_SPECULAR_U], 0.5f, 0.5f, 0.5f);
+
+	glUniform3f(m_uniforms[OBJECT_COLOR_U], 1.0f, 0.0f, 0.0f);
+
+
+	for (int i = 0; i < 5; i++)
+	{
+		glUniform3f(glGetUniformLocation(m_program, pointLight[i].uniformName[0].c_str()),
+			pointLight[i].positiion.x, pointLight[i].positiion.y, pointLight[i].positiion.z);
+
+		glUniform3f(glGetUniformLocation(m_program, pointLight[i].uniformName[1].c_str()),
+			pointLight[i].ambient.x, pointLight[i].ambient.y, pointLight[i].ambient.z);
+
+		glUniform3f(glGetUniformLocation(m_program, pointLight[i].uniformName[2].c_str()),
+			pointLight[i].diffuse.x, pointLight[i].diffuse.y, pointLight[i].diffuse.z);
+
+		glUniform3f(glGetUniformLocation(m_program, pointLight[i].uniformName[3].c_str()),
+			pointLight[i].specular.x, pointLight[i].specular.y, pointLight[i].specular.z);
+
+		glUniform1f(glGetUniformLocation(m_program, pointLight[i].uniformName[4].c_str()),
+			pointLight[i].constant);
+		glUniform1f(glGetUniformLocation(m_program, pointLight[i].uniformName[5].c_str()),
+			pointLight[i].linear);
+		glUniform1f(glGetUniformLocation(m_program, pointLight[i].uniformName[6].c_str()),
+			pointLight[i].quadratic);
+		//std::cout << pointLight[i].uniformName[6].c_str() << " " << pointLight[i].quadratic << std::endl;
 	}
 }

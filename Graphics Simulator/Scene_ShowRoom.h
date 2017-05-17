@@ -3,6 +3,9 @@
 #include "iScene.h"
 #include "Render_Mode.h"
 
+#include "ExtraObject.h"
+using QuadCore::ExtraObject;
+
 
 class Scene_ShowRoom : public QuadCore::iScene
 {
@@ -27,36 +30,9 @@ public:
 			IsChanged_RenderMode = false;
 		}
 
-
-		//if (speed < 0.01) this->speed = 0.01f;
-		//else if (speed > 2.0) this->speed = 2.0f;
-		//else this->speed = speed;
-		//printf("rotspeed = %f\n", this->speed);
 		rot += speed*0.01f;
 		if (rot > 2.0f*glm::pi<float>())
 			rot = 0.0f;
-		//transform_obj->SetRot(glm::vec3(0, rot, 0));
-
-
-
-		//if (prev_rot[0] == g_rotation[0])
-		//{
-		//	g_rotation[0] -= 0.01f;
-		//	if (g_rotation[0] < 0)
-		//		g_rotation[0] = 0.0f;
-		//}
-		//if (prev_rot[1] == g_rotation[1])
-		//{
-		//	g_rotation[1] -= 0.01f;
-		//	if (g_rotation[1] < 0)
-		//		g_rotation[1] = 0.0f;
-		//}
-		//if (prev_rot[2] == g_rotation[2])
-		//{
-		//	g_rotation[2] -= 0.01f;
-		//	if (g_rotation[2] < 0)
-		//		g_rotation[2] = 0.0f;
-		//}
 
 
 		float radians[3] = {
@@ -90,17 +66,6 @@ public:
 		m_shape_manager.DrawAll(m_local_coordinate);
 	}
 
-
-
-	//virtual void Set_RenderMode(OBJECT_MODE object_mode, SHADER_MODE shader_mode, TEXTURE_MODE texture_mode)
-	//{
-
-	//}
-
-	//virtual void Set_RenderMode(SceneManager::OBJECT_MODE object_mode, SceneManager::SHADER_MODE shader_mode, SceneManager::TEXTURE_MODE texture_mode)
-	//{
-	//}
-
 	std::string m_object_name = "";
 	std::string m_sahder_name = "";
 	std::string m_texture_name = "";
@@ -108,9 +73,6 @@ public:
 	bool IsChanged_RenderMode = false;
 	virtual void Set_RenderMode(int object_mode, int shader_mode, int texture_mode)
 	{
-		//m_object_name = "Final/ALucy_new";
-		//m_object_name = "Final/LivingRoom";
-		//m_object_name = "Final/nanosuit";
 		m_object_name = "Final/bunny_zipper";
 		switch (object_mode)
 		{
@@ -185,23 +147,21 @@ public:
 		switch (shader_mode)
 		{
 		case SHADER_MODE::Phong:
-			m_sahder_name = "Final/1_Single_Phong";
+			m_sahder_name = "Final/Fragment_1_Single_Phong";
 			IsChanged_RenderMode = true;
 			break;
 		case SHADER_MODE::Multi:
-			m_sahder_name = "Final/2_Multi_Phong";
+			m_sahder_name = "Final/Fragment_2_Multi_Phong";
 			IsChanged_RenderMode = true;
 			break;
 		case SHADER_MODE::Rim:
-			m_sahder_name = "Final/3_Multi-Phong_Rim";
+			m_sahder_name = "Final/Fragment_3_Multi-Phong_Rim";
 			IsChanged_RenderMode = true;
 			break;
 		default:
 			break;
 		}
-		//object = new BasicObject("Voronoi_Lucy", "basicShader_light_edit", "skyblue", transform_obj);
-		//object = new BasicObject("Voronoi_Lucy", "basicShader_multilight_prev", "skyblue", transform_obj);
-		//object = new BasicObject("Voronoi_Lucy", "../multi-PhongRim_ver1.3", "skyblue", transform_obj);
+
 
 		switch (texture_mode)
 		{
@@ -218,9 +178,6 @@ public:
 			//m_texture_name = "metal";
 			IsChanged_RenderMode = true;
 			break;
-
-		//	dark_spot, diamond, grain_grass, iron, lines_dark, metal, moon,
-		//		slime, surface_dark, surface_gold_shine, pastel, wall_brick, wood,
 
 		case TEXTURE_MODE::dark_spot:
 			m_texture_name = "dark_spot";
@@ -280,20 +237,56 @@ public:
 		}
 	}
 
+	float* m_normal_length;
+	virtual void Sync_Value_Normal(float* num)
+	{
+		m_normal_length = num;
+		//printf("%.5f\n", *m_normal_length);
+	}
+
+	float* m_explode_speed;
+	virtual void Sync_Value_Explode_Speed(float* num)
+	{
+		m_explode_speed = num;
+		//printf("%.5f\n", *m_normal_length);
+	}
+
+	float* m_explode_factor;
+	virtual void Sync_Value_Explode_Factor(float* num)
+	{
+		m_explode_factor = num;
+		//printf("%.5f\n", *m_normal_length);
+	}
+
+
+	float m_effect_counter = 0.0f;
+	bool IsEffectStop = false;
+	bool IsExplode = false;
+	bool IsNormalView = false;
+	virtual void Set_EffectMode(int effect_mode, bool flag)
+	{
+		switch (effect_mode)
+		{
+		case EFFECT_MODE::EFFECT_PAUSE:
+			IsEffectStop = flag;
+			break;
+		case EFFECT_MODE::EXPLODE:
+			IsExplode = flag;
+			if (!flag)
+				m_effect_counter = 0.0f;
+			break;
+		case EFFECT_MODE::NORMAL_VIEW:
+			IsNormalView = flag;
+			break;
+		}
+	}
+
 
 public:
 	virtual void Animate()
 	{
-		/*lightTransforms[0].Init(glm::vec3(100.0f));
-		lightTransforms[1].Init(glm::vec3(100.0f));
-		lightTransforms[2].Init(glm::vec3(100.0f));*/
-
-		///lightTransforms[0].Init(glm::vec3(1.0f * sinf(m_counter / 10), 0, 1.0f * cosf(m_counter / 10)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
-		///lightTransforms[1].Init(glm::vec3(1.0f * cos(m_counter / 10), 1.0f * sinf(m_counter / 10), 0), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
-		///lightTransforms[2].Init(glm::vec3(0, 1.0f * cos(m_counter / 10), 1.0f * sinf(m_counter / 10)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
-		///lightTransforms[3].Init(glm::vec3(5.0f * sinf(-m_counter / 10), 0, 5.0f * cosf(-m_counter / 10)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
-		
 		float r = 3.0f;
+
 		// R, G, B
 		//lightTransforms[0].Init(glm::vec3(r*1.0f * sinf(m_counter / 10), 0, r*1.0f * cosf(m_counter / 10)), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
 		//lightTransforms[1].Init(glm::vec3(r*1.0f * cos(m_counter / 10), r*1.0f * sinf(m_counter / 10), 0), glm::vec3(), glm::vec3(0.1f, 0.1f, 0.1f));
@@ -308,6 +301,26 @@ public:
 
 		for (int i = 0; i < 5; i++)
 			m_shape_manager.GetObject(i)->GetShader()->InputpointLight(lightTransforms, ambient, diffuse, specular);
+		
+		
+		if (IsExplode)
+		{
+			//printf("%.2f\n", m_effect_counter);
+			m_shape_manager.GetObject(0)->GetShader()->SetUniform_explode_factor(m_effect_counter);
+		}
+		else
+		{
+			m_shape_manager.GetObject(0)->GetShader()->SetUniform_explode_factor(0.0f, false);
+		}
+
+		m_shape_manager.GetObject(0)->GetShader()->Set_NormalViewer(IsNormalView);
+		m_shape_manager.GetObject(0)->GetShader()->Set_NormalLength(*m_normal_length);
+		m_shape_manager.GetObject(0)->GetShader()->Set_ExplodeSpeed(*m_explode_speed);
+		m_shape_manager.GetObject(0)->GetShader()->Set_ExplodeFactor(*m_explode_factor);
+		//printf("%.2f\n", *m_explode_speed);
+
+		if(!IsEffectStop)
+			m_effect_counter += 0.01f;
 	}
 
 	/**********************************************************************************
@@ -342,53 +355,11 @@ private:
 		using QuadCore::BasicObject;
 		using QuadCore::Transform;
 
-		//// multiLight		
-		//multitest = new Transform(glm::vec3(0, 0.0f, 0), glm::vec3(), glm::vec3(1.0f));
-		//object = new BasicObject("Voronoi_Lucy", "basicShader_multilight_prev", "bricks", multitest);
-
-		//multitest = new Transform(glm::vec3(0, -1.0f, 0), glm::vec3(), glm::vec3(50.0f));
-		//object = new BasicObject("test/half_lucy", "basicShader_multilight_prev", "bricks", multitest);
-
-		//multitest = new Transform(glm::vec3(0, -2.0f, 0), glm::vec3(), glm::vec3(20.0f));
-		//object = new BasicObject("bunny", "basicShader_multilight_prev", "bricks", multitest);
-		
-		///transform_obj = new Transform(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(20.0f));
-		//////transform_obj = new Transform(glm::vec3(0, -2.0f, 0), glm::vec3(), glm::vec3(20.0f));
-		////object = new BasicObject("bunny", "multi-PhongRim", "skyblue", transform_obj);
-		//object = new BasicObject("bunny", "../multi-PhongRim_ver1.3", "skyblue", transform_obj);
-		///object = new BasicObject("bunny", "multi-PhongRim", "skyblue", transform_obj);
-		//object = new BasicObject("bunny", "multi-basicShader_multilight_prev", "skyblue", transform_obj);
-
-
-		//transform_obj = new Transform(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
-		//object = new BasicObject("BasicObjects/Cube", "multi-PhongRim", "skyblue", transform_obj);
 
 		// 쉐이더 모드 선택
 		Set_RenderMode(OBJECT_MODE::Bunny, SHADER_MODE::Phong, TEXTURE_MODE::Bricks);
 		SetObject(m_object_name, m_sahder_name, m_texture_name);
 
-		//SetObject("bunny", "../multi-PhongRim_ver1.3", "skyblue");
-
-		////////////////////////////////
-		// 쉐이더 문서작성용 테스트 코드
-		///transform_obj = new Transform(glm::vec3(0, -2.0f, 0), glm::vec3(), glm::vec3(20.0f));	//0510
-		//object = new BasicObject("bunny", "basicShader_light_edit", "skyblue", transform_obj);
-		///object = new BasicObject("bunny", "basicShader_multilight_prev", "bricks", transform_obj);	//0510
-		//object = new BasicObject("bunny", "../multi-PhongRim_ver1.3", "skyblue", transform_obj);
-
-		//transform_obj = new Transform(glm::vec3(0, -2.0f, 0), glm::vec3(), glm::vec3(50.0f));
-		//object = new BasicObject("test/half_lucy", "basicShader_light_edit", "skyblue", transform_obj);
-		//object = new BasicObject("test/half_lucy", "basicShader_multilight_prev", "bricks", transform_obj);
-		//object = new BasicObject("test/half_lucy", "../multi-PhongRim_ver1.3", "skyblue", transform_obj);
-
-		//transform_obj = new Transform(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(0.5f));
-		//object = new BasicObject("Voronoi_Lucy", "basicShader_light_edit", "skyblue", transform_obj);
-		//object = new BasicObject("Voronoi_Lucy", "basicShader_multilight_prev", "skyblue", transform_obj);
-		//object = new BasicObject("Voronoi_Lucy", "../multi-PhongRim_ver1.3", "skyblue", transform_obj);
-
-		//basicShader_light_edit
-		//basicShader_multilight_prev
-		//../multi-PhongRim_ver1.3
 
 		m_shape_manager.Insert_Object(object);
 
@@ -404,60 +375,29 @@ private:
 	//
 	void SetObject(std::string mesh, std::string shader, std::string texture)
 	{
-		using QuadCore::BasicObject;
+		using QuadCore::ExtraObject;
 		using QuadCore::Transform;
 
 		if ((transform_obj == NULL) && (object == NULL))
 		{
 			transform_obj = new Transform(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
-			object = new BasicObject(mesh, shader, texture, transform_obj);
+
+			object = new ExtraObject(mesh, shader, texture, transform_obj, IsNormalView);
 			IsChanged_RenderMode = false;
 						
 		}
 		else
 		{
-/*			transform_obj = NULL;
-			object = NULL;		*/			
-
-			//transform_obj->Init(glm::vec3(2.0f, -2.0f, 0), glm::vec3(), glm::vec3(20.0f));
-			///object->Init(mesh, shader, texture, transform_obj);
-
-			///QuadCore::BasicObject* pObject = new BasicObject(mesh, shader, texture, transform_obj);
 			transform_obj = new Transform(glm::vec3(0, 0, 0), glm::vec3(), glm::vec3(1.0f));
-			object = new BasicObject(mesh, shader, texture, transform_obj);
+			object = new ExtraObject(mesh, shader, texture, transform_obj, IsNormalView);
 			m_shape_manager.Modify_Objet(0, object);
 
-			//object = new BasicObject(mesh, shader, texture, transform_obj);
-			//m_shape_manager.Insert_Object(object);
-
-			//m_shape_manager.Modify_Objet(0, object);
-
-
-			//// 다른 포인터에 기존 오브젝트를 연결
-			//QuadCore::Transform*   pTransform = transform_obj;
-			//QuadCore::BasicObject* pObject = object;
-
-			//// 기존 포인터에 새로운 오브젝트 할당
-			//transform_obj = new Transform(glm::vec3(), glm::vec3(), glm::vec3(20.0f));
-			//object = new BasicObject(mesh, shader, texture, transform_obj);
-
-			//// 다른 포인터에 연결된 기존 오브젝트 제거
-			//delete(pTransform);
-			//delete(pObject);
-			//pTransform = NULL;
-			//pObject = NULL;
 		}
-
-		//transform_obj = NULL;
-		//object = NULL;
-
-		//delete(transform_obj);
-		//delete(object);
 	}
 
 private:
 	Transform* transform_obj;
-	QuadCore::BasicObject* object;
+	ExtraObject* object;
 
 	// multiLight
 	Transform lightTransforms[4];

@@ -8,8 +8,6 @@
 namespace QuadCore
 {
 
-
-
 class Vertex
 {
 public:
@@ -20,16 +18,17 @@ public:
 		this->texCoord = texCoord;
 		this->normal = normal;
 	}
-	inline glm::vec3* GetPos() { return &pos; }
-	inline glm::vec2* GetTexCoord() { return &texCoord; } // texture
-	inline glm::vec3* GetNormal() { return &normal; }	  // lighting
+	inline glm::vec3* GetPos() { return &pos; }				// position
+	inline glm::vec2* GetTexCoord() { return &texCoord; }	// texture
+	inline glm::vec3* GetNormal() { return &normal; }		// lighting
 
 protected:
 private:
-	glm::vec3 pos;
-	glm::vec2 texCoord; // texture
-	glm::vec3 normal;   // lighting
+	glm::vec3 pos;		// position
+	glm::vec2 texCoord;	// texture
+	glm::vec3 normal;	// lighting
 };
+
 
 class Mesh
 {
@@ -71,7 +70,6 @@ private:
 	//	VERTICES
 	//};
 };
-
 
 }
 

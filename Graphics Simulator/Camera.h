@@ -27,14 +27,6 @@ public:
 		m_position = pos;
 	}
 
-
-
-	//void Update_UI(const glm::vec3& pos, float width, float height)
-	//{
-	//	m_perspective = glm::ortho<float>(0, width, height, 0);
-	//	m_position = pos;
-	//}
-
 	inline glm::mat4 GetViewProjection() const
 	{
 		return m_perspective * glm::lookAt(m_position, m_position + m_forward, m_up);
@@ -42,10 +34,6 @@ public:
 
 	inline glm::mat4 GetViewMatrix() const
 	{
-		//glm::translate(x, y, z);
-		//printf("%f,%f,%f\n", m_position.x, m_position.y, m_position.z);
-		//return glm::lookAt(m_position, m_position + m_forward, m_up);//glm::translate(m_position);
-
 		return glm::lookAt(m_position, m_position + m_forward, m_up);
 		//return glm::lookAt(m_position, glm::vec3() + m_forward, m_up);
 	}
@@ -61,24 +49,6 @@ public:
 		//printf(" ( %.2f,%.2f , %.2f ) \n", m_position.x, m_position.y, m_position.z);
 		return m_position;
 	}
-
-	//inline glm::vec3 GetRot() const
-	//{
-	//	glm::mat4 rotXMatrix = glm::rotate(+m_upward.y, glm::vec3(1, 0, 0));
-	//	glm::mat4 rotYMatrix = glm::rotate(+m_right.x, glm::vec3(0, 1, 0));
-	//	glm::mat4 rotZMatrix = glm::rotate(-m_forward.z, glm::vec3(0, 0, 1));
-	//	
-	//	glm::mat4 rotMatrix = rotZMatrix * rotYMatrix * rotXMatrix;			
-	//	glm::vec3 rot = { rotMatrix[0][0] + rotMatrix[0][1] + rotMatrix[0][2],
-	//					  rotMatrix[1][0] + rotMatrix[1][1] + rotMatrix[1][2],
-	//					  rotMatrix[2][0] + rotMatrix[2][1] + rotMatrix[2][2], };
-	//	return rot;
-	//	//return rotMatrix*rot;
-	//	//glm::mat4 rotXMatrix = glm::rotate(m_rot.x, glm::vec3(1, 0, 0));
-	//	//glm::mat4 rotYMatrix = glm::rotate(m_rot.y, glm::vec3(0, 1, 0));
-	//	//glm::mat4 rotZMatrix = glm::rotate(m_rot.z, glm::vec3(0, 0, 1));
-	//	//glm::mat4 rotMatrix = rotZMatrix * rotYMatrix * rotXMatrix;
-	//}
 
 	inline glm::vec3 GetForward() const
 	{
@@ -104,8 +74,6 @@ private:
 
 	glm::mat4 m_orthographic;
 
-	//float ForwardAngle = 0;
-	//float UpAngle = 0;
 	float sensitivity = 0.1;
 
 	glm::mat4 m_ortho;
@@ -116,14 +84,14 @@ public:
 	void SetViewProjection(glm::vec3 position)
 	{
 		if (position.x > 0.0f)
-			m_position -= glm::cross(m_forward, m_up) * sensitivity;	// m_position -= m_right * sensitivity * 100.0f;
+			m_position -= glm::cross(m_forward, m_up) * sensitivity;
 		else if (position.x < 0.0f)
-			m_position += glm::cross(m_forward, m_up) * sensitivity;	//m_position += m_right * sensitivity * 100.0f;
+			m_position += glm::cross(m_forward, m_up) * sensitivity;
 
 		if (position.y > 0.0f)
-			m_position += m_up * sensitivity;							//m_position += m_upward * sensitivity * 100.0f;
+			m_position += m_up * sensitivity;						
 		else if (position.y < 0.0f)
-			m_position -= m_up * sensitivity;							//m_position -= m_upward * sensitivity * 100.0f;
+			m_position -= m_up * sensitivity;						
 	}
 
 	/*
@@ -139,17 +107,6 @@ public:
 			m_position += m_forward;
 	}
 
-	//void SetAngle(float fangle, float uangle)
-	//{
-	//	ForwardAngle += fangle * sensitivity;
-	//	UpAngle += uangle * sensitivity;
-	//	m_forward = glm::vec3(-1.0f * sinf(ForwardAngle) * cosf(UpAngle),
-	//		-1.0f * sinf(UpAngle),
-	//		-1.0f * cosf(ForwardAngle) * cosf(UpAngle));
-	//	///printf("Forward ( %.2f, %.2f, %.2f)\n", m_forward.x, m_forward.y, m_forward.z);
-	//	//m_right = glm::vec3(m_forward.z, 0, -m_forward.x);
-	//	//m_upward = glm::vec3(0, m_forward.z, -m_forward.y);
-	//}
 
 	/*
 		[ 마우스로 회전 - XY축 기준 ]
@@ -262,10 +219,10 @@ public:
 		//m_up.y = +cosf(radians);
 		//**********************************************************
 
-		//printf("[Axis_Z] - degree: %.2f, radians: %.2f ),\t", degree_Axis_Z, radians);
-		printf("FORWARD( %.2f, %.2f, %.2f ),\t", m_forward.x, m_forward.y, m_forward.z);
-		printf("UP( %.2f, %.2f, %.2f ),\t", m_up.x, m_up.y, m_up.z);
-		printf("\n");
+		///printf("[Axis_Z] - degree: %.2f, radians: %.2f ),\t", degree_Axis_Z, radians);
+		//printf("FORWARD( %.2f, %.2f, %.2f ),\t", m_forward.x, m_forward.y, m_forward.z);
+		//printf("UP( %.2f, %.2f, %.2f ),\t", m_up.x, m_up.y, m_up.z);
+		//printf("\n");
 	}
 
 	float degree_Axis_X = 0.0f;
@@ -307,10 +264,10 @@ public:
 		//**********************************************************
 
 
-		//printf("[Axis_Y] - degree: %.2f, radians: %.2f ),\t", degree_Axis_Y, radians);
-		printf("FORWARD( %.2f, %.2f, %.2f ),\t", m_forward.x, m_forward.y, m_forward.z);
-		printf("UP( %.2f, %.2f, %.2f ),\t", m_up.x, m_up.y, m_up.z);
-		printf("\n");
+		///printf("[Axis_Y] - degree: %.2f, radians: %.2f ),\t", degree_Axis_Y, radians);
+		//printf("FORWARD( %.2f, %.2f, %.2f ),\t", m_forward.x, m_forward.y, m_forward.z);
+		//printf("UP( %.2f, %.2f, %.2f ),\t", m_up.x, m_up.y, m_up.z);
+		//printf("\n");
 	}
 
 	/*
@@ -347,10 +304,10 @@ public:
 		//m_up.z = +sinf(radians);
 		//**********************************************************
 
-		//printf("[Axis_X] - degree: %.2f, radians: %.2f ),\t", degree_Axis_X, radians);
-		printf("FORWARD( %.2f, %.2f, %.2f ),\t", m_forward.x, m_forward.y, m_forward.z);
-		printf("UP( %.2f, %.2f, %.2f ),\t", m_up.x, m_up.y, m_up.z);
-		printf("\n");
+		///printf("[Axis_X] - degree: %.2f, radians: %.2f ),\t", degree_Axis_X, radians);
+		//printf("FORWARD( %.2f, %.2f, %.2f ),\t", m_forward.x, m_forward.y, m_forward.z);
+		//printf("UP( %.2f, %.2f, %.2f ),\t", m_up.x, m_up.y, m_up.z);
+		//printf("\n");
 	}
 };
 

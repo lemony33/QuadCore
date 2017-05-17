@@ -14,8 +14,8 @@ namespace QuadCore
 			m_transform = new Transform();
 			m_coordinate = new Coordinates(1.0f);
 			
-			m_shader = new Shader("../media/MapShader");
-			m_texture = new Texture("../media/res/bricks.jpg");
+			m_shader = new Shader("../resources/shaders/Final/MapShader");
+			m_texture = new Texture("../resources/textures/bricks.jpg");
 		}
 
 		virtual ~World_coordinate()

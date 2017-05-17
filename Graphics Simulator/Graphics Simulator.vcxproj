@@ -24,6 +24,7 @@
     <ClCompile Include="DrawMap.cpp" />
     <ClCompile Include="Graphics_Simulator.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Obj_loader.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -35,13 +36,14 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="Coordinates.h" />
-    <ClInclude Include="Cube.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="DrawMap.h" />
     <ClInclude Include="enum_type.h" />
+    <ClInclude Include="ExtraObject.h" />
     <ClInclude Include="Graphics_Simulator.h" />
     <ClInclude Include="BasicObject.h" />
     <ClInclude Include="iScene.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="miniUI_coordinate.h" />
     <ClInclude Include="Obj_loader.h" />
@@ -73,12 +75,12 @@
     <ClInclude Include="World_coordinate.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\resources\shaders\Final\1_Single_Phong.fs" />
-    <None Include="..\resources\shaders\Final\1_Single_Phong.vs" />
-    <None Include="..\resources\shaders\Final\2_Multi_Phong.fs" />
-    <None Include="..\resources\shaders\Final\2_Multi_Phong.vs" />
-    <None Include="..\resources\shaders\Final\3_Multi-Phong_Rim.fs" />
-    <None Include="..\resources\shaders\Final\3_Multi-Phong_Rim.vs" />
+    <None Include="..\resources\shaders\Final\Fragment_1_Single_Phong.fs" />
+    <None Include="..\resources\shaders\Final\Vertex_1_default.vs" />
+    <None Include="..\resources\shaders\Final\Fragment_2_Multi_Phong.fs" />
+    <None Include="..\resources\shaders\Final\Fragment_3_Multi-Phong_Rim.fs" />
+    <None Include="..\resources\shaders\Final\Geometry_1_default.gs" />
+    <None Include="..\resources\shaders\Final\Geometry_2_normal_view.gs" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ACD7C8B3-B7EC-4ADF-AE62-CE75F0A3B8C9}</ProjectGuid>

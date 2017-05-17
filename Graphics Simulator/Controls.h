@@ -186,7 +186,6 @@ public:
 			exit(EXIT_SUCCESS);
 			break;
 		case GLFW_KEY_SPACE:
-			m_cur_key = '+';
 			break;
 
 		case GLFW_KEY_F11:
@@ -253,7 +252,6 @@ public:
 
 
 		case GLFW_KEY_M:
-			m_cur_key = 'm';
 			break;
 		case GLFW_KEY_KP_ADD:
 			camera->MovePosition(-0.001f);
@@ -292,12 +290,8 @@ public:
 		}
 	}
 
-private:
-	char m_cur_key = NULL;
+
 public:
-	char Get_curKey() { char key = m_cur_key;  m_cur_key = NULL; return key; }
-
-
 	virtual void onMouseButton(int button, int action)
 	{
 		//=====Tw Key====
@@ -305,6 +299,9 @@ public:
 		{
 			// Event has not been handled by AntTweakBar
 			// Do something if needed.
+			
+			// Ant Tweak UI에서 마우스 이벤트 발생시 중복입력을 방지하기 위한 코드 
+			std::this_thread::sleep_for(std::chrono::milliseconds(120));
 			return;
 		}
 
@@ -473,7 +470,7 @@ public:
 		// #2  Set Customed Mouse Cursor
 		GLFWimage c_image;
 		int numComponents;
-		std::string c_fileName = "../media/cursor_greenArrow.png"; // 세로 너비 0.85cm png 이미지
+		std::string c_fileName = "../resources/cursor_greenArrow.png"; // 세로 너비 0.85cm png 이미지
 		unsigned char* imageData = stbi_load((c_fileName).c_str(), &c_image.width, &c_image.height, &numComponents, 4);
 		c_image.pixels = imageData;
 		cursor = glfwCreateCursor(&c_image, 0, 0);
