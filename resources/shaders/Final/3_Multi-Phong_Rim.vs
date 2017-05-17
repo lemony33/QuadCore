@@ -10,8 +10,12 @@ out vec3 normal0;    //lighting
 out vec3 FragPos;
 
 uniform mat4 transform;  //uniform 에 transform을 set한다
+
 uniform mat4 model;
 uniform mat4 view;
+
+
+
 uniform mat4 projection;
 
 
@@ -20,8 +24,8 @@ void main()
 //	gl_Position = transform * vec4(position, 1.0);	//trnasform
 	gl_Position = projection * view *  model * vec4(position, 1.0f);
 
+// OUT TO FRAGMENT SHADER
 
-	// OUT TO FRAGMENT SHADER
 	texCoord0 = texCoord;
 //	normal0 = (transform * vec4(normal, 0.0)).xyz;	//lighting
 
