@@ -63,9 +63,18 @@ public:
 	virtual void Set_RenderMode(int object_mode, int shader_mode, int texture_mode)
 	{
 	}
-	//virtual void Set_RenderMode(SceneManager::OBJECT_MODE object_mode, SceneManager::SHADER_MODE shader_mode, SceneManager::TEXTURE_MODE texture_mode)
-	//{
-	//}
+	virtual void Set_EffectMode(int effect_mode, bool flag)
+	{
+	}
+	virtual void Sync_Value_Normal(float* num)
+	{
+	}
+	virtual void Sync_Value_Explode_Speed(float* num)
+	{
+	}
+	virtual void Sync_Value_Explode_Factor(float* num)
+	{
+	}
 	
 	/// 내부적으로 그리기 로직만 처리
 protected:

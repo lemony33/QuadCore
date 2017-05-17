@@ -392,6 +392,24 @@ public:
 					if(IsChanged_Reder_Mode())
 						m_scene_list.at(j)->Set_RenderMode(object_mode, shader_mode, texture_mode);
 
+
+					m_scene_list.at(j)->Set_EffectMode(EFFECT_MODE::EFFECT_PAUSE, is_effect_pause);
+					m_scene_list.at(j)->Set_EffectMode(EFFECT_MODE::EXPLODE, is_explode);
+					m_scene_list.at(j)->Set_EffectMode(EFFECT_MODE::NORMAL_VIEW, is_normal_view);
+
+					m_scene_list.at(j)->Sync_Value_Explode_Speed(&m_explode_speed);
+					m_scene_list.at(j)->Sync_Value_Normal(&m_normal_length);
+
+					m_scene_list.at(j)->Sync_Value_Explode_Factor(&m_explode_factor);
+
+					
+					// Normal Viewer 설정값 변경시 재로딩
+					if (IsChanged_Effect_Mode())
+					{
+						//m_normal_length = 0.2f;
+						m_scene_list.at(j)->Set_RenderMode(object_mode, shader_mode, texture_mode);
+					}
+
 					m_scene_list.at(j)->Play(g_Rotation, final_speed, pos, ambient, diffuse, specular);
 					break;
 				default:
@@ -520,6 +538,18 @@ private:
 		return false;
 	}
 
+	bool updated_normal_mode;
+	bool IsChanged_Effect_Mode()
+	{
+		if (is_normal_view != updated_normal_mode)
+		{
+			updated_normal_mode = is_normal_view;
+			printf("Updated Normal View Mode\n");
+			return true;
+		}
+		return false;
+	}
+
 
 private:
 	void TurnOnRoomUI()
@@ -628,6 +658,17 @@ private:
 			TwAddVarRW(objectBar, "Obj Rotation Scene", rotationType, &scene.Rotation,
 				" keyIncr=X keyDecr=Z help='Stop or change the rotation mode.' ");
 
+			TwAddSeparator(objectBar, "", NULL);
+
+			TwAddVarRW(objectBar, "Pause Effect", TW_TYPE_BOOLCPP, &is_effect_pause, "key=0 help='Pause Effect' ");
+			TwAddVarRW(objectBar, "Object Explode", TW_TYPE_BOOLCPP, &is_explode, "help='effect_explode' ");
+			TwAddVarRW(objectBar, "Explode Factor", TW_TYPE_FLOAT, &m_explode_factor, " min=0.00 max=10.00 step=0.1 help='explode factor' ");
+			TwAddVarRW(objectBar, "Explode Speed", TW_TYPE_FLOAT, &m_explode_speed, " min=0.00 max=10.00 step=0.1 help='explode speed' ");
+			TwAddVarRW(objectBar, "Normal Viewer", TW_TYPE_BOOLCPP, &is_normal_view, "help='effect_normal' ");
+			TwAddVarRW(objectBar, "Normal Length", TW_TYPE_FLOAT, &m_normal_length, " min=0.00 max=2.00 step=0.001 help='Resize Normal Length' ");
+
+
+
 			objectUI = objectBar;
 
 			roomUIenable = true;
@@ -636,10 +677,20 @@ private:
 			check_object_mode = object_mode;
 			check_shader_mode = shader_mode;
 			check_texture_mode = texture_mode;
+
+			updated_normal_mode = is_normal_view;
 		}
 	}
 
 	bool reset_rotation = false;
+	bool is_explode = false;
+	bool is_normal_view = false;
+	bool is_effect_pause = false;
+	
+	float m_explode_factor = 0.7f;
+	float m_explode_speed = 1.0f;
+	float m_normal_length = 0.02f;
+
 
 	void TurnOffRoomUI()
 	{

@@ -4,7 +4,6 @@
 #include "iShape.h"
 #include <vector>
 
-#include "Cube.h"
 #include "BasicObject.h"
 
 namespace QuadCore

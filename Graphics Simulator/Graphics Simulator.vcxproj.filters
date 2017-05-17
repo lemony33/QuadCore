@@ -73,9 +73,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Cube.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
     <ClInclude Include="ShapeManager.h">
       <Filter>Shape</Filter>
     </ClInclude>
@@ -190,24 +187,27 @@
     <ClInclude Include="DrawMap.h">
       <Filter>Shape\GridMap</Filter>
     </ClInclude>
+    <ClInclude Include="ExtraObject.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\resources\shaders\Final\2_Multi_Phong.vs">
+    <None Include="..\resources\shaders\Final\Geometry_1_default.gs">
       <Filter>Shader Files</Filter>
     </None>
-    <None Include="..\resources\shaders\Final\3_Multi-Phong_Rim.fs">
+    <None Include="..\resources\shaders\Final\Geometry_2_normal_view.gs">
       <Filter>Shader Files</Filter>
     </None>
-    <None Include="..\resources\shaders\Final\3_Multi-Phong_Rim.vs">
+    <None Include="..\resources\shaders\Final\Fragment_1_Single_Phong.fs">
       <Filter>Shader Files</Filter>
     </None>
-    <None Include="..\resources\shaders\Final\1_Single_Phong.fs">
+    <None Include="..\resources\shaders\Final\Fragment_2_Multi_Phong.fs">
       <Filter>Shader Files</Filter>
     </None>
-    <None Include="..\resources\shaders\Final\1_Single_Phong.vs">
+    <None Include="..\resources\shaders\Final\Fragment_3_Multi-Phong_Rim.fs">
       <Filter>Shader Files</Filter>
     </None>
-    <None Include="..\resources\shaders\Final\2_Multi_Phong.fs">
+    <None Include="..\resources\shaders\Final\Vertex_1_default.vs">
       <Filter>Shader Files</Filter>
     </None>
   </ItemGroup>

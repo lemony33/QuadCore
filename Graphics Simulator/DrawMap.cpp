@@ -47,7 +47,7 @@ void QuadCore::DrawMap::SetProperty(int matrixSize, float thickness, glm::vec4 c
 	m_Mesh = new Mesh(m_Vertices, matrixSize * 4, m_Indices, matrixSize * 4);
 	
 	// Shader
-	m_Shader = new Shader("../media/MapShader");
+	m_Shader = new Shader("../resources/shaders/Final/MapShader");
 	
 	// Line Color
 	m_Shader->SetLineColor(color);
