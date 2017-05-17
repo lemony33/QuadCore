@@ -11,18 +11,6 @@
 
 #define _snprintf snprintf
 
-struct Light
-{
-	bool    Active;					// light On or Off
-	float   Pos[4];					// light position (in homogeneous coordinates, ie. Pos[4]=1)
-	float   Color[4];				// light color (no alpha, ie. Color[4]=1)
-	float   Radius;					// radius of the light influence area 
-	float   Dist0, Angle0, Height0, Speed0; // light initial cylindrical coordinates and speed
-	char    Name[4];				// light short name (will be named "1", "2", "3",...)
-	enum    AnimMode { ANIM_FIXED, ANIM_BOUNCE, ANIM_ROTATE, ANIM_COMBINED };
-	AnimMode Animation;				// light animation mode
-	float specular[4];
-};
 
 struct MultiLight
 {
@@ -47,7 +35,6 @@ public:
 		NumLights = 0;
 
 		maxLights = 0;
-		lights = NULL;
 		lightsBar = NULL;
 
 		Create_mainUI();
@@ -55,9 +42,6 @@ public:
 
 	virtual ~Menu()
 	{
-		// delete all lights
-		if (lights)
-			delete[] lights;
 	}
 
 	void Init(bool changeLights)
@@ -156,7 +140,7 @@ public:
 	}
 
 	enum    RotMode { ROT_OFF, ROT_CW, ROT_CCW };
-	RotMode Rotation;				// scene rotation mode (off, clockwise, counter-clockwise)
+	RotMode Rotation = ROT_CCW;				// scene rotation mode (off, clockwise, counter-clockwise)
 
 public:
 	double speed = 0.3; // Model rotation speed
@@ -174,7 +158,6 @@ public:
 	int     NumLights;				// number of dynamic lights
 private:
 	int     maxLights;                      // maximum number of dynamic lights allowed by the graphic card
-	Light * lights;                         // array of lights
 	TwBar * lightsBar;                      // pointer to the tweak bar for lights created by CreateBar()
 
 public:
