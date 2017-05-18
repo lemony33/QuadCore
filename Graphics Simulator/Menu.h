@@ -89,6 +89,8 @@ public:
 
 	}
 
+	float counter_speed = 1.0f;
+
 	void SetTime(double sysyem_time)
 	{
 		// Rotate model	// TwSimple Rotation 추가
@@ -367,7 +369,7 @@ public:
 	bool m_scene_2 = false;	// solar system
 	bool m_scene_3 = false;	// show room
 
-
+	bool m_counter_reset = false;
 
 	bool switch_mini_coordinate = false;
 	bool switch_world_coordinate = false;
@@ -389,7 +391,9 @@ public:
 		TwAddVarRO(mainBar, "Run Time", TW_TYPE_DOUBLE, &time, "precision=1 help='Time (in seconds).' ");
 
 		TwAddVarRW(mainBar, "Counter", TW_TYPE_FLOAT, &counter, "precision=1 help='Time (in seconds).' ");
+		TwAddVarRW(mainBar, "Speed", TW_TYPE_FLOAT, &counter_speed, "precision=1 help='Time (in seconds).' ");
 		TwAddVarRW(mainBar, "Stop", TW_TYPE_BOOLCPP, &m_stopper, "key=P help='mini_coordinate' ");
+		TwAddVarRW(mainBar, "Reset", TW_TYPE_BOOLCPP, &m_counter_reset, "key=4 precision=1 help='Time (in seconds).' ");
 
 
 		TwAddSeparator(mainBar, "", NULL);	// 아래쪽에 line생성
