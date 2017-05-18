@@ -48,19 +48,19 @@ private:
 		Transform* tBack	= new Transform(glm::vec3(0.0f, 0.0f, -length), glm::vec3(radians, 0.0f, 0.0f), glm::vec3(size, thickness, size));
 		Transform* tFront	= new Transform(glm::vec3(0.0f, 0.0f, +length), glm::vec3(radians, 0.0f, 0.0f), glm::vec3(size, thickness, size));
 
-		BasicObject* objTop = new BasicObject("BasicObjects/Cube", "basicShader_light", "black_formula", tTop);
+		/*BasicObject* objTop = new BasicObject("BasicObjects/Cube", "basicShader_light", "black_formula", tTop);
 		BasicObject* objBottom = new BasicObject("BasicObjects/Cube", "basicShader_light", "black_formula", tBottom);
 		BasicObject* objLeft = new BasicObject("BasicObjects/Cube", "basicShader_light", "black_formula", tLeft);
 		BasicObject* objRight = new BasicObject("BasicObjects/Cube", "basicShader_light", "black_formula", tRight);
 		BasicObject* objBack = new BasicObject("BasicObjects/Cube", "basicShader_light", "black_formula", tBack);
-		BasicObject* objFront = new BasicObject("BasicObjects/Cube", "basicShader_light", "black_formula", tFront);
+		BasicObject* objFront = new BasicObject("BasicObjects/Cube", "basicShader_light", "black_formula", tFront);*/
 
-		//BasicObject* objTop = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tTop);
-		//BasicObject* objBottom = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tBottom);
-		//BasicObject* objLeft = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tLeft);
-		//BasicObject* objRight = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tRight);
-		//BasicObject* objBack = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tBack);
-		//BasicObject* objFront = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tFront);
+		BasicObject* objTop = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tTop);
+		BasicObject* objBottom = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tBottom);
+		BasicObject* objLeft = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tLeft);
+		BasicObject* objRight = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tRight);
+		BasicObject* objBack = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tBack);
+		BasicObject* objFront = new BasicObject("BasicObjects/Cube", "basicShader_light", "surface_dark", tFront);
 
 		m_shape_manager.Insert_Object(objTop);
 		m_shape_manager.Insert_Object(objBottom);
