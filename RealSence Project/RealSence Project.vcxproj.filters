@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="4-2_Color Image">
+      <UniqueIdentifier>{ca897ea1-de0d-4655-83ed-e60932f99728}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3-2_Setting">
+      <UniqueIdentifier>{02dfbbba-d749-44fa-966c-2528a2376c7e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Color_Image_main.cpp">
+      <Filter>4-2_Color Image</Filter>
+    </ClCompile>
+    <ClCompile Include="RealSenseApp.cpp">
+      <Filter>4-2_Color Image</Filter>
+    </ClCompile>
+    <ClCompile Include="test_lib_OpenCV.cpp">
+      <Filter>3-2_Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="test_lib_RealSence.cpp">
+      <Filter>3-2_Setting</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="RealSenseApp.h">
+      <Filter>4-2_Color Image</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
