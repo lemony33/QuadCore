@@ -154,6 +154,19 @@ public:
 			IsChanged_RenderMode = true;
 			break;
 
+		case OBJECT_MODE::Custom1:
+			m_object_name = "Custom/Custom1";
+			IsChanged_RenderMode = true;
+			break;
+		case OBJECT_MODE::Custom2:
+			m_object_name = "Custom/Custom2";
+			IsChanged_RenderMode = true;
+			break;
+		case OBJECT_MODE::Custom3:
+			m_object_name = "Custom/Custom3";
+			IsChanged_RenderMode = true;
+			break;
+
 		default:
 			break;
 		}
@@ -383,7 +396,8 @@ private:
 
 		for (int i = 0; i < 4; i++)
 		{
-			BasicObject* light = new BasicObject("test/octahedron", "lamp", "moon", &lightTransforms[i]);
+			BasicObject* light = new BasicObject("Final/octahedron", "lamp", "moon", &lightTransforms[i]);
+			//BasicObject* light = new BasicObject("Final/Bulb", "lamp", "moon", &lightTransforms[i]);
 			m_shape_manager.Insert_Object(light);
 		}
 	}

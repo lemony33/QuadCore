@@ -108,7 +108,8 @@ public:
 
 		// Bar 이름
 		lightsBar = TwNewBar("Lights");
-		TwDefine(" Lights label='LIGHTS' size ='245 450' position='30 450' alpha=0 help='Use this bar to edit the lights in the scene.' ");
+		TwDefine(" Lights label='LIGHTS' size ='245 450' position='30 510' alpha=0 help='Use this bar to edit the lights in the scene.' ");
+		//TwDefine(" Lights label='LIGHTS' size ='245 450' position='30 450' alpha=0 help='Use this bar to edit the lights in the scene.' ");
 
 		// 추가 될 각 multilight의 속성 
 		TwStructMember lightMembers[] = // Light structure
@@ -259,6 +260,9 @@ public:
 				{ OBJECT_MODE::Icosphere, "Icosphere" },
 				{ OBJECT_MODE::CubeHollow, "CubeHollow" },
 
+				{ OBJECT_MODE::Custom1, "Custom1" },
+				{ OBJECT_MODE::Custom2, "Custom2" },
+				{ OBJECT_MODE::Custom3, "Custom3" },
 
 			};
 			TwType objectType = TwDefineEnum("Object Mode", objectEV, OBJECT_MODE::OBJECT_MODE_SIZE);
@@ -396,7 +400,8 @@ public:
 
 		// UI_Bar 이름 // Create a tweak bar
 		TwBar *mainBar = TwNewBar("Main");
-		TwDefine(" Main label='MAIN' fontsize=3 size ='245 400' position='30 30' alpha=0 help='Use this bar to edit the main in the scene.' ");
+		TwDefine(" Main label='MAIN' fontsize=3 size ='245 460' position='30 30' alpha=0 help='Use this bar to edit the main in the scene.' ");
+		//TwDefine(" Main label='MAIN' fontsize=3 size ='245 400' position='30 30' alpha=0 help='Use this bar to edit the main in the scene.' ");
 
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 		// 시간

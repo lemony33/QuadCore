@@ -8,6 +8,8 @@ enum OBJECT_MODE
 	glove, chair, WineGlasses,
 	Torus, Cube, Sphere, Icosphere, CubeHollow,
 
+	Custom1, Custom2, Custom3,
+
 	OBJECT_MODE_SIZE
 };
 
