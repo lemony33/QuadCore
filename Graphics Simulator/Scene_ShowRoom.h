@@ -72,6 +72,18 @@ public:
 	std::string m_sahder_name = "";
 	std::string m_texture_name = "";
 
+
+	float m_tess_level_inner;
+	float m_tess_level_outer;
+	float m_tess_level_scale;
+	virtual void Set_TesselMode(float level_inner, float level_outer, float level_scale)
+	{
+		m_tess_level_inner = level_inner;
+		m_tess_level_outer = level_outer;
+		m_tess_level_scale = level_scale;
+	}
+
+
 	bool IsChanged_RenderMode = false;
 	virtual void Set_RenderMode(int object_mode, int shader_mode, int texture_mode)
 	{
@@ -314,6 +326,10 @@ public:
 		{
 			m_shape_manager.GetObject(0)->GetShader()->SetUniform_explode_factor(0.0f, false);
 		}
+
+		m_shape_manager.GetObject(0)->GetShader()->Set_Tess_Level_inner(m_tess_level_inner);
+		m_shape_manager.GetObject(0)->GetShader()->Set_Tess_Level_outer(m_tess_level_outer);
+		m_shape_manager.GetObject(0)->GetShader()->Set_Tess_Level_scale(m_tess_level_scale);
 
 		m_shape_manager.GetObject(0)->GetShader()->Set_NormalViewer(IsNormalView);
 		m_shape_manager.GetObject(0)->GetShader()->Set_NormalLength(*m_normal_length);

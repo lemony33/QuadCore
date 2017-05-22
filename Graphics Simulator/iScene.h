@@ -66,6 +66,9 @@ public:
 		m_poly_mode = poly_mode;
 	}
 
+	virtual void Set_TesselMode(float level_inner, float level_outer, float level_scale)
+	{
+	}
 	virtual void Set_RenderMode(int object_mode, int shader_mode, int texture_mode)
 	{
 	}

@@ -230,7 +230,8 @@ public:
 		if (!roomUIenable)
 		{
 			TwBar *objectBar = TwNewBar("Object");
-			TwDefine(" Object label='OBJECT' size ='300 400' position='705 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			TwDefine(" Object label='OBJECT' size ='300 600' position='705 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			//TwDefine(" Object label='OBJECT' size ='300 400' position='705 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 			//TwDefine(" Object label='OBJECT' size ='300 400' position='1285 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 			//TwDefine(" Object label='OBJECT' size ='245 400' position='1640 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 
@@ -342,6 +343,11 @@ public:
 
 			TwAddSeparator(objectBar, "", NULL);
 			TwAddVarRW(objectBar, "Polygon Mode", TW_TYPE_BOOLCPP, &m_poly_mode, "help='polygon_mode' ");
+
+			TwAddVarRW(objectBar, "Tess Level Inner", TW_TYPE_FLOAT, &m_tess_level_inner, " min=1.00 help='' ");
+			TwAddVarRW(objectBar, "Tess Level Outer", TW_TYPE_FLOAT, &m_tess_level_outer, " min=1.00 help='' ");
+			TwAddVarRW(objectBar, "Tess Level Scale", TW_TYPE_FLOAT, &m_tess_level_scale, " min=0.00 help='' ");
+
 
 
 
@@ -463,6 +469,10 @@ public:
 	float m_explode_factor = 0.7f;
 	float m_explode_speed = 1.0f;
 	float m_normal_length = 0.02f;
+
+	float m_tess_level_inner = 1.0f;
+	float m_tess_level_outer = 1.0f;
+	float m_tess_level_scale = 1.0f;
 
 public:
 	OBJECT_MODE check_object_mode;

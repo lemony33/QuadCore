@@ -144,6 +144,10 @@ private:
 		// FS - Line Shading
 		LINE_COLOR_U,
 
+		TESS_LEVEL_INNER,
+		TESS_LEVEL_OUTER,
+		TESS_LEVEL_SCALE,
+
 		// EFFECT for Geometry Shader
 		EXPLODE_FACTOR,
 		EXPLODE_SPEED,
@@ -199,7 +203,25 @@ public:
 		m_explode_factor_scale = factor;
 	}
 
+	inline void Set_Tess_Level_inner(float tess_level_inner)
+	{
+		m_tess_level_inner = tess_level_inner;
+	}
+	inline void Set_Tess_Level_outer(float tess_level_outer)
+	{
+		m_tess_level_outer = tess_level_outer;
+	}
+	inline void Set_Tess_Level_scale(float tess_level_scale)
+	{
+		m_tess_level_scale = tess_level_scale;
+	}
+
 private:
+	float m_tess_level_inner;
+	float m_tess_level_outer;
+	float m_tess_level_scale;
+
+	//
 	bool m_normal_viewer = false;
 	float m_normal_length;
 	float m_explode_factor;

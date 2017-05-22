@@ -136,7 +136,9 @@ Shader::Shader(const std::string& fileName, int shader_num, bool normal_mode)
 	m_uniforms[NORMAL_VIEWER] = glGetUniformLocation (m_program, "i_normal_viewer");
 	m_uniforms[NORMAL_LENGTH] = glGetUniformLocation(m_program, "normal_length");
 
-
+	m_uniforms[TESS_LEVEL_INNER] = glGetUniformLocation(m_program, "tess_level_inner");
+	m_uniforms[TESS_LEVEL_OUTER] = glGetUniformLocation(m_program, "tess_level_outer"); 
+	m_uniforms[TESS_LEVEL_SCALE] = glGetUniformLocation(m_program, "tess_level_scale");
 }
 
 Shader::~Shader()
@@ -172,6 +174,10 @@ void Shader::Update(const QuadCore::Transform& transform, const QuadCore::Camera
 	glm::mat4 guiMVP = glm::mat4(1.0f) * transform.GetModel();
 	glUniformMatrix4fv(100, 1, GL_FALSE, &guiMVP[0][0]);
 
+	///
+	glUniform1f(m_uniforms[TESS_LEVEL_INNER], m_tess_level_inner);
+	glUniform1f(m_uniforms[TESS_LEVEL_OUTER], m_tess_level_outer);
+	glUniform1f(m_uniforms[TESS_LEVEL_SCALE], m_tess_level_scale);
 
 	///
 	//glUniform1f(m_uniforms[EXPLODE_FACTOR], sinf((float)timer.GetCounter_timer() * 8.0f) * cosf((float)timer.GetCounter_timer() * 6.0f) * 0.7f + 0.1f);
