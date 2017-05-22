@@ -108,13 +108,13 @@ public:
 
 public:	
 
-	virtual void Draw(QuadCore::Camera* camera, bool enable_coor)
+	virtual void Draw(QuadCore::Camera* camera, bool enable_coor, bool poly_mode)
 	{
 		m_shader->Bind();
 		m_texture->Bind(0);
 
 		m_shader->Update(*m_transform, *camera);
-		m_mesh->Draw();
+		m_mesh->Draw(poly_mode);
 
 		if (enable_coor)
 		{

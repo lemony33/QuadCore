@@ -20,7 +20,7 @@ public:
 	{
 		for (int i = 0; i < BasicObject::FIGURE::NUM_FIGURE; i++)
 		{
-			m_shape_list.push_back(new BasicObject(glm::vec3( sinf(i)*13, -3, cosf(i)*13), i ));
+			m_shape_list.push_back(new BasicObject(glm::vec3( sinf((float)i)*13.0f, -3.0f, cosf((float)i)*13.0f), i ));
 		}
 	}
 
@@ -85,7 +85,7 @@ public:
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	int GetSize()
 	{
-		return m_shape_list.size();
+		return (int)m_shape_list.size(); // size_t -> int 형변환 발생, 명시적으로 선언
 	}
 
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -99,13 +99,24 @@ public:
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	// 리스트의 모든 도형을 그려준다
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	void DrawAll(bool local_coordinate = false)
+	void DrawAll(bool local_coordinate = false, bool poly_mode = false)
 	{
-		float delim = 0.7;
+		float delim = 0.7f;
 
 		for (int i = 0; i < m_shape_list.size(); i++)
 		{
-			m_shape_list.at(i)->Draw(m_camera, local_coordinate);
+			m_shape_list.at(i)->Draw(m_camera, local_coordinate, poly_mode);
+		}
+	}
+
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	// 리스트의 모든 도형을 그려준다 (폴리곤 모드 선택가능)
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	void DrawAll_PolyMode(bool local_coordinate = false, bool poly_mode = false)
+	{
+		for (int i = 0; i < m_shape_list.size(); i++)
+		{
+			m_shape_list.at(i)->Draw(m_camera, local_coordinate, poly_mode);
 		}
 	}
 	

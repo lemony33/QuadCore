@@ -76,6 +76,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\shaders\Final\Fragment_1_Single_Phong.fs" />
+    <None Include="..\resources\shaders\Final\Tessellation_1_Control.tcs" />
+    <None Include="..\resources\shaders\Final\Tessellation_1_Evaluation.tes" />
     <None Include="..\resources\shaders\Final\Vertex_1_default.vs" />
     <None Include="..\resources\shaders\Final\Fragment_2_Multi_Phong.fs" />
     <None Include="..\resources\shaders\Final\Fragment_3_Multi-Phong_Rim.fs" />
@@ -128,6 +130,7 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="QuadCore_64d.props" />
+    <Import Project="OpenCV320.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />

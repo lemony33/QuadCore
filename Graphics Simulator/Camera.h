@@ -74,7 +74,7 @@ private:
 
 	glm::mat4 m_orthographic;
 
-	float sensitivity = 0.1;
+	float sensitivity = 0.1f;
 
 	glm::mat4 m_ortho;
 

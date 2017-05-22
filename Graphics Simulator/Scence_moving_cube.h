@@ -56,6 +56,6 @@ private:
 	}
 
 private:
-	float delim = 0.7;
+	float delim = 0.7f;
 	float r = 3.0f;
 };

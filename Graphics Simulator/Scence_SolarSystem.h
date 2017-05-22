@@ -1,7 +1,8 @@
 #pragma once
 
-#define LIMIT 128
 #include "iScene.h"
+
+#define LIMIT 128	// 매크로 재정의
 
 using QuadCore::Transform;
 
@@ -39,7 +40,7 @@ public:
 
 		Animate();
 
-		m_shape_manager.DrawAll(m_local_coordinate);
+		m_shape_manager.DrawAll(m_local_coordinate, m_poly_mode);
 	}
 
 	virtual void Animate()

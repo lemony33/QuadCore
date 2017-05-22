@@ -39,7 +39,7 @@ public:
 
 		Animate();
 
-		m_shape_manager.DrawAll(m_local_coordinate);
+		m_shape_manager.DrawAll(m_local_coordinate, m_poly_mode);
 	}
 
 	//인자 전달용 play 오버로딩 함수. 각 함수마다 변수를 처리하는게 다를 수 있으므로 자식에서 함수 내용 정하도록
@@ -58,6 +58,12 @@ public:
 	void SetEnable(bool enable)
 	{
 		m_enable = enable;
+	}
+
+	bool m_poly_mode = false;
+	void Set_PolyMode(bool poly_mode)
+	{
+		m_poly_mode = poly_mode;
 	}
 
 	virtual void Set_RenderMode(int object_mode, int shader_mode, int texture_mode)

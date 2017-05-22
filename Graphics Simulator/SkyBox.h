@@ -21,7 +21,7 @@ public:
 	}
 
 public:
-	virtual void Draw(QuadCore::Camera* camera, bool enable_coor)
+	virtual void Draw(QuadCore::Camera* camera, bool enable_coor, bool poly_mode = false)
 	{
 		glDepthFunc(GL_LEQUAL);
 		skyboxShader->Bind();

@@ -172,8 +172,8 @@ public:
 	//태양계씬 UI
 	TwBar *solarUI;
 	bool solarUIenable = false; // 다른 씬에서 OnOff하기 위한 변수
-	float rotspeed = 0.1;
-	float rotspeed_object = 0;
+	float rotspeed = 0.1f;
+	float rotspeed_object = 0.0f;
 
 public:
 	void TurnOnMirrorUI()
@@ -340,6 +340,9 @@ public:
 			TwAddVarRW(objectBar, "Normal Viewer", TW_TYPE_BOOLCPP, &is_normal_view, "help='effect_normal' ");
 			TwAddVarRW(objectBar, "Normal Length", TW_TYPE_FLOAT, &m_normal_length, " min=0.00 max=2.00 step=0.001 help='Resize Normal Length' ");
 
+			TwAddSeparator(objectBar, "", NULL);
+			TwAddVarRW(objectBar, "Polygon Mode", TW_TYPE_BOOLCPP, &m_poly_mode, "help='polygon_mode' ");
+
 
 
 			objectUI = objectBar;
@@ -354,6 +357,9 @@ public:
 			updated_normal_mode = is_normal_view;
 		}
 	}
+
+	bool m_wireframe = false;
+	bool m_poly_mode = false;
 
 	TwBar *mainUI; // play 함수에서 UI 불러오도록 하기위해 추가. 
 	TwBar *objectUI;
@@ -399,6 +405,7 @@ public:
 		TwAddSeparator(mainBar, "", NULL);	// 아래쪽에 line생성
 											//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
+		TwAddVarRW(mainBar, "Wireframe", TW_TYPE_BOOLCPP, &m_wireframe, "help='wireframe' ");
 		TwAddVarRW(mainBar, "Set Default", TW_TYPE_BOOLCPP, &IsDefault, "key=R help='set to default mode.' ");
 
 		// 배경 변경하는 메뉴, SceneNumber 변수를 조절함

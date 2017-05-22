@@ -53,32 +53,49 @@ Shader::Shader(const std::string& fileName)
 
 Shader::Shader(const std::string& fileName, int shader_num, bool normal_mode)
 {
-	if (shader_num != 3) {
+	if (shader_num != 3 && shader_num != 5) {
 		printf("GEROMETRY SHADER LODING FAILED \n");
 		return;
 	}
 	printf("GEROMETRY SHADER LODING...!!!\n");
 
-	///
+
 	std::string shader_filepath = "../resources/shaders/Final/";
-	std::string geometry = "Geometry_1_default";
-	if (normal_mode)
-		geometry = "Geometry_2_normal_view";
-	///
 
-	geometry = shader_filepath + geometry;
-	///printf((geometry+"\n").c_str());
-
+	/// 1. Vertex Shader
 	std::string vertexfn = "Vertex_1_default";
 	vertexfn = shader_filepath + vertexfn;
 
-	m_program = glCreateProgram();
-	//m_shaders[0] = CreateShader(LoadShader(fileName + ".vs"), GL_VERTEX_SHADER);
-	//m_shaders[1] = CreateShader(LoadShader(fileName + ".gs"), GL_GEOMETRY_SHADER);
+	/// 2. Tessellation Control Shader
+	std::string tessllcs = "Tessellation_1_Control";
+	tessllcs = shader_filepath + tessllcs;
 
+	/// 3. Tessellation Evaluation Shader
+	std::string tesslles = "Tessellation_1_Evaluation";
+	tesslles = shader_filepath + tesslles;
+
+	/// 4. Geometry Shader
+	std::string geometry = "Geometry_1_default";
+	if (normal_mode)
+		geometry = "Geometry_2_normal_view";
+	geometry = shader_filepath + geometry;
+
+	/// 5. Fragment Shader
+	// fileName : 5_1_Phong / 5_2 Multi-Phong / 5_3 Multi-Phong-Rim
+
+
+	m_program = glCreateProgram();
+
+	if (shader_num == 5)
+	{
+	}
 	m_shaders[0] = CreateShader(LoadShader(vertexfn + ".vs"), GL_VERTEX_SHADER);
-	m_shaders[1] = CreateShader(LoadShader(geometry + ".gs"), GL_GEOMETRY_SHADER);
-	m_shaders[2] = CreateShader(LoadShader(fileName + ".fs"), GL_FRAGMENT_SHADER);
+	m_shaders[1] = CreateShader(LoadShader(tessllcs + ".tcs"), GL_TESS_CONTROL_SHADER);
+	m_shaders[2] = CreateShader(LoadShader(tesslles + ".tes"), GL_TESS_EVALUATION_SHADER);
+	m_shaders[3] = CreateShader(LoadShader(geometry + ".gs"), GL_GEOMETRY_SHADER);
+	m_shaders[4] = CreateShader(LoadShader(fileName + ".fs"), GL_FRAGMENT_SHADER);
+
+
 
 	for (unsigned int i = 0; i < NUM_SHADERS; i++)
 		glAttachShader(m_program, m_shaders[i]);
@@ -118,6 +135,7 @@ Shader::Shader(const std::string& fileName, int shader_num, bool normal_mode)
 	m_uniforms[EXPLODE_FACTOR] = glGetUniformLocation(m_program, "explode_factor");	// 
 	m_uniforms[NORMAL_VIEWER] = glGetUniformLocation (m_program, "i_normal_viewer");
 	m_uniforms[NORMAL_LENGTH] = glGetUniformLocation(m_program, "normal_length");
+
 
 }
 

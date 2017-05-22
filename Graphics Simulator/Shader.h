@@ -99,7 +99,7 @@ public:
 
 protected:
 private:
-	static const unsigned int NUM_SHADERS = 3;
+	static const unsigned int NUM_SHADERS = 5;
 	//static const unsigned int NUM_SHADERS = 2;
 	Shader(const Shader& other) {}
 	void operator=(const Shader& other) {}

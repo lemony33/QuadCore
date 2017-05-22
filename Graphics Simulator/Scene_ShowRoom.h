@@ -63,8 +63,10 @@ public:
 
 		Animate();
 
-		m_shape_manager.DrawAll(m_local_coordinate);
+		m_shape_manager.DrawAll_PolyMode(m_local_coordinate, m_poly_mode);
 	}
+
+	
 
 	std::string m_object_name = "";
 	std::string m_sahder_name = "";

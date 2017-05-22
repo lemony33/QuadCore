@@ -12,7 +12,8 @@ uniform float explode_factor = 0.2;
 /* --------- Object Explode : END --------- */ 
 
 
-in VS_OUT
+//in VS_OUT
+in TES_OUT
 {
 	vec2 texCoord0;  //texture
 	vec3 normal0;    //lighting	

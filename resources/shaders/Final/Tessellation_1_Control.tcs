@@ -1,0 +1,40 @@
+#version 430 core
+
+
+layout (vertices = 3) out;
+
+
+in VS_OUT
+{
+	vec2 texCoord0;  //texture
+	vec3 normal0;    //lighting	
+	vec3 FragPos;
+} tcs_in[];
+
+
+out TCS_OUT
+{
+	vec2 texCoord0;  //texture
+	vec3 normal0;    //lighting
+	vec3 FragPos;
+} tcs_out[];
+
+const float tess_level_inner = 3.0;
+const float tess_level_outer = 5.0;
+const float tess_level_scale = 1.0;
+
+void main()
+{
+	if (gl_InvocationID == 0)
+	{
+		gl_TessLevelInner[0] = tess_level_inner * tess_level_scale;
+		gl_TessLevelOuter[0] = tess_level_outer * tess_level_scale;
+		gl_TessLevelOuter[1] = tess_level_outer * tess_level_scale;
+		gl_TessLevelOuter[2] = tess_level_outer * tess_level_scale;
+	}
+
+	gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
+	tcs_out[gl_InvocationID].texCoord0	= tcs_in[gl_InvocationID].texCoord0;
+	tcs_out[gl_InvocationID].normal0	= tcs_in[gl_InvocationID].normal0;
+	tcs_out[gl_InvocationID].FragPos	= tcs_in[gl_InvocationID].FragPos;
+}

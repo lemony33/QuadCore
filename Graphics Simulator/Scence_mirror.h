@@ -52,7 +52,7 @@ public:
 
 		Animate();
 
-		m_shape_manager.DrawAll(m_local_coordinate);
+		m_shape_manager.DrawAll(m_local_coordinate, m_poly_mode);
 	}
 
 	virtual void Animate()

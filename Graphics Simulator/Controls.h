@@ -383,7 +383,7 @@ public:
 				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 				&& (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE))
 			{
-				camera->SetAngle(tr_x - x, -(tr_y - y));
+				camera->SetAngle((float)tr_x - x, -(float)(tr_y - y));
 				tr_x = x;
 				tr_y = y;
 			}
@@ -428,14 +428,14 @@ public:
 			if (wheelValue > 0)
 			{
 				printf("MOUSE SCROLL  UP\n");
-				camera->MovePosition(-3.0f);
+				camera->MovePosition(-0.0001f);
 			}
 
 			// Wheel Down
 			if (wheelValue < 0)
 			{
 				printf("MOUSE SCROLL DOWN\n");
-				camera->MovePosition(+3.0f);
+				camera->MovePosition(+0.0001f);
 			}
 		}
 	}

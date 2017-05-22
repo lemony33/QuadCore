@@ -37,7 +37,7 @@ public:
 	Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices); // obj file
 	Mesh(const std::string& fileName);
 
-	void Draw();
+	void Draw(bool poly_mode = false, bool tessellation_mode = false);
 	void DrawLines(GLfloat width = 1.0f);
 
 	virtual ~Mesh();

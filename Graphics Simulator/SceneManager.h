@@ -68,14 +68,14 @@ public:
 
 		
 		m_scene_list.push_back(new Scene_main);
-		m_scene_list.push_back(new Scene_main);
-		m_scene_list.push_back(new Scene_main);
-		//m_scene_list.push_back(new Scence_mirror);			// 1.SkyBox
-		//m_scene_list.push_back(new Scence_SolarSystem);		// 2.Solar System
+		//m_scene_list.push_back(new Scene_main);
+		//m_scene_list.push_back(new Scene_main);
+		m_scene_list.push_back(new Scence_mirror);			// 1.SkyBox
+		m_scene_list.push_back(new Scence_SolarSystem);		// 2.Solar System
 		m_scene_list.push_back(new Scene_ShowRoom);			// 3.Show Room
-		//m_scene_list.push_back(new Scence_moving_wall);		// 빛의 위치 설명할 때 사용
+		m_scene_list.push_back(new Scence_moving_wall);		// 빛의 위치 설명할 때 사용
 		//m_scene_list.push_back(new Scence_moving_block);	// 회오리 모양으로 오브젝트 배치해보면 좋을듯
-		//m_scene_list.push_back(new Scene_basicObjects);		// 다양한 오브젝트에서 빛이 적용되는 모습 시연
+		m_scene_list.push_back(new Scene_basicObjects);		// 다양한 오브젝트에서 빛이 적용되는 모습 시연
 		//m_scene_list.push_back(new Scence_multi_light);		// 여러개의 물체에 적용되는 빛
 		m_scene_list.push_back(new Scene_main);
 		m_scene_list.push_back(new Scene_main);
@@ -254,12 +254,14 @@ public:
 					menu.TurnOffMirrorUI();
 					menu.TurnOffSolarUI();
 					menu.TurnOffRoomUI();
+					m_scene_list.at(j)->Set_PolyMode(menu.m_wireframe);
 					m_scene_list.at(j)->Play();
 					break;
 				case 1:								// 1.SkyBox
 					menu.TurnOnMirrorUI();
 					menu.TurnOffSolarUI();
 					menu.TurnOffRoomUI();
+					m_scene_list.at(j)->Set_PolyMode(menu.m_wireframe);
 					m_scene_list.at(j)->Play(menu.Spheres);
 					break;
 				case 2:								// 2.Solar System
@@ -267,6 +269,7 @@ public:
 					menu.TurnOffMirrorUI();
 					menu.TurnOnSolarUI();
 					menu.TurnOffRoomUI();
+					m_scene_list.at(j)->Set_PolyMode(menu.m_wireframe);
 					m_scene_list.at(j)->Play(menu.rotspeed, pos, ambient, diffuse, specular);
 					break;
 				case 3:								// 3.Show Room
@@ -316,6 +319,7 @@ public:
 						m_scene_list.at(j)->Set_RenderMode(menu.object_mode, menu.shader_mode, menu.texture_mode);
 					}
 
+					m_scene_list.at(j)->Set_PolyMode(menu.m_poly_mode);
 					m_scene_list.at(j)->Play(menu.g_Rotation, final_speed, pos, ambient, diffuse, specular);
 					break;
 				default:

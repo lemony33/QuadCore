@@ -79,11 +79,32 @@ void Mesh::InitMesh(const QuadCore::IndexedModel& model)
 
 
 // 
-void Mesh::Draw()
+void Mesh::Draw(bool poly_mode, bool tessellation_mode)
 {
+	// 기본설정 값 3이므로 실행할 필요없음
+	//glPatchParameteri(GL_PATCH_VERTICES, 3);	// for tessellation 
+	if (poly_mode)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	// for tessellation
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_SMOOTH);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_FLAT);
+	}
+	else
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+
 	glBindVertexArray(m_vertexArrayObject);
 	
-	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0); // obj file		
+	if (!tessellation_mode)
+	{
+		glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0); // obj file
+	}
+	else
+	{
+		glDrawElements(GL_PATCHES, m_drawCount, GL_UNSIGNED_INT, 0); // for tessellation (tri)
+		//glDrawArrays(GL_PATCHES, 0, 4); // for tessellation (quad)
+	}	
 
 	glBindVertexArray(0);
 }

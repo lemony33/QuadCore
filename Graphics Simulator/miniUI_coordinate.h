@@ -23,7 +23,7 @@ public:
 	}
 
 public:
-	virtual void Draw(QuadCore::Camera* camera, bool enable_coor)
+	virtual void Draw(QuadCore::Camera* camera, bool enable_coor, bool poly_mode = false)
 	{
 		m_shader->Bind();
 		m_texture->Bind(0);

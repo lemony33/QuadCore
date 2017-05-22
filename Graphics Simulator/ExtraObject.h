@@ -1,5 +1,6 @@
-#pragma once
-
+/*
+	[ Geometry Shader, Tessellation Shader를 연결하기 위한 오브젝트 ]
+*/
 #pragma once
 
 #include "iShape.h"
@@ -26,7 +27,8 @@ namespace QuadCore
 			std::string filename = shape_path + "BasicObjects/" + m_shape_name + ".obj";
 			m_mesh = new Mesh(filename);
 			//Shader shader1("../media/new_shader/basicShader_light");
-			m_shader = new Shader("../resources/shaders/basicShader_light", 3);	/// include Geometry Shader
+			//m_shader = new Shader("../resources/shaders/basicShader_light", 3);	/// include Geometry Shader
+			m_shader = new Shader("../resources/shaders/basicShader_light", 5);	/// include Geometry Shader
 			m_texture = new Texture("../resources/textures/bricks.jpg");
 		}
 
@@ -41,7 +43,8 @@ namespace QuadCore
 
 
 			string file_name_shader = "../resources/shaders/" + shader_name;
-			m_shader = new Shader(file_name_shader, 3, normal_view);	/// include Geometry Shader
+			//m_shader = new Shader(file_name_shader, 3, normal_view);	/// include Geometry Shader
+			m_shader = new Shader(file_name_shader, 5, normal_view);	/// include Tessellation Shader
 
 			string file_name_texture = "../resources/textures/" + texture_name + ".jpg";
 			m_texture = new Texture(file_name_texture);
@@ -100,7 +103,8 @@ namespace QuadCore
 		void SetShader()
 		{
 			//Shader shader1("../media/new_shader/basicShader_light");
-			m_shader = new Shader("../resources/shaders/basicShader_light", 3);	/// include Geometry Shader
+			//m_shader = new Shader("../resources/shaders/basicShader_light", 3);	/// include Geometry Shader
+			m_shader = new Shader("../resources/shaders/basicShader_light", 5);	/// include Tessellation Shader
 		}
 		void SetTexture()
 		{
@@ -110,13 +114,15 @@ namespace QuadCore
 
 	public:
 
-		virtual void Draw(QuadCore::Camera* camera, bool enable_coor)
+		virtual void Draw(QuadCore::Camera* camera, bool enable_coor, bool poly_mode)
 		{
+			bool tessellation_mode = true;
+
 			m_shader->Bind();
 			m_texture->Bind(0);
 
 			m_shader->Update(*m_transform, *camera);
-			m_mesh->Draw();
+			m_mesh->Draw(poly_mode, tessellation_mode);
 
 			if (enable_coor)
 			{

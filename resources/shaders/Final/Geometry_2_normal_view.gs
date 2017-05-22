@@ -18,7 +18,7 @@ uniform float explode_factor = 0.2;
 /* --------- Nomal Viwer : END --------- */ 
 
 
-in VS_OUT
+in TES_OUT
 {
 	vec2 texCoord0;  //texture
 	vec3 normal0;    //lighting	
@@ -36,7 +36,7 @@ out GS_OUT
 
 void main()
 {
-	mat4 mvp = projection * view *  model;                        
+	mat4 mvp = projection * view *  model;
 	vec3 ab = gl_in[1].gl_Position.xyz - gl_in[0].gl_Position.xyz;     
 	vec3 ac = gl_in[2].gl_Position.xyz - gl_in[0].gl_Position.xyz;     
 	vec3 face_normal = normalize(cross(ab, ac));       

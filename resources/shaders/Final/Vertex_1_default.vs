@@ -28,12 +28,13 @@ void main()
 
 	if ( i_normal_viewer == 0 )
 	{
-		//gl_Position = transform * vec4(position, 1.0);	//trnasform
-		gl_Position = projection * view *  model * vec4(position, 1.0f);	
+		////gl_Position = transform * vec4(position, 1.0);	//trnasform
+		//gl_Position = projection * view *  model * vec4(position, 1.0f);		// default
+		gl_Position = view * model * vec4(position, 1.0f);						// PN Triangles Tessellation
 	}
 	if ( i_normal_viewer == 1 )
 	{
-		gl_Position = vec4(position, 1.0);
+		gl_Position = vec4(position, 1.0);										// Normal Viewer
 	}
 	
 

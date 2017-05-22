@@ -216,5 +216,11 @@
     <None Include="..\resources\shaders\Final\Vertex_1_default.vs">
       <Filter>Shader Files</Filter>
     </None>
+    <None Include="..\resources\shaders\Final\Tessellation_1_Control.tcs">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="..\resources\shaders\Final\Tessellation_1_Evaluation.tes">
+      <Filter>Shader Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
