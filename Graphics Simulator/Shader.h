@@ -148,6 +148,8 @@ private:
 		TESS_LEVEL_OUTER,
 		TESS_LEVEL_SCALE,
 
+		NORMAL_MODE,
+
 		// EFFECT for Geometry Shader
 		EXPLODE_FACTOR,
 		EXPLODE_SPEED,
@@ -215,11 +217,17 @@ public:
 	{
 		m_tess_level_scale = tess_level_scale;
 	}
+	inline void Set_Normal_mode(int normal_mode)
+	{
+		m_i_normal_mode = normal_mode;
+	}
 
 private:
 	float m_tess_level_inner;
 	float m_tess_level_outer;
 	float m_tess_level_scale;
+
+	int m_i_normal_mode;
 
 	//
 	bool m_normal_viewer = false;

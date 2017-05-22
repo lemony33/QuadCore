@@ -231,7 +231,7 @@ public:
 		if (!roomUIenable)
 		{
 			TwBar *objectBar = TwNewBar("Object");
-			TwDefine(" Object label='OBJECT' size ='300 600' position='705 30' alpha=0 help='Use this bar to edit object in the scene.' ");
+			TwDefine(" Object label='OBJECT' size ='300 600' position='705 30' valueswidth=fit alpha=0 help='Use this bar to edit object in the scene.' ");
 			//TwDefine(" Object label='OBJECT' size ='300 400' position='705 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 			//TwDefine(" Object label='OBJECT' size ='300 400' position='1285 30' alpha=0 help='Use this bar to edit object in the scene.' ");
 			//TwDefine(" Object label='OBJECT' size ='245 400' position='1640 30' alpha=0 help='Use this bar to edit object in the scene.' ");
@@ -339,21 +339,43 @@ public:
 			TwAddSeparator(objectBar, "", NULL);
 
 			TwAddVarRW(objectBar, "Pause Effect", TW_TYPE_BOOLCPP, &is_effect_pause, "key=0 help='Pause Effect' ");
-			TwAddVarRW(objectBar, "Object Explode", TW_TYPE_BOOLCPP, &is_explode, "help='effect_explode' ");
-			TwAddVarRW(objectBar, "Explode Factor", TW_TYPE_FLOAT, &m_explode_factor, " min=0.00 max=10.00 step=0.1 help='explode factor' ");
-			TwAddVarRW(objectBar, "Explode Speed", TW_TYPE_FLOAT, &m_explode_speed, " min=0.00 max=10.00 step=0.1 help='explode speed' ");
-			TwAddVarRW(objectBar, "Normal Viewer", TW_TYPE_BOOLCPP, &is_normal_view, "help='effect_normal' ");
-			TwAddVarRW(objectBar, "Normal Length", TW_TYPE_FLOAT, &m_normal_length, " min=0.00 max=2.00 step=0.001 help='Resize Normal Length' ");
+
+			TwDefine(" Object group='Explode' ");
+			TwAddVarRW(objectBar, "Object Explode", TW_TYPE_BOOLCPP, &is_explode,		" group='Explode' help='effect_explode' ");
+			TwAddVarRW(objectBar, "Explode Factor", TW_TYPE_FLOAT, &m_explode_factor,	" group='Explode' min=0.00 max=10.00 step=0.1 help='explode factor' ");
+			TwAddVarRW(objectBar, "Explode Speed", TW_TYPE_FLOAT, &m_explode_speed,		" group='Explode' min=0.00 max=10.00 step=0.1 help='explode speed' ");
+			
+			TwDefine(" Object group='Normal' ");
+			TwAddVarRW(objectBar, "Normal Viewer", TW_TYPE_BOOLCPP, &is_normal_view,	" group='Normal' help='effect_normal' ");
+			TwAddVarRW(objectBar, "Normal Length", TW_TYPE_FLOAT, &m_normal_length,		" group='Normal' min=0.00 max=2.00 step=0.001 help='Resize Normal Length' ");
 
 			TwAddSeparator(objectBar, "", NULL);
 			TwAddVarRW(objectBar, "Polygon Mode", TW_TYPE_BOOLCPP, &m_poly_mode, "help='polygon_mode' ");
+			
+			//TwAddSeparator(objectBar, "sep1", NULL);
+			//TwDefine(" Object/sep1 group='Tessellation Level' ");
 
-			TwAddVarRW(objectBar, "Tess Level Inner", TW_TYPE_FLOAT, &m_tess_level_inner, " min=1.00 help='' ");
-			TwAddVarRW(objectBar, "Tess Level Outer", TW_TYPE_FLOAT, &m_tess_level_outer, " min=1.00 help='' ");
-			TwAddVarRW(objectBar, "Tess Level Scale", TW_TYPE_FLOAT, &m_tess_level_scale, " min=0.00 help='' ");
+			TwDefine(" Object group='Tessellation Level' ");
+			TwAddVarRW(objectBar, "Tess Level Inner", TW_TYPE_FLOAT, &m_tess_level_inner, " group='Tessellation Level' min=1.00 help='' ");
+			TwAddVarRW(objectBar, "Tess Level Outer", TW_TYPE_FLOAT, &m_tess_level_outer, " group='Tessellation Level' min=1.00 help='' ");
+			TwAddVarRW(objectBar, "Tess Level Scale", TW_TYPE_FLOAT, &m_tess_level_scale, " group='Tessellation Level' min=0.00 help='' ");
 
 
 
+			TwAddSeparator(objectBar, "", NULL);
+			TwAddVarRW(objectBar, "Object Scale", TW_TYPE_FLOAT, &m_scale, " min=1.00 help='' ");
+			//TwAddVarRW(objectBar, "Normal Mode", TW_TYPE_INT32, &m_normal_mode, " min=0 max=4 help='' ");
+			
+			TwEnumVal shadingEV[] = {
+				{ SHADING_MODE::FLAT, "Flat" },
+				{ SHADING_MODE::SMOOTH,  "Smooth" },
+				{ SHADING_MODE::PN_TRIANGLE, "PN Triangle Tessel" },
+
+				{ SHADING_MODE::TEST_CODE, "Flat PN-Tri Tessel" },
+			};
+			TwType shaderModeType = TwDefineEnum("Shading Mode", shadingEV, SHADING_MODE::SHADING_MODE_SIZE);
+			TwAddVarRW(objectBar, "Shading Mode", shaderModeType, &m_normal_mode,
+				" keyIncr=7 keyDecr=6 help='...' ");
 
 			objectUI = objectBar;
 
@@ -370,6 +392,8 @@ public:
 
 	bool m_wireframe = false;
 	bool m_poly_mode = false;
+
+	SHADING_MODE m_normal_mode = SHADING_MODE::PN_TRIANGLE;
 
 	TwBar *mainUI; // play 함수에서 UI 불러오도록 하기위해 추가. 
 	TwBar *objectUI;
@@ -473,11 +497,13 @@ public:
 
 	float m_explode_factor = 0.7f;
 	float m_explode_speed = 1.0f;
-	float m_normal_length = 0.02f;
+	float m_normal_length = 0.003f;
 
 	float m_tess_level_inner = 1.0f;
 	float m_tess_level_outer = 1.0f;
 	float m_tess_level_scale = 1.0f;
+
+	float m_scale = 1.0f;
 
 public:
 	OBJECT_MODE check_object_mode;

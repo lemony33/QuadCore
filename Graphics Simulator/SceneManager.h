@@ -318,6 +318,9 @@ public:
 						//m_normal_length = 0.2f;
 						m_scene_list.at(j)->Set_RenderMode(menu.object_mode, menu.shader_mode, menu.texture_mode);
 					}
+					
+					m_scene_list.at(j)->Set_ObjectScale(menu.m_scale);
+					m_scene_list.at(j)->Set_NormalMode(menu.m_normal_mode);
 
 					m_scene_list.at(j)->Set_TesselMode(menu.m_tess_level_inner, menu.m_tess_level_outer, menu.m_tess_level_scale);
 					m_scene_list.at(j)->Set_PolyMode(menu.m_poly_mode);

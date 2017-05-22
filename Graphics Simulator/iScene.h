@@ -66,6 +66,12 @@ public:
 		m_poly_mode = poly_mode;
 	}
 
+	virtual void Set_NormalMode(int normal_mode)
+	{
+	}
+	virtual void Set_ObjectScale(float scale)
+	{
+	}
 	virtual void Set_TesselMode(float level_inner, float level_outer, float level_scale)
 	{
 	}

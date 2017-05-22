@@ -62,10 +62,23 @@ public:
 		}
 
 		Animate();
-
+		
+		m_shape_manager.GetObject(0)->GetShader()->Set_Normal_mode(m_normal_mode);
+		m_shape_manager.GetObject(0)->scale(glm::vec3(m_scale));
 		m_shape_manager.DrawAll_PolyMode(m_local_coordinate, m_poly_mode);
 	}
 
+	int m_normal_mode;
+	virtual void Set_NormalMode(int normal_mode)
+	{
+		m_normal_mode = normal_mode;
+	}
+
+	float m_scale;
+	virtual void Set_ObjectScale(float scale)
+	{
+		m_scale = scale;
+	}
 	
 
 	std::string m_object_name = "";
